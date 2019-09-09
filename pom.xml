@@ -13,7 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>personal-site</name>
     <description>Web site for my architectural projects</description>
-
+    <packaging>jar</packaging>
     <properties>
         <java.version>11</java.version>
     </properties>
