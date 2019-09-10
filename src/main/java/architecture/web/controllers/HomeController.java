@@ -9,14 +9,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/")
 public class HomeController {
 
-    @GetMapping("")
-    public String index(){
-        return "<h1 style=\"color: red;\">Under construction</h1>";
+    @GetMapping("/")
+    public ModelAndView getIndex(ModelAndView modelAndView) {
+        modelAndView.setViewName("index");
+        return modelAndView;
     }
 
     @GetMapping("/home")
-    public ModelAndView getIndex(ModelAndView modelAndView){
-        modelAndView.setViewName("index");
-        return modelAndView;
+    public String index() {
+        return "<h1 style=\"color: red;\">Under construction</h1>";
     }
 }
