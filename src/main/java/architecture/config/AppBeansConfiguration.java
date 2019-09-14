@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-
 import java.util.Locale;
 
 @Configuration
@@ -15,8 +14,9 @@ public class AppBeansConfiguration {
     public LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.US);
+        cookieLocaleResolver.setCookieHttpOnly(true);
         cookieLocaleResolver.setCookieName("lang");
-        cookieLocaleResolver.setCookieMaxAge(60);
+        cookieLocaleResolver.setCookieMaxAge(120);
         return cookieLocaleResolver;
     }
 
