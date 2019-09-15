@@ -38,6 +38,9 @@ public class HomeController {
         fr.setText("Francois");
         article.getText().put("FR", fr);
 
+        article.getTitle().put("Bg", bg);
+        article.getTitle().put("fr", fr);
+
 
 
 

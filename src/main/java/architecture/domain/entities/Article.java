@@ -17,9 +17,15 @@ public class Article extends BaseEntity {
             joinColumns = @JoinColumn(name = "article_id"),
             inverseJoinColumns = @JoinColumn(name = "inter_id"))
     @MapKey(name = "locale")
+    private Map<String, TraducedText> title = new HashMap<>();
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "inter_article",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "inter_id"))
+    @MapKey(name = "locale")
     private Map<String, TraducedText> text = new HashMap<>();
-
-
 
 
 
@@ -29,6 +35,14 @@ public class Article extends BaseEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Map<String, TraducedText> getTitle() {
+        return title;
+    }
+
+    public void setTitle(Map<String, TraducedText> title) {
+        this.title = title;
     }
 
     public Map<String, TraducedText> getText() {
