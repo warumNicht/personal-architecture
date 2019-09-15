@@ -1,7 +1,7 @@
 package architecture.web.controllers;
 
-import architecture.domain.entities.Category;
-import architecture.repositories.CategoryRepo;
+import architecture.domain.entities.Article;
+import architecture.repositories.ArticleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,37 +11,29 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/")
 public class HomeController {
 
-    private  CategoryRepo categoryRepo;
+    private ArticleRepo articleRepo;
     @Autowired
-    public HomeController(CategoryRepo categoryRepo) {
-        this.categoryRepo=categoryRepo;
+    public HomeController(ArticleRepo articleRepo) {
+        this.articleRepo = articleRepo;
     }
 
     @GetMapping("/")
     public ModelAndView getIndex(ModelAndView modelAndView) {
+        Article article=new Article();
+        article.setDate(new Date());
+        article.getText().put("BG", "български");
+        article.getText().put("FR", "francais");
 
-        Category category = new Category();
-        category.setName("EN", "Business");
-        category.setDescription("EN", "This is the business category");
-        category.setName("FR", "La Business");
-        category.setDescription("FR", "Ici es la Business");
-        category = categoryRepo.saveAndFlush(category);
-
-
-        System.out.println(category.getDescription("EN"));
-        System.out.println(category.getName("FR"));
-
-        Category c2 = new Category();
-        c2.setDescription("EN", "Second Description");
-        c2.setName("EN", "Second Name");
-        c2.setDescription("DE", "Zwei  Description");
-        c2.setName("DE", "Zwei  Name");
-        c2=categoryRepo.saveAndFlush(c2);
+        article.getContent().put("EN", "wethb56um");
+        article.getContent().put("DE", "deutsch");
+        article.getContent().put("ES", "espanol");
+        this.articleRepo.saveAndFlush(article);
 
         modelAndView.setViewName("index");
         return modelAndView;
