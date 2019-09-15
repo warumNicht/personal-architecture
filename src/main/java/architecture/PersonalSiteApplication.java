@@ -14,9 +14,6 @@ import javax.persistence.Persistence;
 
 @SpringBootApplication
 public class PersonalSiteApplication {
-    @Autowired
-    private static CategoryRepo categoryRepo;
-
     public static void main(String[] args) {
 
         SpringApplication.run(PersonalSiteApplication.class, args);
