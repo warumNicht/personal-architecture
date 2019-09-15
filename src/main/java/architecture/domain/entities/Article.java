@@ -23,9 +23,7 @@ public class Article extends BaseEntity {
     @MapKeyColumn(name = "locale")
     @Column(name = "content")
     public Map<String, String> content = new HashMap<>();
-
-
-
+    
     public Date getDate() {
         return date;
     }
