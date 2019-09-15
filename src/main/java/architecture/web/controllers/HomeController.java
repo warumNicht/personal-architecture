@@ -1,6 +1,7 @@
 package architecture.web.controllers;
 
 import architecture.domain.entities.Article;
+import architecture.domain.entities.TraducedText;
 import architecture.repositories.ArticleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +28,19 @@ public class HomeController {
     public ModelAndView getIndex(ModelAndView modelAndView) {
         Article article=new Article();
         article.setDate(new Date());
-        article.getText().put("BG", "български");
-        article.getText().put("FR", "francais");
+        TraducedText bg=new TraducedText();
+        bg.setLocale("bg");
+        bg.setText("baj stoen");
+        article.getText().put("BG", bg);
 
-        article.getContent().put("EN", "wethb56um");
-        article.getContent().put("DE", "deutsch");
-        article.getContent().put("ES", "espanol");
+        TraducedText fr=new TraducedText();
+        fr.setLocale("fr");
+        fr.setText("Francois");
+        article.getText().put("FR", fr);
+
+
+
+
         this.articleRepo.saveAndFlush(article);
 
         modelAndView.setViewName("index");

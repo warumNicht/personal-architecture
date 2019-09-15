@@ -12,17 +12,14 @@ public class Article extends BaseEntity {
     @Column(name = "date")
     private Date date;
 
-    @ElementCollection
-    @CollectionTable(name = "i18n", foreignKey = @ForeignKey(name = "none"), joinColumns = @JoinColumn(name = "id"))
-    @MapKeyColumn(name = "locale")
-    @Column(name = "text")
-    public Map<String, String> text = new HashMap<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "inter_article",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "inter_id"))
+    @MapKey(name = "locale")
+    private Map<String, TraducedText> text = new HashMap<>();
 
-    @ElementCollection
-    @CollectionTable(name = "i18n2", foreignKey = @ForeignKey(name = "none"), joinColumns = @JoinColumn(name = "id"))
-    @MapKeyColumn(name = "locale")
-    @Column(name = "content")
-    public Map<String, String> content = new HashMap<>();
+
 
 
 
@@ -34,19 +31,11 @@ public class Article extends BaseEntity {
         this.date = date;
     }
 
-    public Map<String, String> getText() {
+    public Map<String, TraducedText> getText() {
         return text;
     }
 
-    public void setText(Map<String, String> text) {
+    public void setText(Map<String, TraducedText> text) {
         this.text = text;
-    }
-
-    public Map<String, String> getContent() {
-        return content;
-    }
-
-    public void setContent(Map<String, String> content) {
-        this.content = content;
     }
 }
