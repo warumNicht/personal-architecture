@@ -18,7 +18,7 @@ public class PersonalSiteApplication {
                 new AnnotationConfigApplicationContext(AppBeansConfiguration.class);
         EntityManagerFactory emf = context.getBean(EntityManagerFactory.class);
         EntityManager em = emf.createEntityManager();
-       seed(em, emf);
+        seed(em, emf);
 //        em.getTransaction().begin();
 //        Category category = em.find(Category.class, 1L);
 //
