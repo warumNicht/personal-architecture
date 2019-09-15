@@ -31,8 +31,7 @@ public class HomeController {
         category.setName("FR", "La Business");
         category.setDescription("FR", "Ici es la Business");
         category = categoryRepo.saveAndFlush(category);
-
-
+        
         System.out.println(category.getDescription("EN"));
         System.out.println(category.getName("FR"));
 
