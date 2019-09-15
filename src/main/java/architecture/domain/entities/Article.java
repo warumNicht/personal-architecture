@@ -1,7 +1,6 @@
 package architecture.domain.entities;
 
 import javax.persistence.*;
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,20 +11,20 @@ public class Article extends BaseEntity {
     @Column(name = "date")
     private Date date;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "inter_article",
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "title_article",
             joinColumns = @JoinColumn(name = "article_id"),
             inverseJoinColumns = @JoinColumn(name = "inter_id"))
     @MapKey(name = "locale")
     private Map<String, TraducedText> title = new HashMap<>();
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "inter_article",
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "content_article",
             joinColumns = @JoinColumn(name = "article_id"),
             inverseJoinColumns = @JoinColumn(name = "inter_id"))
     @MapKey(name = "locale")
-    private Map<String, TraducedText> text = new HashMap<>();
+    private Map<String, TraducedText> content = new HashMap<>();
 
 
 
@@ -45,11 +44,11 @@ public class Article extends BaseEntity {
         this.title = title;
     }
 
-    public Map<String, TraducedText> getText() {
-        return text;
+    public Map<String, TraducedText> getContent() {
+        return content;
     }
 
-    public void setText(Map<String, TraducedText> text) {
-        this.text = text;
+    public void setContent(Map<String, TraducedText> text) {
+        this.content = text;
     }
 }

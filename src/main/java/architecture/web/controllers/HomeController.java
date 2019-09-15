@@ -31,18 +31,18 @@ public class HomeController {
         TraducedText bg=new TraducedText();
         bg.setLocale("bg");
         bg.setText("baj stoen");
-        article.getText().put("BG", bg);
+        article.getContent().put("BG", bg);
 
         TraducedText fr=new TraducedText();
         fr.setLocale("fr");
         fr.setText("Francois");
-        article.getText().put("FR", fr);
+        article.getContent().put("FR", fr);
 
-//        article.getTitle().put("Bg", bg);
-//        article.getTitle().put("fr", fr);
+        TraducedText de=new TraducedText();
+        de.setLocale("de");
+        de.setText("Mutti");
 
-
-
+        article.getTitle().put("de", de);
 
         this.articleRepo.saveAndFlush(article);
 
