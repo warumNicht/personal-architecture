@@ -18,7 +18,7 @@
             <label for="lang" th:text="#{lang.country}"></label>
             <input type="text" class="form-control"
                    th:field="*{content}"  th:value="${articleBinding.country}"
-                   id="lang" placeholder="Category..." name="country"
+                   id="lang" th:placeholder="#{lang.country}+'...'" name="country"
                    required pattern="^.{2,}$"  title="Please enter at least 2 characters">
 
             <small id="langSmall"
@@ -30,7 +30,7 @@
             <label for="title" th:text="#{article.title}"></label>
             <input type="text" class="form-control"
                    th:field="*{title}"  th:value="${articleBinding.title}"
-                   id="title" placeholder="Category..." name="title"
+                   id="title" th:placeholder="#{article.title}+'...'" name="title"
                    required pattern="^.{2,}$"  title="Please enter at least 2 characters">
 
             <small id="usernameHelp"
@@ -42,7 +42,7 @@
             <label for="content" th:text="#{article.content}"></label>
             <input type="text" class="form-control"
                    th:field="*{content}"  th:value="${articleBinding.content}"
-                   id="content" placeholder="Category..." name="content"
+                   id="content" th:placeholder="#{article.content}" name="content"
                    required pattern="^.{2,}$"  title="Please enter at least 2 characters">
 
             <small id="usernameHelp2"
