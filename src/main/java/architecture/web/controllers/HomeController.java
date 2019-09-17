@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
