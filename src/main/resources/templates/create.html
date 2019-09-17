@@ -15,7 +15,7 @@
     <form class="mx-auto w-25" th:method="post" th:action="@{/create}" th:object="${articleBinding}">
 
         <div class="form-group" th:classappend="${#fields.hasErrors('country')} ? 'text-danger'">
-            <label for="lang">Lang</label>
+            <label for="lang" th:text="#{lang.country}"></label>
             <input type="text" class="form-control"
                    th:field="*{content}"  th:value="${articleBinding.country}"
                    id="lang" placeholder="Category..." name="country"
@@ -27,7 +27,7 @@
         </div>
 
         <div class="form-group" th:classappend="${#fields.hasErrors('title')} ? 'text-danger'">
-            <label for="title">Article title</label>
+            <label for="title" th:text="#{article.title}"></label>
             <input type="text" class="form-control"
                    th:field="*{title}"  th:value="${articleBinding.title}"
                    id="title" placeholder="Category..." name="title"
@@ -39,7 +39,7 @@
         </div>
 
         <div class="form-group" th:classappend="${#fields.hasErrors('content')} ? 'text-danger'">
-            <label for="content">Article content</label>
+            <label for="content" th:text="#{article.content}"></label>
             <input type="text" class="form-control"
                    th:field="*{content}"  th:value="${articleBinding.content}"
                    id="content" placeholder="Category..." name="content"
