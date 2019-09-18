@@ -11,8 +11,12 @@ public class Localised {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
+
     @ElementCollection
-    private Map<String,String> strings = new HashMap<String, String>();
+    @CollectionTable(name = "map_table", foreignKey = @ForeignKey(name = "none"), joinColumns = @JoinColumn(name = "id"))
+    @MapKeyColumn(name = "country")
+    @Column(name = "content")
+    private Map<String,String> strings = new HashMap<>();
 
     //private String locale;
     //private String text;
