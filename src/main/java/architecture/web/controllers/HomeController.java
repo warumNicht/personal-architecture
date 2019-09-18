@@ -13,6 +13,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import javax.validation.Valid;
@@ -29,23 +30,14 @@ public class HomeController {
 
     @GetMapping("/")
     public ModelAndView getIndex(ModelAndView modelAndView) {
-        Article article=new Article();
-        article.setDate(new Date());
-        article.getText().put("BG", "български");
-        article.getText().put("FR", "francais");
-
-        article.getContent().put("EN", "wethb56um");
-        article.getContent().put("DE", "deutsch");
-        article.getContent().put("ES", "espanol");
-        this.articleRepo.saveAndFlush(article);
-
         modelAndView.setViewName("index");
         return modelAndView;
     }
 
     @GetMapping("/home")
     public String index(HttpServletRequest request) {
-        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+        Cookie[] cookies = request.getCookies();
+        Article article = this.articleRepo.findById(1L).orElse(null);
         return "<h1 style=\"color: red;\">Under construction</h1>";
     }
 
@@ -64,6 +56,15 @@ public class HomeController {
             modelAndView.setViewName("create");
             return modelAndView;
         }
+        Article article=new Article();
+        article.setDate(new Date());
+        article.getText().put("BG", model.getTitle());
+        article.getText().put("FR", "francais");
+
+        article.getContent().put("EN", model.getContent());
+        article.getContent().put("DE", "deutsch");
+        article.getContent().put("ES", "espanol");
+        this.articleRepo.saveAndFlush(article);
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
