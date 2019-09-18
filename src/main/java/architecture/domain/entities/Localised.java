@@ -31,4 +31,11 @@ public class Localised extends BaseEntity{
         return (returnValue != null ? returnValue : null);
     }
 
+    public Map<String, String> getStrings() {
+        return strings;
+    }
+
+    public void setStrings(Map<String, String> strings) {
+        this.strings = strings;
+    }
 }

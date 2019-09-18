@@ -1,6 +1,8 @@
 package architecture.web.controllers;
 
 import architecture.domain.ArticleBindingModel;
+import architecture.domain.entities.Localised;
+import architecture.repositories.LocalizedRepo;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import architecture.domain.entities.Article;
@@ -23,13 +25,17 @@ import javax.validation.Valid;
 public class HomeController {
 
     private ArticleRepo articleRepo;
+    private LocalizedRepo localizedRepo;
     @Autowired
-    public HomeController(ArticleRepo articleRepo) {
+    public HomeController(ArticleRepo articleRepo, LocalizedRepo localizedRepo) {
         this.articleRepo = articleRepo;
+        this.localizedRepo = localizedRepo;
     }
 
     @GetMapping("/")
     public ModelAndView getIndex(ModelAndView modelAndView) {
+        Article article = this.articleRepo.findById(1L).orElse(null);
+        Object fr = this.localizedRepo.getValue("FR", 3L);
         modelAndView.setViewName("index");
         return modelAndView;
     }
@@ -72,6 +78,7 @@ public class HomeController {
         c2.setDescription("DE", "Zwei  Description");
         c2.setName("DE", "Zwei  Name");
         c2=this.articleRepo.saveAndFlush(c2);
+
 
         modelAndView.setViewName("redirect:/");
         return modelAndView;

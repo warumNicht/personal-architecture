@@ -45,4 +45,20 @@ public class Article extends BaseEntity {
     public void setDescription(String locale, String description) {
         this.descriptionStrings.addString(locale, description);
     }
+
+    public Localised getNameStrings() {
+        return nameStrings;
+    }
+
+    public void setNameStrings(Localised nameStrings) {
+        this.nameStrings = nameStrings;
+    }
+
+    public Localised getDescriptionStrings() {
+        return descriptionStrings;
+    }
+
+    public void setDescriptionStrings(Localised descriptionStrings) {
+        this.descriptionStrings = descriptionStrings;
+    }
 }
