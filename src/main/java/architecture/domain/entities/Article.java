@@ -12,18 +12,16 @@ public class Article extends BaseEntity {
     @Column(name = "date")
     private Date date;
 
-    @ElementCollection
-    @CollectionTable(name = "i18n", foreignKey = @ForeignKey(name = "none"), joinColumns = @JoinColumn(name = "id"))
-    @MapKeyColumn(name = "locale")
-    @Column(name = "text")
-    public Map<String, String> text = new HashMap<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "NAME_ID")
+    private Localised nameStrings = new Localised();
 
-    @ElementCollection
-    @CollectionTable(name = "i18n2", foreignKey = @ForeignKey(name = "none"), joinColumns = @JoinColumn(name = "id"))
-    @MapKeyColumn(name = "locale")
-    @Column(name = "content")
-    public Map<String, String> content = new HashMap<>();
-    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "DESCRIPTION_ID")
+    private Localised descriptionStrings = new Localised();
+
+    private static final long serialVersionUID = 1L;
+
     public Date getDate() {
         return date;
     }
@@ -32,19 +30,19 @@ public class Article extends BaseEntity {
         this.date = date;
     }
 
-    public Map<String, String> getText() {
-        return text;
+    public Localised getNameStrings() {
+        return nameStrings;
     }
 
-    public void setText(Map<String, String> text) {
-        this.text = text;
+    public void setNameStrings(Localised nameStrings) {
+        this.nameStrings = nameStrings;
     }
 
-    public Map<String, String> getContent() {
-        return content;
+    public Localised getDescriptionStrings() {
+        return descriptionStrings;
     }
 
-    public void setContent(Map<String, String> content) {
-        this.content = content;
+    public void setDescriptionStrings(Localised descriptionStrings) {
+        this.descriptionStrings = descriptionStrings;
     }
 }
