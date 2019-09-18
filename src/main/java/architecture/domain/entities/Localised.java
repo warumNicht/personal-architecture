@@ -5,13 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-public class Localised {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
-
-
+public class Localised extends BaseEntity{
+    
     @ElementCollection
     @CollectionTable(name = "map_table", foreignKey = @ForeignKey(name = "none"), joinColumns = @JoinColumn(name = "id"))
     @MapKeyColumn(name = "country")
