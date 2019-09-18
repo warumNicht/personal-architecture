@@ -56,15 +56,23 @@ public class HomeController {
             modelAndView.setViewName("create");
             return modelAndView;
         }
-        Article article=new Article();
-        article.setDate(new Date());
-        article.getText().put("BG", model.getTitle());
-        article.getText().put("FR", "francais");
+        Article article = new Article();
+        article.setName("EN", "Business");
+        article.setDescription("EN", "This is the business category");
+        article.setName("FR", "La Business");
+        article.setDescription("FR", "Ici es la Business");
+        article = this.articleRepo.saveAndFlush(article);
 
-        article.getContent().put("EN", model.getContent());
-        article.getContent().put("DE", "deutsch");
-        article.getContent().put("ES", "espanol");
-        this.articleRepo.saveAndFlush(article);
+        System.out.println(article.getDescription("EN"));
+        System.out.println(article.getName("FR"));
+
+        Article c2 = new Article();
+        c2.setDescription("EN", "Second Description");
+        c2.setName("EN", "Second Name");
+        c2.setDescription("DE", "Zwei  Description");
+        c2.setName("DE", "Zwei  Name");
+        c2=this.articleRepo.saveAndFlush(c2);
+
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }

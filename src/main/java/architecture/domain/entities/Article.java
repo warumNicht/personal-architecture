@@ -30,19 +30,19 @@ public class Article extends BaseEntity {
         this.date = date;
     }
 
-    public Localised getNameStrings() {
-        return nameStrings;
+    public String getName(String locale) {
+        return this.nameStrings.getString(locale);
     }
 
-    public void setNameStrings(Localised nameStrings) {
-        this.nameStrings = nameStrings;
+    public void setName(String locale, String name) {
+        this.nameStrings.addString(locale, name);
     }
 
-    public Localised getDescriptionStrings() {
-        return descriptionStrings;
+    public String getDescription(String locale) {
+        return this.descriptionStrings.getString(locale);
     }
 
-    public void setDescriptionStrings(Localised descriptionStrings) {
-        this.descriptionStrings = descriptionStrings;
+    public void setDescription(String locale, String description) {
+        this.descriptionStrings.addString(locale, description);
     }
 }
