@@ -12,18 +12,16 @@ public class Article extends BaseEntity {
     @Column(name = "date")
     private Date date;
 
-    @ElementCollection
-    @CollectionTable(name = "i18n", foreignKey = @ForeignKey(name = "none"), joinColumns = @JoinColumn(name = "id"))
-    @MapKeyColumn(name = "locale")
-    @Column(name = "text")
-    public Map<String, String> text = new HashMap<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "NAME_ID")
+    private Localised nameStrings = new Localised();
 
-    @ElementCollection
-    @CollectionTable(name = "i18n2", foreignKey = @ForeignKey(name = "none"), joinColumns = @JoinColumn(name = "id"))
-    @MapKeyColumn(name = "locale")
-    @Column(name = "content")
-    public Map<String, String> content = new HashMap<>();
-    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "DESCRIPTION_ID")
+    private Localised descriptionStrings = new Localised();
+
+    private static final long serialVersionUID = 1L;
+
     public Date getDate() {
         return date;
     }
@@ -32,19 +30,35 @@ public class Article extends BaseEntity {
         this.date = date;
     }
 
-    public Map<String, String> getText() {
-        return text;
+    public String getName(String locale) {
+        return this.nameStrings.getString(locale);
     }
 
-    public void setText(Map<String, String> text) {
-        this.text = text;
+    public void setName(String locale, String name) {
+        this.nameStrings.addString(locale, name);
     }
 
-    public Map<String, String> getContent() {
-        return content;
+    public String getDescription(String locale) {
+        return this.descriptionStrings.getString(locale);
     }
 
-    public void setContent(Map<String, String> content) {
-        this.content = content;
+    public void setDescription(String locale, String description) {
+        this.descriptionStrings.addString(locale, description);
+    }
+
+    public Localised getNameStrings() {
+        return nameStrings;
+    }
+
+    public void setNameStrings(Localised nameStrings) {
+        this.nameStrings = nameStrings;
+    }
+
+    public Localised getDescriptionStrings() {
+        return descriptionStrings;
+    }
+
+    public void setDescriptionStrings(Localised descriptionStrings) {
+        this.descriptionStrings = descriptionStrings;
     }
 }
