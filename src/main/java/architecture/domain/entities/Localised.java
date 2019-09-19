@@ -12,8 +12,7 @@ public class Localised extends BaseEntity{
     @MapKeyColumn(name = "country")
     @Column(name = "content")
     private Map<String,String> strings = new HashMap<>();
-
-
+    
     public Localised() {}
 
     public void addString(String locale, String text) {
