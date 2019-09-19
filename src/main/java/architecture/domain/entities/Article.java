@@ -11,8 +11,8 @@ import java.util.Map;
 public class Article extends BaseEntity {
     @Column(name = "date")
     private Date date;
-
-    @ElementCollection
+    
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "localised_content", joinColumns = @JoinColumn(name = "article_id"))
     @MapKeyColumn(name = "country_code")
     @MapKeyEnumerated(EnumType.STRING)

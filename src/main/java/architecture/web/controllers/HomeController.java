@@ -32,6 +32,7 @@ public class HomeController {
 
     @GetMapping("/")
     public ModelAndView getIndex(ModelAndView modelAndView) {
+        Article article = this.articleRepo.findById(1L).orElse(null);
         Object de = this.articleRepo.getValue(CountryCodes.DE, 1L);
         modelAndView.setViewName("index");
         return modelAndView;
