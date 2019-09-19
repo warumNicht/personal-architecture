@@ -56,15 +56,15 @@ public class HomeController {
             modelAndView.setViewName("create");
             return modelAndView;
         }
-        Article article=new Article();
-        article.setDate(new Date());
-        article.getText().put("BG", model.getTitle());
-        article.getText().put("FR", "francais");
-
-        article.getContent().put("EN", model.getContent());
-        article.getContent().put("DE", "deutsch");
-        article.getContent().put("ES", "espanol");
-        this.articleRepo.saveAndFlush(article);
+//        Article article=new Article();
+//        article.setDate(new Date());
+//        article.getText().put("BG", model.getTitle());
+//        article.getText().put("FR", "francais");
+//
+//        article.getContent().put("EN", model.getContent());
+//        article.getContent().put("DE", "deutsch");
+//        article.getContent().put("ES", "espanol");
+//        this.articleRepo.saveAndFlush(article);
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
