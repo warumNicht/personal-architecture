@@ -15,6 +15,7 @@ public class Article extends BaseEntity {
     private Date date;
 
     @ElementCollection
+    @CollectionTable(name = "localised_content", joinColumns = @JoinColumn(name = "article_id"))
     @MapKeyColumn(name = "country_code")
     @MapKeyEnumerated(EnumType.STRING)
     private Map<CountryCodes, LocalisedArticleContent> localContent  = new HashMap<>();
