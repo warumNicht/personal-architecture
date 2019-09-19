@@ -1,9 +1,7 @@
 package architecture.domain.entities;
 
 import architecture.domain.CountryCodes;
-
 import javax.persistence.*;
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,4 +17,20 @@ public class Article extends BaseEntity {
     @MapKeyColumn(name = "country_code")
     @MapKeyEnumerated(EnumType.STRING)
     private Map<CountryCodes, LocalisedArticleContent> localContent  = new HashMap<>();
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Map<CountryCodes, LocalisedArticleContent> getLocalContent() {
+        return localContent;
+    }
+
+    public void setLocalContent(Map<CountryCodes, LocalisedArticleContent> localContent) {
+        this.localContent = localContent;
+    }
 }
