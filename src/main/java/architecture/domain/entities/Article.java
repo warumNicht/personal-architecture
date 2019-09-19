@@ -12,11 +12,11 @@ public class Article extends BaseEntity {
     @Column(name = "date")
     private Date date;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "NAME_ID")
     private Localised nameStrings = new Localised();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "DESCRIPTION_ID")
     private Localised descriptionStrings = new Localised();
 
