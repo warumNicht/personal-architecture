@@ -33,6 +33,7 @@ public class HomeController {
         Object de = this.articleRepo.getValue(CountryCodes.DE, 1L);
         Object[] all = this.articleRepo.getAllNestedSelect(CountryCodes.ES, CountryCodes.BG);
         Object[] max = this.articleRepo.getAllMax(CountryCodes.ES, CountryCodes.BG);
+        Object nativeQuery = this.articleRepo.getAllNativeQuery("ES", "BG");
         modelAndView.setViewName("index");
         return modelAndView;
     }
