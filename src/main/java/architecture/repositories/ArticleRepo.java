@@ -40,16 +40,16 @@ public interface ArticleRepo extends JpaRepository<Article, Long> {
             "GROUP BY a.id")
     Object[] getAllMax(@Param(value = "countryCode") CountryCodes countryCode, @Param(value = "defaultCode") CountryCodes defaultCode);
 
-    @Query(nativeQuery = true, value = "SELECT a.id,a.date, con.article_title, con.article_content FROM  articles as a\n" +
-            "Join (SELECT s1.article_id,s1.article_title, s1.article_content, s1.country_code\n" +
-            "FROM localised_content s1\n" +
-            "JOIN (\n" +
-            "  SELECT article_id, article_title, MAX(country_code) AS country\n" +
-            "  FROM localised_content\n" +
-            "  where country_code= :countryCode or country_code= :defaultCode\n" +
-            "  GROUP BY article_id) AS s2\n" +
-            "  ON s1.article_id = s2.article_id AND s1.country_code = s2.country\n" +
-            "ORDER BY article_id) as con\n" +
-            "on a.id=con.article_id;")
+    @Query(value = "SELECT a.id,a.date, con.article_title, con.article_content FROM  articles AS a " +
+            "JOIN (SELECT s1.article_id,s1.article_title, s1.article_content, s1.country_code " +
+            "FROM localised_content s1 " +
+            "JOIN " +
+            "(SELECT article_id, article_title, MAX(country_code) AS country " +
+            "FROM localised_content\n" +
+            "WHERE country_code= :countryCode OR country_code= :defaultCode " +
+            "GROUP BY article_id) AS s2 " +
+            "ON s1.article_id = s2.article_id AND s1.country_code = s2.country " +
+            "ORDER BY article_id) as con " +
+            "on a.id=con.article_id;" ,nativeQuery = true )
     Object[] getAllNativeQuery(@Param(value = "countryCode") String countryCode, @Param(value = "defaultCode") String defaultCode);
 }
