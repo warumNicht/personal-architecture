@@ -31,7 +31,8 @@ public class HomeController {
     public ModelAndView getIndex(ModelAndView modelAndView) {
         Article article = this.articleRepo.findById(1L).orElse(null);
         Object de = this.articleRepo.getValue(CountryCodes.DE, 1L);
-        Object all = this.articleRepo.getAll(CountryCodes.FR, CountryCodes.BG);
+        Object[] all = this.articleRepo.getAllNestedSelect(CountryCodes.ES, CountryCodes.BG);
+        Object[] max = this.articleRepo.getAllMax(CountryCodes.ES, CountryCodes.BG);
         modelAndView.setViewName("index");
         return modelAndView;
     }
