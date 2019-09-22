@@ -10,7 +10,24 @@
 <main>
     <div>
         <h1>All articles</h1>
-        <p>L'architecture est le jeu savant, correct et magnifique des volumes...</p>
+        <p>L'architecture c'est le jeu savant, correct et magnifique des volumes...</p>
+    </div>
+
+    <div>
+        <div th:each="article: ${allArticles}">
+            <div>
+                <p th:text="${article.id}"></p>
+                <p th:text="${article.date}"></p>
+            </div>
+            <div>
+                <div th:each="local : ${article.localContent}">
+                    <p th:text="${local.key}"></p>
+                    <p th:text="${local.value.title}"></p>
+                    <p th:text="${local.value.content}"></p>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 </main>
