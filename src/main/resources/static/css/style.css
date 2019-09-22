@@ -1,5 +1,21 @@
-body{
+body {
     font-family: "Century Gothic";
     background-color: palegoldenrod;
 }
 
+.article-centered {
+    width: 50%;
+    text-align: center;
+    border-radius: 10px;
+    margin: 10px auto;
+    background-color: #fdfdfe;
+    padding: 0 20px 0 20px;
+}
+
+.article-container {
+    text-align: center;
+}
+
+.article-centered div div {
+    border-bottom: 1px solid #171a1d;
+}

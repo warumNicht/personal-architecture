@@ -13,8 +13,8 @@
         <p>L'architecture c'est le jeu savant, correct et magnifique des volumes...</p>
     </div>
 
-    <div>
-        <div th:each="article: ${allArticles}">
+    <div class="article-container">
+        <div class="article-centered" th:each="article: ${allArticles}">
             <div>
                 <p th:text="|ArticleId: ${article.id} Created: ${article.date}|"></p>
             </div>
@@ -25,7 +25,7 @@
                     <p th:text="${local.value.content}"></p>
                 </div>
             </div>
-
+            <a class="btn btn-info" th:href="@{/admin/articles/addLang/{id}(id=${article.id})}">Add lang</a>
         </div>
     </div>
 
