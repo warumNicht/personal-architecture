@@ -66,7 +66,7 @@ public class HomeController {
             modelAndView.setViewName("create");
             return modelAndView;
         }
-        
+
         Article article = new Article(new Date());
         LocalisedArticleContent articleContent = new LocalisedArticleContent(model.getTitle(), model.getContent());
 
