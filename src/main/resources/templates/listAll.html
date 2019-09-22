@@ -7,7 +7,7 @@
 
 <header th:insert="~{/fragments/navbar :: guest-ul}"></header>
 
-<main>
+<main class="container-fluid">
     <div>
         <h1>All articles</h1>
         <p>L'architecture c'est le jeu savant, correct et magnifique des volumes...</p>
@@ -16,8 +16,7 @@
     <div>
         <div th:each="article: ${allArticles}">
             <div>
-                <p th:text="${article.id}"></p>
-                <p th:text="${article.date}"></p>
+                <p th:text="|ArticleId: ${article.id} Created: ${article.date}|"></p>
             </div>
             <div>
                 <div th:each="local : ${article.localContent}">
