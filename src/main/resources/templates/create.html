@@ -16,10 +16,13 @@
 
         <div class="form-group" th:classappend="${#fields.hasErrors('country')} ? 'text-danger'">
             <label for="lang" th:text="#{lang.country}"></label>
-            <input type="text" class="form-control"
-                   th:field="*{content}"  th:value="${articleBinding.country}"
-                   id="lang" th:placeholder="#{lang.country}+'...'" name="country"
-                   required pattern="^.{2,}$"  title="Please enter at least 2 characters">
+
+            <select name="country" class="form-control" id="lang" th:field="${articleBinding.country}">
+                <option th:each="countryCode : ${T(architecture.domain.CountryCodes).values()}"
+                        th:value="${countryCode}" th:text="${#messages.msgOrNull('lang.'+ #strings.toLowerCase(countryCode))}"
+                        th:selected="${#strings.equals(articleBinding.getCountry(), countryCode) ? true : false}">
+                </option>
+            </select>
 
             <small id="langSmall"
                    th:each="error : ${#fields.errors('country')}" th:utext="${error +'<br>'}">
