@@ -1,15 +1,15 @@
 package architecture.domain;
 
 public class ArticleBindingModel {
-    private String country;
+    private CountryCodes country;
     private String title;
     private String content;
 
-    public String getCountry() {
+    public CountryCodes getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(CountryCodes country) {
         this.country = country;
     }
 

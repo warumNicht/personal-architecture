@@ -18,6 +18,13 @@ public class Article extends BaseEntity {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<CountryCodes, LocalisedArticleContent> localContent  = new HashMap<>();
 
+    public Article() {
+    }
+
+    public Article(Date date) {
+        this.date = date;
+    }
+
     public Date getDate() {
         return date;
     }
