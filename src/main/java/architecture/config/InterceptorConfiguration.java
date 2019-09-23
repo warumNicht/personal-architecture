@@ -14,5 +14,8 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
         lci.setParamName("lang");
         registry.addInterceptor(lci);
+
+        UrlLocaleInterceptor localeInterceptor = new UrlLocaleInterceptor();
+        registry.addInterceptor(localeInterceptor).addPathPatterns("/en/*", "/fr/*", "/de/*");
     }
 }

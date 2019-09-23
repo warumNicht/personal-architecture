@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin" )
+@RequestMapping("/{en|fr|de}/admin" )
 public class AdminController {
     private ArticleRepo articleRepo;
 

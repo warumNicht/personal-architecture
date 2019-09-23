@@ -23,7 +23,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/{en|fr|de}/")
 public class HomeController {
 
     private ArticleRepo articleRepo;
@@ -35,33 +35,33 @@ public class HomeController {
 
     @GetMapping("/")
     public ModelAndView getIndex(ModelAndView modelAndView, HttpServletRequest req) {
-        Cookie actualCookie = Arrays.stream(req.getCookies()).filter(cookie -> "lang".equals(cookie.getName()))
-                .findFirst()
-                .orElse(null);
-        String lang;
-        CountryCodes wanded;
-        if(actualCookie!=null){
-            lang = actualCookie.getValue().toUpperCase();
-            wanded=CountryCodes.valueOf(lang);
-        }else {
-            wanded=CountryCodes.BG;
-        }
-
-        Object de = this.articleRepo.getValue(CountryCodes.DE, 1L);
-        Object[] all = this.articleRepo.getAllNestedSelect(CountryCodes.BG, wanded);
-
-        List<ArticleLocalViewModel> localisedArticles=new ArrayList<>();
-        for (Object article : all) {
-            Object[] articleObjects = (Object[]) article;
-            ArticleLocalViewModel articleLocalViewModel = new ArticleLocalViewModel();
-            articleLocalViewModel.setId((Long)articleObjects[0]);
-            articleLocalViewModel.setDate((Date)articleObjects[1]);
-            articleLocalViewModel.setLocalisedContent((LocalisedArticleContent)articleObjects[2]);
-            localisedArticles.add(articleLocalViewModel);
-        }
-        Object[] max = this.articleRepo.getAllMax(CountryCodes.ES, CountryCodes.BG);
-        Object nativeQuery = this.articleRepo.getAllNativeQuery("ES", "BG");
-        modelAndView.addObject("localizedArticles",localisedArticles);
+//        Cookie actualCookie = Arrays.stream(req.getCookies()).filter(cookie -> "lang".equals(cookie.getName()))
+//                .findFirst()
+//                .orElse(null);
+//        String lang;
+//        CountryCodes wanded;
+//        if(actualCookie!=null){
+//            lang = actualCookie.getValue().toUpperCase();
+//            wanded=CountryCodes.valueOf(lang);
+//        }else {
+//            wanded=CountryCodes.BG;
+//        }
+//
+//        Object de = this.articleRepo.getValue(CountryCodes.DE, 1L);
+//        Object[] all = this.articleRepo.getAllNestedSelect(CountryCodes.BG, wanded);
+//
+//        List<ArticleLocalViewModel> localisedArticles=new ArrayList<>();
+//        for (Object article : all) {
+//            Object[] articleObjects = (Object[]) article;
+//            ArticleLocalViewModel articleLocalViewModel = new ArticleLocalViewModel();
+//            articleLocalViewModel.setId((Long)articleObjects[0]);
+//            articleLocalViewModel.setDate((Date)articleObjects[1]);
+//            articleLocalViewModel.setLocalisedContent((LocalisedArticleContent)articleObjects[2]);
+//            localisedArticles.add(articleLocalViewModel);
+//        }
+//        Object[] max = this.articleRepo.getAllMax(CountryCodes.ES, CountryCodes.BG);
+//        Object nativeQuery = this.articleRepo.getAllNativeQuery("ES", "BG");
+//        modelAndView.addObject("localizedArticles",localisedArticles);
         modelAndView.setViewName("index");
         return modelAndView;
     }
