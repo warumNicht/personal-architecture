@@ -8,19 +8,7 @@ $(document).ready(function () {
     $("#locales").change(function () {
         let selectedOption = $('#locales').val();
         if (selectedOption != '') {
-            let url = location.href;
-            console.log(url)
-            // http://localhost:8080/de/
-            location.assign('/'+ selectedOption + '/')
-            // location.replace('?lang=' + selectedOption);
+            location.replace('?lang=' + selectedOption);
         }
     });
-});
-
-$(document).ready(function () {
-    let url = location.href;
-    let parts = url.split('?lang=');
-    if (parts.length > 1) {
-        location.assign(parts[0]);
-    }
 });
