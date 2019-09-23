@@ -7,25 +7,28 @@
 
 <header th:insert="~{/fragments/navbar :: guest-ul}"></header>
 
-<main>
+<main class="container-fluid">
     <div>
-        <h1>My site will be here</h1>
-        <p>L'architecture est le jeu savant, correct et magnifique des volumes...</p>
+        <h1>All articles</h1>
+        <p>L'architecture c'est le jeu savant, correct et magnifique des volumes...</p>
     </div>
 
     <div class="article-container">
-        <div class="article-centered" th:each="article: ${localizedArticles}">
+        <div class="article-centered" th:each="article: ${allArticles}">
             <div>
                 <p th:text="|ArticleId: ${article.id} Created: ${article.date}|"></p>
             </div>
             <div>
-                <div >
-                    <p th:text="${article.localisedContent.title}"></p>
-                    <p th:text="${article.localisedContent.content}"></p>
+                <div th:each="local : ${article.localContent}">
+                    <p th:text="${local.key}"></p>
+                    <p th:text="${local.value.title}"></p>
+                    <p th:text="${local.value.content}"></p>
                 </div>
             </div>
+            <a class="btn btn-info" th:href="@{/admin/articles/addLang/{id}(id=${article.id})}">Add lang</a>
         </div>
     </div>
+
 </main>
 
 <footer th:replace="~{fragments/general :: footer}"></footer>

@@ -24,8 +24,8 @@
                     Dropdown
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action 2</a>
+                    <a class="dropdown-item" th:href="@{/create}">Create Article</a>
+                    <a class="dropdown-item" th:href="@{/admin/listAll}">List all</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
@@ -34,16 +34,14 @@
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
             <li class="nav-item dropdown">
-
                 <select class="browser-default custom-select" id="locales">
-                    <option selected  value="" th:text="#{lang.change}"></option>
+                    <option selected value="" th:text="#{lang.change}"></option>
                     <option value="bg" th:text="#{lang.bg}"></option>
-                    <option value="en" th:text="#{lang.eng}"></option>
+                    <option value="en" th:text="#{lang.en}"></option>
                     <option value="fr" th:text="#{lang.fr}"></option>
                     <option value="de" th:text="#{lang.de}"></option>
                     <option value="es" th:text="#{lang.es}"></option>
                 </select>
-
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -51,25 +49,9 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
-    <script>
-        $('ul.navbar-nav li.dropdown').hover(function() {
-            $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeIn(500);
-        }, function() {
-            $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeOut(500);
-        });
 
-        $(document).ready(function() {
-            $("#locales").change(function () {
-                var selectedOption = $('#locales').val();
-                if (selectedOption != ''){
-                    window.location.replace('?lang=' + selectedOption);
-                }
-            });
-        });
+    <script type="text/javascript" th:src="@{/js/nav.js}"></script>
 
-    </script>
 </nav>
-
 </body>
-
 </html>

@@ -1,31 +1,43 @@
 package architecture.domain.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import architecture.domain.CountryCodes;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "articles")
 public class Article extends BaseEntity {
-    @Column(name = "title")
-    private String title;
+    @Column(name = "date")
+    private Date date;
     
-    @Column(name = "content")
-    private String content;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "localised_content", joinColumns = @JoinColumn(name = "article_id"))
+    @MapKeyColumn(name = "country_code")
+    @MapKeyEnumerated(EnumType.STRING)
+    private Map<CountryCodes, LocalisedArticleContent> localContent  = new HashMap<>();
 
-    public String getTitle() {
-        return title;
+    public Article() {
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public Article(Date date) {
+        this.date = date;
     }
 
-    public String getContent() {
-        return content;
+    public Date getDate() {
+        return date;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Map<CountryCodes, LocalisedArticleContent> getLocalContent() {
+        return localContent;
+    }
+
+    public void setLocalContent(Map<CountryCodes, LocalisedArticleContent> localContent) {
+        this.localContent = localContent;
     }
 }
