@@ -34,10 +34,6 @@
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
             <li class="nav-item dropdown">
-                <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"-->
-                <!--aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}">-->
-
-                <!--</a>-->
                 <select class="browser-default custom-select" id="locales">
                     <option selected value="" th:text="#{lang.change}"></option>
                     <option value="bg" th:text="#{lang.bg}"></option>
@@ -46,7 +42,6 @@
                     <option value="de" th:text="#{lang.de}"></option>
                     <option value="es" th:text="#{lang.es}"></option>
                 </select>
-
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -54,34 +49,9 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
-    <script>
-        $('ul.navbar-nav li.dropdown').hover(function () {
-            $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeIn(500);
-        }, function () {
-            $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeOut(500);
-        });
 
-        $(document).ready(function () {
-            $("#locales").change(function () {
-                let selectedOption = $('#locales').val();
-                if (selectedOption != '') {
-                    location.replace('?lang=' + selectedOption);
-                }
-            });
-        });
-
-        $(document).ready(function () {
-            let url = location.href;
-            let parts = url.split('?lang=');
-            if (parts.length > 1) {
-                location.assign(parts[0]);
-            }
-        });
-
-
-    </script>
+    <script type="text/javascript" th:src="@{/js/nav.js}"></script>
+    
 </nav>
-
 </body>
-
 </html>
