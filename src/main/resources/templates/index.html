@@ -12,6 +12,20 @@
         <h1>My site will be here</h1>
         <p>L'architecture est le jeu savant, correct et magnifique des volumes...</p>
     </div>
+
+    <div class="article-container">
+        <div class="article-centered" th:each="article: ${localizedArticles}">
+            <div>
+                <p th:text="|ArticleId: ${article.id} Created: ${article.date}|"></p>
+            </div>
+            <div>
+                <div >
+                    <p th:text="${article.localisedContent.title}"></p>
+                    <p th:text="${article.localisedContent.content}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 
 <footer th:replace="~{fragments/general :: footer}"></footer>

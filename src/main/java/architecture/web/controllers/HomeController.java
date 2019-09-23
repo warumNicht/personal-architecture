@@ -1,6 +1,7 @@
 package architecture.web.controllers;
 
 import architecture.domain.ArticleBindingModel;
+import architecture.domain.ArticleLocalViewModel;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.LocalisedArticleContent;
 import org.springframework.validation.BindingResult;
@@ -15,8 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import javax.validation.Valid;
 
 @RestController
@@ -35,11 +38,30 @@ public class HomeController {
         Cookie actualCookie = Arrays.stream(req.getCookies()).filter(cookie -> "lang".equals(cookie.getName()))
                 .findFirst()
                 .orElse(null);
-        Article article = this.articleRepo.findById(1L).orElse(null);
+        String lang;
+        CountryCodes wanded;
+        if(actualCookie!=null){
+            lang = actualCookie.getValue().toUpperCase();
+            wanded=CountryCodes.valueOf(lang);
+        }else {
+            wanded=CountryCodes.BG;
+        }
+
         Object de = this.articleRepo.getValue(CountryCodes.DE, 1L);
-        Object[] all = this.articleRepo.getAllNestedSelect(CountryCodes.ES, CountryCodes.BG);
+        Object[] all = this.articleRepo.getAllNestedSelect(CountryCodes.BG, wanded);
+
+        List<ArticleLocalViewModel> localisedArticles=new ArrayList<>();
+        for (Object article : all) {
+            Object[] articleObjects = (Object[]) article;
+            ArticleLocalViewModel articleLocalViewModel = new ArticleLocalViewModel();
+            articleLocalViewModel.setId((Long)articleObjects[0]);
+            articleLocalViewModel.setDate((Date)articleObjects[1]);
+            articleLocalViewModel.setLocalisedContent((LocalisedArticleContent)articleObjects[2]);
+            localisedArticles.add(articleLocalViewModel);
+        }
         Object[] max = this.articleRepo.getAllMax(CountryCodes.ES, CountryCodes.BG);
         Object nativeQuery = this.articleRepo.getAllNativeQuery("ES", "BG");
+        modelAndView.addObject("localizedArticles",localisedArticles);
         modelAndView.setViewName("index");
         return modelAndView;
     }
