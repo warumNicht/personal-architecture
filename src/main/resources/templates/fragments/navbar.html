@@ -35,11 +35,11 @@
             </li>
             <li class="nav-item dropdown">
                 <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"-->
-                   <!--aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}">-->
+                <!--aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}">-->
 
                 <!--</a>-->
                 <select class="browser-default custom-select" id="locales">
-                    <option selected  value="" th:text="#{lang.change}"></option>
+                    <option selected value="" th:text="#{lang.change}"></option>
                     <option value="bg" th:text="#{lang.bg}"></option>
                     <option value="en" th:text="${#messages.msgOrNull('lang.'+ 'en')}"></option>
                     <option value="fr" th:text="${#messages.msgOrNull('lang.'+ 'fr')}"></option>
@@ -55,20 +55,29 @@
         </form>
     </div>
     <script>
-        $('ul.navbar-nav li.dropdown').hover(function() {
+        $('ul.navbar-nav li.dropdown').hover(function () {
             $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeIn(500);
-        }, function() {
+        }, function () {
             $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeOut(500);
         });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("#locales").change(function () {
-                var selectedOption = $('#locales').val();
-                if (selectedOption != ''){
-                    window.location.replace('?lang=' + selectedOption);
+                let selectedOption = $('#locales').val();
+                if (selectedOption != '') {
+                    location.replace('?lang=' + selectedOption);
                 }
             });
         });
+
+        $(document).ready(function () {
+            let url = location.href;
+            let parts = url.split('?lang=');
+            if (parts.length > 1) {
+                location.assign(parts[0]);
+            }
+        });
+
 
     </script>
 </nav>
