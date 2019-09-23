@@ -10,7 +10,7 @@ import java.util.Locale;
 
 @Configuration
 public class AppBeansConfiguration {
-
+//
 //    @Bean
 //    public LocaleResolver localeResolver() {
 //        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
@@ -36,10 +36,20 @@ public class AppBeansConfiguration {
     // /SomeContextPath/en/login2
     // /SomeContextPath/vi/login2
     // /SomeContextPath/fr/login2
-    @Bean(name = "localeResolver")
-    public LocaleResolver getLocaleResolver() {
-        LocaleResolver resolver = new UrlLocaleResolver();
-        return resolver;
+//    @Bean(name = "localeResolver")
+//    public LocaleResolver getLocaleResolver() {
+//        LocaleResolver resolver = new UrlLocaleResolver();
+//        return resolver;
+//    }
+
+    @Bean
+    public  CustomLocalResolver getCustomLocalResolver(){
+        CustomLocalResolver customLocalResolver = new CustomLocalResolver();
+        customLocalResolver.setDefaultLocale(Locale.US);
+        customLocalResolver.setCookieHttpOnly(true);
+        customLocalResolver.setCookieName("lang");
+        customLocalResolver.setCookieMaxAge(120);
+        return customLocalResolver;
     }
 
 
