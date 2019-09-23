@@ -43,7 +43,7 @@ public class AppBeansConfiguration {
 //    }
 
     @Bean
-    public  CustomLocalResolver getCustomLocalResolver(){
+    public  LocaleResolver localeResolver(){
         CustomLocalResolver customLocalResolver = new CustomLocalResolver();
         customLocalResolver.setDefaultLocale(Locale.US);
         customLocalResolver.setCookieHttpOnly(true);

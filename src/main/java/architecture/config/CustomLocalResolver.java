@@ -48,6 +48,15 @@ public class CustomLocalResolver extends CookieLocaleResolver implements LocaleR
         // French
         else if (uri.startsWith(prefixFr)) {
             locale = Locale.FRENCH;
+//            Cookie actualCookie = Arrays.stream(request.getCookies()).filter(cookie -> "lang".equals(cookie.getName()))
+//                    .findFirst()
+//                    .orElse(null);
+//            if (actualCookie != null) {
+//                actualCookie=new Cookie("lang", "fr");
+//                request.getCookies();
+//                System.out.println();
+//            }
+
         } else if (uri.startsWith(prefixDe)) {
             locale = Locale.GERMAN;
         } else if (uri.startsWith(prefixBg)) {
