@@ -23,7 +23,9 @@ public class UrlLocaleInterceptor extends HandlerInterceptorAdapter {
 
         // Get Locale from LocaleResolver
         Locale locale = localeResolver.resolveLocale(request);
-        response.addCookie(new Cookie("lang", locale.getLanguage()));
+//        Cookie lang = new Cookie("lang", locale.getLanguage());
+//        lang.setMaxAge(180);
+//        response.addCookie(lang);
 
         localeResolver.setLocale(request, response, locale);
 

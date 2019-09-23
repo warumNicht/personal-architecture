@@ -23,7 +23,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/{en|fr|de}/")
+@RequestMapping("/{en|fr|de|es|bg}/")
 public class HomeController {
 
     private ArticleRepo articleRepo;

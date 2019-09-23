@@ -8,7 +8,11 @@ $(document).ready(function () {
     $("#locales").change(function () {
         let selectedOption = $('#locales').val();
         if (selectedOption != '') {
-            location.replace('?lang=' + selectedOption);
+            let url = location.href;
+            console.log(url)
+            // http://localhost:8080/de/
+            location.assign('/'+ selectedOption + '/')
+            // location.replace('?lang=' + selectedOption);
         }
     });
 });

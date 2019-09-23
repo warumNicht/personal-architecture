@@ -9,6 +9,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 @Configuration
 public class InterceptorConfiguration implements WebMvcConfigurer {
 
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
@@ -16,6 +17,6 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(lci);
 
         UrlLocaleInterceptor localeInterceptor = new UrlLocaleInterceptor();
-        registry.addInterceptor(localeInterceptor).addPathPatterns("/en/*", "/fr/*", "/de/*");
+        registry.addInterceptor(localeInterceptor).addPathPatterns("/en/*", "/fr/*", "/de/*","/bg/*","/es/*");
     }
 }
