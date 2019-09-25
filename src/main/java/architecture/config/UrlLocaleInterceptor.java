@@ -14,6 +14,12 @@ public class UrlLocaleInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+        System.out.println("Url interceptor");
+
+        String newLocale = request.getParameter("lang");
+        if(newLocale!=null){
+            return true;
+        }
 
         LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
         request.setAttribute("dd", "ff");
@@ -22,11 +28,8 @@ public class UrlLocaleInterceptor extends HandlerInterceptorAdapter {
             throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");
         }
 
-        // Get Locale from LocaleResolver
         Locale locale = localeResolver.resolveLocale(request);
-//        Cookie lang = new Cookie("lang", locale.getLanguage());
-//        lang.setMaxAge(180);
-//        response.addCookie(lang);
+
 
         localeResolver.setLocale(request, response, locale);
 

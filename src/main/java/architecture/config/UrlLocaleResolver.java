@@ -17,13 +17,6 @@ public class UrlLocaleResolver implements LocaleResolver {
         // ==> /SomeContextPath/fr/...
         // ==> /SomeContextPath/WEB-INF/pages/...
         String uri = request.getRequestURI();
-//        Cookie actualCookie = Arrays.stream(request.getCookies()).filter(cookie -> "lang".equals(cookie.getName()))
-//                .findFirst()
-//                .orElse(null);
-//        if(actualCookie!=null){
-//            Locale forLanguageTag = Locale.forLanguageTag(actualCookie.getValue());
-//            return forLanguageTag;
-//        }
 
         System.out.println("URI=" + uri);
 
