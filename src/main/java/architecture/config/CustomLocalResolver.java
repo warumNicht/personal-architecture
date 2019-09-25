@@ -5,6 +5,7 @@ import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.util.CookieGenerator;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +22,17 @@ public class CustomLocalResolver extends CookieLocaleResolver implements LocaleR
         // ==> /SomeContextPath/en/...
         // ==> /SomeContextPath/fr/...
         // ==> /SomeContextPath/WEB-INF/pages/...
+//        request.removeAttribute("org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE");
+
+
+        Locale cookieResolverResult = super.resolveLocale(request);
+        if(cookieResolverResult!=null){
+            return cookieResolverResult;
+        }
+
         String uri = request.getRequestURI();
 
-        Cookie actualCookie = Arrays.stream(request.getCookies()).filter(cookie -> "lang".equals(cookie.getName()))
-                .findFirst()
-                .orElse(null);
+        Cookie actualCookie = WebUtils.getCookie(request, "lang");
         if (actualCookie != null) {
             Locale forLanguageTag = Locale.forLanguageTag(actualCookie.getValue());
             return forLanguageTag;
@@ -40,6 +47,8 @@ public class CustomLocalResolver extends CookieLocaleResolver implements LocaleR
         String prefixBg = request.getServletContext().getContextPath() + "/bg/";
         String prefixEs = request.getServletContext().getContextPath() + "/es/";
 
+
+
         Locale locale = null;
         // English
         if (uri.startsWith(prefixEn)) {
@@ -48,14 +57,7 @@ public class CustomLocalResolver extends CookieLocaleResolver implements LocaleR
         // French
         else if (uri.startsWith(prefixFr)) {
             locale = Locale.FRENCH;
-//            Cookie actualCookie = Arrays.stream(request.getCookies()).filter(cookie -> "lang".equals(cookie.getName()))
-//                    .findFirst()
-//                    .orElse(null);
-//            if (actualCookie != null) {
-//                actualCookie=new Cookie("lang", "fr");
-//                request.getCookies();
-//                System.out.println();
-//            }
+
 
         } else if (uri.startsWith(prefixDe)) {
             locale = Locale.GERMAN;

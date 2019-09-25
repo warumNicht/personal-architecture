@@ -16,6 +16,7 @@ public class UrlLocaleInterceptor extends HandlerInterceptorAdapter {
             throws Exception {
 
         LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+        request.setAttribute("dd", "ff");
 
         if (localeResolver == null) {
             throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");
