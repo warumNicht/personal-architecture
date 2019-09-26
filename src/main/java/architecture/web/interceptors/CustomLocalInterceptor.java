@@ -1,4 +1,4 @@
-package architecture.config;
+package architecture.web.interceptors;
 
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
