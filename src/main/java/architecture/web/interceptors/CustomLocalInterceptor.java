@@ -1,7 +1,6 @@
 package architecture.web.interceptors;
 
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

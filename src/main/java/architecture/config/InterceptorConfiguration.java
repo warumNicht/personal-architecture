@@ -11,7 +11,6 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 @Configuration
 public class InterceptorConfiguration implements WebMvcConfigurer {
 
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         UrlLocaleInterceptor localeInterceptor = new UrlLocaleInterceptor();
