@@ -30,52 +30,53 @@ public class CustomLocalResolver extends CookieLocaleResolver implements LocaleR
             return cookieResolverResult;
         }
 
-        String uri = request.getRequestURI();
-
-        Cookie actualCookie = WebUtils.getCookie(request, "lang");
-        if (actualCookie != null) {
-            Locale forLanguageTag = Locale.forLanguageTag(actualCookie.getValue());
-            return forLanguageTag;
-        }
-
-
-        System.out.println("URI=" + uri);
-
-        String prefixEn = request.getServletContext().getContextPath() + "/en/";
-        String prefixFr = request.getServletContext().getContextPath() + "/fr/";
-        String prefixDe = request.getServletContext().getContextPath() + "/de/";
-        String prefixBg = request.getServletContext().getContextPath() + "/bg/";
-        String prefixEs = request.getServletContext().getContextPath() + "/es/";
+//        String uri = request.getRequestURI();
+//
+//        Cookie actualCookie = WebUtils.getCookie(request, "lang");
+//        Locale forLanguageTag=null;
+//        if (actualCookie != null) {
+//            forLanguageTag = Locale.forLanguageTag(actualCookie.getValue());
+//            return forLanguageTag;
+//        }
 
 
-
-        Locale locale = null;
-        // English
-        if (uri.startsWith(prefixEn)) {
-            locale = Locale.ENGLISH;
-        }
-        // French
-        else if (uri.startsWith(prefixFr)) {
-            locale = Locale.FRENCH;
-
-
-        } else if (uri.startsWith(prefixDe)) {
-            locale = Locale.GERMAN;
-        } else if (uri.startsWith(prefixBg)) {
-            locale = Locale.forLanguageTag("bg");
-        } else if (uri.startsWith(prefixEs)) {
-            locale = Locale.forLanguageTag("es");
-        }
-        if (locale != null) {
-            request.getSession().setAttribute(URL_LOCALE_ATTRIBUTE_NAME, locale);
-        }
-        if (locale == null) {
-            locale = (Locale) request.getSession().getAttribute(URL_LOCALE_ATTRIBUTE_NAME);
-            if (locale == null) {
-                locale = Locale.ENGLISH;
-            }
-        }
-        return locale;
+//        System.out.println("URI=" + uri);
+//
+//        String prefixEn = request.getServletContext().getContextPath() + "/en/";
+//        String prefixFr = request.getServletContext().getContextPath() + "/fr/";
+//        String prefixDe = request.getServletContext().getContextPath() + "/de/";
+//        String prefixBg = request.getServletContext().getContextPath() + "/bg/";
+//        String prefixEs = request.getServletContext().getContextPath() + "/es/";
+//
+//
+//
+//        Locale locale = null;
+//        // English
+//        if (uri.startsWith(prefixEn)) {
+//            locale = Locale.ENGLISH;
+//        }
+//        // French
+//        else if (uri.startsWith(prefixFr)) {
+//            locale = Locale.FRENCH;
+//
+//
+//        } else if (uri.startsWith(prefixDe)) {
+//            locale = Locale.GERMAN;
+//        } else if (uri.startsWith(prefixBg)) {
+//            locale = Locale.forLanguageTag("bg");
+//        } else if (uri.startsWith(prefixEs)) {
+//            locale = Locale.forLanguageTag("es");
+//        }
+//        if (locale != null) {
+//            request.getSession().setAttribute(URL_LOCALE_ATTRIBUTE_NAME, locale);
+//        }
+//        if (locale == null) {
+//            locale = (Locale) request.getSession().getAttribute(URL_LOCALE_ATTRIBUTE_NAME);
+//            if (locale == null) {
+//                locale = Locale.ENGLISH;
+//            }
+//        }
+        return cookieResolverResult;
     }
 
 }

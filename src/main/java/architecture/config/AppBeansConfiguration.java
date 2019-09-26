@@ -10,16 +10,7 @@ import java.util.Locale;
 
 @Configuration
 public class AppBeansConfiguration {
-//
-//    @Bean
-//    public LocaleResolver localeResolver() {
-//        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
-//        cookieLocaleResolver.setDefaultLocale(Locale.US);
-//        cookieLocaleResolver.setCookieHttpOnly(true);
-//        cookieLocaleResolver.setCookieName("lang");
-//        cookieLocaleResolver.setCookieMaxAge(120);
-//        return cookieLocaleResolver;
-//    }
+
 
 //    @Bean(name = "messageSource")
 //    public MessageSource getMessageResource()  {
@@ -32,15 +23,6 @@ public class AppBeansConfiguration {
 //        return messageResource;
 //    }
 
-    // To solver URL like:
-    // /SomeContextPath/en/login2
-    // /SomeContextPath/vi/login2
-    // /SomeContextPath/fr/login2
-//    @Bean(name = "localeResolver")
-//    public LocaleResolver getLocaleResolver() {
-//        LocaleResolver resolver = new UrlLocaleResolver();
-//        return resolver;
-//    }
 
     @Bean
     public  LocaleResolver localeResolver(){
@@ -51,7 +33,6 @@ public class AppBeansConfiguration {
         customLocalResolver.setCookieMaxAge(120);
         return customLocalResolver;
     }
-
 
 
 }

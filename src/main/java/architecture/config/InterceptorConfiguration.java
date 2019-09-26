@@ -17,10 +17,10 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         UrlLocaleInterceptor localeInterceptor = new UrlLocaleInterceptor();
-        registry.addInterceptor(localeInterceptor).addPathPatterns("/en/*", "/fr/*", "/de/*","/bg/*","/es/*").order(Ordered.HIGHEST_PRECEDENCE);
+        registry.addInterceptor(localeInterceptor).addPathPatterns("/en/**", "/fr/**", "/de/**","/bg/**","/es/**").order(Ordered.HIGHEST_PRECEDENCE);
 
-        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        LocaleChangeInterceptor lci = new CustomLocalInterceptor();
         lci.setParamName("lang");
-        registry.addInterceptor(lci).order(Ordered.LOWEST_PRECEDENCE);
+        registry.addInterceptor(lci).excludePathPatterns("/js/**","/css/**", "/error").order(Ordered.LOWEST_PRECEDENCE);
     }
 }
