@@ -18,6 +18,7 @@ public class UrlLocaleInterceptor extends HandlerInterceptorAdapter {
 
         String newLocale = request.getParameter("lang");
         if (newLocale != null) {
+            request.setAttribute("lang",true);
             return true;
         }
         String requestedUri = request.getRequestURI();
@@ -28,14 +29,6 @@ public class UrlLocaleInterceptor extends HandlerInterceptorAdapter {
             response.sendRedirect(redirect);
             return false;
         }
-
-        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-
-        if (localeResolver == null) {
-            throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");
-        }
-        Locale locale = localeResolver.resolveLocale(request);
-        localeResolver.setLocale(request, response, locale);
         return true;
     }
 }

@@ -27,7 +27,7 @@ public class AppBeansConfiguration {
         customLocalResolver.setDefaultLocale(Locale.US);
         customLocalResolver.setCookieHttpOnly(true);
         customLocalResolver.setCookieName("lang");
-        customLocalResolver.setCookieMaxAge(120);
+        customLocalResolver.setCookieMaxAge(60*60);
         return customLocalResolver;
     }
 
