@@ -16,7 +16,7 @@ public class CustomLocalInterceptor extends LocaleChangeInterceptor {
 
         super.preHandle(request, response, handler);
         String newLocale = (String)request.getParameter("lang");
-        if (newLocale != null && (boolean) request.getAttribute("lang")) {
+        if (newLocale != null &&request.getAttribute("lang")!=null && (boolean) request.getAttribute("lang")) {
             String requestURI = request.getRequestURI();
             if(requestURI.charAt(3)=='/'){
                 requestURI= "/"+ newLocale+requestURI.substring(3);

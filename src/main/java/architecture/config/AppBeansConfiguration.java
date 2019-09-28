@@ -1,7 +1,10 @@
 package architecture.config;
 
+import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
 import java.util.Locale;
 
@@ -30,6 +33,29 @@ public class AppBeansConfiguration {
         customLocalResolver.setCookieMaxAge(60*60);
         return customLocalResolver;
     }
+//
+//    @Bean
+//    public DispatcherServlet dispatcherServlet() {
+//        return new DispatcherServlet();
+//    }
+
+    @Bean
+    public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
+
+        ServletRegistrationBean registration = new ServletRegistrationBean(
+                dispatcherServlet, "/bg/*", "/de/*", "/en/*", "/fr/*", "/es/*");
+
+        registration.setName(DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
+        return registration;
+    }
+
+//    @Bean
+//    public ServletRegistrationBean dispatcherServletRegistration(DispatcherServlet dispatcherServlet) {
+//        ServletRegistrationBean registration = new ServletRegistrationBean(
+//                dispatcherServlet, "/", "/bg/", "/de/", "/en/", "/fr/", "/es/");
+//        registration.setName(DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
+//        return registration;
+//    }
 
 
 }
