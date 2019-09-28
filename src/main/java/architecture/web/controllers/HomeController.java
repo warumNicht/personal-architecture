@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -35,19 +36,13 @@ public class HomeController {
 
     @GetMapping("/")
     public ModelAndView getIndex(ModelAndView modelAndView, HttpServletRequest req) {
-        Cookie actualCookie = Arrays.stream(req.getCookies()).filter(cookie -> "lang".equals(cookie.getName()))
-                .findFirst()
-                .orElse(null);
-        String lang;
+        Cookie actualCookie = WebUtils.getCookie(req, "lang");
         CountryCodes wanded;
         if(actualCookie!=null){
-            lang = actualCookie.getValue().toUpperCase();
-            wanded=CountryCodes.valueOf(lang);
+            wanded=CountryCodes.valueOf(actualCookie.getValue().toUpperCase());
         }else {
             wanded=CountryCodes.BG;
         }
-
-        Object de = this.articleRepo.getValue(CountryCodes.DE, 1L);
         Object[] all = this.articleRepo.getAllNestedSelect(CountryCodes.BG, wanded);
 
         List<ArticleLocalViewModel> localisedArticles=new ArrayList<>();
@@ -59,8 +54,6 @@ public class HomeController {
             articleLocalViewModel.setLocalisedContent((LocalisedArticleContent)articleObjects[2]);
             localisedArticles.add(articleLocalViewModel);
         }
-        Object[] max = this.articleRepo.getAllMax(CountryCodes.ES, CountryCodes.BG);
-        Object nativeQuery = this.articleRepo.getAllNativeQuery("ES", "BG");
         modelAndView.addObject("localizedArticles",localisedArticles);
         modelAndView.setViewName("index");
         return modelAndView;

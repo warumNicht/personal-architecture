@@ -41,9 +41,10 @@ public class AppBeansConfiguration {
 
     @Bean
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
+
         ServletRegistrationBean registration = new ServletRegistrationBean(
-                dispatcherServlet,"/bg/*", "/de/*", "/en/*", "/fr/*", "/es/*");
-//        registration.addUrlMappings("/fr");
+                dispatcherServlet, "/bg/*", "/de/*", "/en/*", "/fr/*", "/es/*");
+
         registration.setName(DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
         return registration;
     }
