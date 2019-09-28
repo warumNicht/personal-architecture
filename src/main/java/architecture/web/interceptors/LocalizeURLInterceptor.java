@@ -1,7 +1,9 @@
 package architecture.web.interceptors;
 
+import architecture.constants.ApplicationConstants;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.WebUtils;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,25 +15,25 @@ public class LocalizeURLInterceptor extends HandlerInterceptorAdapter {
         System.out.println(request.getRequestURI());
 
         String requestURI = request.getRequestURI();
-        boolean hasLocale=false;
+        boolean hasLocale = false;
         try {
             char slash = requestURI.charAt(3);
-            if(slash=='/'){
-                hasLocale=true;
+            if (slash == '/') {
+                hasLocale = true;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
         }
-        if(hasLocale){
-            return  true;
+        if (hasLocale) {
+            return true;
         }
         String localeToAppend;
-        Cookie actualCookie = WebUtils.getCookie(request, "lang");
-        if(actualCookie!=null){
-            localeToAppend=actualCookie.getValue();
-        }else {
-            localeToAppend="/en";
+        Cookie actualCookie = WebUtils.getCookie(request, ApplicationConstants.LOCALE_COOKIE_NAME);
+        if (actualCookie != null) {
+            localeToAppend =  actualCookie.getValue();
+        } else {
+            localeToAppend = ApplicationConstants.DEFAULT_LOCALE.getLanguage();
         }
-        response.sendRedirect("/"+ localeToAppend + requestURI);
+        response.sendRedirect("/" + localeToAppend + requestURI);
         return false;
     }
 }

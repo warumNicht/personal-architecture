@@ -1,5 +1,6 @@
 package architecture.web.controllers;
 
+import architecture.constants.ApplicationConstants;
 import architecture.domain.ArticleBindingModel;
 import architecture.domain.ArticleLocalViewModel;
 import architecture.domain.CountryCodes;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class HomeController {
 
     @GetMapping("/")
     public ModelAndView getIndex(ModelAndView modelAndView, HttpServletRequest req) {
-        Cookie actualCookie = WebUtils.getCookie(req, "lang");
+        Cookie actualCookie = WebUtils.getCookie(req, ApplicationConstants.LOCALE_COOKIE_NAME);
         CountryCodes wanded;
         if(actualCookie!=null){
             wanded=CountryCodes.valueOf(actualCookie.getValue().toUpperCase());
@@ -60,8 +60,6 @@ public class HomeController {
 
     @GetMapping("/home")
     public String index(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        Article article = this.articleRepo.findById(1L).orElse(null);
         return "<h1 style=\"color: red;\">Under construction</h1>";
     }
 

@@ -1,12 +1,12 @@
 package architecture.config;
 
+import architecture.constants.ApplicationConstants;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
-import java.util.Locale;
 
 @Configuration
 public class AppBeansConfiguration {
@@ -14,9 +14,9 @@ public class AppBeansConfiguration {
     @Bean
     public  LocaleResolver localeResolver(){
         CustomLocalResolver customLocalResolver = new CustomLocalResolver();
-        customLocalResolver.setDefaultLocale(Locale.US);
+        customLocalResolver.setDefaultLocale(ApplicationConstants.DEFAULT_LOCALE);
         customLocalResolver.setCookieHttpOnly(true);
-        customLocalResolver.setCookieName("lang");
+        customLocalResolver.setCookieName(ApplicationConstants.LOCALE_COOKIE_NAME);
         customLocalResolver.setCookieMaxAge(60*60);
         return customLocalResolver;
     }
