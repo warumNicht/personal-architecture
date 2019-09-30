@@ -1,10 +1,12 @@
 package architecture.web.controllers;
 
+import architecture.domain.entities.Category;
 import architecture.domain.models.ArticleBindingModel;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.CategoryCreateBindingModel;
 import architecture.repositories.ArticleRepo;
+import architecture.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +18,12 @@ import java.util.List;
 @RequestMapping("/admin" )
 public class AdminController {
     private ArticleRepo articleRepo;
+    private CategoryRepository categoryRepository;
 
     @Autowired
-    public AdminController(ArticleRepo articleRepo) {
+    public AdminController(ArticleRepo articleRepo, CategoryRepository categoryRepository) {
         this.articleRepo = articleRepo;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/listAll")
@@ -55,6 +59,15 @@ public class AdminController {
     public ModelAndView createCategory(ModelAndView modelAndView, @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel model){
         modelAndView.addObject("categoryCreateModel", model);
         modelAndView.setViewName("createCategory");
+        return modelAndView;
+    }
+
+    @PostMapping("/category/create")
+    public ModelAndView createCategoryPost (ModelAndView modelAndView, @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel model){
+        Category category=new Category();
+        category.getLocalCategoryNames().put(model.getCountry(),model.getName());
+        this.categoryRepository.saveAndFlush(category);
+        modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
 }

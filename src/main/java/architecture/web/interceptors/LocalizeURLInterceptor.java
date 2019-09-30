@@ -13,6 +13,11 @@ public class LocalizeURLInterceptor extends HandlerInterceptorAdapter {
         System.out.print("URL correction interceptor ");
         System.out.println(request.getRequestURI());
 
+        String requestMethod = request.getMethod();
+        if(requestMethod.equals("POST")){
+            return true;
+        }
+
         String requestURI = request.getRequestURI();
         boolean hasLocale = false;
         try {

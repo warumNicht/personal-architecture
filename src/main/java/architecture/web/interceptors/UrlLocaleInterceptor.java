@@ -15,6 +15,10 @@ public class UrlLocaleInterceptor extends HandlerInterceptorAdapter {
 
         System.out.print("Url interceptor ");
         System.out.println(request.getRequestURI());
+        String requestMethod = request.getMethod();
+        if(requestMethod.equals("POST")){
+            return true;
+        }
 
         String newLocale = request.getParameter( ApplicationConstants.LOCALE_COOKIE_NAME);
         if (newLocale != null) {
