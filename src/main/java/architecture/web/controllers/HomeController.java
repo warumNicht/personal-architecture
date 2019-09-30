@@ -66,7 +66,7 @@ public class HomeController {
     @GetMapping("/create")
     public ModelAndView createArticle(@ModelAttribute(name = "articleBinding") ArticleBindingModel model, ModelAndView modelAndView) {
         modelAndView.addObject("articleBinding", model);
-        modelAndView.setViewName("create");
+        modelAndView.setViewName("create-article");
         return modelAndView;
     }
 
@@ -75,7 +75,7 @@ public class HomeController {
                                            BindingResult bindingResult, ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("articleBinding", model);
-            modelAndView.setViewName("create");
+            modelAndView.setViewName("create-article");
             return modelAndView;
         }
 
