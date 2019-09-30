@@ -11,6 +11,10 @@ import java.util.Map;
 public class Article extends BaseEntity {
     @Column(name = "date")
     private Date date;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id",referencedColumnName = "id")
+    private Category category;
     
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "localised_content", joinColumns = @JoinColumn(name = "article_id"))
@@ -31,6 +35,14 @@ public class Article extends BaseEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Map<CountryCodes, LocalisedArticleContent> getLocalContent() {
