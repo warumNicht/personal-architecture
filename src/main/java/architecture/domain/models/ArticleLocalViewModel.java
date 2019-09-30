@@ -1,4 +1,4 @@
-package architecture.domain;
+package architecture.domain.models;
 
 import architecture.domain.entities.LocalisedArticleContent;
 

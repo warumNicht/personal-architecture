@@ -1,4 +1,6 @@
-package architecture.domain;
+package architecture.domain.models;
+
+import architecture.domain.CountryCodes;
 
 public class ArticleBindingModel {
     private CountryCodes country;
