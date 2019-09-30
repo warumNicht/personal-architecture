@@ -1,18 +1,25 @@
 package architecture.domain.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import architecture.domain.CountryCodes;
+import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "categories")
 public class Category extends BaseEntity {
-    private String name;
 
-    public String getName() {
-        return name;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "category_names", joinColumns = @JoinColumn(name = "category_id"))
+    @MapKeyColumn(name = "country_code")
+    @MapKeyEnumerated(EnumType.STRING)
+    private Map<CountryCodes, String> localCategoryNames  = new HashMap<>();
+
+    public Map<CountryCodes, String> getLocalCategoryNames() {
+        return localCategoryNames;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLocalCategoryNames(Map<CountryCodes, String> localCategoryNames) {
+        this.localCategoryNames = localCategoryNames;
     }
 }
