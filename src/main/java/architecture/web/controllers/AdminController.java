@@ -1,10 +1,12 @@
 package architecture.web.controllers;
 
+import architecture.domain.CountryCodes;
 import architecture.domain.entities.Category;
 import architecture.domain.models.ArticleBindingModel;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.CategoryCreateBindingModel;
+import architecture.domain.models.CategoryEditBindingModel;
 import architecture.repositories.ArticleRepo;
 import architecture.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin" )
@@ -68,6 +71,29 @@ public class AdminController {
         category.getLocalCategoryNames().put(model.getCountry(),model.getName());
         this.categoryRepository.saveAndFlush(category);
         modelAndView.setViewName("redirect:/");
+        return modelAndView;
+    }
+
+    @GetMapping("/category/edit/{categoryId}")
+    public ModelAndView editCategory(ModelAndView modelAndView, @PathVariable(name = "categoryId") Long categoryId){
+        Category category = this.categoryRepository.findById(categoryId).orElse(null);
+
+        CategoryEditBindingModel model = new CategoryEditBindingModel();
+        model.setId(categoryId);
+
+        for (Map.Entry<CountryCodes, String> local: category.getLocalCategoryNames().entrySet()) {
+            model.getLocalNames().put(local.getKey(), local.getValue());
+        }
+        modelAndView.addObject("categoryEditModel", model);
+        modelAndView.setViewName("edit-category");
+        return modelAndView;
+    }
+
+    @PutMapping("/category/edit/{categoryId}")
+    public ModelAndView editCategoryPut(ModelAndView modelAndView,@ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model,
+                                        @PathVariable(name = "categoryId") Long categoryId){
+
+        modelAndView.setViewName("edit-category");
         return modelAndView;
     }
 }

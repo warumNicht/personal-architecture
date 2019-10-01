@@ -16,7 +16,7 @@ public class UrlLocaleInterceptor extends HandlerInterceptorAdapter {
         System.out.print("Url interceptor ");
         System.out.println(request.getRequestURI());
         String requestMethod = request.getMethod();
-        if(requestMethod.equals("POST")){
+        if(!requestMethod.equals("GET")){
             return true;
         }
 
