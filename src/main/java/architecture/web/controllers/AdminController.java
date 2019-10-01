@@ -92,8 +92,15 @@ public class AdminController {
     @PutMapping("/category/edit/{categoryId}")
     public ModelAndView editCategoryPut(ModelAndView modelAndView,@ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model,
                                         @PathVariable(name = "categoryId") Long categoryId){
-
-        modelAndView.setViewName("edit-category");
+        Category category = new Category();
+        category.setId(categoryId);
+        for (Map.Entry<CountryCodes, String> countryEntry : model.getLocalNames().entrySet()) {
+            if(!"".equals(countryEntry.getValue())){
+                category.getLocalCategoryNames().put(countryEntry.getKey(),countryEntry.getValue());
+            }
+        }
+        this.categoryRepository.save(category);
+        modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
 }

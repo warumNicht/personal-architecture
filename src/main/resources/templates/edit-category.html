@@ -11,25 +11,10 @@
 
     <form class="mx-auto w-25" th:method="put" th:action="@{/admin/category/edit/{categoryId}(categoryId=${categoryEditModel.id})}" th:object="${categoryEditModel}">
 
-        <div class="form-group" >
-            <label for="bg" th:text="#{lang.bg}"></label>
+        <div class="form-group" th:each="countryCode, stat :*{localNames}">
+            <label th:text="${#messages.msgOrNull('lang.'+ #strings.toLowerCase(countryCode.key))}"></label>
             <input type="text" class="form-control"
-                   th:value="${categoryEditModel.localNames.get(T(architecture.domain.CountryCodes).BG)}"
-                   id="bg" name="bg">
-        </div>
-
-        <div class="form-group" >
-            <label for="fr" th:text="#{lang.fr}"></label>
-            <input type="text" class="form-control"
-                   th:value="${categoryEditModel.localNames.get(T(architecture.domain.CountryCodes).FR)}"
-                   id="fr" name="fr">
-        </div>
-
-        <div class="form-group" >
-            <label for="de" th:text="#{lang.de}"></label>
-            <input type="text" class="form-control"
-                   th:value="${categoryEditModel.localNames.get(T(architecture.domain.CountryCodes).DE)}"
-                   id="de" name="de">
+                   th:field="*{localNames[__${countryCode.key}__]}">
         </div>
 
         <div class="button-holder mt-4 d-flex justify-content-center">
