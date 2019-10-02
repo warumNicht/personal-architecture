@@ -1,4 +1,4 @@
-package architecture.domain.models;
+package architecture.domain.models.bindingModels;
 
 import architecture.domain.CountryCodes;
 

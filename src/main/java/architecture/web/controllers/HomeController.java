@@ -1,8 +1,7 @@
 package architecture.web.controllers;
 
-import architecture.constants.ApplicationConstants;
-import architecture.domain.models.ArticleBindingModel;
-import architecture.domain.models.ArticleLocalViewModel;
+import architecture.domain.models.bindingModels.ArticleBindingModel;
+import architecture.domain.models.viewModels.ArticleLocalViewModel;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.LocalisedArticleContent;
 import org.springframework.validation.BindingResult;
