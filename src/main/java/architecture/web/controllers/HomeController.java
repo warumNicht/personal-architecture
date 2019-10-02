@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +22,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/")
-public class HomeController {
+public class HomeController extends BaseController{
 
     private ArticleRepo articleRepo;
 
@@ -35,14 +33,8 @@ public class HomeController {
 
     @GetMapping("/")
     public ModelAndView getIndex(ModelAndView modelAndView, HttpServletRequest req) {
-        Cookie actualCookie = WebUtils.getCookie(req, ApplicationConstants.LOCALE_COOKIE_NAME);
-        CountryCodes wanded;
-        if(actualCookie!=null){
-            wanded=CountryCodes.valueOf(actualCookie.getValue().toUpperCase());
-        }else {
-            wanded=CountryCodes.BG;
-        }
-        Object[] all = this.articleRepo.getAllNestedSelect(CountryCodes.BG, wanded);
+        CountryCodes wantedCode = super.getCurrentCookieLocale();
+        Object[] all = this.articleRepo.getAllNestedSelect(CountryCodes.BG, wantedCode);
 
         List<ArticleLocalViewModel> localisedArticles=new ArrayList<>();
         for (Object article : all) {
