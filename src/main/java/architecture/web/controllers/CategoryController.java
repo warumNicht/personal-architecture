@@ -1,5 +1,6 @@
 package architecture.web.controllers;
 
+import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
 import architecture.services.interfaces.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,6 @@ public class CategoryController extends BaseController {
     @RequestMapping(value = "/all", produces = "application/json")
     public Object getCategories(HttpServletRequest req) {
         CountryCodes wanted = super.getCurrentCookieLocale();
-        return this.categoryService.getAllCategoriesByLocale(CountryCodes.BG, wanted);
+        return this.categoryService.getAllCategoriesByLocale(ApplicationConstants.DEFAULT_COUNTRY_CODE, wanted);
     }
 }
