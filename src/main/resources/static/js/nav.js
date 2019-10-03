@@ -11,4 +11,18 @@ $(document).ready(function () {
             location.replace('?lang=' + selectedOption);
         }
     });
+    fetchCategories();
 });
+
+function fetchCategories() {
+    fetch('/categories/all')
+        .then((response) => response.json())
+        .then((json) => {
+            $('#category').empty();
+            $('#category').append('<option value="all">All</option>');
+            json.forEach((category) => {
+                $('#category').append('<option value="'+ category.id +'">'+ category.name +'</option>');
+            });
+        })
+        .catch((err) => console.log(err));
+}
