@@ -16,7 +16,7 @@ $(document).ready(function () {
 
 function fetchCategories() {
     fetch('/categories/all')
-        .then((response) => {response.json()})
+        .then((response) => response.json())
         .then((json) => {
             $('#categories').empty();
             $('#categories').append('<option value="all">All</option>');
