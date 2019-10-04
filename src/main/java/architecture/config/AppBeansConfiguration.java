@@ -39,7 +39,7 @@ public class AppBeansConfiguration {
         ReloadableResourceBundleMessageSource messageSource
                 = new ReloadableResourceBundleMessageSource();
 
-        messageSource.setBasename("classpath:messages");
+        messageSource.setBasenames("classpath:/messages/messages","classpath:/messages/home/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
