@@ -37,7 +37,7 @@
                 <select class="browser-default custom-select" id="locales">
                     <option selected value="" th:text="#{lang.change}"></option>
                     <option value="bg" th:text="#{lang.bg}"></option>
-                    <option value="en" th:text="${#messages.msgOrNull('lang.'+ 'fr')}"></option>
+                    <option value="en" th:text="${#messages.msgOrNull('lang.'+ 'en')}"></option>
                     <option value="fr" th:text="${#messages.msgOrNull('lang.'+ 'fr')}"></option>
                     <option value="de" th:text="#{lang.de}"></option>
                     <option value="es" th:text="#{lang.es}"></option>
@@ -45,12 +45,13 @@
             </li>
             <li class="nav-item dropdown">
                 <select class="browser-default custom-select" id="categories">
+                    <option value="all" th:text="#{all}"></option>
                 </select>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" th:placeholder="#{search}" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" th:text="#{search}"></button>
         </form>
     </div>
 

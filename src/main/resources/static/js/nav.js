@@ -18,8 +18,6 @@ function fetchCategories() {
     fetch('/categories/all')
         .then((response) => response.json())
         .then((json) => {
-            $('#categories').empty();
-            $('#categories').append('<option value="all">All</option>');
             json.forEach((category) => {
                 $('#categories').append('<option value="'+ category.id +'">'+ category.name +'</option>');
             });
