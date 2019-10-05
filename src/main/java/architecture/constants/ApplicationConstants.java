@@ -10,4 +10,6 @@ public final class ApplicationConstants {
     public static final Locale DEFAULT_LOCALE = Locale.US;
 
     public static final CountryCodes DEFAULT_COUNTRY_CODE = CountryCodes.BG;
+
+    public static final long CASH_MAX_AGE = 2L;
 }
