@@ -11,17 +11,18 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @Configuration
 public class InterceptorConfiguration implements WebMvcConfigurer {
+    private final String[] EXCLUDED_PATHS = new String[]{"/js/**","/css/**","/images/**", "/error"};
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         LocalizeURLInterceptor localizeURLInterceptor = new LocalizeURLInterceptor();
-        registry.addInterceptor(localizeURLInterceptor).excludePathPatterns("/js/**","/css/**","/images/**", "/error").order(Ordered.HIGHEST_PRECEDENCE);
+        registry.addInterceptor(localizeURLInterceptor).excludePathPatterns(EXCLUDED_PATHS).order(Ordered.HIGHEST_PRECEDENCE);
 
         UrlLocaleInterceptor localeInterceptor = new UrlLocaleInterceptor();
-        registry.addInterceptor(localeInterceptor).excludePathPatterns("/js/**","/css/**","/images/**", "/error").order(Ordered.HIGHEST_PRECEDENCE-1);
+        registry.addInterceptor(localeInterceptor).excludePathPatterns(EXCLUDED_PATHS).order(Ordered.HIGHEST_PRECEDENCE-1);
 
         LocaleChangeInterceptor lci = new CustomLocalInterceptor();
         lci.setParamName("lang");
-        registry.addInterceptor(lci).excludePathPatterns("/js/**","/css/**","/images/**", "/error").order(Ordered.LOWEST_PRECEDENCE);
+        registry.addInterceptor(lci).excludePathPatterns(EXCLUDED_PATHS).order(Ordered.LOWEST_PRECEDENCE);
     }
 }
