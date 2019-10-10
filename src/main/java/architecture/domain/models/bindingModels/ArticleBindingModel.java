@@ -3,9 +3,18 @@ package architecture.domain.models.bindingModels;
 import architecture.domain.CountryCodes;
 
 public class ArticleBindingModel {
+    private Long categoryId;
     private CountryCodes country;
     private String title;
     private String content;
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public CountryCodes getCountry() {
         return country;

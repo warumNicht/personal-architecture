@@ -14,6 +14,14 @@
     </div>
     <form class="mx-auto w-25" th:method="post" th:action="@{/create}" th:object="${articleBinding}">
 
+        <div class="form-group" >
+            <label for="cat" th:text="#{lang.country}"></label>
+
+            <select name="categoryId" class="form-control" id="cat" th:field="${articleBinding.categoryId}">
+
+            </select>
+        </div>
+
         <div class="form-group" th:classappend="${#fields.hasErrors('country')} ? 'text-danger'">
             <label for="lang" th:text="#{lang.country}"></label>
 
@@ -60,6 +68,20 @@
 </main>
 
 <footer th:replace="~{fragments/general :: footer}"></footer>
+
+<script>
+    $(document).ready(function () {
+        fetch('/categories/all')
+            .then((response) => response.json())
+            .then((json) => {
+                json.forEach((category) => {
+                    $('#cat').append('<option value="'+ category.id +'">'+ category.name +'</option>');
+                    console.log($('#cat'));
+                });
+            })
+            .catch((err) => console.log(err));
+    });
+</script>
 
 </body>
 </html>

@@ -1,9 +1,11 @@
 package architecture.web.controllers;
 
+import architecture.domain.entities.Category;
 import architecture.domain.models.bindingModels.ArticleBindingModel;
 import architecture.domain.models.viewModels.ArticleLocalViewModel;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.LocalisedArticleContent;
+import architecture.repositories.CategoryRepository;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import architecture.domain.entities.Article;
@@ -24,10 +26,12 @@ import javax.validation.Valid;
 public class HomeController extends BaseController{
 
     private ArticleRepo articleRepo;
+    private CategoryRepository categoryRepository;
 
     @Autowired
-    public HomeController(ArticleRepo articleRepo) {
+    public HomeController(ArticleRepo articleRepo, CategoryRepository categoryRepository) {
         this.articleRepo = articleRepo;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/")
@@ -71,6 +75,8 @@ public class HomeController extends BaseController{
         }
 
         Article article = new Article(new Date());
+        Category category = this.categoryRepository.findById(model.getCategoryId()).orElse(null);
+        article.setCategory(category);
         LocalisedArticleContent articleContent = new LocalisedArticleContent(model.getTitle(), model.getContent());
 
         article.getLocalContent().put(model.getCountry(), articleContent);
