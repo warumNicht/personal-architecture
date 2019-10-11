@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/categories")
-public class CategoryController extends BaseController {
+@RequestMapping("/fetch")
+public class FetchController extends BaseController {
     private CategoryService categoryService;
 
     @Autowired
-    public CategoryController(CategoryService categoryService) {
+    public FetchController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
-    @RequestMapping(value = "/all", produces = "application/json")
+    @RequestMapping(value = "/categories/all", produces = "application/json")
     public Object getCategories(HttpServletRequest req) {
         CountryCodes wanted = super.getCurrentCookieLocale();
         return this.categoryService.getAllCategoriesByLocale(ApplicationConstants.DEFAULT_COUNTRY_CODE, wanted);

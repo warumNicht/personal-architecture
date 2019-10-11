@@ -1,5 +1,5 @@
 function fetchCategories( selectElement) {
-    fetch('/categories/all')
+    fetch('/fetch/categories/all')
         .then((response) => response.json())
         .then((json) => {
             json.forEach((category) => {
