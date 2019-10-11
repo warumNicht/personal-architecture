@@ -1,6 +1,7 @@
 package architecture.config;
 
 import architecture.constants.ApplicationConstants;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.MessageSource;
@@ -50,6 +51,11 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
                 "classpath:/messages/nav/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
+    }
+
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
     }
 
     @Bean

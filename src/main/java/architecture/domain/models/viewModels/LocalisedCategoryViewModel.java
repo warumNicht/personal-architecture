@@ -1,10 +1,10 @@
-package architecture.domain.models.serviceModels;
+package architecture.domain.models.viewModels;
 
-public class LocalisedCategoryServiceModel {
+public class LocalisedCategoryViewModel {
     private Long id;
     private String name;
 
-    public LocalisedCategoryServiceModel(Long id, String name) {
+    public LocalisedCategoryViewModel(Long id, String name) {
         this.id = id;
         this.name = name;
     }

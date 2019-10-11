@@ -1,10 +1,13 @@
 package architecture.services.interfaces;
 
 import architecture.domain.CountryCodes;
-import architecture.domain.models.serviceModels.LocalisedCategoryServiceModel;
+import architecture.domain.models.serviceModels.CategoryServiceModel;
+import architecture.domain.models.viewModels.LocalisedCategoryViewModel;
 
 import java.util.List;
 
 public interface CategoryService {
-    List<LocalisedCategoryServiceModel> getAllCategoriesByLocale(CountryCodes defaultCode, CountryCodes currentCode);
+    List<LocalisedCategoryViewModel> getAllCategoriesByLocale(CountryCodes defaultCode, CountryCodes currentCode);
+
+    void addCategory(CategoryServiceModel categoryServiceModel);
 }
