@@ -1,3 +1,5 @@
+import {fetchCategories} from "./fetch-functions.js";
+
 $('ul.navbar-nav li.dropdown').hover(function () {
     $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeIn(500);
 }, function () {
@@ -11,16 +13,8 @@ $(document).ready(function () {
             location.replace('?lang=' + selectedOption);
         }
     });
-    fetchCategories();
+    const select= $('#categories');
+    fetchCategories(select);
 });
 
-function fetchCategories() {
-    fetch('/categories/all')
-        .then((response) => response.json())
-        .then((json) => {
-            json.forEach((category) => {
-                $('#categories').append('<option value="'+ category.id +'">'+ category.name +'</option>');
-            });
-        })
-        .catch((err) => console.log(err));
-}
+

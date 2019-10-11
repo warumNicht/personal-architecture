@@ -68,20 +68,7 @@
 </main>
 
 <footer th:replace="~{fragments/general :: footer}"></footer>
-
-<script>
-    $(document).ready(function () {
-        fetch('/categories/all')
-            .then((response) => response.json())
-            .then((json) => {
-                json.forEach((category) => {
-                    $('#cat').append('<option value="'+ category.id +'">'+ category.name +'</option>');
-                    console.log($('#cat'));
-                });
-            })
-            .catch((err) => console.log(err));
-    });
-</script>
+<script type="module" th:src="@{/js/article.js}"></script>
 
 </body>
 </html>
