@@ -7,8 +7,11 @@ import architecture.domain.entities.Article;
 import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.CategoryCreateBindingModel;
 import architecture.domain.models.bindingModels.CategoryEditBindingModel;
+import architecture.domain.models.serviceModels.CategoryServiceModel;
 import architecture.repositories.ArticleRepo;
 import architecture.repositories.CategoryRepository;
+import architecture.services.interfaces.CategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +25,15 @@ import java.util.Map;
 public class AdminController {
     private ArticleRepo articleRepo;
     private CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public AdminController(ArticleRepo articleRepo, CategoryRepository categoryRepository) {
+    public AdminController(ArticleRepo articleRepo, CategoryRepository categoryRepository, CategoryService categoryService, ModelMapper modelMapper) {
         this.articleRepo = articleRepo;
         this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/listAll")
@@ -67,9 +74,9 @@ public class AdminController {
 
     @PostMapping("/category/create")
     public ModelAndView createCategoryPost (ModelAndView modelAndView, @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel model){
-        Category category=new Category();
+        CategoryServiceModel category = new CategoryServiceModel();
         category.getLocalCategoryNames().put(model.getCountry(),model.getName());
-        this.categoryRepository.saveAndFlush(category);
+        this.categoryService.addCategory(category);
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
