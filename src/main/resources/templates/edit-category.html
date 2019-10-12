@@ -16,6 +16,7 @@
             <input type="text" class="form-control"
                    th:field="*{localNames[__${countryCode.key}__]}">
         </div>
+        <input type="hidden" th:field="*{id}" th:value="${categoryEditModel.id}">
 
         <div class="button-holder mt-4 d-flex justify-content-center">
             <button type="submit" class="btn btn-info">Edit Category</button>

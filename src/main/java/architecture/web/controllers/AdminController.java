@@ -101,7 +101,6 @@ public class AdminController {
     public ModelAndView editCategoryPut(ModelAndView modelAndView,@ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model,
                                         @PathVariable(name = "categoryId") Long categoryId){
         CategoryServiceModel categoryToEdit = this.modelMapper.map(model, CategoryServiceModel.class);
-        categoryToEdit.setId(categoryId);
         Map<CountryCodes, String> filteredValues = categoryToEdit.getLocalCategoryNames().entrySet()
                 .stream()
                 .filter(entry -> !"".equals(entry.getValue()))
