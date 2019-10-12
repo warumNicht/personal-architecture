@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ArticleRepo extends JpaRepository<Article, Long> {
+public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query(value = "SELECT value(m) " +
             "FROM Article a " +
             "JOIN a.localContent m " +

@@ -9,7 +9,7 @@ import architecture.repositories.CategoryRepository;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import architecture.domain.entities.Article;
-import architecture.repositories.ArticleRepo;
+import architecture.repositories.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,19 +25,19 @@ import javax.validation.Valid;
 @RequestMapping("/")
 public class HomeController extends BaseController{
 
-    private ArticleRepo articleRepo;
+    private ArticleRepository articleRepository;
     private CategoryRepository categoryRepository;
 
     @Autowired
-    public HomeController(ArticleRepo articleRepo, CategoryRepository categoryRepository) {
-        this.articleRepo = articleRepo;
+    public HomeController(ArticleRepository articleRepository, CategoryRepository categoryRepository) {
+        this.articleRepository = articleRepository;
         this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/")
     public ModelAndView getIndex(ModelAndView modelAndView, HttpServletRequest req) {
         CountryCodes wantedCode = super.getCurrentCookieLocale();
-        Object[] all = this.articleRepo.getAllNestedSelect(CountryCodes.BG, wantedCode);
+        Object[] all = this.articleRepository.getAllNestedSelect(CountryCodes.BG, wantedCode);
 
         List<ArticleLocalViewModel> localisedArticles=new ArrayList<>();
         for (Object article : all) {
@@ -80,7 +80,7 @@ public class HomeController extends BaseController{
         LocalisedArticleContent articleContent = new LocalisedArticleContent(model.getTitle(), model.getContent());
 
         article.getLocalContent().put(model.getCountry(), articleContent);
-        article = this.articleRepo.saveAndFlush(article);
+        article = this.articleRepository.saveAndFlush(article);
 
         modelAndView.setViewName("redirect:/");
         return modelAndView;

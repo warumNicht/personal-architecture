@@ -1,15 +1,13 @@
 package architecture.web.controllers;
 
 import architecture.domain.CountryCodes;
-import architecture.domain.entities.Category;
 import architecture.domain.models.bindingModels.ArticleBindingModel;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.CategoryCreateBindingModel;
 import architecture.domain.models.bindingModels.CategoryEditBindingModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
-import architecture.repositories.ArticleRepo;
-import architecture.repositories.CategoryRepository;
+import architecture.repositories.ArticleRepository;
 import architecture.services.interfaces.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +22,20 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/admin" )
 public class AdminController {
-    private ArticleRepo articleRepo;
+    private ArticleRepository articleRepository;
     private final CategoryService categoryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public AdminController(ArticleRepo articleRepo, CategoryService categoryService, ModelMapper modelMapper) {
-        this.articleRepo = articleRepo;
+    public AdminController(ArticleRepository articleRepository, CategoryService categoryService, ModelMapper modelMapper) {
+        this.articleRepository = articleRepository;
         this.categoryService = categoryService;
         this.modelMapper = modelMapper;
     }
 
     @GetMapping("/listAll")
     public ModelAndView listAll(ModelAndView modelAndView){
-        List<Article> allArticles = this.articleRepo.findAll();
+        List<Article> allArticles = this.articleRepository.findAll();
         modelAndView.addObject("allArticles",allArticles);
         modelAndView.setViewName("listAll");
 
@@ -55,10 +53,10 @@ public class AdminController {
     public ModelAndView addLanguageToArticlePost(ModelAndView modelAndView,
                                                  @ModelAttribute(name = "articleBinding") ArticleBindingModel model, @RequestParam(name = "articleId") String articleId ){
         Long id = Long.parseLong(articleId);
-        Article articleToUpdate = this.articleRepo.findById(id).orElse(null);
+        Article articleToUpdate = this.articleRepository.findById(id).orElse(null);
         LocalisedArticleContent localisedArticleContent = new LocalisedArticleContent(model.getTitle(), model.getContent());
         articleToUpdate.getLocalContent().put(model.getCountry(),localisedArticleContent);
-        this.articleRepo.save(articleToUpdate);
+        this.articleRepository.save(articleToUpdate);
 
         modelAndView.setViewName("redirect:/admin/listAll");
         return modelAndView;
