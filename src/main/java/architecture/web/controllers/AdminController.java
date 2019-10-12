@@ -25,14 +25,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin" )
 public class AdminController {
     private ArticleRepo articleRepo;
-    private CategoryRepository categoryRepository;
     private final CategoryService categoryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public AdminController(ArticleRepo articleRepo, CategoryRepository categoryRepository, CategoryService categoryService, ModelMapper modelMapper) {
+    public AdminController(ArticleRepo articleRepo, CategoryService categoryService, ModelMapper modelMapper) {
         this.articleRepo = articleRepo;
-        this.categoryRepository = categoryRepository;
         this.categoryService = categoryService;
         this.modelMapper = modelMapper;
     }
