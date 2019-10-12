@@ -84,8 +84,7 @@ public class AdminController {
 
     @GetMapping("/category/edit/{categoryId}")
     public ModelAndView editCategory(ModelAndView modelAndView, @PathVariable(name = "categoryId") Long categoryId){
-        Category category = this.categoryRepository.findById(categoryId).orElse(null);
-
+        CategoryServiceModel category = this.categoryService.findById(categoryId);
         CategoryEditBindingModel model = new CategoryEditBindingModel();
         model.setId(categoryId);
 

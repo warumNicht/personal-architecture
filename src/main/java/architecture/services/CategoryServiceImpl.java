@@ -44,6 +44,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public CategoryServiceModel findById(Long id){
+        Category foundedCategory = this.categoryRepository.findById(id).orElse(null);
+
+        CategoryServiceModel categoryServiceModel = this.mapper.map(foundedCategory, CategoryServiceModel.class);
+        return categoryServiceModel;
+    }
+
+    @Override
     public void editCategory(CategoryServiceModel categoryServiceModel){
         Category category = this.mapper.map(categoryServiceModel, Category.class);
         this.categoryRepository.saveAndFlush(category);
