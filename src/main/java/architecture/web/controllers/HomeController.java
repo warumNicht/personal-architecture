@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/")
@@ -58,31 +57,4 @@ public class HomeController extends BaseController{
         return "<h1 style=\"color: red;\">Under construction</h1>";
     }
 
-    @GetMapping("/create")
-    public ModelAndView createArticle(@ModelAttribute(name = "articleBinding") ArticleBindingModel model, ModelAndView modelAndView) {
-        modelAndView.addObject("articleBinding", model);
-        modelAndView.setViewName("create-article");
-        return modelAndView;
-    }
-
-    @PostMapping("/create")
-    private ModelAndView createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleBindingModel model,
-                                           BindingResult bindingResult, ModelAndView modelAndView) {
-        if (bindingResult.hasErrors()) {
-            modelAndView.addObject("articleBinding", model);
-            modelAndView.setViewName("create-article");
-            return modelAndView;
-        }
-
-        Article article = new Article(new Date());
-        Category category = this.categoryRepository.findById(model.getCategoryId()).orElse(null);
-        article.setCategory(category);
-        LocalisedArticleContent articleContent = new LocalisedArticleContent(model.getTitle(), model.getContent());
-
-        article.getLocalContent().put(model.getCountry(), articleContent);
-        article = this.articleRepository.saveAndFlush(article);
-
-        modelAndView.setViewName("redirect:/");
-        return modelAndView;
-    }
 }
