@@ -42,4 +42,10 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = this.mapper.map(categoryServiceModel, Category.class);
         this.categoryRepository.saveAndFlush(category);
     }
+
+    @Override
+    public void editCategory(CategoryServiceModel categoryServiceModel){
+        Category category = this.mapper.map(categoryServiceModel, Category.class);
+        this.categoryRepository.saveAndFlush(category);
+    }
 }

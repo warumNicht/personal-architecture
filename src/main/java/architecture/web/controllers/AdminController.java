@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin" )
@@ -99,14 +100,15 @@ public class AdminController {
     @PutMapping("/category/edit/{categoryId}")
     public ModelAndView editCategoryPut(ModelAndView modelAndView,@ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model,
                                         @PathVariable(name = "categoryId") Long categoryId){
-        Category category = new Category();
-        category.setId(categoryId);
-        for (Map.Entry<CountryCodes, String> countryEntry : model.getLocalNames().entrySet()) {
-            if(!"".equals(countryEntry.getValue())){
-                category.getLocalCategoryNames().put(countryEntry.getKey(),countryEntry.getValue());
-            }
-        }
-        this.categoryRepository.save(category);
+        CategoryServiceModel categoryToEdit = this.modelMapper.map(model, CategoryServiceModel.class);
+        categoryToEdit.setId(categoryId);
+        Map<CountryCodes, String> filteredValues = categoryToEdit.getLocalCategoryNames().entrySet()
+                .stream()
+                .filter(entry -> !"".equals(entry.getValue()))
+                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+        categoryToEdit.setLocalCategoryNames(filteredValues);
+
+        this.categoryService.editCategory(categoryToEdit);
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }

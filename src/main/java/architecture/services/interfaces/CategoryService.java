@@ -10,4 +10,6 @@ public interface CategoryService {
     List<LocalisedCategoryViewModel> getAllCategoriesByLocale(CountryCodes defaultCode, CountryCodes currentCode);
 
     void addCategory(CategoryServiceModel categoryServiceModel);
+
+    void editCategory(CategoryServiceModel categoryServiceModel);
 }
