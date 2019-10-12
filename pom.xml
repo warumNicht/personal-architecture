@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>architecture</groupId>
-    <artifactId>personal-site</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>app</artifactId>
+    <version>0.1</version>
     <name>personal-site</name>
     <description>Web site for my architectural projects</description>
     <packaging>jar</packaging>
