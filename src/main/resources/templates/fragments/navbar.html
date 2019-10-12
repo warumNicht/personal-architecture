@@ -34,7 +34,7 @@
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
             <li class="nav-item dropdown">
-                <select class="browser-default custom-select" id="locales">
+                <select class="browser-default custom-select" id="select-locales">
                     <option selected value="" th:text="#{lang.change}"></option>
                     <option value="bg" th:text="#{lang.bg}"></option>
                     <option value="en" th:text="${#messages.msgOrNull('lang.'+ 'en')}"></option>
@@ -44,7 +44,7 @@
                 </select>
             </li>
             <li class="nav-item dropdown">
-                <select class="browser-default custom-select" id="categories">
+                <select class="browser-default custom-select" id="select-categories">
                     <option value="all" th:text="#{all}"></option>
                 </select>
             </li>

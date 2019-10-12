@@ -7,13 +7,13 @@ $('ul.navbar-nav li.dropdown').hover(function () {
 });
 
 $(document).ready(function () {
-    $("#locales").change(function () {
-        let selectedOption = $('#locales').val();
+    $("#select-locales").change(function () {
+        let selectedOption = $('#select-locales').val();
         if (selectedOption != '') {
             location.replace('?lang=' + selectedOption);
         }
     });
-    const select= $('#categories');
+    const select= $('#select-categories');
     fetchCategories(select);
 });
 
