@@ -1,11 +1,12 @@
 package architecture.web.controllers;
 
-import architecture.domain.entities.Article;
-import architecture.domain.entities.Category;
-import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.ArticleBindingModel;
+import architecture.domain.models.serviceModels.ArticleServiceModel;
+import architecture.domain.models.serviceModels.CategoryServiceModel;
+import architecture.domain.models.serviceModels.LocalisedArticleContentServiceModel;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,11 +24,13 @@ import java.util.Date;
 public class ArticleController {
     private final ArticleService articleService;
     private final CategoryService categoryService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public ArticleController(ArticleService articleService, CategoryService categoryService) {
+    public ArticleController(ArticleService articleService, CategoryService categoryService, ModelMapper modelMapper) {
         this.articleService = articleService;
         this.categoryService = categoryService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/create")
@@ -45,14 +48,12 @@ public class ArticleController {
             modelAndView.setViewName("create-article");
             return modelAndView;
         }
-
-//        Article article = new Article(new Date());
-//        Category category = this.categoryRepository.findById(model.getCategoryId()).orElse(null);
-//        article.setCategory(category);
-//        LocalisedArticleContent articleContent = new LocalisedArticleContent(model.getTitle(), model.getContent());
-
-//        article.getLocalContent().put(model.getCountry(), articleContent);
-//        article = this.articleRepository.saveAndFlush(article);
+        ArticleServiceModel article = new ArticleServiceModel(new Date());
+        CategoryServiceModel category = this.categoryService.findById(model.getCategoryId());
+        article.setCategory(category);
+        LocalisedArticleContentServiceModel content = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
+        article.getLocalContent().put(model.getCountry(),content);
+        this.articleService.createArticle(article);
 
         modelAndView.setViewName("redirect:/");
         return modelAndView;
