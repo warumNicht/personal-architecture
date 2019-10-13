@@ -21,7 +21,7 @@ $(document).ready(function () {
             const url = location.href;
             const regex = /^.*\/(fr|en|bg|es|de)\//g;
             const found = url.match(regex);
-            location.href = found[0] + 'projects/'+ selectedOption;
+            location.href = found[0] + 'projects/category/'+ selectedOption;
         }
     });
 });

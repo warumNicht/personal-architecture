@@ -1,13 +1,11 @@
 package architecture.domain.models.viewModels;
 
-import architecture.domain.entities.LocalisedArticleContent;
-
 import java.util.Date;
 
 public class ArticleLocalViewModel {
     private Long id;
     private Date date;
-    private LocalisedArticleContent localisedContent;
+    private LocalisedArticleContentViewModel localisedContent;
 
     public Long getId() {
         return id;
@@ -25,11 +23,11 @@ public class ArticleLocalViewModel {
         this.date = date;
     }
 
-    public LocalisedArticleContent getLocalisedContent() {
+    public LocalisedArticleContentViewModel getLocalisedContent() {
         return localisedContent;
     }
 
-    public void setLocalisedContent(LocalisedArticleContent localisedContent) {
+    public void setLocalisedContent(LocalisedArticleContentViewModel localisedContent) {
         this.localisedContent = localisedContent;
     }
 }

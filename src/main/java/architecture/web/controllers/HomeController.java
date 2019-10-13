@@ -3,8 +3,9 @@ package architecture.web.controllers;
 import architecture.domain.models.viewModels.ArticleLocalViewModel;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.LocalisedArticleContent;
-import architecture.repositories.CategoryRepository;
+import architecture.domain.models.viewModels.LocalisedArticleContentViewModel;
 import architecture.repositories.ArticleRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +21,12 @@ import java.util.List;
 public class HomeController extends BaseController{
 
     private ArticleRepository articleRepository;
-    private CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public HomeController(ArticleRepository articleRepository, CategoryRepository categoryRepository) {
+    public HomeController(ArticleRepository articleRepository, ModelMapper modelMapper) {
         this.articleRepository = articleRepository;
-        this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/")
@@ -39,7 +40,8 @@ public class HomeController extends BaseController{
             ArticleLocalViewModel articleLocalViewModel = new ArticleLocalViewModel();
             articleLocalViewModel.setId((Long)articleObjects[0]);
             articleLocalViewModel.setDate((Date)articleObjects[1]);
-            articleLocalViewModel.setLocalisedContent((LocalisedArticleContent)articleObjects[2]);
+            LocalisedArticleContent localisedArticleContent = (LocalisedArticleContent) articleObjects[2];
+            articleLocalViewModel.setLocalisedContent(this.modelMapper.map(localisedArticleContent, LocalisedArticleContentViewModel.class));
             localisedArticles.add(articleLocalViewModel);
         }
         modelAndView.addObject("localizedArticles",localisedArticles);
