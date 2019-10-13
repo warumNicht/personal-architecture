@@ -13,8 +13,17 @@ $(document).ready(function () {
             location.replace('?lang=' + selectedOption);
         }
     });
-    const select= $('#select-categories');
+    const select = $('#select-categories');
     fetchCategories(select);
+    select.change(function () {
+        let selectedOption = select.val();
+        if (selectedOption != '') {
+            const url = location.href;
+            const regex = /^.*\/(fr|en|bg|es|de)\//g;
+            const found = url.match(regex);
+            location.href = found[0] + 'projects/'+ selectedOption;
+        }
+    });
 });
 
 
