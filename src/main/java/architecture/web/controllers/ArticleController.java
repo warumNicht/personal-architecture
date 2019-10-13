@@ -67,9 +67,8 @@ public class ArticleController {
 
     @PostMapping("/addLang")
     public ModelAndView addLanguageToArticlePost(ModelAndView modelAndView,
-                                                 @ModelAttribute(name = "articleBinding") ArticleBindingModel model, @RequestParam(name = "articleId") String articleId ){
-        Long id = Long.parseLong(articleId);
-        ArticleServiceModel article = this.articleService.findById(id);
+                                                 @ModelAttribute(name = "articleBinding") ArticleBindingModel model, @RequestParam(name = "articleId") Long articleId ){
+        ArticleServiceModel article = this.articleService.findById(articleId);
         LocalisedArticleContentServiceModel localisedArticleContent = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
         article.getLocalContent().put(model.getCountry(),localisedArticleContent);
         this.articleService.updateArticle(article);
