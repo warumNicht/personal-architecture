@@ -1,14 +1,9 @@
 package architecture.web.controllers;
 
-import architecture.domain.entities.Category;
-import architecture.domain.models.bindingModels.ArticleBindingModel;
 import architecture.domain.models.viewModels.ArticleLocalViewModel;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.LocalisedArticleContent;
 import architecture.repositories.CategoryRepository;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import architecture.domain.entities.Article;
 import architecture.repositories.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

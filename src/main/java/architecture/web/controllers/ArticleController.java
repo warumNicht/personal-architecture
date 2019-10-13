@@ -1,5 +1,7 @@
 package architecture.web.controllers;
 
+import architecture.domain.entities.Article;
+import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.ArticleBindingModel;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
@@ -10,10 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -56,6 +55,30 @@ public class ArticleController {
         this.articleService.createArticle(article);
 
         modelAndView.setViewName("redirect:/");
+        return modelAndView;
+    }
+
+    @GetMapping("/addLang/{id}")
+    public ModelAndView addLanguageToArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long articleId,
+                                             @ModelAttribute(name = "articleBinding") ArticleBindingModel model){
+        modelAndView.setViewName("article-add-lang");
+        return modelAndView;
+    }
+
+    @PostMapping("/addLang")
+    public ModelAndView addLanguageToArticlePost(ModelAndView modelAndView,
+                                                 @ModelAttribute(name = "articleBinding") ArticleBindingModel model, @RequestParam(name = "articleId") String articleId ){
+        Long id = Long.parseLong(articleId);
+        ArticleServiceModel article = this.articleService.findById(id);
+        LocalisedArticleContentServiceModel localisedArticleContent = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
+        article.getLocalContent().put(model.getCountry(),localisedArticleContent);
+        this.articleService.updateArticle(article);
+//        Article articleToUpdate = this.articleRepository.findById(id).orElse(null);
+//        LocalisedArticleContent localisedArticleContent = new LocalisedArticleContent(model.getTitle(), model.getContent());
+//        articleToUpdate.getLocalContent().put(model.getCountry(),localisedArticleContent);
+//        this.articleRepository.save(articleToUpdate);
+
+        modelAndView.setViewName("redirect:/admin/listAll");
         return modelAndView;
     }
 }

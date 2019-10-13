@@ -24,4 +24,16 @@ public class ArticleServiceImpl implements ArticleService {
         Article articleToCreate = this.modelMapper.map(article, Article.class);
         this.articleRepository.saveAndFlush(articleToCreate);
     }
+
+    @Override
+    public ArticleServiceModel findById(Long id){
+        Article article = this.articleRepository.findById(id).orElse(null);
+        ArticleServiceModel articleServiceModel = this.modelMapper.map(article, ArticleServiceModel.class);
+        return articleServiceModel;
+    }
+
+    @Override
+    public void updateArticle(ArticleServiceModel article) {
+        
+    }
 }

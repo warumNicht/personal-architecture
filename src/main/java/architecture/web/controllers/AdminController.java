@@ -42,26 +42,6 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("/articles/addLang/{id}")
-    public ModelAndView addLanguageToArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long articleId,
-                                             @ModelAttribute(name = "articleBinding") ArticleBindingModel model){
-        modelAndView.setViewName("article-add-lang");
-        return modelAndView;
-    }
-
-    @PostMapping("/articles/addLang")
-    public ModelAndView addLanguageToArticlePost(ModelAndView modelAndView,
-                                                 @ModelAttribute(name = "articleBinding") ArticleBindingModel model, @RequestParam(name = "articleId") String articleId ){
-        Long id = Long.parseLong(articleId);
-        Article articleToUpdate = this.articleRepository.findById(id).orElse(null);
-        LocalisedArticleContent localisedArticleContent = new LocalisedArticleContent(model.getTitle(), model.getContent());
-        articleToUpdate.getLocalContent().put(model.getCountry(),localisedArticleContent);
-        this.articleRepository.save(articleToUpdate);
-
-        modelAndView.setViewName("redirect:/admin/listAll");
-        return modelAndView;
-    }
-
     @GetMapping("/category/create")
     public ModelAndView createCategory(ModelAndView modelAndView, @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel model){
         modelAndView.addObject("categoryCreateModel", model);
