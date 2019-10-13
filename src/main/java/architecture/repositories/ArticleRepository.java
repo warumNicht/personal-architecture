@@ -31,6 +31,15 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             "WHERE a.id=b.id AND (KEY(n) = :countryCode OR KEY(n) = :defaultCode )) " )
     Object[] getAllNestedSelect(@Param(value = "countryCode") CountryCodes countryCode, @Param(value = "defaultCode") CountryCodes defaultCode);
 
+    @Query(value = "SELECT a.id, a.date, value(m)" +
+            "FROM Article a " +
+            "JOIN a.localContent m " +
+            "ON key(m) = ( SELECT max(key(n)) FROM Article  b " +
+            "JOIN b.localContent n " +
+            "WHERE a.category.id=:categoryId AND a.id=b.id AND (KEY(n) = :countryCode OR KEY(n) = :defaultCode )) " )
+    Object[] getAllByCategory(@Param(value = "countryCode") CountryCodes countryCode, @Param(value = "defaultCode") CountryCodes defaultCode,
+                              @Param(value = "categoryId") Long categoryId);
+
     @Query(value = "SELECT a.id, value(m) " +
             "FROM Article a, Article b " +
             "JOIN a.localContent m " +
