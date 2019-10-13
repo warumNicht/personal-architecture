@@ -4,6 +4,9 @@ public class LocalisedArticleContentServiceModel {
     private String title;
     private String content;
 
+    public LocalisedArticleContentServiceModel() {
+    }
+
     public LocalisedArticleContentServiceModel(String title, String content) {
         this.title = title;
         this.content = content;

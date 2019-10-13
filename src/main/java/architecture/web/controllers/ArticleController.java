@@ -73,10 +73,6 @@ public class ArticleController {
         LocalisedArticleContentServiceModel localisedArticleContent = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
         article.getLocalContent().put(model.getCountry(),localisedArticleContent);
         this.articleService.updateArticle(article);
-//        Article articleToUpdate = this.articleRepository.findById(id).orElse(null);
-//        LocalisedArticleContent localisedArticleContent = new LocalisedArticleContent(model.getTitle(), model.getContent());
-//        articleToUpdate.getLocalContent().put(model.getCountry(),localisedArticleContent);
-//        this.articleRepository.save(articleToUpdate);
 
         modelAndView.setViewName("redirect:/admin/listAll");
         return modelAndView;
