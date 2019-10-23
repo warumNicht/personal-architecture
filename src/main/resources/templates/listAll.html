@@ -22,6 +22,7 @@
                     <p th:text="${local.key}"></p>
                     <p th:text="${local.value.title}"></p>
                     <p th:text="${local.value.content}"></p>
+                    <a class="btn btn-success" th:href="@{/admin/articles/edit/{id}(id=${article.id})}" th:text="|Edit ${local.key}|"></a>
                 </div>
             </div>
             <a class="btn btn-info" th:href="@{/admin/articles/addLang/{id}(id=${article.id})}">Add lang</a>
