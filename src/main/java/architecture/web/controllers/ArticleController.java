@@ -76,4 +76,11 @@ public class ArticleController {
         modelAndView.setViewName("redirect:/admin/listAll");
         return modelAndView;
     }
+
+    @GetMapping(value = "/edit/{id}/{lang}")
+    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang){
+        System.out.println(id);
+        System.out.println(lang);
+        return modelAndView;
+    }
 }
