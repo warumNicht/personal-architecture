@@ -81,6 +81,7 @@ public class ArticleController {
     public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang){
         System.out.println(id);
         System.out.println(lang);
+        modelAndView.setViewName("article-edit-lang");
         return modelAndView;
     }
 }
