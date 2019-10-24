@@ -9,46 +9,28 @@
 
 <main>
 
-    <form class="mx-auto w-25" th:method="post" th:action="@{/admin/articles/addLang}" th:object="${articleBinding}">
-
-        <div class="form-group">
-            <label for="lang" th:text="#{lang.country}"></label>
-
-            <select name="country" class="form-control" id="lang" th:field="${articleBinding.country}">
-                <option th:each="countryCode : ${T(architecture.domain.CountryCodes).values()}"
-                        th:value="${countryCode}" th:text="${#messages.msgOrNull('lang.'+ #strings.toLowerCase(countryCode))}"
-                        th:selected="${#strings.equals(articleBinding.getCountry(), countryCode) ? true : false}">
-                </option>
-            </select>
-
-            <small id="langSmall"
-                   th:each="error : ${#fields.errors('country')}" th:utext="${error +'<br>'}">
-            </small>
-        </div>
+    <form class="mx-auto w-25" th:method="put" th:action="@{/admin/articles/edit}" th:object="${articleEditLang}">
 
         <div class="form-group">
             <label for="title" th:text="#{article.title}"></label>
             <input type="text" class="form-control"
-                   th:field="*{title}"  th:value="${articleBinding.title}"
+                   th:field="*{title}"  th:value="${articleEditLang.title}"
                    id="title" th:placeholder="#{article.title}+'...'" name="title"
                    required pattern="^.{2,}$"  title="Please enter at least 2 characters">
 
-            <small id="usernameHelp"
-                   th:each="error : ${#fields.errors('title')}" th:utext="${error +'<br>'}">
-            </small>
         </div>
 
-        <div class="form-group" th:classappend="${#fields.hasErrors('content')} ? 'text-danger'">
+        <div class="form-group">
             <label for="content" th:text="#{article.content}"></label>
             <input type="text" class="form-control"
-                   th:field="*{content}"  th:value="${articleBinding.content}"
+                   th:field="*{content}"  th:value="${articleEditLang.content}"
                    id="content" th:placeholder="#{article.content}" name="content"
                    required pattern="^.{2,}$"  title="Please enter at least 2 characters">
 
         </div>
 
         <div class="button-holder mt-4 d-flex justify-content-center">
-            <input type="hidden" name="articleId"  th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[4]}" />
+            <input type="hidden" name="articleId"  th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[5]}" />
             <button type="submit" class="btn btn-success">Add Language</button>
         </div>
     </form>

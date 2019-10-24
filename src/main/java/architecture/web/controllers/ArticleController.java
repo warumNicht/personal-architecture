@@ -3,6 +3,7 @@ package architecture.web.controllers;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.ArticleBindingModel;
+import architecture.domain.models.bindingModels.ArticleEditLangBindingModel;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
 import architecture.domain.models.serviceModels.LocalisedArticleContentServiceModel;
@@ -78,7 +79,8 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/edit/{id}/{lang}")
-    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang){
+    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang,
+                                    @ModelAttribute(name = "articleEditLang")ArticleEditLangBindingModel model){
         System.out.println(id);
         System.out.println(lang);
         modelAndView.setViewName("article-edit-lang");
