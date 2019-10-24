@@ -31,7 +31,7 @@
 
         <div class="button-holder mt-4 d-flex justify-content-center">
             <input type="hidden" name="articleLang"  th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[5]}" />
-            <button type="submit" class="btn btn-success">Add Language</button>
+            <button type="submit" class="btn btn-success" th:text="#{edit}"></button>
         </div>
     </form>
 </main>
