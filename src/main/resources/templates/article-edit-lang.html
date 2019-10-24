@@ -10,7 +10,7 @@
 <main>
 
     <form class="mx-auto w-25" th:method="put" th:action="@{/admin/articles/edit}" th:object="${articleEditLang}">
-
+        <input type="hidden" th:field="*{id}"/>
         <div class="form-group">
             <label for="title" th:text="#{article.title}"></label>
             <input type="text" class="form-control"
@@ -30,7 +30,7 @@
         </div>
 
         <div class="button-holder mt-4 d-flex justify-content-center">
-            <input type="hidden" name="articleId"  th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[5]}" />
+            <input type="hidden" name="articleLang"  th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[5]}" />
             <button type="submit" class="btn btn-success">Add Language</button>
         </div>
     </form>

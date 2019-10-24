@@ -80,15 +80,28 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/edit/{id}/{lang}")
-    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang){
+    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang,
+                                    @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model){
         ArticleServiceModel articleServiceModel = this.articleService.findById(id);
         LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(CountryCodes.valueOf(lang));
         ArticleEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleEditLangBindingModel.class);
         bindingModel.setId(id);
         System.out.println(id);
         System.out.println(lang);
-        modelAndView.addObject("articleEditLang", bindingModel);
+        model=bindingModel;
+        modelAndView.addObject("articleEditLang", model);
         modelAndView.setViewName("article-edit-lang");
+        return modelAndView;
+    }
+
+    @PutMapping(value = "/edit")
+    public ModelAndView editArticlePut(ModelAndView modelAndView, @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model,
+                                       @RequestParam(name = "articleLang") String lang){
+        ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
+        LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
+        articleServiceModel.getLocalContent().put(CountryCodes.valueOf(lang),content);
+        this.articleService.updateArticle(articleServiceModel);
+        modelAndView.setViewName("redirect:/admin/listAll");
         return modelAndView;
     }
 }
