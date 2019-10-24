@@ -1,5 +1,6 @@
 package architecture.web.controllers;
 
+import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.ArticleBindingModel;
@@ -79,10 +80,14 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/edit/{id}/{lang}")
-    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang,
-                                    @ModelAttribute(name = "articleEditLang")ArticleEditLangBindingModel model){
+    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang){
+        ArticleServiceModel articleServiceModel = this.articleService.findById(id);
+        LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(CountryCodes.valueOf(lang));
+        ArticleEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleEditLangBindingModel.class);
+        bindingModel.setId(id);
         System.out.println(id);
         System.out.println(lang);
+        modelAndView.addObject("articleEditLang", bindingModel);
         modelAndView.setViewName("article-edit-lang");
         return modelAndView;
     }
