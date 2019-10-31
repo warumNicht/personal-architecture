@@ -10,34 +10,35 @@ import javax.servlet.http.HttpServletResponse;
 public class LocalizeURLInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.print("URL correction interceptor ");
-        System.out.println(request.getRequestURI());
-
-        String requestMethod = request.getMethod();
-        if(!requestMethod.equals("GET")){
-            return true;
-        }
-
-        String requestURI = request.getRequestURI();
-        boolean hasLocale = false;
-        try {
-            char slash = requestURI.charAt(3);
-            if (slash == '/') {
-                hasLocale = true;
-            }
-        } catch (Exception e) {
-        }
-        if (hasLocale) {
-            return true;
-        }
-        String localeToAppend;
-        Cookie actualCookie = WebUtils.getCookie(request, ApplicationConstants.LOCALE_COOKIE_NAME);
-        if (actualCookie != null) {
-            localeToAppend =  actualCookie.getValue();
-        } else {
-            localeToAppend = ApplicationConstants.DEFAULT_LOCALE.getLanguage();
-        }
-        response.sendRedirect("/" + localeToAppend + requestURI);
-        return false;
+//        System.out.print("URL correction interceptor ");
+//        System.out.println(request.getRequestURI());
+//
+//        String requestMethod = request.getMethod();
+//        if(!requestMethod.equals("GET")){
+//            return true;
+//        }
+//
+//        String requestURI = request.getRequestURI();
+//        boolean hasLocale = false;
+//        try {
+//            char slash = requestURI.charAt(3);
+//            if (slash == '/') {
+//                hasLocale = true;
+//            }
+//        } catch (Exception e) {
+//        }
+//        if (hasLocale) {
+//            return true;
+//        }
+//        String localeToAppend;
+//        Cookie actualCookie = WebUtils.getCookie(request, ApplicationConstants.LOCALE_COOKIE_NAME);
+//        if (actualCookie != null) {
+//            localeToAppend =  actualCookie.getValue();
+//        } else {
+//            localeToAppend = ApplicationConstants.DEFAULT_LOCALE.getLanguage();
+//        }
+//        response.sendRedirect("/" + localeToAppend + requestURI);
+//        return false;
+        return true;
     }
 }

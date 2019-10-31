@@ -1,8 +1,10 @@
 package architecture.config;
 
 import architecture.constants.ApplicationConstants;
+import architecture.web.interceptors.UrlFilter;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -70,5 +72,20 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/")
                 .setCacheControl(CacheControl.maxAge(ApplicationConstants.CASH_MAX_AGE, TimeUnit.HOURS).cachePublic());
+    }
+
+    @Bean
+    public FilterRegistrationBean<UrlFilter> loggingFilter(){
+        FilterRegistrationBean<UrlFilter> registrationBean
+                = new FilterRegistrationBean<>();
+
+        registrationBean.setFilter(new UrlFilter());
+        registrationBean.addUrlPatterns("/en/**");
+        registrationBean.addUrlPatterns("/fr/**");
+        registrationBean.addUrlPatterns("/bg/**");
+        registrationBean.addUrlPatterns("/es/**");
+        registrationBean.addUrlPatterns("/de/**");
+        registrationBean.addUrlPatterns("/");
+        return registrationBean;
     }
 }
