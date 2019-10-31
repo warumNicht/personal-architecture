@@ -12,7 +12,6 @@ public class UrlLocaleInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-
         System.out.print("Url interceptor ");
         System.out.println(request.getRequestURI());
         String requestMethod = request.getMethod();
