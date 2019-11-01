@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class LocalisedArticleContent{
+public class LocalisedArticleContent {
     @Column(name = "article_title")
     private String title;
     @Column(name = "article_content", columnDefinition = "LONGTEXT")

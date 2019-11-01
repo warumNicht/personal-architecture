@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.util.List;
 
 @Controller
 @RequestMapping(value = "/projects")
-public class ProjectController extends BaseController{
-    private  final ArticleService articleService;
+public class ProjectController extends BaseController {
+    private final ArticleService articleService;
 
     @Autowired
     public ProjectController(ArticleService articleService) {
@@ -22,10 +23,10 @@ public class ProjectController extends BaseController{
     }
 
     @GetMapping(value = "/category/{id}")
-    public ModelAndView projectsByCategory(ModelAndView modelAndView, @PathVariable Long id){
+    public ModelAndView projectsByCategory(ModelAndView modelAndView, @PathVariable Long id) {
         CountryCodes wantedCode = super.getCurrentCookieLocale();
-        List<ArticleLocalViewModel> localisedArticles=this.articleService.findArticlesByCategory(id, wantedCode);
-        modelAndView.addObject("articles",localisedArticles);
+        List<ArticleLocalViewModel> localisedArticles = this.articleService.findArticlesByCategory(id, wantedCode);
+        modelAndView.addObject("articles", localisedArticles);
         modelAndView.setViewName("projects-category");
         return modelAndView;
     }

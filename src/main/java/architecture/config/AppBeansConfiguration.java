@@ -23,12 +23,12 @@ import java.util.concurrent.TimeUnit;
 public class AppBeansConfiguration implements WebMvcConfigurer {
 
     @Bean
-    public  LocaleResolver localeResolver(){
+    public LocaleResolver localeResolver() {
         CustomLocalResolver customLocalResolver = new CustomLocalResolver();
         customLocalResolver.setDefaultLocale(ApplicationConstants.DEFAULT_LOCALE);
         customLocalResolver.setCookieHttpOnly(true);
         customLocalResolver.setCookieName(ApplicationConstants.LOCALE_COOKIE_NAME);
-        customLocalResolver.setCookieMaxAge(60*60);
+        customLocalResolver.setCookieMaxAge(60 * 60);
         return customLocalResolver;
     }
 
@@ -56,7 +56,7 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 
@@ -75,16 +75,12 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public FilterRegistrationBean<UrlFilter> loggingFilter(){
+    public FilterRegistrationBean<UrlFilter> loggingFilter() {
         FilterRegistrationBean<UrlFilter> registrationBean
                 = new FilterRegistrationBean<>();
 
         registrationBean.setFilter(new UrlFilter());
-        registrationBean.addUrlPatterns("/en/**");
-        registrationBean.addUrlPatterns("/fr/**");
-        registrationBean.addUrlPatterns("/bg/**");
-        registrationBean.addUrlPatterns("/es/**");
-        registrationBean.addUrlPatterns("/de/**");
+        registrationBean.addUrlPatterns("/en/*", "/fr/*", "/bg/*", "/es/*", "/de/*");
         registrationBean.addUrlPatterns("/");
         return registrationBean;
     }

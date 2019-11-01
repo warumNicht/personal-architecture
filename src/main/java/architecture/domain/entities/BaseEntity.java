@@ -8,7 +8,7 @@ import javax.persistence.*;
 public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",nullable = false,unique = true, updatable = false)
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
 
     public Long getId() {

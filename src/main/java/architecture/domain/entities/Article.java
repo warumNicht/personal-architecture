@@ -1,6 +1,7 @@
 package architecture.domain.entities;
 
 import architecture.domain.CountryCodes;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,14 +14,14 @@ public class Article extends BaseEntity {
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "category_id",referencedColumnName = "id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
-    
+
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "localised_content", joinColumns = @JoinColumn(name = "article_id"))
     @MapKeyColumn(name = "country_code")
     @MapKeyEnumerated(EnumType.STRING)
-    private Map<CountryCodes, LocalisedArticleContent> localContent  = new HashMap<>();
+    private Map<CountryCodes, LocalisedArticleContent> localContent = new HashMap<>();
 
     public Article() {
     }

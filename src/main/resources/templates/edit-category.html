@@ -9,7 +9,9 @@
 
 <main>
 
-    <form class="mx-auto w-25" th:method="put" th:action="@{/admin/category/edit/{categoryId}(categoryId=${categoryEditModel.id})}" th:object="${categoryEditModel}">
+    <form class="mx-auto w-25" th:method="put"
+          th:action="@{/admin/category/edit/{categoryId}(categoryId=${categoryEditModel.id})}"
+          th:object="${categoryEditModel}">
 
         <div class="form-group" th:each="countryCode, stat :*{localNames}">
             <label th:text="${#messages.msgOrNull('lang.'+ #strings.toLowerCase(countryCode.key))}"></label>

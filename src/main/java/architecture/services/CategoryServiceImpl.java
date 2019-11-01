@@ -9,6 +9,7 @@ import architecture.services.interfaces.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,13 +39,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void addCategory(CategoryServiceModel categoryServiceModel){
+    public void addCategory(CategoryServiceModel categoryServiceModel) {
         Category category = this.mapper.map(categoryServiceModel, Category.class);
         this.categoryRepository.saveAndFlush(category);
     }
 
     @Override
-    public CategoryServiceModel findById(Long id){
+    public CategoryServiceModel findById(Long id) {
         Category foundedCategory = this.categoryRepository.findById(id).orElse(null);
 
         CategoryServiceModel categoryServiceModel = this.mapper.map(foundedCategory, CategoryServiceModel.class);
@@ -52,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void editCategory(CategoryServiceModel categoryServiceModel){
+    public void editCategory(CategoryServiceModel categoryServiceModel) {
         Category category = this.mapper.map(categoryServiceModel, Category.class);
         this.categoryRepository.saveAndFlush(category);
     }

@@ -1,6 +1,7 @@
 package architecture.domain.models.serviceModels;
 
 import architecture.domain.CountryCodes;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
 public class ArticleServiceModel extends BaseServiceModel {
     private Date date;
     private CategoryServiceModel category;
-    private Map<CountryCodes, LocalisedArticleContentServiceModel> localContent  = new HashMap<>();
+    private Map<CountryCodes, LocalisedArticleContentServiceModel> localContent = new HashMap<>();
 
     public ArticleServiceModel() {
     }

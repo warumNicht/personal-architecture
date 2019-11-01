@@ -20,7 +20,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             "JOIN a.localContent m " +
             "WHERE  KEY(m) = :countryCode OR KEY(m) = :defaultCode " +
             "GROUP BY a.id " +
-            "ORDER BY KEY(m) DESC" )
+            "ORDER BY KEY(m) DESC")
     Object[] getAll(@Param(value = "countryCode") CountryCodes countryCode, @Param(value = "defaultCode") CountryCodes defaultCode);
 
     @Query(value = "SELECT a.id, a.date, value(m)" +
@@ -28,7 +28,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             "JOIN a.localContent m " +
             "ON key(m) = ( SELECT max(key(n)) FROM Article  b " +
             "JOIN b.localContent n " +
-            "WHERE a.id=b.id AND (KEY(n) = :countryCode OR KEY(n) = :defaultCode )) " )
+            "WHERE a.id=b.id AND (KEY(n) = :countryCode OR KEY(n) = :defaultCode )) ")
     Object[] getAllNestedSelect(@Param(value = "countryCode") CountryCodes countryCode, @Param(value = "defaultCode") CountryCodes defaultCode);
 
     @Query(value = "SELECT a.id, a.date, value(m)" +
@@ -36,7 +36,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             "JOIN a.localContent m " +
             "ON key(m) = ( SELECT max(key(n)) FROM Article  b " +
             "JOIN b.localContent n " +
-            "WHERE a.category.id=:categoryId AND a.id=b.id AND (KEY(n) = :countryCode OR KEY(n) = :defaultCode )) " )
+            "WHERE a.category.id=:categoryId AND a.id=b.id AND (KEY(n) = :countryCode OR KEY(n) = :defaultCode )) ")
     Object[] getAllByCategory(@Param(value = "countryCode") CountryCodes countryCode, @Param(value = "defaultCode") CountryCodes defaultCode,
                               @Param(value = "categoryId") Long categoryId);
 
@@ -59,6 +59,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             "GROUP BY article_id) AS s2 " +
             "ON s1.article_id = s2.article_id AND s1.country_code = s2.country " +
             "ORDER BY article_id) as con " +
-            "on a.id=con.article_id;" ,nativeQuery = true )
+            "on a.id=con.article_id;", nativeQuery = true)
     Object[] getAllNativeQuery(@Param(value = "countryCode") String countryCode, @Param(value = "defaultCode") String defaultCode);
 }

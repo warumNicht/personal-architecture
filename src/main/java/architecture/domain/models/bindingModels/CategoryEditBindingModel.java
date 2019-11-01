@@ -1,6 +1,7 @@
 package architecture.domain.models.bindingModels;
 
 import architecture.domain.CountryCodes;
+
 import java.util.LinkedHashMap;
 
 public class CategoryEditBindingModel {
@@ -8,7 +9,7 @@ public class CategoryEditBindingModel {
     private LinkedHashMap<CountryCodes, String> localNames;
 
     public CategoryEditBindingModel() {
-        this.localNames= new LinkedHashMap<>();
+        this.localNames = new LinkedHashMap<>();
         for (CountryCodes countryCode : CountryCodes.values()) {
             this.localNames.put(countryCode, "");
         }

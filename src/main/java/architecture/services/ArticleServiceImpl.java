@@ -11,6 +11,7 @@ import architecture.services.interfaces.ArticleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleServiceModel findById(Long id){
+    public ArticleServiceModel findById(Long id) {
         Article article = this.articleRepository.findById(id).orElse(null);
         ArticleServiceModel articleServiceModel = this.modelMapper.map(article, ArticleServiceModel.class);
         return articleServiceModel;
@@ -49,12 +50,12 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleLocalViewModel> findArticlesByCategory(Long id, CountryCodes wantedCode) {
         Object[] all = this.articleRepository.getAllByCategory(CountryCodes.BG, wantedCode, id);
 
-        List<ArticleLocalViewModel> localisedArticles=new ArrayList<>();
+        List<ArticleLocalViewModel> localisedArticles = new ArrayList<>();
         for (Object article : all) {
             Object[] articleObjects = (Object[]) article;
             ArticleLocalViewModel articleLocalViewModel = new ArticleLocalViewModel();
-            articleLocalViewModel.setId((Long)articleObjects[0]);
-            articleLocalViewModel.setDate((Date)articleObjects[1]);
+            articleLocalViewModel.setId((Long) articleObjects[0]);
+            articleLocalViewModel.setDate((Date) articleObjects[1]);
             LocalisedArticleContent localisedArticleContent = (LocalisedArticleContent) articleObjects[2];
             articleLocalViewModel.setLocalisedContent(this.modelMapper.map(localisedArticleContent, LocalisedArticleContentViewModel.class));
             localisedArticles.add(articleLocalViewModel);
