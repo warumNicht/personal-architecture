@@ -22,7 +22,7 @@ import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/admin/articles")
-public class ArticleController {
+public class ArticleController extends BaseController {
     private final ArticleService articleService;
     private final CategoryService categoryService;
     private final ModelMapper modelMapper;
@@ -53,7 +53,7 @@ public class ArticleController {
         CategoryServiceModel category = this.categoryService.findById(model.getCategoryId());
         article.setCategory(category);
         LocalisedArticleContentServiceModel content = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
-        article.getLocalContent().put(model.getCountry(),content);
+        article.getLocalContent().put(model.getCountry(), content);
         this.articleService.createArticle(article);
 
         modelAndView.setViewName("redirect:/");
@@ -62,17 +62,17 @@ public class ArticleController {
 
     @GetMapping("/addLang/{id}")
     public ModelAndView addLanguageToArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long articleId,
-                                             @ModelAttribute(name = "articleBinding") ArticleBindingModel model){
+                                             @ModelAttribute(name = "articleBinding") ArticleBindingModel model) {
         modelAndView.setViewName("article-add-lang");
         return modelAndView;
     }
 
     @PostMapping("/addLang")
     public ModelAndView addLanguageToArticlePost(ModelAndView modelAndView,
-                                                 @ModelAttribute(name = "articleBinding") ArticleBindingModel model, @RequestParam(name = "articleId") Long articleId ){
+                                                 @ModelAttribute(name = "articleBinding") ArticleBindingModel model, @RequestParam(name = "articleId") Long articleId) {
         ArticleServiceModel article = this.articleService.findById(articleId);
         LocalisedArticleContentServiceModel localisedArticleContent = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
-        article.getLocalContent().put(model.getCountry(),localisedArticleContent);
+        article.getLocalContent().put(model.getCountry(), localisedArticleContent);
         this.articleService.updateArticle(article);
 
         modelAndView.setViewName("redirect:/admin/listAll");
@@ -81,14 +81,14 @@ public class ArticleController {
 
     @GetMapping(value = "/edit/{id}/{lang}")
     public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang,
-                                    @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model){
+                                    @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(id);
         LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(CountryCodes.valueOf(lang));
         ArticleEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleEditLangBindingModel.class);
         bindingModel.setId(id);
         System.out.println(id);
         System.out.println(lang);
-        model=bindingModel;
+        model = bindingModel;
         modelAndView.addObject("articleEditLang", model);
         modelAndView.setViewName("article-edit-lang");
         return modelAndView;
@@ -96,12 +96,13 @@ public class ArticleController {
 
     @PutMapping(value = "/edit")
     public ModelAndView editArticlePut(ModelAndView modelAndView, @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model,
-                                       @RequestParam(name = "articleLang") String lang){
+                                       @RequestParam(name = "articleLang") String lang) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
-        articleServiceModel.getLocalContent().put(CountryCodes.valueOf(lang),content);
+        articleServiceModel.getLocalContent().put(CountryCodes.valueOf(lang), content);
         this.articleService.updateArticle(articleServiceModel);
-        modelAndView.setViewName("redirect:/admin/listAll");
+        String locale = super.getCurrentCookieLocale().toString().toLowerCase();
+        modelAndView.setViewName("redirect:/" + locale + "/admin/listAll");
         return modelAndView;
     }
 }
