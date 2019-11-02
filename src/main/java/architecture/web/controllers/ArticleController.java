@@ -75,7 +75,7 @@ public class ArticleController extends BaseController {
         article.getLocalContent().put(model.getCountry(), localisedArticleContent);
         this.articleService.updateArticle(article);
 
-        modelAndView.setViewName("redirect:/admin/listAll");
+        modelAndView.setViewName("redirect:/" + super.getCurrentCookieLocale().toString().toLowerCase() + "/admin/listAll");
         return modelAndView;
     }
 
