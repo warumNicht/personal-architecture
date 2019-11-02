@@ -26,7 +26,7 @@
                     <a class="btn btn-success" th:href="@{'/'+ ${#strings.arraySplit(#request.getRequestURI(),'/')[0]} + '/admin/articles/edit/{id}/{lang}'(lang=${local.key},id=${article.id})}" th:text="|#{edit} ${local.key}|"></a>
                 </div>
             </div>
-            <a class="btn btn-info" th:href="@{/admin/articles/addLang/{id}(id=${article.id})}" th:text="#{add.lang}"></a>
+            <a class="btn btn-info" th:href="@{|/${#strings.arraySplit(#request.getRequestURI(),'/')[0]}/admin/articles/addLang/${article.id}|}" th:text="#{add.lang}"></a>
         </div>
     </div>
 
