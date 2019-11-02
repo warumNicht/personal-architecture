@@ -22,6 +22,7 @@
                     <p th:text="${local.key}"></p>
                     <p th:text="${local.value.title}"></p>
                     <p th:text="${local.value.content}"></p>
+                    <a class="btn btn-success" th:href="@{|/${#strings.arraySplit(#request.getRequestURI(),'/')[0]}/admin/articles/edit/${article.id}/${local.key}|}">Alternative edit</a>
                     <a class="btn btn-success" th:href="@{'/'+ ${#strings.arraySplit(#request.getRequestURI(),'/')[0]} + '/admin/articles/edit/{id}/{lang}'(lang=${local.key},id=${article.id})}" th:text="|#{edit} ${local.key}|"></a>
                 </div>
             </div>
