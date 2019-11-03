@@ -9,7 +9,7 @@
 
 <main>
 
-    <form class="mx-auto w-25" th:method="put" th:action="@{|/${#strings.arraySplit(#request.getRequestURI(),'/')[0]}/admin/articles/edit|}" th:object="${articleEditLang}">
+    <form class="mx-auto w-25" th:method="put" th:action="@{|/${@urlService.getLocaleFromUrl()}/admin/articles/edit|}" th:object="${articleEditLang}">
         <input type="hidden" th:field="*{id}"/>
         <div class="form-group">
             <label for="title" th:text="#{article.title}"></label>

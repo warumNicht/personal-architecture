@@ -1,6 +1,8 @@
 package architecture.config;
 
 import architecture.constants.ApplicationConstants;
+import architecture.services.UrlServiceImpl;
+import architecture.services.interfaces.UrlService;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -65,10 +67,16 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
         return bean;
     }
 
+    @Bean(name = "urlService")
+    public UrlService urlService(){
+        return new UrlServiceImpl();
+    }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/")
                 .setCacheControl(CacheControl.maxAge(ApplicationConstants.CASH_MAX_AGE, TimeUnit.HOURS).cachePublic());
     }
+
 }
