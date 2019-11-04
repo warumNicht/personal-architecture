@@ -10,7 +10,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" th:with="locale=${@localeService.getLocale()}">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/}" th:text="#{home}"><span class="sr-only">(current)</span></a>
@@ -24,10 +24,10 @@
                     Dropdown
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" th:href="@{/admin/articles/create}">Create Article</a>
-                    <a class="dropdown-item" th:href="@{|/${#strings.arraySplit(#request.getRequestURI(),'/')[0]}/admin/listAll|}">List all</a>
+                    <a class="dropdown-item" th:href="@{|/${locale}/admin/articles/create|}">Create Article</a>
+                    <a class="dropdown-item" th:href="@{|/${locale}/admin/listAll|}">List all</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" th:href="@{|/${#strings.arraySplit(#request.getRequestURI(),'/')[0]}/admin/category/create|}">Create Category</a>
+                    <a class="dropdown-item" th:href="@{|/${locale}/admin/category/create|}">Create Category</a>
                 </div>
             </li>
             <li class="nav-item">
