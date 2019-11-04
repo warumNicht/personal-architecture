@@ -9,7 +9,7 @@
 
 <main>
 
-    <form class="mx-auto w-25" th:method="post" th:action="@{/admin/category/create}" th:object="${categoryCreateModel}">
+    <form class="mx-auto w-25" th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/category/create|}" th:object="${categoryCreateModel}">
 
         <div class="form-group" th:classappend="${#fields.hasErrors('country')} ? 'text-danger'">
             <label for="lang" th:text="#{lang.country}"></label>

@@ -13,4 +13,8 @@ public abstract class BaseController {
     protected CountryCodes getCurrentCookieLocale() {
         return this.localeService.getCurrentCookieLocale();
     }
+
+    protected String getLocale(){
+        return this.localeService.getLocale();
+    }
 }

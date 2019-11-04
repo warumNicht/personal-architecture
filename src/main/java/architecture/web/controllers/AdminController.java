@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin" )
-public class AdminController {
+public class AdminController extends BaseController{
     private ArticleRepository articleRepository;
     private final CategoryService categoryService;
     private final ModelMapper modelMapper;
@@ -54,7 +54,7 @@ public class AdminController {
         CategoryServiceModel category = new CategoryServiceModel();
         category.getLocalCategoryNames().put(model.getCountry(),model.getName());
         this.categoryService.addCategory(category);
-        modelAndView.setViewName("redirect:/");
+        modelAndView.setViewName("redirect:/" + super.getLocale() + "/");
         return modelAndView;
     }
 
