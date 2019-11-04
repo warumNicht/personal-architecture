@@ -1,8 +1,8 @@
 package architecture.config;
 
 import architecture.constants.ApplicationConstants;
-import architecture.services.UrlServiceImpl;
-import architecture.services.interfaces.UrlService;
+import architecture.services.LocaleServiceImpl;
+import architecture.services.interfaces.LocaleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -67,9 +67,9 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
         return bean;
     }
 
-    @Bean(name = "urlService")
-    public UrlService urlService(){
-        return new UrlServiceImpl();
+    @Bean(name = "localeService")
+    public LocaleService urlService(){
+        return new LocaleServiceImpl();
     }
 
     @Override

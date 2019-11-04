@@ -2,9 +2,9 @@ package architecture.services.interfaces;
 
 import architecture.domain.CountryCodes;
 
-public interface UrlService {
-    String getLocaleFromUrl();
+public interface LocaleService {
 
+    String getLocale();
 
     CountryCodes getCurrentCookieLocale();
 }

@@ -12,7 +12,7 @@
         <h1>All articles</h1>
     </div>
 
-    <div class="article-container" th:with="locale=${@urlService.getLocaleFromUrl()}">
+    <div class="article-container" th:with="locale=${@localeService.getLocale()}">
         <div class="article-centered" th:each="article: ${allArticles}">
             <div>
                 <p th:text="|ArticleId: ${article.id} Created: ${article.date}|"></p>
