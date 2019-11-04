@@ -67,11 +67,6 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
         return bean;
     }
 
-    @Bean(name = "localeService")
-    public LocaleService urlService(){
-        return new LocaleServiceImpl();
-    }
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
