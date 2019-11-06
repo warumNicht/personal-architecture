@@ -56,7 +56,7 @@ public class ArticleController extends BaseController {
         article.getLocalContent().put(model.getCountry(), content);
         this.articleService.createArticle(article);
 
-        modelAndView.setViewName("redirect:/");
+        modelAndView.setViewName("redirect:/" + super.getLocale() + "/");
         return modelAndView;
     }
 
@@ -75,7 +75,7 @@ public class ArticleController extends BaseController {
         article.getLocalContent().put(model.getCountry(), localisedArticleContent);
         this.articleService.updateArticle(article);
 
-        modelAndView.setViewName("redirect:/" + super.getCurrentCookieLocale().toString().toLowerCase() + "/admin/listAll");
+        modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
         return modelAndView;
     }
 
@@ -101,8 +101,7 @@ public class ArticleController extends BaseController {
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
         articleServiceModel.getLocalContent().put(CountryCodes.valueOf(lang), content);
         this.articleService.updateArticle(articleServiceModel);
-        String locale = super.getCurrentCookieLocale().toString().toLowerCase();
-        modelAndView.setViewName("redirect:/" + locale + "/admin/listAll");
+        modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
         return modelAndView;
     }
 }
