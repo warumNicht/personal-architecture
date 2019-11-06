@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.Date;
 
-@Controller
+@RestController
 @RequestMapping(value = "/admin/articles")
 public class ArticleController extends BaseController {
     private final ArticleService articleService;
@@ -96,11 +96,21 @@ public class ArticleController extends BaseController {
 
 //    @PutMapping(value = "/edit")
     @RequestMapping(method = {RequestMethod.PATCH},value = "/edit")
-    public ModelAndView editArticlePut(ModelAndView modelAndView, @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model,
+    public ModelAndView editArticlePatch(ModelAndView modelAndView, @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model,
                                        @RequestParam(name = "articleLang") String lang) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
         articleServiceModel.getLocalContent().put(CountryCodes.valueOf(lang), content);
+        this.articleService.updateArticle(articleServiceModel);
+        modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
+        return modelAndView;
+    }
+
+    @PutMapping(value = "/edit")
+    public ModelAndView editArticlePut(ModelAndView modelAndView, @RequestBody ArticleEditLangBindingModel model) {
+        ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
+        LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
+        articleServiceModel.getLocalContent().put(CountryCodes.valueOf("EN"), content);
         this.articleService.updateArticle(articleServiceModel);
         modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
         return modelAndView;
