@@ -94,7 +94,8 @@ public class ArticleController extends BaseController {
         return modelAndView;
     }
 
-    @PutMapping(value = "/edit")
+//    @PutMapping(value = "/edit")
+    @RequestMapping(method = {RequestMethod.PATCH},value = "/edit")
     public ModelAndView editArticlePut(ModelAndView modelAndView, @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model,
                                        @RequestParam(name = "articleLang") String lang) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
