@@ -86,15 +86,12 @@ public class ArticleController extends BaseController {
         LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(CountryCodes.valueOf(lang));
         ArticleEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleEditLangBindingModel.class);
         bindingModel.setId(id);
-        System.out.println(id);
-        System.out.println(lang);
         model = bindingModel;
         modelAndView.addObject("articleEditLang", model);
         modelAndView.setViewName("article-edit-lang");
         return modelAndView;
     }
 
-//    @PutMapping(value = "/edit")
     @RequestMapping(method = {RequestMethod.PATCH},value = "/edit")
     public ModelAndView editArticlePatch(ModelAndView modelAndView, @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model,
                                        @RequestParam(name = "articleLang") String lang) {
@@ -105,14 +102,5 @@ public class ArticleController extends BaseController {
         modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
         return modelAndView;
     }
-
-    @PutMapping(value = "/edit")
-    public ModelAndView editArticlePut(ModelAndView modelAndView, @RequestBody ArticleEditLangBindingModel model) {
-        ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
-        LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
-        articleServiceModel.getLocalContent().put(CountryCodes.valueOf("EN"), content);
-        this.articleService.updateArticle(articleServiceModel);
-        modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
-        return modelAndView;
-    }
+    
 }
