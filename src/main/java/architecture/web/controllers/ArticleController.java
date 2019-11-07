@@ -108,7 +108,7 @@ public class ArticleController extends BaseController {
     }
 
     @PutMapping(value = "/edit")
-    @ResponseStatus(code = HttpStatus.MOVED_PERMANENTLY)
+    @ResponseStatus(code = HttpStatus.SEE_OTHER)
     public ModelAndView editArticlePut(ModelAndView modelAndView, @RequestBody ArticleEditLangBindingModel model) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
