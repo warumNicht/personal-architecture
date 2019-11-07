@@ -107,12 +107,12 @@ public class ArticleController extends BaseController {
         return modelAndView;
     }
 
-    @PutMapping(value = "/edit")
+    @RequestMapping(method = {RequestMethod.PUT},value = "/edit")
     @ResponseStatus(code = HttpStatus.SEE_OTHER)
-    public ModelAndView editArticlePut(ModelAndView modelAndView, @RequestBody ArticleEditLangBindingModel model) {
+    public ModelAndView editArticlePut(ModelAndView modelAndView, @RequestBody ArticleEditLangBindingModel model,@RequestParam(name = "articleLang") String lang) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
-        articleServiceModel.getLocalContent().put(CountryCodes.valueOf("EN"), content);
+        articleServiceModel.getLocalContent().put(CountryCodes.valueOf(lang), content);
         this.articleService.updateArticle(articleServiceModel);
         modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
         return modelAndView;

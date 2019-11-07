@@ -51,9 +51,9 @@
             var json = JSON.stringify(data);
 
             var xhttp = new XMLHttpRequest();
-            xhttp.open('PUT', '/en/admin/articles/edit', true);
+            xhttp.open('PUT', '/en/admin/articles/edit?articleLang=' + document.getElementById('articleLang').value, true);
             xhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
-
+            xhttp.setRequestHeader("Content-length", json.length);
             xhttp.send(json);
         };
     })
