@@ -12,6 +12,7 @@ import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -86,12 +87,14 @@ public class ArticleController extends BaseController {
         LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(CountryCodes.valueOf(lang));
         ArticleEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleEditLangBindingModel.class);
         bindingModel.setId(id);
+        System.out.println(id);
+        System.out.println(lang);
         model = bindingModel;
         modelAndView.addObject("articleEditLang", model);
         modelAndView.setViewName("article-edit-lang");
         return modelAndView;
     }
-
+    
     @RequestMapping(method = {RequestMethod.PATCH},value = "/edit")
     public ModelAndView editArticlePatch(ModelAndView modelAndView, @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model,
                                        @RequestParam(name = "articleLang") String lang) {
@@ -102,5 +105,15 @@ public class ArticleController extends BaseController {
         modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
         return modelAndView;
     }
-    
+
+    @RequestMapping(method = {RequestMethod.PUT},value = "/edit")
+    @ResponseStatus(code = HttpStatus.SEE_OTHER)
+    public ModelAndView editArticlePut(ModelAndView modelAndView, @RequestBody ArticleEditLangBindingModel model,@RequestParam(name = "articleLang") String lang) {
+        ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
+        LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
+        articleServiceModel.getLocalContent().put(CountryCodes.valueOf(lang), content);
+        this.articleService.updateArticle(articleServiceModel);
+        modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
+        return modelAndView;
+    }
 }
