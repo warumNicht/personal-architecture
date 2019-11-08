@@ -10,7 +10,7 @@
 <main>
 
     <div class="mx-auto w-25"   th:object="${articleEditLang}">
-        <input id="id" type="hidden" th:field="*{id}"/>
+        <input name="id" type="hidden" th:field="*{id}"/>
         <div class="form-group">
             <label for="title" th:text="#{article.title}"></label>
             <input type="text" class="form-control"
@@ -30,7 +30,7 @@
         </div>
 
         <div class="button-holder mt-4 d-flex justify-content-center">
-            <input id="articleLang" type="hidden" name="articleLang"  th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[5]}" />
+            <input type="hidden" name="lang"  th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[5]}" />
             <button id="submit-button" class="btn btn-success" th:text="#{edit}"></button>
         </div>
     </div>
@@ -42,18 +42,19 @@
 <script>
     $(document).ready(()=>{
         const button=document.getElementById("submit-button");
+
         button.onclick=function () {
+            const inputs=document.querySelectorAll('main input');
             var data = {};
-            data.id=document.getElementById('id').value;
-            data.title=document.getElementById('title').value;
-            data.content=document.getElementById('content').value;
+            inputs.forEach(i=>{
+                data[i.name]=i.value;
+            });
 
             var json = JSON.stringify(data);
 
             var xhttp = new XMLHttpRequest();
-            xhttp.open('PUT', '/en/admin/articles/edit?articleLang=' + document.getElementById('articleLang').value, true);
+            xhttp.open('PUT', '/en/admin/articles/edit', true);
             xhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
-            xhttp.setRequestHeader("Content-length", json.length);
             xhttp.send(json);
         };
     })

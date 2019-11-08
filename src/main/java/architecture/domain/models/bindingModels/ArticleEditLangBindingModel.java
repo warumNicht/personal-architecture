@@ -4,6 +4,7 @@ public class ArticleEditLangBindingModel {
     private Long id;
     private String title;
     private String content;
+    private String lang;
 
     public Long getId() {
         return id;
@@ -27,5 +28,13 @@ public class ArticleEditLangBindingModel {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 }
