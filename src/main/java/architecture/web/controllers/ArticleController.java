@@ -1,8 +1,6 @@
 package architecture.web.controllers;
 
 import architecture.domain.CountryCodes;
-import architecture.domain.entities.Article;
-import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.ArticleBindingModel;
 import architecture.domain.models.bindingModels.ArticleEditLangBindingModel;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
@@ -13,11 +11,10 @@ import architecture.services.interfaces.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.util.Date;
 
@@ -107,14 +104,15 @@ public class ArticleController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping(method = {RequestMethod.PUT},value = "/edit")
-    @ResponseStatus(code = HttpStatus.SEE_OTHER)
-    public ModelAndView editArticlePut(ModelAndView modelAndView, @RequestBody ArticleEditLangBindingModel model,@RequestParam(name = "articleLang") String lang) {
+    @RequestMapping(method = {RequestMethod.PUT},value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    public String editArticlePut( @RequestBody ArticleEditLangBindingModel model,
+                                                      @RequestParam(name = "articleLang") String lang) {
+
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
         articleServiceModel.getLocalContent().put(CountryCodes.valueOf(lang), content);
         this.articleService.updateArticle(articleServiceModel);
-        modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
-        return modelAndView;
+        return "/" + super.getLocale() + "/admin/listAll";
     }
 }
