@@ -94,18 +94,7 @@ public class ArticleController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping(method = {RequestMethod.PATCH},value = "/edit")
-    public ModelAndView editArticlePatch(ModelAndView modelAndView, @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model,
-                                       @RequestParam(name = "articleLang") String lang) {
-        ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
-        LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
-        articleServiceModel.getLocalContent().put(CountryCodes.valueOf(lang), content);
-        this.articleService.updateArticle(articleServiceModel);
-        modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
-        return modelAndView;
-    }
-
-    @RequestMapping(method = {RequestMethod.PUT},value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method = {RequestMethod.PATCH},value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public String editArticlePut( @RequestBody ArticleEditLangBindingModel model) {
 
