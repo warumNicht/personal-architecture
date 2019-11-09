@@ -55,10 +55,6 @@
             xhttp.open('PUT', '/en/admin/articles/edit', true);
             xhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
             xhttp.onreadystatechange= function(){
-                // debugger;
-                console.log(this);
-                console.log(this.readyState);
-                console.log(this.status);
                 if(this.readyState==4){
                     console.log(this.response);
                     window.location=this.response;
