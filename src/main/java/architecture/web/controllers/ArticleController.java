@@ -13,11 +13,10 @@ import architecture.services.interfaces.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.util.Date;
 
@@ -106,14 +105,14 @@ public class ArticleController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping(method = {RequestMethod.PUT},value = "/edit")
-    @ResponseStatus(code = HttpStatus.SEE_OTHER)
-    public ModelAndView editArticlePut(ModelAndView modelAndView, @RequestBody ArticleEditLangBindingModel model) {
+    @RequestMapping(method = {RequestMethod.PUT},value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    public String editArticlePut( @RequestBody ArticleEditLangBindingModel model) {
+
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
         articleServiceModel.getLocalContent().put(CountryCodes.valueOf(model.getLang()), content);
         this.articleService.updateArticle(articleServiceModel);
-        modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
-        return modelAndView;
+        return "/" + super.getLocale() + "/admin/listAll";
     }
 }

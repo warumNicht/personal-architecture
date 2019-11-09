@@ -33,7 +33,7 @@ public class AdminController extends BaseController{
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/listAll")
+    @RequestMapping(method = {RequestMethod.GET}, value = "/listAll")
     public ModelAndView listAll(ModelAndView modelAndView){
         List<Article> allArticles = this.articleRepository.findAll();
         modelAndView.addObject("allArticles",allArticles);

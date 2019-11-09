@@ -42,7 +42,6 @@
 <script>
     $(document).ready(()=>{
         const button=document.getElementById("submit-button");
-
         button.onclick=function () {
             const inputs=document.querySelectorAll('main input');
             var data = {};
@@ -55,9 +54,20 @@
             var xhttp = new XMLHttpRequest();
             xhttp.open('PUT', '/en/admin/articles/edit', true);
             xhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
+            xhttp.setRequestHeader('Sec-Fetch-Mode','navigate');
+            xhttp.onreadystatechange= function(){
+                // debugger;
+                console.log(this);
+                console.log(this.readyState);
+                console.log(this.status);
+                if(this.readyState==4){
+                    console.log(this.response);
+                    window.location='/en/admin/listAll';
+                }
+            };
             xhttp.send(json);
         };
-    })
+    });
 
 </script>
 
