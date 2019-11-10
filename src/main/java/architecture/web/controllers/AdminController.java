@@ -83,7 +83,7 @@ public class AdminController extends BaseController{
         categoryToEdit.setLocalCategoryNames(filteredValues);
 
         this.categoryService.editCategory(categoryToEdit);
-        modelAndView.setViewName("redirect:/");
+        modelAndView.setViewName("redirect:/" + super.getLocale() + "/");
         return modelAndView;
     }
 }
