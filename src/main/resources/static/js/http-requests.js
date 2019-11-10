@@ -1,5 +1,5 @@
 function sendXmlHttpRequest(method, url, data, callbackFunction) {
-    var xhttp = new XMLHttpRequest();
+    const xhttp = new XMLHttpRequest();
     xhttp.open(method, url, true);
     xhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
     xhttp.onreadystatechange= function(){
@@ -11,7 +11,7 @@ function sendXmlHttpRequest(method, url, data, callbackFunction) {
 }
 
 function createJsonFromInputs(inputs) {
-    var data = {};
+    const data = {};
     inputs.forEach(i=>{
         data[i.name]=i.value;
     });
