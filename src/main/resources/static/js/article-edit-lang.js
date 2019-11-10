@@ -7,13 +7,10 @@ $(document).ready(()=>{
         const data = createJsonFromInputs(inputs);
         const json = JSON.stringify(data);
 
-        sendXmlHttpRequest('PATCH', '/admin/articles/edit', json, (request)=>{
+        function callback(request) {
             console.log(request.response);
             window.location=request.response;
-        });
+        }
+        sendXmlHttpRequest('PATCH', '/admin/articles/edit', json, callback);
     };
-
-    function action() {
-
-    }
 });
