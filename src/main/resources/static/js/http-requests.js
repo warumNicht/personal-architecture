@@ -10,4 +10,12 @@ function sendXmlHttpRequest(method, url, data, callbackFunction) {
     xhttp.send(data);
 }
 
-export {sendXmlHttpRequest}
+function createJsonFromInputs(inputs) {
+    var data = {};
+    inputs.forEach(i=>{
+        data[i.name]=i.value;
+    });
+    return data;
+}
+
+export {sendXmlHttpRequest, createJsonFromInputs}
