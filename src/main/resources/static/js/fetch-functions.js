@@ -1,8 +1,8 @@
 function fetchCategories(selectElement) {
     fetch('/fetch/categories/all')
         .then((response) => response.json())
-        .then((json) => {
-            json.forEach((category) => {
+        .then(function(json){
+            json.forEach(function(category){
                 selectElement.append('<option value="'+ category.id +'">'+ category.name +'</option>');
             });
         })
