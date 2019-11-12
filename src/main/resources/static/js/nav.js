@@ -1,6 +1,5 @@
 
-
-
+import {fetchCategories} from "./fetch-functions.js";
 
 
 $(document).ready(function () {
@@ -12,7 +11,7 @@ $(document).ready(function () {
         }
     });
     const select = $('#select-categories');
-    addCategories(select);
+    fetchCategories(select);
     select.change(function () {
         let selectedOption = select.val();
         if (selectedOption != '') {
