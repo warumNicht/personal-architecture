@@ -13,7 +13,7 @@ function fetchCategories(selectElement) {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
             const json = JSON.parse(this.response);
-            json.forEach((category) => {
+            json.forEach(function(category){
                 selectElement.append('<option value="' + category.id + '">' + category.name + '</option>');
             });
 
