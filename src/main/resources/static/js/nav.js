@@ -14,7 +14,7 @@ $(document).ready(function () {
         }
     });
     const select = $('#select-categories');
-    fetchCategories(select);
+fetchCategories(select);
     select.change(function () {
         let selectedOption = select.val();
         if (selectedOption != '') {
