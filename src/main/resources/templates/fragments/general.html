@@ -14,10 +14,13 @@
     <script nomodule src="https://unpkg.com/browser-es-module-loader/dist/babel-browser-build.js"></script>
     <script nomodule src="https://unpkg.com/browser-es-module-loader"></script>
 
-    <script src="https://cdn.polyfill.io/v2/polyfill.js?features=fetch"></script>
+    <!--<script src="https://cdn.polyfill.io/v2/polyfill.js?features=fetch"></script>-->
 
+    <script th:src="@{/js/lib/polyfills/fetch.js}"></script>
 
     <script th:src="@{/js/lib/jquery-3.3.1.slim.min.js}"></script>
+
+
     <script th:src="@{/js/lib/jquery-3.4.1.min.js}"></script>
     <script th:src="@{/js/lib/popper.min.js}"></script>
     <script th:src="@{/js/lib/bootstrap.min.js}"></script>
