@@ -1,16 +1,4 @@
 function sendXmlHttpRequest(method, url, data, callbackFunction) {
-
-    // xhttp.onreadystatechange= function(){
-    //     if(this.readyState==4){
-    //         if(method==='GET'){
-    //             return this.response;
-    //         }
-    //         if(callbackFunction){
-    //             callbackFunction(this);
-    //         }
-    //     }
-    // };
-
     return new Promise(function (resolve,reject){
         try {
             const xhttp = new XMLHttpRequest();
@@ -19,7 +7,6 @@ function sendXmlHttpRequest(method, url, data, callbackFunction) {
             xhttp.onreadystatechange= function(){
                 if(this.readyState==4){
                     if(method==='GET'){
-                        console.log(this.response);
                         resolve( JSON.parse(this.response));
                     }
                     if(callbackFunction){
@@ -31,8 +18,7 @@ function sendXmlHttpRequest(method, url, data, callbackFunction) {
         }catch (e) {
             reject(e);
         }
-
-    })
+    });
 }
 
 function createJsonFromInputs(inputs) {

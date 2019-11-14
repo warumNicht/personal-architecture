@@ -7,7 +7,6 @@ $('ul.navbar-nav li.dropdown').hover(function () {
 });
 
 $(document).ready(function () {
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaa');
     $("#select-locales").change(function () {
         let selectedOption = $('#select-locales').val();
         if (selectedOption != '') {
