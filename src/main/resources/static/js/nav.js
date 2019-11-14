@@ -7,6 +7,7 @@ $('ul.navbar-nav li.dropdown').hover(function () {
 });
 
 $(document).ready(function () {
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaa');
     $("#select-locales").change(function () {
         let selectedOption = $('#select-locales').val();
         if (selectedOption != '') {
@@ -25,5 +26,24 @@ $(document).ready(function () {
         }
     });
 });
+
+function addCategories(select) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET', '/fetch/categories/all', true);
+    xhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
+    xhttp.onreadystatechange= function(){
+        if(this.readyState==4){
+            const data=JSON.parse(this.response);
+            console.log(data);
+            data.forEach(function(c){
+                console.log(c);
+                select.append('<option value="'+ c.id +'">'+ c.name +'</option>');
+            })
+        }
+    };
+    xhttp.send(null);
+}
+
+
 
 

@@ -1,12 +1,17 @@
 function fetchCategories(selectElement) {
-    fetch('/fetch/categories/all')
-        .then(function(response){return response.json()})
-        .then(function(json){
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.open('GET', '/fetch/categories/all', true);
+    xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            const json = JSON.parse(this.response);
             json.forEach(function(category){
-                selectElement.append('<option value="'+ category.id +'">'+ category.name +'</option>');
+                selectElement.append('<option value="' + category.id + '">' + category.name + '</option>');
             });
-        })
-        .catch(function(err) {console.log(err)});
+        }
+    };
+    xhttp.send(null);
 }
 
 export {fetchCategories}
