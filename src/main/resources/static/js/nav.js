@@ -6,6 +6,10 @@ $('ul.navbar-nav li.dropdown').hover(function () {
     $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeOut(500);
 });
 
+$('ul.navbar-nav').find('select').click(function (e) {
+    e.stopPropagation();
+});
+
 $(document).ready(function () {
     $("#select-locales").change(function () {
         let selectedOption = $('#select-locales').val();
