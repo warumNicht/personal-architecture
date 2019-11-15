@@ -8,10 +8,14 @@ $(document).ready(function(){
         const data = createJsonFromInputs(inputs);
         const json = JSON.stringify(data);
 
-        function callback(request) {
-            console.log(request.response);
-            window.location=request.response;
+//        function callback(request) {
+//            console.log(request.response);
+//            window.location=request.response;
+//        }
+        sendXmlHttpRequest('PATCH', '/admin/articles/edit', json).then(function(res){
+        console.log(res);
+        window.location=res;
         }
-        sendXmlHttpRequest('PATCH', '/admin/articles/edit', json, callback);
+        );
     };
 });

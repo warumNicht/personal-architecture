@@ -102,6 +102,6 @@ public class ArticleController extends BaseController {
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
         articleServiceModel.getLocalContent().put(CountryCodes.valueOf(model.getLang()), content);
         this.articleService.updateArticle(articleServiceModel);
-        return "/" + super.getLocale() + "/admin/listAll";
+        return "\"/" + super.getLocale() + "/admin/listAll\"";
     }
 }
