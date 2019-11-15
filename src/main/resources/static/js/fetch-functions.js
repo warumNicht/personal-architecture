@@ -9,7 +9,6 @@ function fetchCategories(selectElement) {
     }).catch(function(error){
         console.log(error);
     });
-	
 }
 
 export {fetchCategories}
