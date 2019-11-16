@@ -15,11 +15,11 @@ public class CustomLocalInterceptor extends LocaleChangeInterceptor {
         System.out.println(request.getRequestURI());
 
         super.preHandle(request, response, handler);
-        String newLocale = (String)request.getParameter("lang");
-        if (newLocale != null &&request.getAttribute("lang")!=null && (boolean) request.getAttribute("lang")) {
+        String newLocale = (String) request.getParameter("lang");
+        if (newLocale != null && request.getAttribute("lang") != null && (boolean) request.getAttribute("lang")) {
             String requestURI = request.getRequestURI();
-            if(requestURI.charAt(3)=='/'){
-                requestURI= "/"+ newLocale+requestURI.substring(3);
+            if (requestURI.charAt(3) == '/') {
+                requestURI = "/" + newLocale + requestURI.substring(3);
             }
             try {
                 request.setAttribute("lang", false);

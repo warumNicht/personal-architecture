@@ -9,14 +9,16 @@
 
 <main>
 
-    <form class="mx-auto w-25" th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/category/create|}" th:object="${categoryCreateModel}">
+    <form class="mx-auto w-25" th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/category/create|}"
+          th:object="${categoryCreateModel}">
 
         <div class="form-group" th:classappend="${#fields.hasErrors('country')} ? 'text-danger'">
             <label for="lang" th:text="#{lang.country}"></label>
 
             <select name="country" class="form-control" id="lang" th:field="${categoryCreateModel.country}">
                 <option th:each="countryCode : ${T(architecture.domain.CountryCodes).values()}"
-                        th:value="${countryCode}" th:text="${#messages.msgOrNull('lang.'+ #strings.toLowerCase(countryCode))}"
+                        th:value="${countryCode}"
+                        th:text="${#messages.msgOrNull('lang.'+ #strings.toLowerCase(countryCode))}"
                         th:selected="${#strings.equals(categoryCreateModel.getCountry(), countryCode) ? true : false}">
                 </option>
             </select>
@@ -29,9 +31,9 @@
         <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'text-danger'">
             <label for="name" th:text="#{article.title}"></label>
             <input type="text" class="form-control"
-                   th:field="*{name}"  th:value="${categoryCreateModel.name}"
+                   th:field="*{name}" th:value="${categoryCreateModel.name}"
                    id="name" th:placeholder="#{article.title}+'...'" name="title"
-                   required pattern="^.{2,}$"  title="Please enter at least 2 characters">
+                   required pattern="^.{2,}$" title="Please enter at least 2 characters">
 
             <small id="usernameHelp"
                    th:each="error : ${#fields.errors('name')}" th:utext="${error +'<br>'}">

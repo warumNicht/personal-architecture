@@ -3,6 +3,7 @@ package architecture.web.interceptors;
 import architecture.constants.ApplicationConstants;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.WebUtils;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +15,7 @@ public class LocalizeURLInterceptor extends HandlerInterceptorAdapter {
         System.out.println(request.getRequestURI());
 
         String requestMethod = request.getMethod();
-        if(!requestMethod.equals("GET")){
+        if (!requestMethod.equals("GET")) {
             return true;
         }
 
@@ -33,7 +34,7 @@ public class LocalizeURLInterceptor extends HandlerInterceptorAdapter {
         String localeToAppend;
         Cookie actualCookie = WebUtils.getCookie(request, ApplicationConstants.LOCALE_COOKIE_NAME);
         if (actualCookie != null) {
-            localeToAppend =  actualCookie.getValue();
+            localeToAppend = actualCookie.getValue();
         } else {
             localeToAppend = ApplicationConstants.DEFAULT_LOCALE.getLanguage();
         }

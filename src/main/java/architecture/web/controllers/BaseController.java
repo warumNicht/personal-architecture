@@ -14,7 +14,7 @@ public abstract class BaseController {
         return this.localeService.getCurrentCookieLocale();
     }
 
-    protected String getLocale(){
+    protected String getLocale() {
         return this.localeService.getLocale();
     }
 }

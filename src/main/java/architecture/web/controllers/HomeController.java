@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/")
-public class HomeController extends BaseController{
+public class HomeController extends BaseController {
 
     private ArticleRepository articleRepository;
     private final ModelMapper modelMapper;
@@ -34,17 +35,17 @@ public class HomeController extends BaseController{
         CountryCodes wantedCode = super.getCurrentCookieLocale();
         Object[] all = this.articleRepository.getAllNestedSelect(CountryCodes.BG, wantedCode);
 
-        List<ArticleLocalViewModel> localisedArticles=new ArrayList<>();
+        List<ArticleLocalViewModel> localisedArticles = new ArrayList<>();
         for (Object article : all) {
             Object[] articleObjects = (Object[]) article;
             ArticleLocalViewModel articleLocalViewModel = new ArticleLocalViewModel();
-            articleLocalViewModel.setId((Long)articleObjects[0]);
-            articleLocalViewModel.setDate((Date)articleObjects[1]);
+            articleLocalViewModel.setId((Long) articleObjects[0]);
+            articleLocalViewModel.setDate((Date) articleObjects[1]);
             LocalisedArticleContent localisedArticleContent = (LocalisedArticleContent) articleObjects[2];
             articleLocalViewModel.setLocalisedContent(this.modelMapper.map(localisedArticleContent, LocalisedArticleContentViewModel.class));
             localisedArticles.add(articleLocalViewModel);
         }
-        modelAndView.addObject("localizedArticles",localisedArticles);
+        modelAndView.addObject("localizedArticles", localisedArticles);
         modelAndView.setViewName("index");
         return modelAndView;
     }

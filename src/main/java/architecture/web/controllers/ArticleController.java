@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.validation.Valid;
 import java.util.Date;
 
@@ -94,9 +95,9 @@ public class ArticleController extends BaseController {
         return modelAndView;
     }
 
-    @RequestMapping(method = {RequestMethod.PATCH},value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method = {RequestMethod.PATCH}, value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public String editArticlePut( @RequestBody ArticleEditLangBindingModel model) {
+    public String editArticlePut(@RequestBody ArticleEditLangBindingModel model) {
 
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);

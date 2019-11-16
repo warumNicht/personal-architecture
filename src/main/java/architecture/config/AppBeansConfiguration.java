@@ -23,12 +23,12 @@ import java.util.concurrent.TimeUnit;
 public class AppBeansConfiguration implements WebMvcConfigurer {
 
     @Bean
-    public  LocaleResolver localeResolver(){
+    public LocaleResolver localeResolver() {
         CustomLocalResolver customLocalResolver = new CustomLocalResolver();
         customLocalResolver.setDefaultLocale(ApplicationConstants.DEFAULT_LOCALE);
         customLocalResolver.setCookieHttpOnly(true);
         customLocalResolver.setCookieName(ApplicationConstants.LOCALE_COOKIE_NAME);
-        customLocalResolver.setCookieMaxAge(60*60);
+        customLocalResolver.setCookieMaxAge(60 * 60);
         return customLocalResolver;
     }
 
@@ -56,7 +56,7 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 

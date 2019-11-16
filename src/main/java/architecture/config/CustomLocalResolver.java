@@ -2,6 +2,7 @@ package architecture.config;
 
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 

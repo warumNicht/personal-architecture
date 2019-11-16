@@ -6,6 +6,7 @@ import architecture.services.interfaces.LocaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +16,7 @@ public class LocaleServiceImpl implements LocaleService {
     private HttpServletRequest request;
 
     @Override
-    public String getLocale(){
+    public String getLocale() {
         return this.getCurrentCookieLocale().toString().toLowerCase();
     }
 

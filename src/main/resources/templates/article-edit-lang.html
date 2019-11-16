@@ -9,28 +9,28 @@
 
 <main>
 
-    <div class="mx-auto w-25"   th:object="${articleEditLang}">
+    <div class="mx-auto w-25" th:object="${articleEditLang}">
         <input name="id" type="hidden" th:field="*{id}"/>
         <div class="form-group">
             <label for="title" th:text="#{article.title}"></label>
             <input type="text" class="form-control"
-                   th:field="*{title}"  th:value="${articleEditLang.title}"
+                   th:field="*{title}" th:value="${articleEditLang.title}"
                    id="title" th:placeholder="#{article.title}+'...'" name="title"
-                   required pattern="^.{2,}$"  title="Please enter at least 2 characters">
+                   required pattern="^.{2,}$" title="Please enter at least 2 characters">
 
         </div>
 
         <div class="form-group">
             <label for="content" th:text="#{article.content}"></label>
             <input type="text" class="form-control"
-                   th:field="*{content}"  th:value="${articleEditLang.content}"
+                   th:field="*{content}" th:value="${articleEditLang.content}"
                    id="content" th:placeholder="#{article.content}" name="content"
-                   required pattern="^.{2,}$"  title="Please enter at least 2 characters">
+                   required pattern="^.{2,}$" title="Please enter at least 2 characters">
 
         </div>
 
         <div class="button-holder mt-4 d-flex justify-content-center">
-            <input type="hidden" name="lang"  th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[5]}" />
+            <input type="hidden" name="lang" th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[5]}"/>
             <button id="submit-button" class="btn btn-success" th:text="#{edit}"></button>
         </div>
     </div>
