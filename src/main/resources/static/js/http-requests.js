@@ -6,7 +6,6 @@ function sendXmlHttpRequest(method, url, data, callbackFunction) {
             xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4) {
-                    console.log(this.response);
                     resolve(JSON.parse(this.response));
                 }
             };
