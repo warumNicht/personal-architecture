@@ -14,7 +14,7 @@ $(document).ready(function () {
     $("#select-locales").change(function () {
         let selectedOption = $('#select-locales').val();
         if (selectedOption != '') {
-            location.replace('?lang=' + selectedOption);
+            location.replace('?lang=' + selectedOption.toLowerCase());
         }
     });
     const select = $('#select-categories');
