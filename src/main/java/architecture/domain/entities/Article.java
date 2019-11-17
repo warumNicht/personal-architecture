@@ -17,6 +17,9 @@ public class Article extends BaseEntity {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image mainImage;
+
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "localised_content", joinColumns = @JoinColumn(name = "article_id"))
     @MapKeyColumn(name = "country_code")
