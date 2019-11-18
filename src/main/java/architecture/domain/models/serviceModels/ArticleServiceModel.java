@@ -9,6 +9,7 @@ import java.util.Map;
 public class ArticleServiceModel extends BaseServiceModel {
     private Date date;
     private CategoryServiceModel category;
+    private ImageServiceModel mainImage;
     private Map<CountryCodes, LocalisedArticleContentServiceModel> localContent = new HashMap<>();
 
     public ArticleServiceModel() {
@@ -32,6 +33,14 @@ public class ArticleServiceModel extends BaseServiceModel {
 
     public void setCategory(CategoryServiceModel category) {
         this.category = category;
+    }
+
+    public ImageServiceModel getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(ImageServiceModel mainImage) {
+        this.mainImage = mainImage;
     }
 
     public Map<CountryCodes, LocalisedArticleContentServiceModel> getLocalContent() {

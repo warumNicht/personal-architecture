@@ -5,6 +5,7 @@ import architecture.domain.entities.Article;
 import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.ArticleBindingModel;
 import architecture.domain.models.bindingModels.ArticleEditLangBindingModel;
+import architecture.domain.models.bindingModels.ImageBindingModel;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
 import architecture.domain.models.serviceModels.LocalisedArticleContentServiceModel;
@@ -37,6 +38,7 @@ public class ArticleController extends BaseController {
 
     @GetMapping("/create")
     public ModelAndView createArticle(@ModelAttribute(name = "articleBinding") ArticleBindingModel model, ModelAndView modelAndView) {
+        model.setMainImage(new ImageBindingModel());
         modelAndView.addObject("articleBinding", model);
         modelAndView.setViewName("create-article");
         return modelAndView;

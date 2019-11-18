@@ -7,6 +7,7 @@ public class ArticleBindingModel {
     private CountryCodes country;
     private String title;
     private String content;
+    private ImageBindingModel mainImage;
 
     public Long getCategoryId() {
         return categoryId;
@@ -38,5 +39,13 @@ public class ArticleBindingModel {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public ImageBindingModel getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(ImageBindingModel mainImage) {
+        this.mainImage = mainImage;
     }
 }
