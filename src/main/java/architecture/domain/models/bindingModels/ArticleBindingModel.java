@@ -9,6 +9,10 @@ public class ArticleBindingModel {
     private String content;
     private ImageBindingModel mainImage;
 
+    public ArticleBindingModel() {
+        this.mainImage=new ImageBindingModel();
+    }
+
     public Long getCategoryId() {
         return categoryId;
     }

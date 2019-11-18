@@ -38,7 +38,6 @@ public class ArticleController extends BaseController {
 
     @GetMapping("/create")
     public ModelAndView createArticle(@ModelAttribute(name = "articleBinding") ArticleBindingModel model, ModelAndView modelAndView) {
-        model.setMainImage(new ImageBindingModel());
         modelAndView.addObject("articleBinding", model);
         modelAndView.setViewName("create-article");
         return modelAndView;
@@ -52,11 +51,14 @@ public class ArticleController extends BaseController {
             modelAndView.setViewName("create-article");
             return modelAndView;
         }
-        ArticleServiceModel article = new ArticleServiceModel(new Date());
+        ArticleServiceModel article = this.modelMapper.map(model, ArticleServiceModel.class);
+        article.setId(null);
+        article.setDate(new Date());
         CategoryServiceModel category = this.categoryService.findById(model.getCategoryId());
         article.setCategory(category);
         LocalisedArticleContentServiceModel content = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
         article.getLocalContent().put(model.getCountry(), content);
+        article.getMainImage().setArticle(article);
         this.articleService.createArticle(article);
 
         modelAndView.setViewName("redirect:/" + super.getLocale() + "/");

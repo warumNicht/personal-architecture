@@ -17,7 +17,7 @@ public class Article extends BaseEntity {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.ALL})
     private Image mainImage;
 
     @ElementCollection(fetch = FetchType.LAZY)
@@ -47,6 +47,14 @@ public class Article extends BaseEntity {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Image getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(Image mainImage) {
+        this.mainImage = mainImage;
     }
 
     public Map<CountryCodes, LocalisedArticleContent> getLocalContent() {

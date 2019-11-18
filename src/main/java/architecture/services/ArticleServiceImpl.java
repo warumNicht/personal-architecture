@@ -30,7 +30,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void createArticle(ArticleServiceModel article) {
         Article articleToCreate = this.modelMapper.map(article, Article.class);
-        this.articleRepository.saveAndFlush(articleToCreate);
+        this.articleRepository.save(articleToCreate);
     }
 
     @Override
