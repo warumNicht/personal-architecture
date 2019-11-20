@@ -15,10 +15,8 @@
     <form class="mx-auto w-25" th:method="post" th:action="@{/admin/articles/create}" th:object="${articleBinding}">
 
         <div class="form-group">
-            <label for="cat" th:text="#{lang.country}"></label>
-
+            <label for="cat" >Category</label>
             <select name="categoryId" class="form-control" id="cat" th:field="${articleBinding.categoryId}">
-
             </select>
         </div>
 
