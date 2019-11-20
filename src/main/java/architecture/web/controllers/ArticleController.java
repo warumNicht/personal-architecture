@@ -80,6 +80,7 @@ public class ArticleController extends BaseController {
         ArticleServiceModel article = this.articleService.findById(articleId);
         LocalisedArticleContentServiceModel localisedArticleContent = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
         article.getLocalContent().put(model.getCountry(), localisedArticleContent);
+        article.getMainImage().getLocalImageNames().put(model.getCountry(), model.getMainImage().getName());
         this.articleService.updateArticle(article);
 
         modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");

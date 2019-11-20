@@ -54,6 +54,14 @@
             </small>
         </div>
 
+        <div class="form-group" >
+            <label for="mainImageName" >Image name</label>
+            <input type="text" class="form-control"
+                   th:field="*{mainImage.name}" th:value="${articleBinding.mainImage.name}"
+                   id="mainImageName" th:placeholder="${'Enter name'}" name="mainImageName">
+
+        </div>
+
         <div class="button-holder mt-4 d-flex justify-content-center">
             <input type="hidden" name="articleId" th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[4]}"/>
             <button type="submit" class="btn btn-secondary">Add Language</button>
