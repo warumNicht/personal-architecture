@@ -9,7 +9,7 @@ import java.util.Map;
 @Entity
 @Table(name = "images")
 public class Image extends BaseEntity {
-    @Column(name = "image_url")
+    @Column(name = "image_url", columnDefinition = "TEXT")
     private String url;
 
     @ElementCollection(fetch = FetchType.LAZY)
