@@ -8,6 +8,7 @@ import architecture.domain.models.bindingModels.ArticleEditLangBindingModel;
 import architecture.domain.models.bindingModels.ImageBindingModel;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
+import architecture.domain.models.serviceModels.ImageServiceModel;
 import architecture.domain.models.serviceModels.LocalisedArticleContentServiceModel;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
@@ -51,14 +52,15 @@ public class ArticleController extends BaseController {
             modelAndView.setViewName("create-article");
             return modelAndView;
         }
-        ArticleServiceModel article = this.modelMapper.map(model, ArticleServiceModel.class);
-        article.setId(null);
-        article.setDate(new Date());
+        ArticleServiceModel article = new ArticleServiceModel(new Date());
         CategoryServiceModel category = this.categoryService.findById(model.getCategoryId());
         article.setCategory(category);
         LocalisedArticleContentServiceModel content = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
         article.getLocalContent().put(model.getCountry(), content);
-        article.getMainImage().setArticle(article);
+        ImageServiceModel mainImage = this.modelMapper.map(model.getMainImage(), ImageServiceModel.class);
+        mainImage.getLocalImageNames().put(model.getCountry(),model.getMainImage().getName());
+        mainImage.setArticle(article);
+        article.setMainImage(mainImage);
         this.articleService.createArticle(article);
 
         modelAndView.setViewName("redirect:/" + super.getLocale() + "/");
