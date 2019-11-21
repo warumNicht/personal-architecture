@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -38,6 +39,13 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = this.articleRepository.findById(id).orElse(null);
         ArticleServiceModel articleServiceModel = this.modelMapper.map(article, ArticleServiceModel.class);
         return articleServiceModel;
+    }
+
+    @Override
+    public List<ArticleServiceModel> findAll(){
+        return this.articleRepository.findAll().stream()
+                .map(article ->  this.modelMapper.map(article, ArticleServiceModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -1,13 +1,13 @@
 package architecture.web.controllers;
 
 import architecture.domain.CountryCodes;
-import architecture.domain.models.bindingModels.ArticleBindingModel;
 import architecture.domain.entities.Article;
-import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.CategoryCreateBindingModel;
 import architecture.domain.models.bindingModels.CategoryEditBindingModel;
+import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
 import architecture.repositories.ArticleRepository;
+import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +22,22 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/admin")
 public class AdminController extends BaseController {
-    private ArticleRepository articleRepository;
+    private final ArticleService articleService;
     private final CategoryService categoryService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public AdminController(ArticleRepository articleRepository, CategoryService categoryService, ModelMapper modelMapper) {
-        this.articleRepository = articleRepository;
+    public AdminController(ArticleService articleService, CategoryService categoryService, ModelMapper modelMapper) {
+        this.articleService = articleService;
         this.categoryService = categoryService;
         this.modelMapper = modelMapper;
     }
 
     @RequestMapping(method = {RequestMethod.GET}, value = "/listAll")
     public ModelAndView listAll(ModelAndView modelAndView) {
-        List<Article> allArticles = this.articleRepository.findAll();
+        List<ArticleServiceModel> allArticles = this.articleService.findAll();
         modelAndView.addObject("allArticles", allArticles);
         modelAndView.setViewName("listAll");
-
         return modelAndView;
     }
 

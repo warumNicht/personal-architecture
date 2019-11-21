@@ -12,6 +12,8 @@ public interface ArticleService {
 
     ArticleServiceModel findById(Long id);
 
+    List<ArticleServiceModel> findAll();
+
     void updateArticle(ArticleServiceModel article);
 
     List<ArticleLocalViewModel> findArticlesByCategory(Long id, CountryCodes wantedCode);
