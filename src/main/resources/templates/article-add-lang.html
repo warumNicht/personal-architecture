@@ -54,7 +54,7 @@
             </small>
         </div>
 
-        <div class="form-group" >
+        <div th:if="${articleBinding.mainImage!=null}" class="form-group">
             <label for="mainImageName" >Image name</label>
             <input type="text" class="form-control"
                    th:field="*{mainImage.name}" th:value="${articleBinding.mainImage.name}"

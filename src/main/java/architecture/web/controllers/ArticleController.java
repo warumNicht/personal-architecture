@@ -70,6 +70,11 @@ public class ArticleController extends BaseController {
     @GetMapping("/addLang/{id}")
     public ModelAndView addLanguageToArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long articleId,
                                              @ModelAttribute(name = "articleBinding") ArticleBindingModel model) {
+        ArticleServiceModel article = this.articleService.findById(articleId);
+        if(article.getMainImage()==null){
+            model.setMainImage(null);
+        }
+        modelAndView.addObject("articleBinding", model);
         modelAndView.setViewName("article-add-lang");
         return modelAndView;
     }
@@ -80,7 +85,9 @@ public class ArticleController extends BaseController {
         ArticleServiceModel article = this.articleService.findById(articleId);
         LocalisedArticleContentServiceModel localisedArticleContent = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
         article.getLocalContent().put(model.getCountry(), localisedArticleContent);
-        article.getMainImage().getLocalImageNames().put(model.getCountry(), model.getMainImage().getName());
+        if(article.getMainImage()!=null){
+            article.getMainImage().getLocalImageNames().put(model.getCountry(), model.getMainImage().getName());
+        }
         this.articleService.updateArticle(article);
 
         modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
