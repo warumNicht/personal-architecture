@@ -18,6 +18,9 @@
                 <p th:text="|ArticleId: ${article.id} Created: ${article.date}|"></p>
             </div>
             <div>
+                <img th:src="@{${article.mainImage != null ? article.mainImage.url : ''}}" alt="">
+            </div>
+            <div>
                 <div th:each="local : ${article.localContent}">
                     <p th:text="${local.key}"></p>
                     <p th:text="${local.value.title}"></p>
