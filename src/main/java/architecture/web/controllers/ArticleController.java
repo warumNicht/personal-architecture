@@ -57,10 +57,12 @@ public class ArticleController extends BaseController {
         article.setCategory(category);
         LocalisedArticleContentServiceModel content = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
         article.getLocalContent().put(model.getCountry(), content);
-        ImageServiceModel mainImage = this.modelMapper.map(model.getMainImage(), ImageServiceModel.class);
-        mainImage.getLocalImageNames().put(model.getCountry(),model.getMainImage().getName());
-        mainImage.setArticle(article);
-        article.setMainImage(mainImage);
+        if(!"".equals(model.getMainImage().getUrl())){
+            ImageServiceModel mainImage = this.modelMapper.map(model.getMainImage(), ImageServiceModel.class);
+            mainImage.getLocalImageNames().put(model.getCountry(),model.getMainImage().getName());
+            mainImage.setArticle(article);
+            article.setMainImage(mainImage);
+        }
         this.articleService.createArticle(article);
 
         modelAndView.setViewName("redirect:/" + super.getLocale() + "/");
@@ -101,8 +103,9 @@ public class ArticleController extends BaseController {
         LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(CountryCodes.valueOf(lang));
         ArticleEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleEditLangBindingModel.class);
         bindingModel.setId(id);
-        System.out.println(id);
-        System.out.println(lang);
+        if(articleServiceModel.getMainImage()!=null){
+            bindingModel.setMainImageName(articleServiceModel.getMainImage().getLocalImageNames().get(CountryCodes.valueOf(lang)));
+        }
         model = bindingModel;
         modelAndView.addObject("articleEditLang", model);
         modelAndView.setViewName("article-edit-lang");
@@ -116,6 +119,7 @@ public class ArticleController extends BaseController {
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
         articleServiceModel.getLocalContent().put(CountryCodes.valueOf(model.getLang()), content);
+        articleServiceModel.getMainImage().getLocalImageNames().put(CountryCodes.valueOf(model.getLang()),model.getMainImageName());
         this.articleService.updateArticle(articleServiceModel);
         return "\"/" + super.getLocale() + "/admin/listAll\"";
     }

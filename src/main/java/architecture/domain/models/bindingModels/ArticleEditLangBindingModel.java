@@ -5,6 +5,7 @@ public class ArticleEditLangBindingModel {
     private String title;
     private String content;
     private String lang;
+    private String mainImageName;
 
     public Long getId() {
         return id;
@@ -36,5 +37,13 @@ public class ArticleEditLangBindingModel {
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public String getMainImageName() {
+        return mainImageName;
+    }
+
+    public void setMainImageName(String mainImageName) {
+        this.mainImageName = mainImageName;
     }
 }

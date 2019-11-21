@@ -29,6 +29,15 @@
 
         </div>
 
+        <div th:if="${articleEditLang.mainImageName != null}" class="form-group">
+            <label for="content">Main image name</label>
+            <input type="text" class="form-control"
+                   th:field="*{mainImageName}" th:value="${articleEditLang.mainImageName}"
+                   id="mainImageName" th:placeholder="#{article.content}" name="mainImageName"
+                   required pattern="^.{2,}$" title="Please enter at least 2 characters">
+
+        </div>
+
         <div class="button-holder mt-4 d-flex justify-content-center">
             <input type="hidden" name="lang" th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[5]}"/>
             <button id="submit-button" class="btn btn-success" th:text="#{edit}"></button>
