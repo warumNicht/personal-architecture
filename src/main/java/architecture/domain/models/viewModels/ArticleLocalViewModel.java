@@ -5,6 +5,7 @@ import java.util.Date;
 public class ArticleLocalViewModel {
     private Long id;
     private Date date;
+    private String mainImage;
     private LocalisedArticleContentViewModel localisedContent;
 
     public Long getId() {
@@ -21,6 +22,14 @@ public class ArticleLocalViewModel {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
     }
 
     public LocalisedArticleContentViewModel getLocalisedContent() {
