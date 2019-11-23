@@ -5,6 +5,7 @@ import architecture.domain.entities.Article;
 import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.viewModels.ArticleLocalViewModel;
+import architecture.domain.models.viewModels.ImageLocaleViewModel;
 import architecture.domain.models.viewModels.LocalisedArticleContentViewModel;
 import architecture.repositories.ArticleRepository;
 import architecture.services.interfaces.ArticleService;
@@ -64,8 +65,7 @@ public class ArticleServiceImpl implements ArticleService {
             ArticleLocalViewModel articleLocalViewModel = new ArticleLocalViewModel();
             articleLocalViewModel.setId((Long) articleObjects[0]);
             if(articleObjects[1]!=null){
-                articleLocalViewModel.setMainImage((String) articleObjects[1]);
-                articleLocalViewModel.setName((String) articleObjects[2]);
+                articleLocalViewModel.setMainImage(new ImageLocaleViewModel((String) articleObjects[1], (String) articleObjects[2]));
             }
             articleLocalViewModel.setDate((Date) articleObjects[3]);
             LocalisedArticleContent localisedArticleContent = (LocalisedArticleContent) articleObjects[4];
