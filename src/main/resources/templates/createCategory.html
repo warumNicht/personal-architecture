@@ -18,7 +18,7 @@
             <select name="country" class="form-control" id="lang" th:field="${categoryCreateModel.country}">
                 <option th:each="countryCode : ${T(architecture.domain.CountryCodes).values()}"
                         th:value="${countryCode}"
-                        th:text="${#messages.msgOrNull('lang.'+ #strings.toLowerCase(countryCode))}"
+                        th:text="#{${'lang.' + countryCode }}"
                         th:selected="${#strings.equals(categoryCreateModel.getCountry(), countryCode) ? true : false}">
                 </option>
             </select>
