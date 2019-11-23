@@ -14,7 +14,7 @@
           th:object="${categoryEditModel}">
 
         <div class="form-group" th:each="countryCode, stat :*{localNames}">
-            <label th:text="${#messages.msgOrNull('lang.'+ #strings.toLowerCase(countryCode.key))}"></label>
+            <label th:text="#{${'lang.' + countryCode.key }}"></label>
             <input type="text" class="form-control"
                    th:field="*{localNames[__${countryCode.key}__]}">
         </div>
