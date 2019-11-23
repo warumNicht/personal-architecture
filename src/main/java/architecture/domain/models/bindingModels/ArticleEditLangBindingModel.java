@@ -1,19 +1,12 @@
 package architecture.domain.models.bindingModels;
 
-public class ArticleEditLangBindingModel {
-    private Long id;
+import architecture.domain.models.BaseModel;
+
+public class ArticleEditLangBindingModel extends BaseModel {
     private String title;
     private String content;
     private String lang;
     private String mainImageName;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;

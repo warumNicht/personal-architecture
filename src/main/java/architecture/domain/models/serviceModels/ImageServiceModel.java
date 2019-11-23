@@ -1,10 +1,11 @@
 package architecture.domain.models.serviceModels;
 
 import architecture.domain.CountryCodes;
+import architecture.domain.models.BaseModel;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ImageServiceModel extends BaseServiceModel{
+public class ImageServiceModel extends BaseModel {
     private String url;
     private Map<CountryCodes, String> localImageNames = new HashMap<>();
     private ArticleServiceModel article;

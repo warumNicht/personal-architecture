@@ -1,11 +1,11 @@
 package architecture.domain.models.bindingModels;
 
 import architecture.domain.CountryCodes;
+import architecture.domain.models.BaseModel;
 
 import java.util.LinkedHashMap;
 
-public class CategoryEditBindingModel {
-    private Long id;
+public class CategoryEditBindingModel extends BaseModel {
     private LinkedHashMap<CountryCodes, String> localNames;
 
     public CategoryEditBindingModel() {
@@ -13,14 +13,6 @@ public class CategoryEditBindingModel {
         for (CountryCodes countryCode : CountryCodes.values()) {
             this.localNames.put(countryCode, "");
         }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public LinkedHashMap<CountryCodes, String> getLocalNames() {

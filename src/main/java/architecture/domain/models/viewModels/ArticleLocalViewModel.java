@@ -1,20 +1,13 @@
 package architecture.domain.models.viewModels;
 
+import architecture.domain.models.BaseModel;
+
 import java.util.Date;
 
-public class ArticleLocalViewModel {
-    private Long id;
+public class ArticleLocalViewModel extends BaseModel {
     private Date date;
     private ImageLocaleViewModel mainImage;
     private LocalisedArticleContentViewModel localisedContent;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Date getDate() {
         return date;

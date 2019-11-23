@@ -1,20 +1,13 @@
 package architecture.domain.models.viewModels;
 
-public class LocalisedCategoryViewModel {
-    private Long id;
+import architecture.domain.models.BaseModel;
+
+public class LocalisedCategoryViewModel extends BaseModel {
     private String name;
 
     public LocalisedCategoryViewModel(Long id, String name) {
-        this.id = id;
+        super(id);
         this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

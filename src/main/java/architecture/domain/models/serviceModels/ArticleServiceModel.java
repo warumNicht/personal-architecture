@@ -1,12 +1,12 @@
 package architecture.domain.models.serviceModels;
 
 import architecture.domain.CountryCodes;
-
+import architecture.domain.models.BaseModel;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ArticleServiceModel extends BaseServiceModel {
+public class ArticleServiceModel extends BaseModel {
     private Date date;
     private CategoryServiceModel category;
     private ImageServiceModel mainImage;
