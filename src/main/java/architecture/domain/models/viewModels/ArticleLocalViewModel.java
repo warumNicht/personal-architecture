@@ -6,6 +6,7 @@ public class ArticleLocalViewModel {
     private Long id;
     private Date date;
     private String mainImage;
+    private String name;
     private LocalisedArticleContentViewModel localisedContent;
 
     public Long getId() {
@@ -30,6 +31,14 @@ public class ArticleLocalViewModel {
 
     public void setMainImage(String mainImage) {
         this.mainImage = mainImage;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public LocalisedArticleContentViewModel getLocalisedContent() {

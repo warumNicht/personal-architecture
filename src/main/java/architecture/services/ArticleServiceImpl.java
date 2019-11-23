@@ -63,9 +63,12 @@ public class ArticleServiceImpl implements ArticleService {
             Object[] articleObjects = (Object[]) article;
             ArticleLocalViewModel articleLocalViewModel = new ArticleLocalViewModel();
             articleLocalViewModel.setId((Long) articleObjects[0]);
-            articleLocalViewModel.setMainImage(articleObjects[1]!=null ? (String) articleObjects[1] : null);
-            articleLocalViewModel.setDate((Date) articleObjects[2]);
-            LocalisedArticleContent localisedArticleContent = (LocalisedArticleContent) articleObjects[3];
+            if(articleObjects[1]!=null){
+                articleLocalViewModel.setMainImage((String) articleObjects[1]);
+                articleLocalViewModel.setName((String) articleObjects[2]);
+            }
+            articleLocalViewModel.setDate((Date) articleObjects[3]);
+            LocalisedArticleContent localisedArticleContent = (LocalisedArticleContent) articleObjects[4];
             articleLocalViewModel.setLocalisedContent(this.modelMapper.map(localisedArticleContent, LocalisedArticleContentViewModel.class));
             localisedArticles.add(articleLocalViewModel);
         }
