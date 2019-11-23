@@ -33,7 +33,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query(value = "SELECT a.id,i.url, a.date, value(m)" +
             "FROM Article a " +
-            "LEFT JOIN Image  as i ON i.article.id=a.id " +
+            "LEFT JOIN Image  as i ON i.id=a.mainImage.id " +
             "JOIN a.localContent m " +
             "ON key(m) = ( SELECT max(key(n)) FROM Article  b " +
             "JOIN b.localContent n " +
