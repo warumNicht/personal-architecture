@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: head}"></head>
+
+<body>
+
+<header th:insert="~{fragments/navbar :: guest-ul}"></header>
+
+<main>
+
+    <div class="mx-auto w-25" th:object="${article}">
+        <input name="id" type="hidden" th:field="*{id}"/>
+        <div class="form-group">
+            <label for="title" th:text="#{article.title}"></label>
+            <input type="text" class="form-control"
+                   th:value="${article.title}"
+                   id="title" th:placeholder="#{article.title}+'...'" name="title">
+        </div>
+
+        <div class="form-group">
+
+
+
+        </div>
+
+
+
+        <div class="button-holder mt-4 d-flex justify-content-center">
+            <input type="hidden" name="lang" th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[2]}"/>
+            <button id="submit-button" class="btn btn-success" th:text="#{edit}"></button>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/general :: footer}"></footer>
+
+<script type="module" th:src="@{/js/article-edit-lang.js}"></script>
+
+</body>
+</html>

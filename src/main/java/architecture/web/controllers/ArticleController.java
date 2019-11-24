@@ -1,5 +1,6 @@
 package architecture.web.controllers;
 
+import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.LocalisedArticleContent;
@@ -10,6 +11,7 @@ import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
 import architecture.domain.models.serviceModels.ImageServiceModel;
 import architecture.domain.models.serviceModels.LocalisedArticleContentServiceModel;
+import architecture.domain.models.viewModels.ArticleAddImageViewModel;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
 import org.modelmapper.ModelMapper;
@@ -122,5 +124,23 @@ public class ArticleController extends BaseController {
         articleServiceModel.getMainImage().getLocalImageNames().put(CountryCodes.valueOf(model.getLang()),model.getMainImageName());
         this.articleService.updateArticle(articleServiceModel);
         return "\"/" + super.getLocale() + "/admin/listAll\"";
+    }
+
+    @GetMapping(value = "/add-image/{id}")
+    public ModelAndView articleAddImage(ModelAndView modelAndView, @PathVariable(name = "id") Long id){
+        ArticleServiceModel article = this.articleService.findById(id);
+        LocalisedArticleContentServiceModel content = article.getLocalContent().get(super.getCurrentCookieLocale());
+        if(content==null){
+            content=article.getLocalContent().get(ApplicationConstants.DEFAULT_COUNTRY_CODE);
+        }
+        ArticleAddImageViewModel model;
+        if(article.getMainImage()!=null){
+            model= new ArticleAddImageViewModel(id, content.getTitle(), article.getMainImage().getUrl());
+        }else {
+            model= new ArticleAddImageViewModel(id, content.getTitle());
+        }
+        modelAndView.addObject("article",model);
+        modelAndView.setViewName("article-add-image");
+        return modelAndView;
     }
 }
