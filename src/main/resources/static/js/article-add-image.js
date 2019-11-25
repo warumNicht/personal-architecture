@@ -1,15 +1,14 @@
-import {sendXmlHttpRequest, createJsonFromInputs} from "./http-requests.js";
+import {sendXmlHttpRequest} from "./http-requests.js";
 
 $(document).ready(function () {
-    console.log(article);
     const button = document.getElementById("submit-button");
     button.onclick = function () {
-        const selectLang=document.getElementById('lang');
-        const lang= selectLang.options[selectLang.selectedIndex].value;
+        const selectLang = document.getElementById('lang');
+        const lang = selectLang.options[selectLang.selectedIndex].value;
         const data = {
             id: article.id,
             lang: lang,
-            image:{
+            image: {
                 url: document.getElementById('url').value,
                 name: document.getElementById('name').value
             }
