@@ -1,8 +1,8 @@
 package architecture.domain.models.bindingModels;
 
 public class ImageBindingModel {
-    private String name;
     private String url;
+    private String name;
 
     public String getName() {
         return name;

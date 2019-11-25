@@ -1,18 +1,22 @@
 import {sendXmlHttpRequest, createJsonFromInputs} from "./http-requests.js";
-/*<![CDATA[*/
-const art = [[${article}]];  //Make sure this is bills and not bill as you have done it.
-console.log(art);
-/*]]>*/
 
 $(document).ready(function () {
+    console.log(article);
     const button = document.getElementById("submit-button");
     button.onclick = function () {
-        const inputs = document.querySelectorAll('main input');
-        console.log(inputs);
-        const data = createJsonFromInputs(inputs);
+        const selectLang=document.getElementById('lang');
+        const lang= selectLang.options[selectLang.selectedIndex].value;
+        const data = {
+            id: article.id,
+            lang: lang,
+            image:{
+                url: document.getElementById('url').value,
+                name: document.getElementById('name').value
+            }
+        };
         const json = JSON.stringify(data);
 
-        sendXmlHttpRequest('PATCH', '/admin/articles/edit', json).then(function (res) {
+        sendXmlHttpRequest('PUT', '/admin/articles/add-image', json).then(function (res) {
                 console.log(res);
                 window.location = res;
             }

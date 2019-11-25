@@ -6,6 +6,9 @@ public class ArticleAddImageViewModel extends BaseModel {
     private String title;
     private String mainImageUrl;
 
+    public ArticleAddImageViewModel() {
+    }
+
     public ArticleAddImageViewModel(Long id, String title) {
         super(id);
         this.title = title;

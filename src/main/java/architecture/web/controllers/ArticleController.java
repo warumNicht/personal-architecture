@@ -4,6 +4,7 @@ import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.LocalisedArticleContent;
+import architecture.domain.models.bindingModels.ArticleAddImageBindingModel;
 import architecture.domain.models.bindingModels.ArticleBindingModel;
 import architecture.domain.models.bindingModels.ArticleEditLangBindingModel;
 import architecture.domain.models.bindingModels.ImageBindingModel;
@@ -140,7 +141,15 @@ public class ArticleController extends BaseController {
             model= new ArticleAddImageViewModel(id, content.getTitle());
         }
         modelAndView.addObject("article",model);
+        modelAndView.addObject("image",new ArticleAddImageBindingModel());
         modelAndView.setViewName("article-add-image");
         return modelAndView;
+    }
+
+    @RequestMapping(method = {RequestMethod.PUT}, value = "/add-image", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    public String articleAddImagepost(@RequestBody ArticleAddImageBindingModel image){
+        System.out.println(image.getLang());
+        return "\"/" + super.getLocale() + "/admin/listAll\"";
     }
 }
