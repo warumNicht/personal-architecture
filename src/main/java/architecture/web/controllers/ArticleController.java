@@ -141,7 +141,6 @@ public class ArticleController extends BaseController {
             model= new ArticleAddImageViewModel(id, content.getTitle());
         }
         modelAndView.addObject("article",model);
-        modelAndView.addObject("image",new ArticleAddImageBindingModel());
         modelAndView.setViewName("article-add-image");
         return modelAndView;
     }
