@@ -40,9 +40,7 @@
                    id="name" th:placeholder="'Name...'">
         </div>
 
-
         <div class="button-holder mt-4 d-flex justify-content-center">
-            <input type="hidden" name="lang" th:value="${@localeService.getLocale()}"/>
             <button id="submit-button" class="btn btn-success" th:text="#{edit}"></button>
         </div>
     </div>
@@ -52,9 +50,7 @@
 
 <script th:inline="javascript">
     const article = [[${article}]];
-    console.log(article);
 </script>
-
 <script type="module" th:src="@{/js/article-add-image.js}"></script>
 
 </body>
