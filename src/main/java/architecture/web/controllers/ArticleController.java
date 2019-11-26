@@ -153,7 +153,6 @@ public class ArticleController extends BaseController {
         imageServiceModel.getLocalImageNames().put(image.getLang(), image.getImage().getName());
         imageServiceModel.setArticle(article);
         this.imageService.saveImage(imageServiceModel);
-        System.out.println(image.getLang());
         return "\"/" + super.getLocale() + "/admin/listAll\"";
     }
 }

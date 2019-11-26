@@ -23,6 +23,5 @@ public class ImageServiceImpl implements ImageService {
     public void saveImage(ImageServiceModel imageServiceModel){
         Image image = this.modelMapper.map(imageServiceModel, Image.class);
         this.imageRepository.saveAndFlush(image);
-        System.out.println();
     }
 }
