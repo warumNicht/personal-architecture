@@ -2,12 +2,9 @@ package architecture.web.controllers;
 
 import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
-import architecture.domain.entities.Article;
-import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.ArticleAddImageBindingModel;
 import architecture.domain.models.bindingModels.ArticleBindingModel;
 import architecture.domain.models.bindingModels.ArticleEditLangBindingModel;
-import architecture.domain.models.bindingModels.ImageBindingModel;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
 import architecture.domain.models.serviceModels.ImageServiceModel;
@@ -15,6 +12,7 @@ import architecture.domain.models.serviceModels.LocalisedArticleContentServiceMo
 import architecture.domain.models.viewModels.ArticleAddImageViewModel;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
+import architecture.services.interfaces.ImageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,12 +29,14 @@ import java.util.Date;
 public class ArticleController extends BaseController {
     private final ArticleService articleService;
     private final CategoryService categoryService;
+    private final ImageService imageService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ArticleController(ArticleService articleService, CategoryService categoryService, ModelMapper modelMapper) {
+    public ArticleController(ArticleService articleService, CategoryService categoryService, ImageService imageService, ModelMapper modelMapper) {
         this.articleService = articleService;
         this.categoryService = categoryService;
+        this.imageService = imageService;
         this.modelMapper = modelMapper;
     }
 
@@ -148,6 +148,11 @@ public class ArticleController extends BaseController {
     @RequestMapping(method = {RequestMethod.PUT}, value = "/add-image", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public String articleAddImagepost(@RequestBody ArticleAddImageBindingModel image){
+        ArticleServiceModel article = this.articleService.findById(image.getId());
+        ImageServiceModel imageServiceModel = new ImageServiceModel(image.getImage().getUrl());
+        imageServiceModel.getLocalImageNames().put(image.getLang(), image.getImage().getName());
+        imageServiceModel.setArticle(article);
+        this.imageService.saveImage(imageServiceModel);
         System.out.println(image.getLang());
         return "\"/" + super.getLocale() + "/admin/listAll\"";
     }

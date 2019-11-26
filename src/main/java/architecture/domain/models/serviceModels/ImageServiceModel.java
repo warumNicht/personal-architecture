@@ -10,6 +10,13 @@ public class ImageServiceModel extends BaseModel {
     private Map<CountryCodes, String> localImageNames = new HashMap<>();
     private ArticleServiceModel article;
 
+    public ImageServiceModel() {
+    }
+
+    public ImageServiceModel(String url) {
+        this.url = url;
+    }
+
     public String getUrl() {
         return url;
     }

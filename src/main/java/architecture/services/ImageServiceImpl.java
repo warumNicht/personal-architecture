@@ -17,6 +17,6 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void saveImage(ImageServiceModel imageServiceModel){
-
+        System.out.println();
     }
 }

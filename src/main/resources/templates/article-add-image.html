@@ -21,7 +21,7 @@
             <img th:src="@{${article.mainImageUrl != null ? article.mainImageUrl : '/images/default.jpg'}}" alt="">
         </div>
 
-        <select id="lang" class="form-control" th:field="${image.lang}">
+        <select id="lang" class="form-control">
             <option th:each="countryCode : ${T(architecture.domain.CountryCodes).values()}"
                     th:value="${countryCode}"
                     th:text="#{${'lang.' + countryCode }}">
@@ -31,7 +31,6 @@
         <div class="form-group">
             <label for="url">Url</label>
             <input type="text" name="url" class="form-control"
-                   th:field="${image.image.url}"
                    id="url" th:placeholder="'URL...'">
         </div>
 
