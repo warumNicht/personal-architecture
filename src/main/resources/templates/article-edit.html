@@ -8,9 +8,6 @@
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
 <main class="container-fluid">
-    <div>
-        <h1>All articles</h1>
-    </div>
 
     <div class="article-container" th:with="locale=${@localeService.getLocale()}">
         <div class="article-centered" th:each="article: ${allArticles}">
@@ -25,7 +22,8 @@
                     <p th:text="${local.key}"></p>
                     <p th:text="${local.value.title}"></p>
                     <p th:text="${local.value.content}"></p>
-
+                    <a class="btn btn-success" th:href="@{|/${locale}/admin/articles/edit/${article.id}/${local.key}|}">Alternative
+                        edit</a>
                     <a class="btn btn-success"
                        th:href="@{'/'+ ${locale} + '/admin/articles/edit/{id}/{lang}'(lang=${local.key},id=${article.id})}"
                        th:text="|#{edit} ${local.key}|"></a>
@@ -35,10 +33,7 @@
                th:text="#{add.lang}"></a>
             <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/add-image/${article.id}|}"
                th:text="#{add.image}"></a>
-            <a class="btn btn-success" th:href="@{|/${locale}/admin/articles/edit/${article.id}|}">
-                EDIT</a>
         </div>
-
     </div>
 
 </main>

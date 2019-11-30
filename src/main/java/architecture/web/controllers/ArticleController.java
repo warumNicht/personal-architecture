@@ -100,7 +100,7 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping(value = "/edit/{id}/{lang}")
-    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang,
+    public ModelAndView editArticleLang(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang,
                                     @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(id);
         LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(CountryCodes.valueOf(lang));
@@ -117,7 +117,7 @@ public class ArticleController extends BaseController {
 
     @RequestMapping(method = {RequestMethod.PATCH}, value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public String editArticlePut(@RequestBody ArticleEditLangBindingModel model) {
+    public String editArticleLangPut(@RequestBody ArticleEditLangBindingModel model) {
 
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
@@ -154,5 +154,13 @@ public class ArticleController extends BaseController {
         imageServiceModel.setArticle(article);
         this.imageService.saveImage(imageServiceModel);
         return "\"/" + super.getLocale() + "/admin/listAll\"";
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id,
+                                        @ModelAttribute(name = "articleEdit") ArticleEditLangBindingModel model) {
+        modelAndView.addObject("articleEdit", model);
+        modelAndView.setViewName("article-edit");
+        return modelAndView;
     }
 }
