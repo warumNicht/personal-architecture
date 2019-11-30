@@ -10,6 +10,7 @@ import architecture.domain.models.serviceModels.CategoryServiceModel;
 import architecture.domain.models.serviceModels.ImageServiceModel;
 import architecture.domain.models.serviceModels.LocalisedArticleContentServiceModel;
 import architecture.domain.models.viewModels.ArticleAddImageViewModel;
+import architecture.domain.models.viewModels.ArticleViewModel;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
 import architecture.services.interfaces.ImageService;
@@ -157,9 +158,10 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping(value = "/edit/{id}")
-    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id,
-                                        @ModelAttribute(name = "articleEdit") ArticleEditLangBindingModel model) {
-        modelAndView.addObject("articleEdit", model);
+    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id) {
+        ArticleServiceModel article = this.articleService.findById(id);
+        ArticleViewModel viewModel = this.modelMapper.map(article, ArticleViewModel.class);
+        modelAndView.addObject("articleEdit", viewModel);
         modelAndView.setViewName("article-edit");
         return modelAndView;
     }
