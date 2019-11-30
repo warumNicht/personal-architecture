@@ -10,28 +10,28 @@
 <main class="container-fluid">
 
     <div class="article-container" th:with="locale=${@localeService.getLocale()}">
-        <div class="article-centered" th:each="article: ${allArticles}">
+        <div class="article-centered" th:object="${articleEdit}">
             <div>
-                <p th:text="|ArticleId: ${article.id} Created: ${article.date}|"></p>
+                <p th:text="|ArticleId: ${articleEdit.id}|"></p>
             </div>
             <div>
-                <img th:src="@{${article.mainImage != null ? article.mainImage.url : '/images/default.jpg'}}" alt="">
+                <img th:src="@{${articleEdit.mainImage != null ? articleEdit.mainImage.url : '/images/default.jpg'}}" alt="">
             </div>
             <div>
-                <div th:each="local : ${article.localContent}">
+                <div th:each="local : ${articleEdit.localContent}">
                     <p th:text="${local.key}"></p>
                     <p th:text="${local.value.title}"></p>
                     <p th:text="${local.value.content}"></p>
-                    <a class="btn btn-success" th:href="@{|/${locale}/admin/articles/edit/${article.id}/${local.key}|}">Alternative
+                    <a class="btn btn-success" th:href="@{|/${locale}/admin/articles/edit/${articleEdit.id}/${local.key}|}">Alternative
                         edit</a>
                     <a class="btn btn-success"
-                       th:href="@{'/'+ ${locale} + '/admin/articles/edit/{id}/{lang}'(lang=${local.key},id=${article.id})}"
+                       th:href="@{'/'+ ${locale} + '/admin/articles/edit/{id}/{lang}'(lang=${local.key},id=${articleEdit.id})}"
                        th:text="|#{edit} ${local.key}|"></a>
                 </div>
             </div>
-            <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/addLang/${article.id}|}"
+            <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/addLang/${articleEdit.id}|}"
                th:text="#{add.lang}"></a>
-            <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/add-image/${article.id}|}"
+            <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/add-image/${articleEdit.id}|}"
                th:text="#{add.image}"></a>
         </div>
     </div>
