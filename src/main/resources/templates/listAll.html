@@ -20,21 +20,7 @@
             <div>
                 <img th:src="@{${article.mainImage != null ? article.mainImage.url : '/images/default.jpg'}}" alt="">
             </div>
-            <div>
-                <div th:each="local : ${article.localContent}">
-                    <p th:text="${local.key}"></p>
-                    <p th:text="${local.value.title}"></p>
-                    <p th:text="${local.value.content}"></p>
 
-                    <a class="btn btn-success"
-                       th:href="@{'/'+ ${locale} + '/admin/articles/edit/{id}/{lang}'(lang=${local.key},id=${article.id})}"
-                       th:text="|#{edit} ${local.key}|"></a>
-                </div>
-            </div>
-            <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/addLang/${article.id}|}"
-               th:text="#{add.lang}"></a>
-            <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/add-image/${article.id}|}"
-               th:text="#{add.image}"></a>
             <a class="btn btn-success" th:href="@{|/${locale}/admin/articles/edit/${article.id}|}">
                 EDIT</a>
         </div>
