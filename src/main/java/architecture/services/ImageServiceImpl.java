@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
@@ -23,5 +25,11 @@ public class ImageServiceImpl implements ImageService {
     public void saveImage(ImageServiceModel imageServiceModel){
         Image image = this.modelMapper.map(imageServiceModel, Image.class);
         this.imageRepository.saveAndFlush(image);
+    }
+
+    @Override
+    public Object getImagesByArticle(Long articleId) {
+        List<Image> imagesByArticle = this.imageRepository.getImagesByArticle(articleId);
+        return imagesByArticle;
     }
 }
