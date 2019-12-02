@@ -1,8 +1,13 @@
 package architecture.domain.models.viewModels;
 
-public class ImageLocaleViewModel {
+import architecture.domain.models.BaseModel;
+
+public class ImageLocaleViewModel extends BaseModel {
     private String url;
     private String name;
+
+    public ImageLocaleViewModel() {
+    }
 
     public ImageLocaleViewModel(String url, String name) {
         this.url = url;
