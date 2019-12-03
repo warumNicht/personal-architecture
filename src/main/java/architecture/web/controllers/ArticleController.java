@@ -148,7 +148,7 @@ public class ArticleController extends BaseController {
 
     @RequestMapping(method = {RequestMethod.PUT}, value = "/add-image", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public String articleAddImagepost(@RequestBody ArticleAddImageBindingModel image){
+    public String articleAddImagePut(@RequestBody ArticleAddImageBindingModel image){
         ArticleServiceModel article = this.articleService.findById(image.getId());
         ImageServiceModel imageServiceModel = new ImageServiceModel(image.getImage().getUrl());
         imageServiceModel.getLocalImageNames().put(image.getLang(), image.getImage().getName());

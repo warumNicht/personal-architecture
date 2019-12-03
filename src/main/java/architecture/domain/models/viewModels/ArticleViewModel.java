@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ArticleViewModel extends BaseModel {
-    private ImageViewModel mainImage;
+    private ImageSimpleViewModel mainImage;
     private Map<CountryCodes, LocalisedArticleContentViewModel> localContent = new HashMap<>();
 
-    public ImageViewModel getMainImage() {
+    public ImageSimpleViewModel getMainImage() {
         return mainImage;
     }
 
-    public void setMainImage(ImageViewModel mainImage) {
+    public void setMainImage(ImageSimpleViewModel mainImage) {
         this.mainImage = mainImage;
     }
 

@@ -1,6 +1,6 @@
 package architecture.domain.models.viewModels;
 
-public class ImageViewModel {
+public class ImageSimpleViewModel {
     private String url;
 
     public String getUrl() {
