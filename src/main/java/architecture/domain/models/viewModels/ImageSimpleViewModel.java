@@ -1,7 +1,16 @@
 package architecture.domain.models.viewModels;
 
-public class ImageSimpleViewModel {
+import architecture.domain.models.BaseModel;
+
+public class ImageSimpleViewModel extends BaseModel {
     private String url;
+
+    public ImageSimpleViewModel() {
+    }
+
+    public ImageSimpleViewModel(String url) {
+        this.url = url;
+    }
 
     public String getUrl() {
         return url;

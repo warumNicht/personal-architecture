@@ -2,24 +2,15 @@ package architecture.domain.models.viewModels;
 
 import architecture.domain.models.BaseModel;
 
-public class ImageLocaleViewModel extends BaseModel {
-    private String url;
+public class ImageLocaleViewModel extends ImageSimpleViewModel {
     private String name;
 
     public ImageLocaleViewModel() {
     }
 
     public ImageLocaleViewModel(String url, String name) {
-        this.url = url;
+        super(url);
         this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getName() {
