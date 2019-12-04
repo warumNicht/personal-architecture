@@ -2,25 +2,29 @@ package architecture.web.controllers;
 
 import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
+import architecture.domain.models.viewModels.ImageViewModel;
 import architecture.services.interfaces.CategoryService;
 import architecture.services.interfaces.ImageService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/fetch")
 public class FetchController extends BaseController {
     private final CategoryService categoryService;
-    private final ImageService  imageService;
+    private final ImageService imageService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public FetchController(CategoryService categoryService, ImageService imageService) {
+    public FetchController(CategoryService categoryService, ImageService imageService, ModelMapper modelMapper) {
         this.categoryService = categoryService;
         this.imageService = imageService;
+        this.modelMapper = modelMapper;
     }
 
     @RequestMapping(value = "/categories/all", produces = "application/json")
@@ -30,8 +34,10 @@ public class FetchController extends BaseController {
     }
 
     @RequestMapping(value = "/images/{articleId}", produces = "application/json")
-    public Object getArticleImages(@PathVariable(name = "articleId") Long articleId){
-        Object res=this.imageService.getImagesByArticle(articleId);
-        return res;
+    public Object getArticleImages(@PathVariable(name = "articleId") Long articleId) {
+        return this.imageService.getImagesByArticle(articleId)
+                .stream()
+                .map(img -> this.modelMapper.map(img, ImageViewModel.class))
+                .collect(Collectors.toList());
     }
 }

@@ -30,10 +30,9 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Object getImagesByArticle(Long articleId) {
-        Object imagesByArticle = this.imageRepository.getImagesByArticle(articleId).stream()
-                .map(image -> this.modelMapper.map(image, ImageLocaleViewModel.class))
+    public List<ImageServiceModel> getImagesByArticle(Long articleId) {
+        return this.imageRepository.getImagesByArticle(articleId).stream()
+                .map(image -> this.modelMapper.map(image, ImageServiceModel.class))
                 .collect(Collectors.toList());
-        return imagesByArticle;
     }
 }
