@@ -2,13 +2,11 @@ package architecture.services;
 
 import architecture.domain.entities.Image;
 import architecture.domain.models.serviceModels.ImageServiceModel;
-import architecture.domain.models.viewModels.ImageLocaleViewModel;
 import architecture.repositories.ImageRepository;
 import architecture.services.interfaces.ImageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

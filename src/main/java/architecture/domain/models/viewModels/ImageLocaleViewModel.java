@@ -1,7 +1,5 @@
 package architecture.domain.models.viewModels;
 
-import architecture.domain.models.BaseModel;
-
 public class ImageLocaleViewModel extends ImageSimpleViewModel {
     private String name;
 
