@@ -2,6 +2,13 @@ import {sendXmlHttpRequest} from "./http-requests.js";
 
 window.showImages = function showImages() {
     console.log('AAAAAAA');
+    const urlParts=window.location.pathname.split('/');
+    const articleId=urlParts[urlParts.length-1];
+            sendXmlHttpRequest('GET', '/fetch/images/'+ articleId).then(function (res) {
+            const button = document.getElementById("image-container");
+                    console.log(res);
+                }
+            );
 }
 
 $(document).ready(function () {
