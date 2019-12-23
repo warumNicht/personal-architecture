@@ -5,7 +5,9 @@ window.showImages = function showImages() {
     const urlParts=window.location.pathname.split('/');
     const articleId=urlParts[urlParts.length-1];
             sendXmlHttpRequest('GET', '/fetch/images/'+ articleId).then(function (res) {
-            const button = document.getElementById("image-container");
+            const imageDiv = document.getElementById("image-container");
+                    console.log(imageDiv);
+          
                     console.log(res);
                 }
             );
