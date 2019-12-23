@@ -1,5 +1,9 @@
 import {sendXmlHttpRequest} from "./http-requests.js";
 
+window.showImages = function showImages() {
+    console.log('AAAAAAA');
+}
+
 $(document).ready(function () {
 //    const button = document.getElementById("submit-button");
 //    button.onclick = function () {
