@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: head}"></head>
+
+<body>
+
+<header th:insert="~{fragments/navbar :: guest-ul}"></header>
+
+<main>
+
+    <form class="mx-auto w-25" th:method="put"
+          th:action="@{/admin/category/edit/{categoryId}(categoryId=${imageEdit.id})}"
+          th:object="${imageEdit}">
+
+        <div class="form-group" th:each="countryCode, stat :*{localImageNames}">
+            <label th:text="#{${'lang.' + countryCode.key }}"></label>
+            <input type="text" class="form-control"
+                   th:field="*{localImageNames[__${countryCode.key}__]}">
+        </div>
+        <input type="hidden" th:field="*{id}" th:value="${imageEdit.id}">
+
+        <div class="button-holder mt-4 d-flex justify-content-center">
+            <button type="submit" class="btn btn-info">Edit Category</button>
+        </div>
+    </form>
+</main>
+
+<footer th:replace="~{fragments/general :: footer}"></footer>
+
+</body>
+</html>

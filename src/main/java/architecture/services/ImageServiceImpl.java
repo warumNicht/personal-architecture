@@ -33,4 +33,9 @@ public class ImageServiceImpl implements ImageService {
                 .map(image -> this.modelMapper.map(image, ImageServiceModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ImageServiceModel getImageById(Long id){
+        return this.modelMapper.map(this.imageRepository.findById(id).orElseThrow(), ImageServiceModel.class);
+    }
 }

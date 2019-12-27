@@ -9,4 +9,6 @@ public interface ImageService {
 
 
     List<ImageServiceModel> getImagesByArticle(Long articleId);
+
+    ImageServiceModel getImageById(Long id);
 }
