@@ -10,8 +10,12 @@
 <main>
 
     <form class="mx-auto w-25" th:method="put"
-          th:action="@{/admin/category/edit/{categoryId}(categoryId=${imageEdit.id})}"
+          th:action="@{/admin/images/edit/{imageId}(imageId=${imageEdit.id})}"
           th:object="${imageEdit}">
+
+        <div class="form-group">
+            <img th:src="${imageEdit.url}" alt="">
+        </div>
 
         <div class="form-group" th:each="countryCode, stat :*{localImageNames}">
             <label th:text="#{${'lang.' + countryCode.key }}"></label>
@@ -19,6 +23,7 @@
                    th:field="*{localImageNames[__${countryCode.key}__]}">
         </div>
         <input type="hidden" th:field="*{id}" th:value="${imageEdit.id}">
+        <input type="hidden" th:field="*{url}" th:value="${imageEdit.url}">
 
         <div class="button-holder mt-4 d-flex justify-content-center">
             <button type="submit" class="btn btn-info">Edit Category</button>

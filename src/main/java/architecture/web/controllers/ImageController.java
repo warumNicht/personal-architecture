@@ -7,14 +7,13 @@ import architecture.services.interfaces.ImageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 @Controller
 @RequestMapping(value = "/admin/images")
-public class ImageController {
+public class ImageController extends BaseController{
     private final ImageService imageService;
     private final ModelMapper modelMapper;
 
@@ -35,5 +34,11 @@ public class ImageController {
         modelAndView.addObject("imageEdit", imageToEdit);
         modelAndView.setViewName("edit-image");
         return modelAndView;
+    }
+
+    @PutMapping(value = "/edit/{id}")
+    public String editImagePut(@ModelAttribute(name = "imageEdit") ImageEditBindingModel model){
+        model.getLocalImageNames().entrySet().removeIf(kv->kv.getValue().isEmpty());
+        return "redirect:/" + super.getLocale() + "/admin/listAll";
     }
 }
