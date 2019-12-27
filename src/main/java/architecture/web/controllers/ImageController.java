@@ -36,9 +36,14 @@ public class ImageController extends BaseController{
         return modelAndView;
     }
 
-    @PutMapping(value = "/edit/{id}")
-    public String editImagePut(@ModelAttribute(name = "imageEdit") ImageEditBindingModel model){
+    @PutMapping(value = "/edit/{imageId}")
+    public String editImagePut(@ModelAttribute(name = "imageEdit") ImageEditBindingModel model,
+                               @PathVariable(name = "imageId") Long imageId){
         model.getLocalImageNames().entrySet().removeIf(kv->kv.getValue().isEmpty());
-        return "redirect:/" + super.getLocale() + "/admin/listAll";
+        ImageServiceModel imageById = this.imageService.getImageById(imageId);
+        imageById.setUrl(model.getUrl());
+        imageById.setLocalImageNames(model.getLocalImageNames());
+        this.imageService.saveImage(imageById);
+        return "redirect:/" + super.getLocale() + "/admin/articles/edit/" + imageById.getArticle().getId();
     }
 }
