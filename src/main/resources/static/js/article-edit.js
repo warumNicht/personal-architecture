@@ -1,4 +1,5 @@
 import {sendXmlHttpRequest} from "./http-requests.js";
+import {getLocale} from "./fetch-functions.js";
 
 window.showImages = function showImages() {
     console.log('AAAAAAA');
@@ -30,7 +31,8 @@ window.showImages = function showImages() {
 
 window.editImage = function (id){
 console.log(id);
-//    window.location='/admin/listAll'
+const locale= getLocale(location.href);
+window.location=`${locale}admin/images/edit/${id}`;
 }
 
 $(document).ready(function () {

@@ -15,4 +15,10 @@ function fetchCategories(selectElement) {
     });
 }
 
-export {fetchCategories}
+function getLocale(url){
+            const regex = /^.*\/(fr|en|bg|es|de)\//g;
+            const found = url.match(regex);
+            return found[0];
+}
+
+export {fetchCategories, getLocale}
