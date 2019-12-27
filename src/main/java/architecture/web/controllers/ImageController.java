@@ -7,9 +7,8 @@ import architecture.services.interfaces.ImageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 @Controller
 @RequestMapping(value = "/admin/images")
@@ -24,16 +23,14 @@ public class ImageController extends BaseController{
     }
 
     @GetMapping(value = "/edit/{id}")
-    public ModelAndView editImage(@PathVariable Long id, ModelAndView modelAndView){
+    public String editImage(@PathVariable Long id, Model model){
         ImageServiceModel imageById = this.imageService.getImageById(id);
         ImageEditBindingModel imageToEdit = this.modelMapper.map(imageById, ImageEditBindingModel.class);
         for (CountryCodes value : CountryCodes.values()) {
             imageToEdit.getLocalImageNames().putIfAbsent(value, "");
         }
-
-        modelAndView.addObject("imageEdit", imageToEdit);
-        modelAndView.setViewName("edit-image");
-        return modelAndView;
+        model.addAttribute("imageEdit", imageToEdit);
+        return "edit-image";
     }
 
     @PutMapping(value = "/edit/{imageId}")
