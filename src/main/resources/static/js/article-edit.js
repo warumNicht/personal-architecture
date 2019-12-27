@@ -19,11 +19,18 @@ window.showImages = function showImages() {
                             console.log( key + " : " + names[key] );
                             currentImageDiv.append(`<div><span>${key}</span> ${names[key]}</div>`);
                           }
+
+                          currentImageDiv.append(`<button class="btn btn-info" onclick="editImage(${image.id})">Edit</button>`)
                            imageDiv.append(currentImageDiv);
                         });
                     console.log(res);
                 }
             );
+}
+
+window.editImage = function (id){
+console.log(id);
+//    window.location='/admin/listAll'
 }
 
 $(document).ready(function () {
