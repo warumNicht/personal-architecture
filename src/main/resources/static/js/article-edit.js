@@ -11,7 +11,7 @@ window.showImages = function showImages() {
             sendXmlHttpRequest('GET', '/fetch/images/'+ articleId).then(function (res) {
 
                     console.log(imageDiv);
-                    res.forEach(function (image) {
+                    res.forEach((image)=> {
                            const currentImageDiv=$('<div></div>');
                            currentImageDiv.append(`<img src="${image.url}">`);
                            const names=image.localImageNames;
