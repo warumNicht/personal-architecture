@@ -1,5 +1,6 @@
 package architecture.web.controllers;
 
+import architecture.domain.CountryCodes;
 import architecture.domain.models.bindingModels.ImageEditBindingModel;
 import architecture.domain.models.serviceModels.ImageServiceModel;
 import architecture.services.interfaces.ImageService;
@@ -27,6 +28,10 @@ public class ImageController {
     public ModelAndView editImage(@PathVariable Long id, ModelAndView modelAndView){
         ImageServiceModel imageById = this.imageService.getImageById(id);
         ImageEditBindingModel imageToEdit = this.modelMapper.map(imageById, ImageEditBindingModel.class);
+        for (CountryCodes value : CountryCodes.values()) {
+            imageToEdit.getLocalImageNames().putIfAbsent(value, "");
+        }
+
         modelAndView.addObject("imageEdit", imageToEdit);
         modelAndView.setViewName("edit-image");
         return modelAndView;
