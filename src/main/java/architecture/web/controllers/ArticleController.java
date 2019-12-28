@@ -18,6 +18,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.Date;
 
-@RestController
+@Controller
 @RequestMapping(value = "/admin/articles")
 public class ArticleController extends BaseController {
     private final ArticleService articleService;
@@ -116,6 +118,7 @@ public class ArticleController extends BaseController {
         return modelAndView;
     }
 
+    @ResponseBody
     @RequestMapping(method = {RequestMethod.PATCH}, value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public String editArticleLangPut(@RequestBody ArticleEditLangBindingModel model) {
@@ -123,29 +126,34 @@ public class ArticleController extends BaseController {
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
         articleServiceModel.getLocalContent().put(CountryCodes.valueOf(model.getLang()), content);
-        articleServiceModel.getMainImage().getLocalImageNames().put(CountryCodes.valueOf(model.getLang()),model.getMainImageName());
+        if(articleServiceModel.getMainImage()!=null){
+            articleServiceModel.getMainImage().getLocalImageNames().put(CountryCodes.valueOf(model.getLang()),model.getMainImageName());
+        }
         this.articleService.updateArticle(articleServiceModel);
         return "\"/" + super.getLocale() + "/admin/listAll\"";
     }
 
     @GetMapping(value = "/add-image/{id}")
-    public ModelAndView articleAddImage(ModelAndView modelAndView, @PathVariable(name = "id") Long id){
+    public String articleAddImage( @PathVariable(name = "id") Long id,Model model){
         ArticleServiceModel article = this.articleService.findById(id);
         LocalisedArticleContentServiceModel content = article.getLocalContent().get(super.getCurrentCookieLocale());
         if(content==null){
             content=article.getLocalContent().get(ApplicationConstants.DEFAULT_COUNTRY_CODE);
         }
-        ArticleAddImageViewModel model;
-        if(article.getMainImage()!=null){
-            model= new ArticleAddImageViewModel(id, content.getTitle(), article.getMainImage().getUrl());
-        }else {
-            model= new ArticleAddImageViewModel(id, content.getTitle());
+        if(content==null){
+            content = article.getLocalContent().entrySet().iterator().next().getValue();
         }
-        modelAndView.addObject("article",model);
-        modelAndView.setViewName("article-add-image");
-        return modelAndView;
+        ArticleAddImageViewModel addImageViewModel;
+        if(article.getMainImage()!=null){
+            addImageViewModel = new ArticleAddImageViewModel(id, content.getTitle(), article.getMainImage().getUrl());
+        }else {
+            addImageViewModel = new ArticleAddImageViewModel(id, content.getTitle());
+        }
+        model.addAttribute("article",addImageViewModel);
+        return "article-add-image";
     }
 
+    @ResponseBody
     @RequestMapping(method = {RequestMethod.PUT}, value = "/add-image", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public String articleAddImagePut(@RequestBody ArticleAddImageBindingModel image){
