@@ -23,7 +23,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.util.Date;
 
@@ -44,51 +43,46 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping("/create")
-    public ModelAndView createArticle(@ModelAttribute(name = "articleBinding") ArticleBindingModel model, ModelAndView modelAndView) {
-        modelAndView.addObject("articleBinding", model);
-        modelAndView.setViewName("create-article");
-        return modelAndView;
+    public String createArticle(@ModelAttribute(name = "articleBinding") ArticleBindingModel articleBindingModel, Model model) {
+        model.addAttribute("articleBinding", articleBindingModel);
+        return "create-article";
     }
 
     @PostMapping("/create")
-    private ModelAndView createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleBindingModel model,
-                                           BindingResult bindingResult, ModelAndView modelAndView) {
+    private String createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleBindingModel bindingModel,
+                                           BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("articleBinding", model);
-            modelAndView.setViewName("create-article");
-            return modelAndView;
+            model.addAttribute("articleBinding", bindingModel);
+            return "create-article";
         }
         ArticleServiceModel article = new ArticleServiceModel(new Date());
-        CategoryServiceModel category = this.categoryService.findById(model.getCategoryId());
+        CategoryServiceModel category = this.categoryService.findById(bindingModel.getCategoryId());
         article.setCategory(category);
-        LocalisedArticleContentServiceModel content = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
-        article.getLocalContent().put(model.getCountry(), content);
-        if(!"".equals(model.getMainImage().getUrl())){
-            ImageServiceModel mainImage = this.modelMapper.map(model.getMainImage(), ImageServiceModel.class);
-            mainImage.getLocalImageNames().put(model.getCountry(),model.getMainImage().getName());
+        LocalisedArticleContentServiceModel content = new LocalisedArticleContentServiceModel(bindingModel.getTitle(), bindingModel.getContent());
+        article.getLocalContent().put(bindingModel.getCountry(), content);
+        if(!"".equals(bindingModel.getMainImage().getUrl())){
+            ImageServiceModel mainImage = this.modelMapper.map(bindingModel.getMainImage(), ImageServiceModel.class);
+            mainImage.getLocalImageNames().put(bindingModel.getCountry(),bindingModel.getMainImage().getName());
             mainImage.setArticle(article);
             article.setMainImage(mainImage);
         }
         this.articleService.createArticle(article);
-
-        modelAndView.setViewName("redirect:/" + super.getLocale() + "/");
-        return modelAndView;
+        return "redirect:/" + super.getLocale() + "/";
     }
 
     @GetMapping("/addLang/{id}")
-    public ModelAndView addLanguageToArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long articleId,
+    public String addLanguageToArticle(Model modelView, @PathVariable(name = "id") Long articleId,
                                              @ModelAttribute(name = "articleBinding") ArticleBindingModel model) {
         ArticleServiceModel article = this.articleService.findById(articleId);
         if(article.getMainImage()==null){
             model.setMainImage(null);
         }
-        modelAndView.addObject("articleBinding", model);
-        modelAndView.setViewName("article-add-lang");
-        return modelAndView;
+        modelView.addAttribute("articleBinding", model);
+        return "article-add-lang";
     }
 
     @PostMapping("/addLang")
-    public ModelAndView addLanguageToArticlePost(ModelAndView modelAndView,
+    public String addLanguageToArticlePost(Model modelView,
                                                  @ModelAttribute(name = "articleBinding") ArticleBindingModel model, @RequestParam(name = "articleId") Long articleId) {
         ArticleServiceModel article = this.articleService.findById(articleId);
         LocalisedArticleContentServiceModel localisedArticleContent = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
@@ -97,9 +91,7 @@ public class ArticleController extends BaseController {
             article.getMainImage().getLocalImageNames().put(model.getCountry(), model.getMainImage().getName());
         }
         this.articleService.updateArticle(article);
-
-        modelAndView.setViewName("redirect:/" + super.getLocale() + "/admin/listAll");
-        return modelAndView;
+        return "redirect:/" + super.getLocale() + "/admin/listAll";
     }
 
     @GetMapping(value = "/edit/{id}/{lang}")
