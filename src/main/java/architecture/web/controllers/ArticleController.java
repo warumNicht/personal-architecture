@@ -95,7 +95,7 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping(value = "/edit/{id}/{lang}")
-    public ModelAndView editArticleLang(ModelAndView modelAndView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang,
+    public String editArticleLang(Model modelView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang,
                                     @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(id);
         LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(CountryCodes.valueOf(lang));
@@ -105,9 +105,8 @@ public class ArticleController extends BaseController {
             bindingModel.setMainImageName(articleServiceModel.getMainImage().getLocalImageNames().get(CountryCodes.valueOf(lang)));
         }
         model = bindingModel;
-        modelAndView.addObject("articleEditLang", model);
-        modelAndView.setViewName("article-edit-lang");
-        return modelAndView;
+        modelView.addAttribute("articleEditLang", model);
+        return "article-edit-lang";
     }
 
     @ResponseBody
@@ -158,11 +157,10 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping(value = "/edit/{id}")
-    public ModelAndView editArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long id) {
+    public String editArticle(Model model, @PathVariable(name = "id") Long id) {
         ArticleServiceModel article = this.articleService.findById(id);
         ArticleViewModel viewModel = this.modelMapper.map(article, ArticleViewModel.class);
-        modelAndView.addObject("articleEdit", viewModel);
-        modelAndView.setViewName("article-edit");
-        return modelAndView;
+        model.addAttribute("articleEdit", viewModel);
+        return "article-edit";
     }
 }
