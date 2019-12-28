@@ -36,7 +36,6 @@ window.showImages = function showImages() {
 }
 
 window.editImage = function (id) {
-    console.log(id);
     const locale = getLocale(location.href);
     window.location = `${locale}admin/images/edit/${id}`;
 }
