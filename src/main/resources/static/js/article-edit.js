@@ -3,13 +3,24 @@ import {getLocale} from "./fetch-functions.js";
 
 window.showImages = function showImages() {
     const imageDiv = $("#image-container");
+    const imageButton = $("#show-hide-images");
     if (imageDiv.html()) {
+        if(imageButton[0].innerText==='Show images'){
+            imageDiv.show();
+            imageButton[0].innerText='Hide images';
+        }else{
+            imageDiv.hide();
+            imageButton[0].innerText='Show images';
+        }
         return;
     }
+    imageButton.text('Hide images');
     const urlParts = window.location.pathname.split('/');
     const articleId = urlParts[urlParts.length - 1];
     sendXmlHttpRequest('GET', '/fetch/images/' + articleId).then(function (res) {
-
+            if(res.length===0){
+                imageDiv.append('<p>No images</p>');
+            }
             console.log(imageDiv);
             res.forEach((image) => {
                 const currentImageDiv = $('<div></div>');

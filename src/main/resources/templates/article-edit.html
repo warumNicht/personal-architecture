@@ -33,7 +33,7 @@
                th:text="#{add.lang}"></a>
             <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/add-image/${articleEdit.id}|}"
                th:text="#{add.image}"></a>
-            <a class="btn btn-info" onclick="showImages()">View images</a>
+            <a class="btn btn-info" id="show-hide-images" onclick="showImages()">View images</a>
         </div>
         <div id="image-container"></div>
     </div>
