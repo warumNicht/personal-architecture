@@ -15,8 +15,7 @@ $(document).ready(function () {
         };
         const json = JSON.stringify(data);
 
-        sendXmlHttpRequest('PUT', '/admin/articles/add-image/1', json).then(function (res) {
-                console.log(res);
+        sendXmlHttpRequest('PUT', location.href, json).then(function (res) {
                 window.location = res;
             }
         );
