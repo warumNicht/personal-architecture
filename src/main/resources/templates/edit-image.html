@@ -13,12 +13,15 @@
           th:action="@{/admin/images/edit/{imageId}(imageId=${imageEdit.id})}"
           th:object="${imageEdit}">
 
-        <div class="form-group">
-            <input type="text" class="form-control"
-                   th:field="*{url}" th:value="${imageEdit.url}">
-        </div>
+
         <div class="form-group">
             <img th:src="${imageEdit.url}" alt="">
+        </div>
+
+        <div class="form-group">
+            <label>Url</label>
+            <input type="text" class="form-control"
+                   th:field="*{url}" th:value="${imageEdit.url}">
         </div>
 
         <div class="form-group" th:each="countryCode, stat :*{localImageNames}">

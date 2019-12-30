@@ -22,6 +22,10 @@
                 <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/add-image/${articleEdit.id}?main=true|}">
                     Add main image</a>
             </div>
+            <div th:if="${articleEdit.mainImage!=null}">
+                <a class="btn btn-info" th:href="@{|/${locale}/admin/images/edit/${articleEdit.mainImage.id}|}">
+                    Edit main image</a>
+            </div>
             <div>
                 <div th:each="local : ${articleEdit.localContent}">
                     <p th:text="${local.key}"></p>
