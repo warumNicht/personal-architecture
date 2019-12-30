@@ -1,12 +1,10 @@
 package architecture.web.controllers;
 
 import architecture.domain.CountryCodes;
-import architecture.domain.entities.Article;
 import architecture.domain.models.bindingModels.CategoryCreateBindingModel;
 import architecture.domain.models.bindingModels.CategoryEditBindingModel;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
-import architecture.repositories.ArticleRepository;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
 import org.modelmapper.ModelMapper;
@@ -14,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,45 +31,41 @@ public class AdminController extends BaseController {
     }
 
     @RequestMapping(method = {RequestMethod.GET}, value = "/listAll")
-    public ModelAndView listAll(ModelAndView modelAndView) {
+    public String listAll(Model model) {
         List<ArticleServiceModel> allArticles = this.articleService.findAll();
-        modelAndView.addObject("allArticles", allArticles);
-        modelAndView.setViewName("listAll");
-        return modelAndView;
+        model.addAttribute("allArticles", allArticles);
+        return "listAll";
     }
 
     @GetMapping("/category/create")
-    public ModelAndView createCategory(ModelAndView modelAndView, @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel model) {
-        modelAndView.addObject("categoryCreateModel", model);
-        modelAndView.setViewName("createCategory");
-        return modelAndView;
+    public String createCategory(Model modelView, @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel model) {
+        modelView.addAttribute("categoryCreateModel", model);
+        return "categories/category-create";
     }
 
     @PostMapping("/category/create")
-    public ModelAndView createCategoryPost(ModelAndView modelAndView, @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel model) {
+    public String createCategoryPost(@ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel bindingModel) {
         CategoryServiceModel category = new CategoryServiceModel();
-        category.getLocalCategoryNames().put(model.getCountry(), model.getName());
+        category.getLocalCategoryNames().put(bindingModel.getCountry(), bindingModel.getName());
         this.categoryService.addCategory(category);
-        modelAndView.setViewName("redirect:/" + super.getLocale() + "/");
-        return modelAndView;
+        return "redirect:/" + super.getLocale() + "/admin/category/list";
     }
 
     @GetMapping("/category/edit/{categoryId}")
-    public ModelAndView editCategory(ModelAndView modelAndView, @PathVariable(name = "categoryId") Long categoryId) {
+    public String editCategory(Model model, @PathVariable(name = "categoryId") Long categoryId) {
         CategoryServiceModel category = this.categoryService.findById(categoryId);
-        CategoryEditBindingModel model = new CategoryEditBindingModel();
-        model.setId(categoryId);
+        CategoryEditBindingModel bindingModel = new CategoryEditBindingModel();
+        bindingModel.setId(categoryId);
 
         for (Map.Entry<CountryCodes, String> local : category.getLocalCategoryNames().entrySet()) {
-            model.getLocalNames().put(local.getKey(), local.getValue());
+            bindingModel.getLocalNames().put(local.getKey(), local.getValue());
         }
-        modelAndView.addObject("categoryEditModel", model);
-        modelAndView.setViewName("edit-category");
-        return modelAndView;
+        model.addAttribute("categoryEditModel", bindingModel);
+        return "categories/category-edit";
     }
 
     @PutMapping("/category/edit/{categoryId}")
-    public ModelAndView editCategoryPut(ModelAndView modelAndView, @ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model,
+    public String editCategoryPut(@ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model,
                                         @PathVariable(name = "categoryId") Long categoryId) {
         CategoryServiceModel categoryToEdit = this.modelMapper.map(model, CategoryServiceModel.class);
         Map<CountryCodes, String> filteredValues = categoryToEdit.getLocalCategoryNames().entrySet()
@@ -83,8 +75,7 @@ public class AdminController extends BaseController {
         categoryToEdit.setLocalCategoryNames(filteredValues);
 
         this.categoryService.editCategory(categoryToEdit);
-        modelAndView.setViewName("redirect:/" + super.getLocale() + "/");
-        return modelAndView;
+        return "redirect:/" + super.getLocale() + "/admin/category/list";
     }
 
     @GetMapping(value = "/category/list")
