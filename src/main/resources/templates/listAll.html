@@ -18,7 +18,7 @@
                 <p th:text="|ArticleId: ${article.id} Created: ${article.date}|"></p>
             </div>
             <div>
-                <img th:src="@{${article.mainImage != null ? article.mainImage.url : '/images/default.jpg'}}" alt="">
+                <img th:src="@{${article.mainImage != null ? article.mainImage.url : '/images/default.jpg'}}" alt="Not found">
             </div>
 
             <a class="btn btn-success" th:href="@{|/${locale}/admin/articles/edit/${article.id}|}">

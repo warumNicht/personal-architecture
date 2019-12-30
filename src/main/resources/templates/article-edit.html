@@ -16,7 +16,7 @@
             </div>
             <div>
                 <img th:src="@{${articleEdit.mainImage != null ? articleEdit.mainImage.url : '/images/default.jpg'}}"
-                     alt="">
+                     alt="Not found">
             </div>
             <div th:if="${articleEdit.mainImage==null}">
                 <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/add-image/${articleEdit.id}?main=true|}">
