@@ -12,6 +12,7 @@ import architecture.services.interfaces.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -84,5 +85,10 @@ public class AdminController extends BaseController {
         this.categoryService.editCategory(categoryToEdit);
         modelAndView.setViewName("redirect:/" + super.getLocale() + "/");
         return modelAndView;
+    }
+
+    @GetMapping(value = "/category/list")
+    public String listCategories(){
+        return "categories/categories-list";
     }
 }
