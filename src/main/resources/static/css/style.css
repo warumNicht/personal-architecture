@@ -19,3 +19,7 @@ body {
 .article-centered div div {
     border-bottom: 1px solid #171a1d;
 }
+
+img {
+max-width:100%;
+}
