@@ -9,6 +9,9 @@ function fetchCategories(selectElement) {
             const isSelected = categoryId == category.id ? 'selected ' : '';
             selectElement.append('<option ' + isSelected + 'value="' + category.id + '">' + category.name + '</option>');
         })
+        if(showAllCategories){
+            showAllCategories();
+        }
     }).catch(function (error) {
         console.log(error);
     });
