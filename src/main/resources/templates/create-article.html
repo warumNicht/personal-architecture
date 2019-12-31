@@ -15,7 +15,7 @@
     <form class="mx-auto w-25" th:method="post" th:action="@{/admin/articles/create}" th:object="${articleBinding}">
 
         <div class="form-group">
-            <label for="cat" >Category</label>
+            <label for="cat">Category</label>
             <select name="categoryId" class="form-control" id="cat" th:field="${articleBinding.categoryId}">
             </select>
         </div>
@@ -60,13 +60,13 @@
             </small>
         </div>
 
-        <div class="form-group" >
-            <label for="mainImageUrl" >Main image url</label>
+        <div class="form-group">
+            <label for="mainImageUrl">Main image url</label>
             <input type="text" class="form-control"
                    th:field="*{mainImage.url}" th:value="${articleBinding.mainImage.url}"
                    id="mainImageUrl" th:placeholder="${'Enter url'}" name="mainImageUrl">
 
-            <label for="mainImageName" >Image name</label>
+            <label for="mainImageName">Image name</label>
             <input type="text" class="form-control"
                    th:field="*{mainImage.name}" th:value="${articleBinding.mainImage.name}"
                    id="mainImageName" th:placeholder="${'Enter name'}" name="mainImageName">

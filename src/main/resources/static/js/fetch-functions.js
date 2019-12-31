@@ -9,7 +9,7 @@ function fetchCategories(selectElement) {
             const isSelected = categoryId == category.id ? 'selected ' : '';
             selectElement.append('<option ' + isSelected + 'value="' + category.id + '">' + category.name + '</option>');
         })
-        if(showAllCategories){
+        if (showAllCategories) {
             showAllCategories();
         }
     }).catch(function (error) {
@@ -17,10 +17,10 @@ function fetchCategories(selectElement) {
     });
 }
 
-function getLocale(url){
-            const regex = /^.*\/(fr|en|bg|es|de)\//g;
-            const found = url.match(regex);
-            return found[0];
+function getLocale(url) {
+    const regex = /^.*\/(fr|en|bg|es|de)\//g;
+    const found = url.match(regex);
+    return found[0];
 }
 
 export {fetchCategories, getLocale}

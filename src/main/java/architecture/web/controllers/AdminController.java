@@ -66,7 +66,7 @@ public class AdminController extends BaseController {
 
     @PutMapping("/category/edit/{categoryId}")
     public String editCategoryPut(@ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model,
-                                        @PathVariable(name = "categoryId") Long categoryId) {
+                                  @PathVariable(name = "categoryId") Long categoryId) {
         CategoryServiceModel categoryToEdit = this.modelMapper.map(model, CategoryServiceModel.class);
         Map<CountryCodes, String> filteredValues = categoryToEdit.getLocalCategoryNames().entrySet()
                 .stream()
@@ -79,7 +79,7 @@ public class AdminController extends BaseController {
     }
 
     @GetMapping(value = "/category/list")
-    public String listCategories(){
+    public String listCategories() {
         return "categories/categories-list";
     }
 }

@@ -5,12 +5,12 @@ window.showImages = function showImages() {
     const imageDiv = $("#image-container");
     const imageButton = $("#show-hide-images");
     if (imageDiv.html()) {
-        if(imageButton[0].innerText==='Show images'){
+        if (imageButton[0].innerText === 'Show images') {
             imageDiv.show();
-            imageButton[0].innerText='Hide images';
-        }else{
+            imageButton[0].innerText = 'Hide images';
+        } else {
             imageDiv.hide();
-            imageButton[0].innerText='Show images';
+            imageButton[0].innerText = 'Show images';
         }
         return;
     }
@@ -18,7 +18,7 @@ window.showImages = function showImages() {
     const urlParts = window.location.pathname.split('/');
     const articleId = urlParts[urlParts.length - 1];
     sendXmlHttpRequest('GET', '/fetch/images/' + articleId).then(function (res) {
-            if(res.length===0){
+            if (res.length === 0) {
                 imageDiv.append('<p>No images</p>');
             }
             res.forEach((image) => {

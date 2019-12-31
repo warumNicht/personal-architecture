@@ -10,7 +10,7 @@ public class ArticleBindingModel {
     private ImageBindingModel mainImage;
 
     public ArticleBindingModel() {
-        this.mainImage=new ImageBindingModel();
+        this.mainImage = new ImageBindingModel();
     }
 
     public Long getCategoryId() {

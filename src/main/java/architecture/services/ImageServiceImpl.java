@@ -22,7 +22,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void saveImage(ImageServiceModel imageServiceModel){
+    public void saveImage(ImageServiceModel imageServiceModel) {
         Image image = this.modelMapper.map(imageServiceModel, Image.class);
         this.imageRepository.saveAndFlush(image);
     }
@@ -35,7 +35,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public ImageServiceModel getImageById(Long id){
+    public ImageServiceModel getImageById(Long id) {
         return this.modelMapper.map(this.imageRepository.findById(id).orElseThrow(), ImageServiceModel.class);
     }
 }

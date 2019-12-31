@@ -155,11 +155,11 @@ public class ArticleController extends BaseController {
         ImageServiceModel imageServiceModel = new ImageServiceModel(image.getImage().getUrl());
         imageServiceModel.getLocalImageNames().put(image.getLang(), image.getImage().getName());
         imageServiceModel.setArticle(article);
-        if(isMain){
+        if (isMain) {
             article.setMainImage(imageServiceModel);
             this.articleService.updateArticle(article);
-        }else {
-                    this.imageService.saveImage(imageServiceModel);
+        } else {
+            this.imageService.saveImage(imageServiceModel);
         }
         return "\"/" + super.getLocale() + "/admin/listAll\"";
     }

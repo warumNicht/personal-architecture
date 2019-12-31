@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/admin/images")
-public class ImageController extends BaseController{
+public class ImageController extends BaseController {
     private final ImageService imageService;
     private final ModelMapper modelMapper;
 
@@ -23,7 +23,7 @@ public class ImageController extends BaseController{
     }
 
     @GetMapping(value = "/edit/{id}")
-    public String editImage(@PathVariable Long id, Model model){
+    public String editImage(@PathVariable Long id, Model model) {
         ImageServiceModel imageById = this.imageService.getImageById(id);
         ImageEditBindingModel imageToEdit = this.modelMapper.map(imageById, ImageEditBindingModel.class);
         for (CountryCodes value : CountryCodes.values()) {
@@ -35,8 +35,8 @@ public class ImageController extends BaseController{
 
     @PutMapping(value = "/edit/{imageId}")
     public String editImagePut(@ModelAttribute(name = "imageEdit") ImageEditBindingModel model,
-                               @PathVariable(name = "imageId") Long imageId){
-        model.getLocalImageNames().entrySet().removeIf(kv->kv.getValue().isEmpty());
+                               @PathVariable(name = "imageId") Long imageId) {
+        model.getLocalImageNames().entrySet().removeIf(kv -> kv.getValue().isEmpty());
         ImageServiceModel imageById = this.imageService.getImageById(imageId);
         imageById.setUrl(model.getUrl());
         imageById.setLocalImageNames(model.getLocalImageNames());

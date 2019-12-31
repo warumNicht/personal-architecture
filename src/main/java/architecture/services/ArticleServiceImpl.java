@@ -43,9 +43,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleServiceModel> findAll(){
+    public List<ArticleServiceModel> findAll() {
         return this.articleRepository.findAll().stream()
-                .map(article ->  this.modelMapper.map(article, ArticleServiceModel.class))
+                .map(article -> this.modelMapper.map(article, ArticleServiceModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -64,7 +64,7 @@ public class ArticleServiceImpl implements ArticleService {
             Object[] articleObjects = (Object[]) article;
             ArticleLocalViewModel articleLocalViewModel = new ArticleLocalViewModel();
             articleLocalViewModel.setId((Long) articleObjects[0]);
-            if(articleObjects[1]!=null){
+            if (articleObjects[1] != null) {
                 articleLocalViewModel.setMainImage(new ImageLocaleViewModel((String) articleObjects[1], (String) articleObjects[2]));
             }
             articleLocalViewModel.setDate((Date) articleObjects[3]);
