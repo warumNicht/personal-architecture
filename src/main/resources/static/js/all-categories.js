@@ -6,7 +6,6 @@ function editCategory (categoryId){
 function showAllCategories(){
        const categoriesContainer = $('div.article-container');
        const categoriesSelect = $('#select-categories option');
-       console.log(categoriesSelect);
 
        categoriesSelect.each(function(index){
               if(index!=0){
@@ -18,4 +17,5 @@ function showAllCategories(){
                          categoriesContainer.append(currentCategoryDiv);
                    };
        });
+       $('div.spinner-border').hide();
 }
