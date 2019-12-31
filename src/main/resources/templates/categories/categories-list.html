@@ -20,23 +20,10 @@
 </main>
 
 <footer th:replace="~{fragments/general :: footer}"></footer>
-
-<script>
-    $(document).ready(()=>{
-
-    setTimeout(function(){
-       const select = $('#select-categories option');
-       select.each(function(index){
-       if(index!=0){
-             console.log($(this).val());
-             console.log($(this).text());
-       }
-    });
-
-   }, 600);
-
-});
+<script th:inline="javascript">
+    const locale = [[${@localeService.getLocale()}]];
 </script>
+<script th:src="@{/js/all-categories.js}"></script>
 
 </body>
 </html>
