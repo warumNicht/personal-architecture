@@ -12,6 +12,9 @@
         <h1>All categories</h1>
     </div>
 
+    <div th:replace="~{fragments/loading-spinner :: spinner}"></div>
+
+
     <div class="article-container" th:with="locale=${@localeService.getLocale()}">
 
 
