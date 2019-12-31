@@ -8,8 +8,9 @@
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
 <main class="container-fluid">
+    <a href="#btm">Skip to Page Foot</a>
 
-    <div class="article-container" th:with="locale=${@localeService.getLocale()}">
+    <div id="top" class="article-container" th:with="locale=${@localeService.getLocale()}">
         <div class="article-centered" th:object="${articleEdit}">
             <div>
                 <p th:text="|ArticleId: ${articleEdit.id}|"></p>
@@ -46,6 +47,7 @@
             <a class="btn btn-info" id="show-hide-images" onclick="showImages()">View images</a>
         </div>
         <div id="image-container"></div>
+        <a id="btm" href="#top">Skip to Page Head</a>
     </div>
 
 </main>
