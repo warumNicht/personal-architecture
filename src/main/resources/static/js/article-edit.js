@@ -1,6 +1,30 @@
 import {sendXmlHttpRequest} from "./http-requests.js";
 import {getLocale} from "./fetch-functions.js";
 
+window.getArticleId=function(){
+const urlParts = window.location.pathname.split('/');
+    return urlParts[urlParts.length - 1];
+}
+
+$(document).ready(function () {
+    const catChangeButton = $('#categoryChange');
+
+    catChangeButton.click(function(){
+       console.log('aaa');
+       const selectedCatId = $('#catSelect option:selected').val();
+        console.log(selectedCatId);
+
+        sendXmlHttpRequest('PATCH', `/admin/articles/change-category/${getArticleId()}`, selectedCatId).then(res=>{
+        console.log(res);
+        });
+    })
+
+
+
+});
+
+
+
 window.showImages = function showImages() {
     const imageDiv = $("#image-container");
     const imageButton = $("#show-hide-images");
@@ -16,7 +40,7 @@ window.showImages = function showImages() {
     }
     imageButton.text('Hide images');
     const urlParts = window.location.pathname.split('/');
-    const articleId = urlParts[urlParts.length - 1];
+    const articleId = getArticleId();
     sendXmlHttpRequest('GET', '/fetch/images/' + articleId).then(function (res) {
             if (res.length === 0) {
                 imageDiv.append('<p>No images</p>');
@@ -39,3 +63,4 @@ window.editImage = function (id) {
     const locale = getLocale(location.href);
     window.location = `${locale}admin/images/edit/${id}`;
 }
+

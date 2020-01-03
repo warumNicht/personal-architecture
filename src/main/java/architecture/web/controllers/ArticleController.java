@@ -9,8 +9,9 @@ import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
 import architecture.domain.models.serviceModels.ImageServiceModel;
 import architecture.domain.models.serviceModels.LocalisedArticleContentServiceModel;
-import architecture.domain.models.viewModels.ArticleAddImageViewModel;
-import architecture.domain.models.viewModels.ArticleViewModel;
+import architecture.domain.models.viewModels.articles.ArticleAddImageViewModel;
+import architecture.domain.models.viewModels.articles.ArticleEditViewModel;
+import architecture.domain.models.viewModels.articles.ArticleViewModel;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
 import architecture.services.interfaces.ImageService;
@@ -24,7 +25,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.Date;
 
 @Controller
@@ -110,6 +110,14 @@ public class ArticleController extends BaseController {
         return "article-edit-lang";
     }
 
+    @GetMapping(value = "/edit/{id}")
+    public String editArticle(Model model, @PathVariable(name = "id") Long id) {
+        ArticleServiceModel article = this.articleService.findById(id);
+        ArticleEditViewModel viewModel = this.modelMapper.map(article, ArticleEditViewModel.class);
+        model.addAttribute("articleEdit", viewModel);
+        return "article-edit";
+    }
+
     @ResponseBody
     @RequestMapping(method = {RequestMethod.PATCH}, value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
@@ -122,6 +130,14 @@ public class ArticleController extends BaseController {
             articleServiceModel.getMainImage().getLocalImageNames().put(CountryCodes.valueOf(model.getLang()), model.getMainImageName());
         }
         this.articleService.updateArticle(articleServiceModel);
+        return "\"/" + super.getLocale() + "/admin/listAll\"";
+    }
+
+    @ResponseBody
+    @RequestMapping(method = {RequestMethod.PATCH}, value = "/change-category/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    public String changeCategory ( @RequestBody Long categoryId, @PathVariable(name = "id") Long id){
+
         return "\"/" + super.getLocale() + "/admin/listAll\"";
     }
 
@@ -164,11 +180,4 @@ public class ArticleController extends BaseController {
         return "\"/" + super.getLocale() + "/admin/listAll\"";
     }
 
-    @GetMapping(value = "/edit/{id}")
-    public String editArticle(Model model, @PathVariable(name = "id") Long id) {
-        ArticleServiceModel article = this.articleService.findById(id);
-        ArticleViewModel viewModel = this.modelMapper.map(article, ArticleViewModel.class);
-        model.addAttribute("articleEdit", viewModel);
-        return "article-edit";
-    }
 }

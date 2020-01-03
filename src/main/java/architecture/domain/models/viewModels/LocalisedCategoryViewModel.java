@@ -1,8 +1,6 @@
 package architecture.domain.models.viewModels;
 
-import architecture.domain.models.BaseModel;
-
-public class LocalisedCategoryViewModel extends BaseModel {
+public class LocalisedCategoryViewModel extends CategoryViewModel {
     private String name;
 
     public LocalisedCategoryViewModel(Long id, String name) {

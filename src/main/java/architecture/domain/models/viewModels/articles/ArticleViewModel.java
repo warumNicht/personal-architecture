@@ -1,7 +1,10 @@
-package architecture.domain.models.viewModels;
+package architecture.domain.models.viewModels.articles;
 
 import architecture.domain.CountryCodes;
 import architecture.domain.models.BaseModel;
+import architecture.domain.models.viewModels.ImageSimpleViewModel;
+import architecture.domain.models.viewModels.LocalisedArticleContentViewModel;
+
 import java.util.HashMap;
 import java.util.Map;
 

@@ -4,7 +4,7 @@ import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
-import architecture.domain.models.viewModels.ArticleLocalViewModel;
+import architecture.domain.models.viewModels.articles.ArticleLocalViewModel;
 import architecture.domain.models.viewModels.ImageLocaleViewModel;
 import architecture.domain.models.viewModels.LocalisedArticleContentViewModel;
 import architecture.repositories.ArticleRepository;

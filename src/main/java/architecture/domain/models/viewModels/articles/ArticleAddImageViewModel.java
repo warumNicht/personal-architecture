@@ -1,4 +1,4 @@
-package architecture.domain.models.viewModels;
+package architecture.domain.models.viewModels.articles;
 
 import architecture.domain.models.BaseModel;
 

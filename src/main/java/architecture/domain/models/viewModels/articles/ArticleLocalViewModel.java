@@ -1,6 +1,8 @@
-package architecture.domain.models.viewModels;
+package architecture.domain.models.viewModels.articles;
 
 import architecture.domain.models.BaseModel;
+import architecture.domain.models.viewModels.ImageLocaleViewModel;
+import architecture.domain.models.viewModels.LocalisedArticleContentViewModel;
 
 import java.util.Date;
 

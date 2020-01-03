@@ -1,7 +1,7 @@
 package architecture.web.controllers;
 
 import architecture.domain.CountryCodes;
-import architecture.domain.models.viewModels.ArticleLocalViewModel;
+import architecture.domain.models.viewModels.articles.ArticleLocalViewModel;
 import architecture.services.interfaces.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
