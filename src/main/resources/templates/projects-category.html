@@ -28,6 +28,9 @@
                     <p th:text="${article.localisedContent.content}"></p>
                 </div>
             </div>
+
+            <a class="btn btn-success" th:href="@{|/${@localeService.getLocale()}/admin/articles/edit/${article.id}|}">
+                EDIT</a>
         </div>
     </div>
 
