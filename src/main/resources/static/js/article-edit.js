@@ -1,28 +1,26 @@
 import {sendXmlHttpRequest} from "./http-requests.js";
 import {getLocale} from "./fetch-functions.js";
 
-window.getArticleId=function(){
-const urlParts = window.location.pathname.split('/');
+window.getArticleId = function () {
+    const urlParts = window.location.pathname.split('/');
     return urlParts[urlParts.length - 1];
 }
 
 $(document).ready(function () {
     const catChangeButton = $('#categoryChange');
 
-    catChangeButton.click(function(){
-       console.log('aaa');
-       const selectedCatId = $('#catSelect option:selected').val();
+    catChangeButton.click(function () {
+        console.log('aaa');
+        const selectedCatId = $('#catSelect option:selected').val();
         console.log(selectedCatId);
 
-        sendXmlHttpRequest('PATCH', `/admin/articles/change-category/${getArticleId()}`, selectedCatId).then(res=>{
-        console.log(res);
+        sendXmlHttpRequest('PATCH', `/admin/articles/change-category/${getArticleId()}`, selectedCatId).then(res => {
+            console.log(res);
         });
     })
 
 
-
 });
-
 
 
 window.showImages = function showImages() {
@@ -64,22 +62,22 @@ window.editImage = function (id) {
     window.location = `${locale}admin/images/edit/${id}`;
 }
 
-window.showAllCategories=function(){
+window.showAllCategories = function () {
     const categoriesContainer = $('div.article-container');
     const categoriesSelect = $('#catSelect');
     const categoriesOptions = $('#select-categories option');
 
     categoriesOptions.each(function (index) {
         const selectedOption = $('#catSelect option:selected');
-        const selectedOptionId=selectedOption.val();
+        const selectedOptionId = selectedOption.val();
         if (index != 0) {
             const value = $(this).val();
             const innerText = $(this).text();
 
-            if(selectedOptionId===value){
-            selectedOption.text(innerText);
-            }else{
-            categoriesSelect.append(`<option value="${value}">${innerText}</option>`);
+            if (selectedOptionId === value) {
+                selectedOption.text(innerText);
+            } else {
+                categoriesSelect.append(`<option value="${value}">${innerText}</option>`);
             }
         }
         ;

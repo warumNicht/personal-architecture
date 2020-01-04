@@ -13,15 +13,14 @@
     <div id="top" class="article-container" th:with="locale=${@localeService.getLocale()}">
         <div class="article-centered" th:object="${articleEdit}">
 
-                <select name="category" class="form-control" id="catSelect" th:field="${articleEdit.category.id}">
-                    <option th:value="${articleEdit.category.id}"
-                            selected>
-                    </option>
-                </select>
-                <div class="button-holder mt-4 d-flex justify-content-center">
-                    <button id="categoryChange" class="btn btn-info">Edit Image</button>
-                </div>
-
+            <select name="category" class="form-control" id="catSelect" th:field="${articleEdit.category.id}">
+                <option th:value="${articleEdit.category.id}"
+                        selected>
+                </option>
+            </select>
+            <div class="button-holder mt-4 d-flex justify-content-center">
+                <button id="categoryChange" class="btn btn-info">Edit Image</button>
+            </div>
 
 
             <div>

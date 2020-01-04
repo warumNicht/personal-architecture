@@ -136,7 +136,7 @@ public class ArticleController extends BaseController {
     @ResponseBody
     @RequestMapping(method = {RequestMethod.PATCH}, value = "/change-category/{articleId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public String changeCategory ( @RequestBody Long categoryId, @PathVariable(name = "articleId") Long articleId){
+    public String changeCategory(@RequestBody Long categoryId, @PathVariable(name = "articleId") Long articleId) {
         ArticleServiceModel article = this.articleService.findById(articleId);
         CategoryServiceModel newCategory = this.categoryService.findById(categoryId);
         article.setCategory(newCategory);
