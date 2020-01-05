@@ -4,20 +4,19 @@ import {getLocale} from "./fetch-functions.js";
 window.getArticleId = function () {
     const urlParts = window.location.pathname.split('/');
     return urlParts[urlParts.length - 1];
-}
+};
 
 $(document).ready(function () {
     const catChangeButton = $('#categoryChange');
 
     catChangeButton.click(function () {
-        console.log('aaa');
         const selectedCatId = $('#catSelect option:selected').val();
         console.log(selectedCatId);
 
         sendXmlHttpRequest('PATCH', `/admin/articles/change-category/${getArticleId()}`, selectedCatId).then(res => {
-            console.log(res);
             const responseDiv = $('#message');
             responseDiv.append(`Category for article: ${res.title} successfully changed from ${res.oldCategoryName} to ${res.newCategoryName}!`);
+            catChangeButton.attr('disabled', true);
             setTimeout(function () {
                 responseDiv.empty();
             }, 4000);
@@ -60,12 +59,12 @@ window.showImages = function showImages() {
             });
         }
     );
-}
+};
 
 window.editImage = function (id) {
     const locale = getLocale(location.href);
     window.location = `${locale}admin/images/edit/${id}`;
-}
+};
 
 window.showAllCategories = function () {
     const categoriesContainer = $('div.article-container');
@@ -85,7 +84,9 @@ window.showAllCategories = function () {
                 categoriesSelect.append(`<option value="${value}">${innerText}</option>`);
             }
         }
-        ;
     });
-}
+    categoriesSelect.change(function () {
+        $('#categoryChange').removeAttr('disabled');
+    });
+};
 
