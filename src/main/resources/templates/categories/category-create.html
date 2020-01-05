@@ -23,9 +23,7 @@
                 </option>
             </select>
 
-            <small id="langSmall"
-                   th:each="error : ${#fields.errors('country')}" th:utext="${error +'<br>'}">
-            </small>
+            <small th:each="error : ${#fields.errors('country')}" th:utext="${error +'<br>'}"></small>
         </div>
 
         <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'text-danger'">
@@ -35,8 +33,7 @@
                    id="name" th:placeholder="#{article.title}+'...'" name="title"
                    required pattern="^.{2,}$" title="Please enter at least 2 characters">
 
-            <small id="usernameHelp"
-                   th:each="error : ${#fields.errors('name')}" th:utext="#{${error}} + '<br>'">
+            <small th:each="error : ${#fields.errors('name')}" th:utext="#{${error}} + '<br>'">
             </small>
         </div>
 

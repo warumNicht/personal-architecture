@@ -1,12 +1,14 @@
 package architecture.domain.models.bindingModels;
 
+import architecture.annotations.EnumValidator;
 import architecture.domain.CountryCodes;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class CategoryCreateBindingModel {
-    @NotNull
+//    @NotNull
+    @EnumValidator(enumClass = CountryCodes.class, message = "wert")
     private CountryCodes country;
 
     @Size(min=8, max=30, message = "category.name.length")
