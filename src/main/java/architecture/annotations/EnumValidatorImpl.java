@@ -15,7 +15,7 @@ public class EnumValidatorImpl implements ConstraintValidator<EnumValidator,Enum
     public boolean isValid(Enum<?> value, ConstraintValidatorContext context) {
         try {
             Enum currentEnum = Enum.valueOf(this.enumToValidate, value.toString());
-            return false;
+            return true;
         } catch (Exception e) {
             return false;
         }
