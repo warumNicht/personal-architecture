@@ -52,7 +52,7 @@ public class AdminController extends BaseController {
             return "categories/category-create";
         }
         CategoryServiceModel category = new CategoryServiceModel();
-        category.getLocalCategoryNames().put(bindingModel.getCountry(), bindingModel.getName());
+        category.getLocalCategoryNames().put(CountryCodes.valueOf(bindingModel.getCountry()), bindingModel.getName());
         this.categoryService.addCategory(category);
         return "redirect:/" + super.getLocale() + "/admin/category/list";
     }

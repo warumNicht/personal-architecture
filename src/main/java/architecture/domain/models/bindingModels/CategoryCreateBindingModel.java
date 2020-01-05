@@ -8,8 +8,8 @@ import javax.validation.constraints.Size;
 
 public class CategoryCreateBindingModel {
 //    @NotNull
-    @EnumValidator(enumClass = CountryCodes.class, message = "wert")
-    private CountryCodes country;
+//    @EnumValidator(enumClass = CountryCodes.class, message = "wert")
+    private String country;
 
     @Size(min=8, max=30, message = "category.name.length")
     @Pattern(regexp = "^[A-ZА-Я].*$",message = "begin-uppercase")
@@ -17,11 +17,12 @@ public class CategoryCreateBindingModel {
             message = "whitespaces")
     private String name;
 
-    public CountryCodes getCountry() {
+
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(CountryCodes country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
