@@ -16,6 +16,11 @@ $(document).ready(function () {
 
         sendXmlHttpRequest('PATCH', `/admin/articles/change-category/${getArticleId()}`, selectedCatId).then(res => {
             console.log(res);
+            const responseDiv = $('#message');
+            responseDiv.append(`Category for article: ${res.title} successfully changed from ${res.oldCategoryName} to ${res.newCategoryName}!`);
+            setTimeout(function () {
+                responseDiv.empty();
+            }, 4000);
         });
     })
 

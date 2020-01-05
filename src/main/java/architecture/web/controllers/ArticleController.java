@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping(value = "/admin/articles")
@@ -136,12 +137,19 @@ public class ArticleController extends BaseController {
     @ResponseBody
     @RequestMapping(method = {RequestMethod.PATCH}, value = "/change-category/{articleId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public String changeCategory(@RequestBody Long categoryId, @PathVariable(name = "articleId") Long articleId) {
+    public Object changeCategory(@RequestBody Long categoryId, @PathVariable(name = "articleId") Long articleId) {
+        CountryCodes cookieLocale = super.getCurrentCookieLocale();
         ArticleServiceModel article = this.articleService.findById(articleId);
+        String oldCategoryName = article.getCategory().getLocalCategoryNames().get(cookieLocale);
         CategoryServiceModel newCategory = this.categoryService.findById(categoryId);
+        String newCategoryName = newCategory.getLocalCategoryNames().get(cookieLocale);
         article.setCategory(newCategory);
         this.articleService.updateArticle(article);
-        return "\"/" + super.getLocale() + "/admin/articles/edit/" + articleId + "\"";
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("oldCategoryName",oldCategoryName);
+        response.put("newCategoryName",newCategoryName);
+        response.put("title",article.getLocalContent().get(cookieLocale).getTitle());
+        return response;
     }
 
     @GetMapping(value = "/add-image/{id}")
