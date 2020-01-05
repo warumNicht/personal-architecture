@@ -11,7 +11,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,7 +46,11 @@ public class AdminController extends BaseController {
     }
 
     @PostMapping("/category/create")
-    public String createCategoryPost(@ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel bindingModel) {
+    public String createCategoryPost(@Valid @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel bindingModel,
+                                     BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "categories/category-create";
+        }
         CategoryServiceModel category = new CategoryServiceModel();
         category.getLocalCategoryNames().put(bindingModel.getCountry(), bindingModel.getName());
         this.categoryService.addCategory(category);
