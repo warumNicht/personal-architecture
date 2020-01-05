@@ -50,7 +50,8 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
         messageSource.setBasenames(
                 "classpath:/messages/common/messages",
                 "classpath:/messages/home/messages",
-                "classpath:/messages/nav/messages");
+                "classpath:/messages/nav/messages",
+                "classpath:/messages/validation/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }

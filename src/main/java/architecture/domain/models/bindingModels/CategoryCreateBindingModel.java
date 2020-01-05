@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 public class CategoryCreateBindingModel {
     @NotNull
     private CountryCodes country;
-    @Size(min=8, max=30)
+    @Size(min=8, max=30, message = "category.name.length")
     private String name;
 
     public CountryCodes getCountry() {
