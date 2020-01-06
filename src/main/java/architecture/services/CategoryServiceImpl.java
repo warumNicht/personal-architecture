@@ -47,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryServiceModel findById(Long id) {
-        Category foundedCategory = this.categoryRepository.findById(id).orElseThrow(()-> new ControllerError("inexistent"));
+        Category foundedCategory = this.categoryRepository.findById(id).orElseThrow(()-> new ControllerError("archSentence"));
 
         CategoryServiceModel categoryServiceModel = this.mapper.map(foundedCategory, CategoryServiceModel.class);
         return categoryServiceModel;
