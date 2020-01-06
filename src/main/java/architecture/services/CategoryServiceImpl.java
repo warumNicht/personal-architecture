@@ -4,7 +4,7 @@ import architecture.domain.CountryCodes;
 import architecture.domain.entities.Category;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
 import architecture.domain.models.viewModels.LocalisedCategoryViewModel;
-import architecture.error.ControllerError;
+import architecture.error.CategoryNotFoundException;
 import architecture.repositories.CategoryRepository;
 import architecture.services.interfaces.CategoryService;
 import architecture.util.LocaleMessageUtil;
@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryServiceModel findById(Long id) {
-        Category foundedCategory = this.categoryRepository.findById(id).orElseThrow(()-> new ControllerError(LocaleMessageUtil.getLocalizedMessage("archSentence")));
+        Category foundedCategory = this.categoryRepository.findById(id).orElseThrow(()-> new CategoryNotFoundException(LocaleMessageUtil.getLocalizedMessage("archSentence")));
 
         CategoryServiceModel categoryServiceModel = this.mapper.map(foundedCategory, CategoryServiceModel.class);
         return categoryServiceModel;

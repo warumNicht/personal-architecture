@@ -1,7 +1,6 @@
 package architecture.error;
 
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -13,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
     public static final String DEFAULT_ERROR_VIEW = "error/error";
     public static final String CONTROLLER_ERROR_VIEW = "error/custom-error";
-    
-    @ExceptionHandler(value = ControllerError.class)
+
+    @ExceptionHandler(value = BaseControllerException.class)
     public ModelAndView
-    controllerErrorHandler(HttpServletRequest req, ControllerError e) throws Exception {
+    controllerErrorHandler(HttpServletRequest req, BaseControllerException e) throws Exception {
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", e);
         mav.addObject("url", req.getRequestURL());
