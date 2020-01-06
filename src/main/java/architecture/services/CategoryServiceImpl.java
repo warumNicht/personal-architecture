@@ -7,6 +7,7 @@ import architecture.domain.models.viewModels.LocalisedCategoryViewModel;
 import architecture.error.ControllerError;
 import architecture.repositories.CategoryRepository;
 import architecture.services.interfaces.CategoryService;
+import architecture.util.LocaleMessageUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryServiceModel findById(Long id) {
-        Category foundedCategory = this.categoryRepository.findById(id).orElseThrow(()-> new ControllerError("inexistent"));
+        Category foundedCategory = this.categoryRepository.findById(id).orElseThrow(()-> new ControllerError(LocaleMessageUtil.getLocalizedMessage("archSentence")));
 
         CategoryServiceModel categoryServiceModel = this.mapper.map(foundedCategory, CategoryServiceModel.class);
         return categoryServiceModel;
