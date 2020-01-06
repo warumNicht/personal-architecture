@@ -61,9 +61,6 @@ public class AdminController extends BaseController {
     @GetMapping("/category/edit/{categoryId}")
     public String editCategory(Model model, @PathVariable(name = "categoryId") Long categoryId) {
         CategoryServiceModel category = this.categoryService.findById(categoryId);
-        if(category==null){
-            throw new ControllerError("Category not found");
-        }
         CategoryEditBindingModel bindingModel = new CategoryEditBindingModel();
         bindingModel.setId(categoryId);
 
