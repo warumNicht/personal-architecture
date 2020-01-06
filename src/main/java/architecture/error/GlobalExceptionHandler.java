@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
     public static final String DEFAULT_ERROR_VIEW = "error/error";
     public static final String CONTROLLER_ERROR_VIEW = "error/custom-error";
-
-//    @Order(value = 1)
+    
     @ExceptionHandler(value = ControllerError.class)
     public ModelAndView
     controllerErrorHandler(HttpServletRequest req, ControllerError e) throws Exception {
@@ -25,7 +24,6 @@ public class GlobalExceptionHandler {
         return mav;
     }
 
-//    @Order(value = 2)
     @ExceptionHandler(value = Exception.class)
     public ModelAndView
     defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
@@ -40,7 +38,6 @@ public class GlobalExceptionHandler {
         // Otherwise setup and send the user to a default error-view.
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", e);
-        mav.addObject("url", req.getRequestURL());
         mav.setViewName(DEFAULT_ERROR_VIEW);
         return mav;
     }
