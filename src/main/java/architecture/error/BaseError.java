@@ -13,7 +13,7 @@ public abstract class BaseError extends RuntimeException {
 
 
     public BaseError(String message) {
-        super();
+        super(message);
         this.messageSource=SpringContext.getBean(MessageSource.class);
         Locale locale = LocaleContextHolder.getLocale();
         String messageLocalized = this.messageSource.getMessage(message, null, locale);
