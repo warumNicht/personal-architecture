@@ -37,8 +37,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(FetchController.class)
 public class FetchControllerTests {
-    private final String CATEGORY_1_NAME="Обществени сгради";
-    private final String CATEGORY_2_NAME="Жилищни сгради";
 
     @Autowired
     private MockMvc mockMvc;
