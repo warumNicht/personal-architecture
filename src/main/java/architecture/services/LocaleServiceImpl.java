@@ -12,8 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 
 @Service(value = "localeService")
 public class LocaleServiceImpl implements LocaleService {
-    @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    public LocaleServiceImpl(HttpServletRequest request) {
+        this.request = request;
+    }
 
     @Override
     public String getLocale() {
