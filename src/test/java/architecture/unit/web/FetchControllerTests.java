@@ -1,5 +1,6 @@
 package architecture.unit.web;
 
+import architecture.TestConstants;
 import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.viewModels.LocalisedCategoryViewModel;
@@ -67,8 +68,8 @@ public class FetchControllerTests {
 
     @Test
     public void givenCategories_returnsCorrect() throws Exception {
-        List<LocalisedCategoryViewModel> categories = Arrays.asList(new LocalisedCategoryViewModel(1L, CATEGORY_1_NAME),
-                new LocalisedCategoryViewModel(2L, CATEGORY_2_NAME)
+        List<LocalisedCategoryViewModel> categories = Arrays.asList(new LocalisedCategoryViewModel(1L, TestConstants.CATEGORY_1_BG_NAME),
+                new LocalisedCategoryViewModel(2L, TestConstants.CATEGORY_2_BG_NAME)
         );
         Mockito.when(categoryService.getAllCategoriesByLocale(ApplicationConstants.DEFAULT_COUNTRY_CODE, CountryCodes.DE))
                 .thenReturn(categories);
@@ -80,7 +81,7 @@ public class FetchControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
-                .andExpect( jsonPath("$[0].name", Matchers.is(CATEGORY_1_NAME)))
-                .andExpect( jsonPath("$[1].name", Matchers.is(CATEGORY_2_NAME)));
+                .andExpect( jsonPath("$[0].name", Matchers.is(TestConstants.CATEGORY_1_BG_NAME)))
+                .andExpect( jsonPath("$[1].name", Matchers.is(TestConstants.CATEGORY_2_BG_NAME)));
     }
 }

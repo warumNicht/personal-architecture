@@ -1,5 +1,6 @@
 package architecture.integration.web;
 
+import architecture.TestConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Category;
 import architecture.repositories.CategoryRepository;
@@ -39,8 +40,8 @@ public class FetchControllerIntegrationTests {
     public void cat() throws Exception {
         Category category = new Category();
         Map<CountryCodes, String> localCategoryNames = new HashMap<>();
-        localCategoryNames.put(CountryCodes.FR, "Batiments publics");
-        localCategoryNames.put(CountryCodes.BG, "Обществени сгради");
+        localCategoryNames.put(CountryCodes.FR, TestConstants.CATEGORY_1_FR_NAME);
+        localCategoryNames.put(CountryCodes.BG, TestConstants.CATEGORY_1_BG_NAME);
         category.setLocalCategoryNames(localCategoryNames);
 
         categoryRepository.save(category);
@@ -51,6 +52,6 @@ public class FetchControllerIntegrationTests {
         mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all").contentType(MediaType.APPLICATION_JSON).cookie(new Cookie("lang", "fr")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name", Matchers.is("Batiments publics")));
+                .andExpect(jsonPath("$[0].name", Matchers.is(TestConstants.CATEGORY_1_FR_NAME)));
     }
 }
