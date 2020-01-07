@@ -19,7 +19,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,10 +73,13 @@ public class FetchControllerTests {
         Mockito.when(categoryService.getAllCategoriesByLocale(ApplicationConstants.DEFAULT_COUNTRY_CODE, CountryCodes.DE))
                 .thenReturn(categories);
 
-        ResultActions perform = mockMvc.perform(get("/fetch/categories/all").contentType(MediaType.APPLICATION_JSON));
+        MvcResult mvcResult = mockMvc.perform(get("/fetch/categories/all").contentType(MediaType.APPLICATION_JSON)).andReturn();
+        int status = mvcResult.getResponse().getStatus();
+        String contentAsString = mvcResult.getResponse().getContentAsString();
         mockMvc.perform(get("/fetch/categories/all").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
                 .andExpect( jsonPath("$[0].name", Matchers.is(CATEGORY_1_NAME)))
                 .andExpect( jsonPath("$[1].name", Matchers.is(CATEGORY_2_NAME)));
     }
