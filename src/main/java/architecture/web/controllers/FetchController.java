@@ -3,6 +3,7 @@ package architecture.web.controllers;
 import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.viewModels.ImageViewModel;
+import architecture.domain.models.viewModels.LocalisedCategoryViewModel;
 import architecture.services.interfaces.CategoryService;
 import architecture.services.interfaces.ImageService;
 import org.modelmapper.ModelMapper;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,7 +32,8 @@ public class FetchController extends BaseController {
     @RequestMapping(value = "/categories/all", produces = "application/json")
     public Object getCategories() {
         CountryCodes wanted = super.getCurrentCookieLocale();
-        return this.categoryService.getAllCategoriesByLocale(ApplicationConstants.DEFAULT_COUNTRY_CODE, wanted);
+        List<LocalisedCategoryViewModel> allCategoriesByLocale = this.categoryService.getAllCategoriesByLocale(ApplicationConstants.DEFAULT_COUNTRY_CODE, wanted);
+        return allCategoriesByLocale;
     }
 
     @RequestMapping(value = "/images/{articleId}", produces = "application/json")
