@@ -16,6 +16,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BaseControllerException.class)
     public ModelAndView
     controllerErrorHandler(HttpServletRequest req, BaseControllerException e) throws Exception {
+        if (AnnotationUtils.findAnnotation
+                (e.getClass(), ResponseStatus.class) != null){
+            System.out.println(e.getMessage());
+            throw e;
+        }
+
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", e);
         mav.addObject("url", req.getRequestURL());
