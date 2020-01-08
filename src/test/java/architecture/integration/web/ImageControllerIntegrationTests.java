@@ -52,10 +52,10 @@ public class ImageControllerIntegrationTests {
     private ModelMapper modelMapper;
 
     @Before
-    public void init(){
+    public void init() {
         Image image = new Image();
         image.setUrl(TestConstants.IMAGE_URL);
-        image.setLocalImageNames(new HashMap<>(){{
+        image.setLocalImageNames(new HashMap<>() {{
             put(CountryCodes.FR, TestConstants.IMAGE_BG_NAME);
             put(CountryCodes.BG, TestConstants.IMAGE_ES_NAME);
             put(CountryCodes.ES, TestConstants.IMAGE_FR_NAME);
@@ -100,7 +100,7 @@ public class ImageControllerIntegrationTests {
         String archSentence = Strings.escapeMarkup(LocaleMessageUtil.getLocalizedMessage("archSentence", Locale.FRANCE)).toString();
 
         String expectedErrorMessage = StringEscapeUtils.escapeHtml4(LocaleMessageUtil.getLocalizedMessage("archSentence", Locale.FRANCE));
-        archSentence=archSentence.replaceAll("0","");
+        archSentence = archSentence.replaceAll("0", "");
         boolean contains = contentAsString.contains(archSentence);
         Assert.assertTrue(contains);
         System.out.println();
