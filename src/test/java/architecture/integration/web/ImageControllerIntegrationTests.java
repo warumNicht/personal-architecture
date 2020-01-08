@@ -99,12 +99,26 @@ public class ImageControllerIntegrationTests {
 
         String archSentence = Strings.escapeMarkup(LocaleMessageUtil.getLocalizedMessage("archSentence", Locale.FRANCE)).toString();
 
-        String expectedErrorMessage = StringEscapeUtils.escapeHtml4(LocaleMessageUtil.getLocalizedMessage("archSentence", Locale.FRANCE));
-        archSentence = archSentence.replaceAll("0", "");
-        boolean contains = contentAsString.contains(archSentence);
+        String expectedErrorMessage = escapeHTML(LocaleMessageUtil.getLocalizedMessage("archSentence", Locale.FRANCE));
+        boolean contains = contentAsString.contains(expectedErrorMessage);
         Assert.assertTrue(contains);
         System.out.println();
 
+    }
+
+    public static String escapeHTML(String s) {
+        StringBuilder out = new StringBuilder(Math.max(16, s.length()));
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '\'' || c == '"' || c == '<' || c == '>' || c == '&') {
+                out.append("&#");
+                out.append((int) c);
+                out.append(';');
+            } else {
+                out.append(c);
+            }
+        }
+        return out.toString();
     }
 
 
