@@ -2,8 +2,10 @@ package architecture.services;
 
 import architecture.domain.entities.Image;
 import architecture.domain.models.serviceModels.ImageServiceModel;
+import architecture.error.CategoryNotFoundException;
 import architecture.repositories.ImageRepository;
 import architecture.services.interfaces.ImageService;
+import architecture.util.LocaleMessageUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public ImageServiceModel getImageById(Long id) {
-        return this.modelMapper.map(this.imageRepository.findById(id).orElseThrow(), ImageServiceModel.class);
+        return this.modelMapper.map(
+                this.imageRepository.findById(id)
+                        .orElseThrow(()->new CategoryNotFoundException(LocaleMessageUtil.getLocalizedMessage("archSentence"))), ImageServiceModel.class);
     }
 }

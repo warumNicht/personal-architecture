@@ -12,9 +12,12 @@ public class LocaleMessageUtil {
     }
 
     public static String getLocalizedMessage(String message){
-
         Locale locale = LocaleContextHolder.getLocale();
         String messageLocalized = messageSource.getMessage(message, null, locale);
         return messageLocalized;
+    }
+
+    public static String getLocalizedMessage(String message, Locale locale){
+       return messageSource.getMessage(message, null, locale);
     }
 }

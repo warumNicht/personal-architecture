@@ -1,5 +1,6 @@
 package architecture.error;
 
+import architecture.constants.ApplicationConstants;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,28 +11,24 @@ import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    public static final String DEFAULT_ERROR_VIEW = "error/error";
-    public static final String CONTROLLER_ERROR_VIEW = "error/custom-error";
 
     @ExceptionHandler(value = BaseControllerException.class)
-    public ModelAndView
-    controllerErrorHandler(HttpServletRequest req, BaseControllerException e) throws Exception {
-        if (AnnotationUtils.findAnnotation
-                (e.getClass(), ResponseStatus.class) != null){
-            System.out.println(e.getMessage());
-            throw e;
-        }
+    public ModelAndView controllerErrorHandler(HttpServletRequest req, BaseControllerException e) throws Exception {
+//        if (AnnotationUtils.findAnnotation
+//                (e.getClass(), ResponseStatus.class) != null){
+//            System.out.println(e.getMessage());
+//            throw e;
+//        }
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", e);
         mav.addObject("url", req.getRequestURL());
-        mav.setViewName(CONTROLLER_ERROR_VIEW);
+        mav.setViewName(ApplicationConstants.CONTROLLER_ERROR_VIEW);
         return mav;
     }
 
     @ExceptionHandler(value = Exception.class)
-    public ModelAndView
-    defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
         // If the exception is annotated with @ResponseStatus rethrow it and let
         // the framework handle it - like the OrderNotFoundException example
         // at the start of this post.
@@ -43,7 +40,7 @@ public class GlobalExceptionHandler {
         // Otherwise setup and send the user to a default error-view.
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", e);
-        mav.setViewName(DEFAULT_ERROR_VIEW);
+        mav.setViewName(ApplicationConstants.DEFAULT_ERROR_VIEW);
         return mav;
     }
 

@@ -26,6 +26,7 @@
 
         <div class="form-group" th:each="countryCode, stat :*{localImageNames}">
             <label th:text="#{${'lang.' + countryCode.key }}"></label>
+            <div th:text="${countryCode.value}"></div>
             <input type="text" class="form-control"
                    th:field="*{localImageNames[__${countryCode.key}__]}">
         </div>
