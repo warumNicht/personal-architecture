@@ -40,7 +40,7 @@ public class FetchControllerIntegrationTests {
     private CategoryRepository categoryRepository;
 
     @Before
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+//    @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
     public void setUp(){
         this.populateCategories();
     }
