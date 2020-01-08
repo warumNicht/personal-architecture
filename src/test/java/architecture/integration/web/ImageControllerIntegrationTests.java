@@ -5,7 +5,9 @@ import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Image;
 import architecture.repositories.ImageRepository;
+import org.apache.commons.text.StringEscapeUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -43,8 +45,8 @@ public class ImageControllerIntegrationTests {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Test
-    public void getImage_returnsCorrectView() throws Exception {
+    @Before
+    public void init(){
         Image image = new Image();
         image.setUrl(TestConstants.IMAGE_URL);
         image.setLocalImageNames(new HashMap<>(){{
@@ -53,6 +55,11 @@ public class ImageControllerIntegrationTests {
             put(CountryCodes.ES, TestConstants.IMAGE_FR_NAME);
         }});
         Image savedImage = this.imageRepository.save(image);
+    }
+
+    @Test
+    public void getImage_returnsCorrectView() throws Exception {
+        Image savedImage = this.imageRepository.findAll().get(0);
         MockHttpServletResponse response = this.mockMvc.perform(get("/fr/admin/images/edit/" + savedImage.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -63,8 +70,10 @@ public class ImageControllerIntegrationTests {
                 .andReturn().getResponse();
         String contentAsString = response.getContentAsString();
         Assert.assertTrue(contentAsString.contains(TestConstants.IMAGE_URL));
-        boolean contains1 = contentAsString.contains(TestConstants.IMAGE_BG_NAME);
-        boolean contains = contentAsString.contains(TestConstants.IMAGE_ES_NAME);
-        boolean contains2 = contentAsString.contains(TestConstants.IMAGE_FR_NAME);
+
+        for (String value : savedImage.getLocalImageNames().values()) {
+            String escapedValue = StringEscapeUtils.escapeHtml4(value);
+            Assert.assertTrue(contentAsString.contains(escapedValue));
+        }
     }
 }
