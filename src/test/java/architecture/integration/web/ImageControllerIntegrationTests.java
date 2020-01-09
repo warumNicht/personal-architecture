@@ -63,9 +63,9 @@ public class ImageControllerIntegrationTests {
         Image image = new Image();
         image.setUrl(TestConstants.IMAGE_URL);
         image.setLocalImageNames(new HashMap<>() {{
-            put(CountryCodes.FR, TestConstants.IMAGE_BG_NAME);
-            put(CountryCodes.BG, TestConstants.IMAGE_ES_NAME);
-            put(CountryCodes.ES, TestConstants.IMAGE_FR_NAME);
+            put(CountryCodes.FR, TestConstants.IMAGE_FR_NAME);
+            put(CountryCodes.BG, TestConstants.IMAGE_BG_NAME);
+            put(CountryCodes.ES, TestConstants.IMAGE_ES_NAME);
         }});
         image.setArticle(article);
         this.savedImage=this.imageRepository.save(image);
@@ -111,16 +111,10 @@ public class ImageControllerIntegrationTests {
 
     @Test
     public void putImage_withCorrectData_redirectsCorrect() throws Exception {
-        ImageEditBindingModel bindingModel = new ImageEditBindingModel();
-        bindingModel.setLocalImageNames(new LinkedHashMap<>(){{
-            put(CountryCodes.BG, TestConstants.IMAGE_BG_NAME_2);
-            put(CountryCodes.FR, TestConstants.IMAGE_FR_NAME_2);
-        }});
-        bindingModel.setUrl(TestConstants.IMAGE_URL_2);
         MockHttpServletResponse response = this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr("imageEdit", bindingModel))
+                .flashAttr("imageEdit", this.getCorrectBindingModel()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/fr/admin/articles/edit/" + this.savedImage.getArticle().getId()))
                 .andDo(print())
@@ -131,7 +125,34 @@ public class ImageControllerIntegrationTests {
         Assert.assertEquals(modifiedImage.getLocalImageNames().get(CountryCodes.BG), TestConstants.IMAGE_BG_NAME_2);
         Assert.assertEquals(modifiedImage.getLocalImageNames().get(CountryCodes.FR), TestConstants.IMAGE_FR_NAME_2);
         Assert.assertEquals(modifiedImage.getUrl(), TestConstants.IMAGE_URL_2);
+    }
 
+    @Test
+    public void putImage_withCorrectData_andInvalidId_returnsErrorPage() throws Exception {
+        MockHttpServletResponse response = this.mockMvc.perform(put("/admin/images/edit/555")
+                .locale(Locale.FRANCE)
+                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr("imageEdit", this.getCorrectBindingModel()))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ApplicationConstants.CONTROLLER_ERROR_VIEW))
+                .andDo(print())
+                .andReturn().getResponse();
+        Image modifiedImage = this.imageRepository.findAll().get(0);
+        int actualSize = modifiedImage.getLocalImageNames().size();
+        Assert.assertEquals(3, actualSize);
+        Assert.assertEquals(modifiedImage.getLocalImageNames().get(CountryCodes.BG), TestConstants.IMAGE_BG_NAME);
+        Assert.assertEquals(modifiedImage.getLocalImageNames().get(CountryCodes.FR), TestConstants.IMAGE_FR_NAME);
+        Assert.assertEquals(modifiedImage.getUrl(), TestConstants.IMAGE_URL);
+    }
+
+    private ImageEditBindingModel getCorrectBindingModel(){
+        ImageEditBindingModel bindingModel = new ImageEditBindingModel();
+        bindingModel.setLocalImageNames(new LinkedHashMap<>(){{
+            put(CountryCodes.BG, TestConstants.IMAGE_BG_NAME_2);
+            put(CountryCodes.FR, TestConstants.IMAGE_FR_NAME_2);
+        }});
+        bindingModel.setUrl(TestConstants.IMAGE_URL_2);
+        return bindingModel;
     }
 
 
