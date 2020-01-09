@@ -8,7 +8,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/admin/images")
@@ -34,8 +37,11 @@ public class ImageController extends BaseController {
     }
 
     @PutMapping(value = "/edit/{imageId}")
-    public String editImagePut(@ModelAttribute(name = "imageEdit") ImageEditBindingModel model,
-                               @PathVariable(name = "imageId") Long imageId) {
+    public String editImagePut(@Valid @ModelAttribute(name = "imageEdit") ImageEditBindingModel model,
+                               @PathVariable(name = "imageId") Long imageId, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "redirect:/" + super.getLocale() + "/admin/images/edit/" + imageId;
+        }
         model.getLocalImageNames().entrySet().removeIf(kv -> kv.getValue().isEmpty());
         ImageServiceModel imageById = this.imageService.getImageById(imageId);
         imageById.setUrl(model.getUrl());

@@ -29,6 +29,10 @@ public class CategoryCreateBindingModel {
         }
     }
 
+    public void setCountry(CountryCodes country) {
+        this.country = country;
+    }
+
     public String getName() {
         return name;
     }

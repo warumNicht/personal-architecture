@@ -145,6 +145,24 @@ public class ImageControllerIntegrationTests {
         Assert.assertEquals(modifiedImage.getUrl(), TestConstants.IMAGE_URL);
     }
 
+    @Test
+    public void putImage_withInvalidData_redirectsCorrect() throws Exception {
+        MockHttpServletResponse response = this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+                .locale(Locale.FRANCE)
+                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr("imageEdit", this.getIncorrectBindingModel()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/fr/admin/articles/edit/" + this.savedImage.getArticle().getId()))
+                .andDo(print())
+                .andReturn().getResponse();
+        Image modifiedImage = this.imageRepository.findAll().get(0);
+        int actualSize = modifiedImage.getLocalImageNames().size();
+        Assert.assertEquals(2, actualSize);
+        Assert.assertEquals(modifiedImage.getLocalImageNames().get(CountryCodes.BG), TestConstants.IMAGE_BG_NAME_2);
+        Assert.assertEquals(modifiedImage.getLocalImageNames().get(CountryCodes.FR), TestConstants.IMAGE_FR_NAME_2);
+        Assert.assertEquals(modifiedImage.getUrl(), TestConstants.IMAGE_URL_2);
+    }
+
     private ImageEditBindingModel getCorrectBindingModel(){
         ImageEditBindingModel bindingModel = new ImageEditBindingModel();
         bindingModel.setLocalImageNames(new LinkedHashMap<>(){{
@@ -153,6 +171,12 @@ public class ImageControllerIntegrationTests {
         }});
         bindingModel.setUrl(TestConstants.IMAGE_URL_2);
         return bindingModel;
+    }
+
+    private ImageEditBindingModel getIncorrectBindingModel(){
+        ImageEditBindingModel invalid = this.getCorrectBindingModel();
+        invalid.setUrl("");
+        return invalid;
     }
 
 
