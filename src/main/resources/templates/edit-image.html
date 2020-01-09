@@ -9,19 +9,19 @@
 
 <main>
 
-    <form class="mx-auto w-25" th:method="put"
-          th:action="@{/admin/images/edit/{imageId}(imageId=${imageEdit.id})}"
-          th:object="${imageEdit}">
-
+    <form class="mx-auto w-25" th:action="@{/admin/images/edit/{imageId}(imageId=${imageEdit.id})}" th:method="put" th:object="${imageEdit}">
 
         <div class="form-group">
             <img th:src="${imageEdit.url}" alt="">
         </div>
 
-        <div class="form-group">
+        <div class="form-group" th:classappend="${#fields.hasErrors('url')} ? 'text-danger'">
             <label>Url</label>
             <input type="text" class="form-control"
                    th:field="*{url}" th:value="${imageEdit.url}">
+            <small
+                   th:each="error : ${#fields.errors('url')}" th:utext="${error +'<br>'}">
+            </small>
         </div>
 
         <div class="form-group" th:each="countryCode, stat :*{localImageNames}">
