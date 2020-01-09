@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 public class ImageEditBindingModel extends BaseModel {
     @NotNull
     @NotEmpty
-    @Size(min = 2, max = 3)
+    @Size(min = 10)
     private String url;
     private LinkedHashMap<CountryCodes, String> localImageNames;
 

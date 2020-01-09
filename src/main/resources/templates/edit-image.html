@@ -11,9 +11,9 @@
 
     <form class="mx-auto w-25" th:action="@{/admin/images/edit/{imageId}(imageId=${imageEdit.id})}" th:method="put" th:object="${imageEdit}">
 
-        <div class="form-group">
-            <img th:src="${imageEdit.url}" alt="">
-        </div>
+        <!--<div class="form-group">-->
+            <!--<img th:src="${imageEdit.url}" alt="">-->
+        <!--</div>-->
 
         <div class="form-group" th:classappend="${#fields.hasErrors('url')} ? 'text-danger'">
             <label>Url</label>
