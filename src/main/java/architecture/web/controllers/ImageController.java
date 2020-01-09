@@ -37,8 +37,8 @@ public class ImageController extends BaseController {
     }
 
     @PutMapping(value = "/edit/{imageId}")
-    public String editImagePut(@Valid @ModelAttribute(name = "imageEdit") ImageEditBindingModel model,
-                               @PathVariable(name = "imageId") Long imageId, BindingResult bindingResult) {
+    public String editImagePut(@Valid @ModelAttribute(name = "imageEdit") ImageEditBindingModel model, BindingResult bindingResult,
+                               @PathVariable(name = "imageId") Long imageId) {
         if(bindingResult.hasErrors()){
             return "redirect:/" + super.getLocale() + "/admin/images/edit/" + imageId;
         }
