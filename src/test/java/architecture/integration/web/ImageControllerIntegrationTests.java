@@ -1,14 +1,14 @@
 package architecture.integration.web;
 
-import architecture.TestConstants;
+import architecture.util.TestConstants;
 import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Image;
 import architecture.repositories.ImageRepository;
-import architecture.services.interfaces.LocaleService;
 import architecture.util.LocaleMessageUtil;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import architecture.util.TestUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,8 +28,6 @@ import javax.servlet.http.Cookie;
 
 import java.util.HashMap;
 import java.util.Locale;
-
-import org.apache.wicket.util.string.Strings;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -84,7 +81,7 @@ public class ImageControllerIntegrationTests {
     }
 
     @Test
-    public void getInexistentImage_returnsNotFound() throws Exception {
+    public void getInexistentImage_returnsErrorPage() throws Exception {
         MvcResult mvcResult = this.mockMvc.perform(get("/fr/admin/images/edit/111")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -97,28 +94,9 @@ public class ImageControllerIntegrationTests {
         String contentAsString = mvcResult.getResponse().getContentAsString();
         Assert.assertTrue(contentAsString.contains("Custom error"));
 
-        String archSentence = Strings.escapeMarkup(LocaleMessageUtil.getLocalizedMessage("archSentence", Locale.FRANCE)).toString();
-
-        String expectedErrorMessage = escapeHTML(LocaleMessageUtil.getLocalizedMessage("archSentence", Locale.FRANCE));
+        String expectedErrorMessage = TestUtils.escapeHTML(LocaleMessageUtil.getLocalizedMessage("archSentence", Locale.FRANCE));
         boolean contains = contentAsString.contains(expectedErrorMessage);
         Assert.assertTrue(contains);
-        System.out.println();
-
-    }
-
-    public static String escapeHTML(String s) {
-        StringBuilder out = new StringBuilder(Math.max(16, s.length()));
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c == '\'' || c == '"' || c == '<' || c == '>' || c == '&') {
-                out.append("&#");
-                out.append((int) c);
-                out.append(';');
-            } else {
-                out.append(c);
-            }
-        }
-        return out.toString();
     }
 
 

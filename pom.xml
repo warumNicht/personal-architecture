@@ -67,17 +67,12 @@
             <version>1.8</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.wicket</groupId>
-            <artifactId>wicket-util</artifactId>
-            <version>1.5-RC7</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.wicket</groupId>-->
+<!--            <artifactId>wicket-util</artifactId>-->
+<!--            <version>1.5-RC7</version>-->
+<!--        </dependency>-->
+<!--        String archSentence = Strings.escapeMarkup("açc&hSentänce").toString();-->
 
 
 

@@ -1,6 +1,6 @@
 package architecture.unit.web;
 
-import architecture.TestConstants;
+import architecture.util.TestConstants;
 import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.viewModels.LocalisedCategoryViewModel;
@@ -21,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;

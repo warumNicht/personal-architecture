@@ -1,4 +1,4 @@
-package architecture;
+package architecture.util;
 
 public final class TestConstants {
     public final static String CATEGORY_1_BG_NAME="Обществени сгради";
