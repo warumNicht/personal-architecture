@@ -1,6 +1,6 @@
 package architecture.web.interceptors;
 
-import architecture.constants.ApplicationConstants;
+import architecture.constants.AppConstants;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.WebUtils;
 
@@ -32,11 +32,11 @@ public class LocalizeURLInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         String localeToAppend;
-        Cookie actualCookie = WebUtils.getCookie(request, ApplicationConstants.LOCALE_COOKIE_NAME);
+        Cookie actualCookie = WebUtils.getCookie(request, AppConstants.LOCALE_COOKIE_NAME);
         if (actualCookie != null) {
             localeToAppend = actualCookie.getValue();
         } else {
-            localeToAppend = ApplicationConstants.DEFAULT_LOCALE.getLanguage();
+            localeToAppend = AppConstants.DEFAULT_LOCALE.getLanguage();
         }
         response.sendRedirect("/" + localeToAppend + requestURI);
         return false;

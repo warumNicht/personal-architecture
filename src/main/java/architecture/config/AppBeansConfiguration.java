@@ -1,8 +1,6 @@
 package architecture.config;
 
-import architecture.constants.ApplicationConstants;
-import architecture.services.LocaleServiceImpl;
-import architecture.services.interfaces.LocaleService;
+import architecture.constants.AppConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -25,9 +23,9 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         CustomLocalResolver customLocalResolver = new CustomLocalResolver();
-        customLocalResolver.setDefaultLocale(ApplicationConstants.DEFAULT_LOCALE);
+        customLocalResolver.setDefaultLocale(AppConstants.DEFAULT_LOCALE);
         customLocalResolver.setCookieHttpOnly(true);
-        customLocalResolver.setCookieName(ApplicationConstants.LOCALE_COOKIE_NAME);
+        customLocalResolver.setCookieName(AppConstants.LOCALE_COOKIE_NAME);
         customLocalResolver.setCookieMaxAge(60 * 60);
         return customLocalResolver;
     }
@@ -72,7 +70,7 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/")
-                .setCacheControl(CacheControl.maxAge(ApplicationConstants.CASH_MAX_AGE, TimeUnit.HOURS).cachePublic());
+                .setCacheControl(CacheControl.maxAge(AppConstants.CASH_MAX_AGE, TimeUnit.HOURS).cachePublic());
     }
 
 }

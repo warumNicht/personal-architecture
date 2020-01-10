@@ -1,6 +1,6 @@
 package architecture.unit.services;
 
-import architecture.constants.ApplicationConstants;
+import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
 import architecture.services.LocaleServiceImpl;
 import org.junit.Assert;
@@ -30,14 +30,14 @@ public class LocaleServiceUnitTests {
 
     @Test
     public void givenCookie_FR_returnsCorrect(){
-        Mockito.when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr")});
+        Mockito.when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")});
         Assert.assertEquals(this.localeService.getCurrentCookieLocale(),CountryCodes.FR);
         Assert.assertEquals(this.localeService.getLocale(),"fr");
     }
 
     @Test
     public void when_missingCookie_returnsDefaultLocale(){
-        Assert.assertEquals(this.localeService.getCurrentCookieLocale(),ApplicationConstants.DEFAULT_COUNTRY_CODE);
+        Assert.assertEquals(this.localeService.getCurrentCookieLocale(), AppConstants.DEFAULT_COUNTRY_CODE);
         Assert.assertEquals(this.localeService.getLocale(),"bg");
     }
 }

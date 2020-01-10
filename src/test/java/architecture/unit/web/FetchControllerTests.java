@@ -1,7 +1,7 @@
 package architecture.unit.web;
 
+import architecture.constants.AppConstants;
 import architecture.util.TestConstants;
-import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.viewModels.LocalisedCategoryViewModel;
 import architecture.services.interfaces.CategoryService;
@@ -55,7 +55,7 @@ public class FetchControllerTests {
 
     @Test
     public void whenNoCategories_returnsEmptyArray() throws Exception {
-        Mockito.when(categoryService.getAllCategoriesByLocale(ApplicationConstants.DEFAULT_COUNTRY_CODE, CountryCodes.DE))
+        Mockito.when(categoryService.getAllCategoriesByLocale(AppConstants.DEFAULT_COUNTRY_CODE, CountryCodes.DE))
                 .thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/fetch/categories/all").contentType(MediaType.APPLICATION_JSON))
@@ -68,7 +68,7 @@ public class FetchControllerTests {
         List<LocalisedCategoryViewModel> categories = Arrays.asList(new LocalisedCategoryViewModel(1L, TestConstants.CATEGORY_1_BG_NAME),
                 new LocalisedCategoryViewModel(2L, TestConstants.CATEGORY_2_BG_NAME)
         );
-        Mockito.when(categoryService.getAllCategoriesByLocale(ApplicationConstants.DEFAULT_COUNTRY_CODE, CountryCodes.DE))
+        Mockito.when(categoryService.getAllCategoriesByLocale(AppConstants.DEFAULT_COUNTRY_CODE, CountryCodes.DE))
                 .thenReturn(categories);
 
         MvcResult mvcResult = mockMvc.perform(get("/fetch/categories/all").contentType(MediaType.APPLICATION_JSON)).andReturn();

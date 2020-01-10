@@ -1,7 +1,7 @@
 package architecture.integration.web;
 
+import architecture.constants.AppConstants;
 import architecture.util.TestConstants;
-import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Category;
 import architecture.repositories.CategoryRepository;
@@ -48,7 +48,7 @@ public class FetchControllerIntegrationTests {
     public void fetchCategories_locale_FR_returnsCorrect_whenAllNamesPresent() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
                 .contentType(MediaType.APPLICATION_JSON)
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr")))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].name", Matchers.is(TestConstants.CATEGORY_1_FR_NAME)))
@@ -59,7 +59,7 @@ public class FetchControllerIntegrationTests {
     public void fetchCategories_locale_ES_returnsDefault_whenSomeNamesAbsent() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
                 .contentType(MediaType.APPLICATION_JSON)
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "es")))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "es")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].name", Matchers.is(TestConstants.CATEGORY_1_BG_NAME)))
@@ -70,7 +70,7 @@ public class FetchControllerIntegrationTests {
     public void fetchCategories_locale_DE_doesNotReturn_whenNameAndDefaultAbsent() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
                 .contentType(MediaType.APPLICATION_JSON)
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "de")))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "de")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }

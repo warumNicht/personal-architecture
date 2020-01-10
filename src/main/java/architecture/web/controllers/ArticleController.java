@@ -1,6 +1,6 @@
 package architecture.web.controllers;
 
-import architecture.constants.ApplicationConstants;
+import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.bindingModels.ArticleAddImageBindingModel;
 import architecture.domain.models.bindingModels.ArticleBindingModel;
@@ -11,7 +11,6 @@ import architecture.domain.models.serviceModels.ImageServiceModel;
 import architecture.domain.models.serviceModels.LocalisedArticleContentServiceModel;
 import architecture.domain.models.viewModels.articles.ArticleAddImageViewModel;
 import architecture.domain.models.viewModels.articles.ArticleEditViewModel;
-import architecture.domain.models.viewModels.articles.ArticleViewModel;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
 import architecture.services.interfaces.ImageService;
@@ -157,7 +156,7 @@ public class ArticleController extends BaseController {
         ArticleServiceModel article = this.articleService.findById(id);
         LocalisedArticleContentServiceModel content = article.getLocalContent().get(super.getCurrentCookieLocale());
         if (content == null) {
-            content = article.getLocalContent().get(ApplicationConstants.DEFAULT_COUNTRY_CODE);
+            content = article.getLocalContent().get(AppConstants.DEFAULT_COUNTRY_CODE);
         }
         if (content == null) {
             content = article.getLocalContent().entrySet().iterator().next().getValue();

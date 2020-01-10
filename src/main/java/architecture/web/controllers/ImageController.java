@@ -1,5 +1,6 @@
 package architecture.web.controllers;
 
+import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.bindingModels.ImageEditBindingModel;
 import architecture.domain.models.serviceModels.ImageServiceModel;
@@ -33,14 +34,14 @@ public class ImageController extends BaseController {
             imageToEdit.getLocalImageNames().putIfAbsent(value, "");
         }
         model.addAttribute("imageEdit", imageToEdit);
-        return "edit-image";
+        return AppConstants.IMAGE_EDIT_VIEW;
     }
 
     @PutMapping(value = "/edit/{imageId}")
-    public String editImagePut(@Valid @ModelAttribute(name = "imageEdit") ImageEditBindingModel model, BindingResult bindingResult,
+    public String editImagePut(@Valid @ModelAttribute(name = AppConstants.IMAGE_EDIT_BindingModel_Name) ImageEditBindingModel model, BindingResult bindingResult,
                                @PathVariable(name = "imageId") Long imageId) {
         if(bindingResult.hasErrors()){
-            return "edit-image";
+            return AppConstants.IMAGE_EDIT_VIEW;
         }
         model.getLocalImageNames().entrySet().removeIf(kv -> kv.getValue().isEmpty());
         ImageServiceModel imageById = this.imageService.getImageById(imageId);

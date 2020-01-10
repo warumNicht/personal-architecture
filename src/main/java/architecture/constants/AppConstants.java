@@ -4,7 +4,7 @@ import architecture.domain.CountryCodes;
 
 import java.util.Locale;
 
-public final class ApplicationConstants {
+public final class AppConstants {
     public static final String LOCALE_COOKIE_NAME = "lang";
 
     public static final Locale DEFAULT_LOCALE = Locale.US;
@@ -15,4 +15,7 @@ public final class ApplicationConstants {
 
     public static final String DEFAULT_ERROR_VIEW = "error/error";
     public static final String CONTROLLER_ERROR_VIEW = "error/custom-error";
+
+    public static final String IMAGE_EDIT_VIEW = "edit-image";
+    public static final String IMAGE_EDIT_BindingModel_Name = "imageEdit";
 }

@@ -1,6 +1,6 @@
 package architecture.web.controllers;
 
-import architecture.constants.ApplicationConstants;
+import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.viewModels.ImageViewModel;
 import architecture.services.interfaces.CategoryService;
@@ -30,7 +30,7 @@ public class FetchController extends BaseController {
     @RequestMapping(value = "/categories/all", produces = "application/json")
     public Object getCategories() {
         CountryCodes wanted = super.getCurrentCookieLocale();
-        return this.categoryService.getAllCategoriesByLocale(ApplicationConstants.DEFAULT_COUNTRY_CODE, wanted);
+        return this.categoryService.getAllCategoriesByLocale(AppConstants.DEFAULT_COUNTRY_CODE, wanted);
     }
 
     @RequestMapping(value = "/images/{articleId}", produces = "application/json")

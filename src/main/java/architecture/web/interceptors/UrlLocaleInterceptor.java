@@ -1,6 +1,6 @@
 package architecture.web.interceptors;
 
-import architecture.constants.ApplicationConstants;
+import architecture.constants.AppConstants;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.WebUtils;
 
@@ -20,16 +20,16 @@ public class UrlLocaleInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
 
-        String newLocale = request.getParameter(ApplicationConstants.LOCALE_COOKIE_NAME);
+        String newLocale = request.getParameter(AppConstants.LOCALE_COOKIE_NAME);
         if (newLocale != null) {
             request.setAttribute("lang", true);
             return true;
         }
         String requestedUri = request.getRequestURI();
         String currentLocaleInUri = requestedUri.substring(1, 3);
-        Cookie actualCookie = WebUtils.getCookie(request, ApplicationConstants.LOCALE_COOKIE_NAME);
+        Cookie actualCookie = WebUtils.getCookie(request, AppConstants.LOCALE_COOKIE_NAME);
         if (actualCookie == null || actualCookie.getValue().equals(currentLocaleInUri) == false) {
-            String redirect = String.format("%s?%s=%s", requestedUri, ApplicationConstants.LOCALE_COOKIE_NAME, currentLocaleInUri);
+            String redirect = String.format("%s?%s=%s", requestedUri, AppConstants.LOCALE_COOKIE_NAME, currentLocaleInUri);
             response.sendRedirect(redirect);
             return false;
         }

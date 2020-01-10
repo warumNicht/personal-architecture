@@ -1,6 +1,6 @@
 package architecture.services;
 
-import architecture.constants.ApplicationConstants;
+import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
 import architecture.services.interfaces.LocaleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +26,10 @@ public class LocaleServiceImpl implements LocaleService {
 
     @Override
     public CountryCodes getCurrentCookieLocale() {
-        Cookie actualCookie = WebUtils.getCookie(this.request, ApplicationConstants.LOCALE_COOKIE_NAME);
+        Cookie actualCookie = WebUtils.getCookie(this.request, AppConstants.LOCALE_COOKIE_NAME);
         if (actualCookie != null) {
             return CountryCodes.valueOf(actualCookie.getValue().toUpperCase());
         }
-        return ApplicationConstants.DEFAULT_COUNTRY_CODE;
+        return AppConstants.DEFAULT_COUNTRY_CODE;
     }
 }

@@ -1,10 +1,10 @@
 package architecture.integration.web;
 
+import architecture.constants.AppConstants;
 import architecture.domain.entities.Article;
 import architecture.domain.models.bindingModels.ImageEditBindingModel;
 import architecture.repositories.ArticleRepository;
 import architecture.util.TestConstants;
-import architecture.constants.ApplicationConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Image;
 import architecture.repositories.ImageRepository;
@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 
-import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -46,6 +45,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 public class ImageControllerIntegrationTests {
+    private static final String MODEL_FIELD_url="url";
+    private static final String MODEL_FIELD_localImageNames="localImageNames";
+
     private Image savedImage;
     @Autowired
     private MockMvc mockMvc;
@@ -76,9 +78,9 @@ public class ImageControllerIntegrationTests {
         MockHttpServletResponse response = this.mockMvc.perform(get("/fr/admin/images/edit/" + this.savedImage.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr")))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
                 .andExpect(status().isOk())
-                .andExpect(view().name("edit-image"))
+                .andExpect(view().name(AppConstants.IMAGE_EDIT_VIEW))
                 .andDo(print())
                 .andReturn().getResponse();
         String contentAsString = response.getContentAsString();
@@ -95,9 +97,9 @@ public class ImageControllerIntegrationTests {
         MvcResult mvcResult = this.mockMvc.perform(get("/fr/admin/images/edit/111")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr")))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ApplicationConstants.CONTROLLER_ERROR_VIEW))
+                .andExpect(view().name(AppConstants.CONTROLLER_ERROR_VIEW))
                 .andDo(print())
                 .andReturn();
 
@@ -113,8 +115,8 @@ public class ImageControllerIntegrationTests {
     public void putImage_withCorrectData_redirectsCorrectAndModifiesData() throws Exception {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr("imageEdit", this.getCorrectBindingModel()))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(model().hasNoErrors())
                 .andExpect(view().name("redirect:/fr/admin/articles/edit/" + this.savedImage.getArticle().getId()))
@@ -131,11 +133,11 @@ public class ImageControllerIntegrationTests {
     public void putImage_withCorrectData_andInvalidId_returnsErrorPage() throws Exception {
         this.mockMvc.perform(put("/admin/images/edit/555")
                 .locale(Locale.FRANCE)
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr("imageEdit", this.getCorrectBindingModel()))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel()))
                 .andExpect(status().isOk())
                 .andExpect(model().hasNoErrors())
-                .andExpect(view().name(ApplicationConstants.CONTROLLER_ERROR_VIEW))
+                .andExpect(view().name(AppConstants.CONTROLLER_ERROR_VIEW))
                 .andDo(print());
         Image modifiedImage = this.imageRepository.findAll().get(0);
         int actualSize = modifiedImage.getLocalImageNames().size();
@@ -149,8 +151,8 @@ public class ImageControllerIntegrationTests {
     public void putImage_withInvalidData_doesNotModifyData() throws Exception {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr("imageEdit", this.getIncorrectBindingModel()));
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel()));
         Image modifiedImage = this.imageRepository.findAll().get(0);
         int expectedSize = this.savedImage.getLocalImageNames().size();
         int actualSize = modifiedImage.getLocalImageNames().size();
@@ -164,21 +166,21 @@ public class ImageControllerIntegrationTests {
     public void putImage_withInvalidData_returnsEditPage() throws Exception {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr("imageEdit", this.getIncorrectBindingModel()))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("edit-image"));
+                .andExpect(view().name(AppConstants.IMAGE_EDIT_VIEW));
     }
 
     @Test
     public void putImage_withNullDataFields_hasErrors() throws Exception {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr("imageEdit", this.getIncorrectBindingModel()))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel()))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(3))
-                .andExpect(model().attributeHasFieldErrorCode("imageEdit", "localImageNames", "NotNull"));
+                .andExpect(model().attributeHasFieldErrorCode(AppConstants.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_localImageNames, "NotNull"));
     }
 
     @Test
@@ -187,8 +189,8 @@ public class ImageControllerIntegrationTests {
         invalidBindingModel.getLocalImageNames().put(CountryCodes.BG,"");
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr("imageEdit", invalidBindingModel))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(2));
     }
@@ -199,11 +201,11 @@ public class ImageControllerIntegrationTests {
         invalidBindingModel.setUrl("");
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr("imageEdit", invalidBindingModel))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(2))
-                .andExpect(model().attributeHasFieldErrors("imageEdit","url"));
+                .andExpect(model().attributeHasFieldErrors(AppConstants.IMAGE_EDIT_BindingModel_Name,MODEL_FIELD_url));
     }
 
     @Test
@@ -212,11 +214,11 @@ public class ImageControllerIntegrationTests {
         invalidBindingModel.setUrl(null);
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
-                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr("imageEdit", invalidBindingModel))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(2))
-                .andExpect(model().attributeHasFieldErrors("imageEdit","url"));
+                .andExpect(model().attributeHasFieldErrors(AppConstants.IMAGE_EDIT_BindingModel_Name,MODEL_FIELD_url));
     }
 
     private ImageEditBindingModel getCorrectBindingModel() {
@@ -240,7 +242,7 @@ public class ImageControllerIntegrationTests {
 //        MvcResult mvcResult = this.mockMvc.perform(get("/fr/admin/images/edit/111")
 //                .locale(Locale.FRANCE)
 //                .contextPath("/fr")
-//                .cookie(new Cookie(ApplicationConstants.LOCALE_COOKIE_NAME, "fr")))
+//                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
 //                .andExpect(status().isNotFound())
 ////                .andExpect(view().name("error/custom-error"))
 //                .andDo(print())
