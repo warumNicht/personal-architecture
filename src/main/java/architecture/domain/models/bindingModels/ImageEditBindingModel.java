@@ -1,5 +1,6 @@
 package architecture.domain.models.bindingModels;
 
+import architecture.annotations.BeginUppercase;
 import architecture.annotations.EnumValidator;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.BaseModel;
@@ -15,7 +16,7 @@ public class ImageEditBindingModel extends BaseModel {
 
     @NotNull
     private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "wert") CountryCodes,
-            @NotEmpty @Pattern(regexp = "^[A-ZА-Я].*$",message = "begin-uppercase") String> localImageNames;
+            @NotEmpty @BeginUppercase String> localImageNames;
 
     public String getUrl() {
         return url;
