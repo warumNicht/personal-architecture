@@ -1,5 +1,6 @@
 package architecture.domain.models.bindingModels;
 
+import architecture.annotations.BeginUppercase;
 import architecture.annotations.EnumValidator;
 import architecture.domain.CountryCodes;
 import javax.validation.constraints.NotNull;
@@ -12,7 +13,7 @@ public class CategoryCreateBindingModel {
     private CountryCodes country;
 
     @Size(min=8, max=30, message = "category.name.length")
-    @Pattern(regexp = "^[A-ZА-Я].*$",message = "begin-uppercase")
+    @BeginUppercase(message = "begin-uppercase")
     @Pattern(regexp = "^(?=.*\\S).+$|^$",flags = Pattern.Flag.DOTALL,
             message = "whitespaces")
     private String name;
