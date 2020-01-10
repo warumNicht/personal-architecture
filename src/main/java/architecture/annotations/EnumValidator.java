@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(value = RetentionPolicy.RUNTIME)
-@Target(value = ElementType.FIELD)
+@Target(value = {ElementType.FIELD, ElementType.TYPE_USE})
 @Constraint(validatedBy = EnumValidatorImpl.class)
 public @interface EnumValidator {
     Class<? extends Enum> enumClass();

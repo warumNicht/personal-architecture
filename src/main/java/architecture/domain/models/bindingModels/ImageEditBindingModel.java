@@ -1,12 +1,10 @@
 package architecture.domain.models.bindingModels;
 
+import architecture.annotations.EnumValidator;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.BaseModel;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.LinkedHashMap;
 
 public class ImageEditBindingModel extends BaseModel {
@@ -14,7 +12,10 @@ public class ImageEditBindingModel extends BaseModel {
     @NotEmpty
     @Size(min = 10)
     private String url;
-    private LinkedHashMap<CountryCodes, @NotEmpty String> localImageNames;
+
+    @NotNull
+    private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "wert") CountryCodes,
+            @NotEmpty @Pattern(regexp = "^[A-ZА-Я].*$",message = "begin-uppercase") String> localImageNames;
 
     public String getUrl() {
         return url;
