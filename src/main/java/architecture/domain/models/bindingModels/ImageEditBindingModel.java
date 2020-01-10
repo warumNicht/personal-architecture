@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 
 public class ImageEditBindingModel extends BaseModel {
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "No vide")
     @Size(min = 10)
     private String url;
 
