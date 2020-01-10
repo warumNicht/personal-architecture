@@ -10,7 +10,7 @@
 <main>
 
     <form class="mx-auto w-25" th:action="@{/admin/images/edit/{imageId}(imageId=${imageEdit.id})}" th:method="put" th:object="${imageEdit}">
-
+        <input type="hidden" th:field="*{id}" th:value="${imageEdit.id}">
         <!--<div class="form-group">-->
             <!--<img th:src="${imageEdit.url}" alt="">-->
         <!--</div>-->
@@ -24,11 +24,13 @@
             </small>
         </div>
 
-        <div class="form-group" th:each="countryCode, stat :*{localImageNames}">
+        <div class="form-group" th:each="countryCode, stat :*{localImageNames}" th:classappend="${#fields.hasErrors('localImageNames[__${countryCode.key}__]')} ? 'text-danger'">
             <label th:text="#{${'lang.' + countryCode.key }}"></label>
-            <div th:text="${countryCode.value}"></div>
             <input type="text" class="form-control"
                    th:field="*{localImageNames[__${countryCode.key}__]}">
+            <small
+                    th:each="error : ${#fields.errors('localImageNames[__${countryCode.key}__]')}" th:utext="${error +'<br>'}">
+            </small>
         </div>
 
         <div class="button-holder mt-4 d-flex justify-content-center">

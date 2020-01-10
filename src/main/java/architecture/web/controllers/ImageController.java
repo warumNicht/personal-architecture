@@ -40,7 +40,7 @@ public class ImageController extends BaseController {
     public String editImagePut(@Valid @ModelAttribute(name = "imageEdit") ImageEditBindingModel model, BindingResult bindingResult,
                                @PathVariable(name = "imageId") Long imageId) {
         if(bindingResult.hasErrors()){
-            return "redirect:/" + super.getLocale() + "/admin/images/edit/" + imageId;
+            return "edit-image";
         }
         model.getLocalImageNames().entrySet().removeIf(kv -> kv.getValue().isEmpty());
         ImageServiceModel imageById = this.imageService.getImageById(imageId);

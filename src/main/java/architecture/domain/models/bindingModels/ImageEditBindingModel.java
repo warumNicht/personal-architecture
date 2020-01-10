@@ -14,7 +14,7 @@ public class ImageEditBindingModel extends BaseModel {
     @NotEmpty
     @Size(min = 10)
     private String url;
-    private LinkedHashMap<CountryCodes, String> localImageNames;
+    private LinkedHashMap<CountryCodes, @NotEmpty String> localImageNames;
 
     public String getUrl() {
         return url;
