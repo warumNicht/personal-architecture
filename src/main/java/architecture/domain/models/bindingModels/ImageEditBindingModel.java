@@ -11,8 +11,7 @@ import java.util.LinkedHashMap;
 
 public class ImageEditBindingModel extends BaseModel {
     @NotNull
-    @NotEmpty(message = "No vide")
-    @Size(min = 10)
+    @Pattern(regexp = "^https?:\\/\\/(www\\.)?(?!w{0,2}\\.)[^\"'\\s]{3,}\\.(png|jpg|jpeg|gif|png|svg|webp)$|^$", message = "Not a image url")
     private String url;
 
     @NotNull
