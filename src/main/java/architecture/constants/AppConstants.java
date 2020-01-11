@@ -12,10 +12,12 @@ public final class AppConstants {
     public static final CountryCodes DEFAULT_COUNTRY_CODE = CountryCodes.BG;
 
     public static final long CASH_MAX_AGE = 2L;
+    public static final int COUNTRY_SIZE = 5;
 
     public static final String DEFAULT_ERROR_VIEW = "error/error";
     public static final String CONTROLLER_ERROR_VIEW = "error/custom-error";
 
     public static final String IMAGE_EDIT_VIEW = "edit-image";
     public static final String IMAGE_EDIT_BindingModel_Name = "imageEdit";
+
 }
