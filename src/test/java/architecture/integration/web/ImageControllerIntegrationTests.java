@@ -48,7 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest()
 @Transactional
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase
+//@AutoConfigureTestDatabase
 @ActiveProfiles("test")
 public class ImageControllerIntegrationTests {
     private static final String MODEL_FIELD_url="url";
