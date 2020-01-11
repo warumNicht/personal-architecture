@@ -16,7 +16,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -59,8 +58,6 @@ public class ImageControllerIntegrationTests {
     private ImageRepository imageRepository;
     @Autowired
     private ArticleRepository articleRepository;
-//    @Autowired
-//    private ModelMapper modelMapper;
 
     @Before
     public void init() {
@@ -199,17 +196,21 @@ public class ImageControllerIntegrationTests {
                         "id", this.savedImage.getArticle().getId().toString(),
                         "url", TestConstants.IMAGE_URL,
                         "localImageNames[FR]", TestConstants.IMAGE_FR_NAME,
-                        "localImageNames[FI]", TestConstants.IMAGE_ES_NAME
+                        "localImageNames[FI]", TestConstants.IMAGE_ES_NAME,
+                        "localImageNames[BG]", TestConstants.IMAGE_BG_NAME,
+                        "localImageNames[DE]", TestConstants.IMAGE_BG_NAME,
+                        "localImageNames[EN]", TestConstants.IMAGE_BG_NAME
                 )))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(model().errorCount(1));
+                .andExpect(model().errorCount(2))
+                .andExpect(model().attributeHasFieldErrors(AppConstants.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_localImageNames));
     }
 
     @Test
     public void putImage_withInvalidLocalImageName_hasErrors() throws Exception {
         ImageEditBindingModel invalidBindingModel = this.getCorrectBindingModel();
-        invalidBindingModel.getLocalImageNames().put(CountryCodes.BG,"");
+        invalidBindingModel.getLocalImageNames().put(CountryCodes.BG,"1");
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -227,7 +228,7 @@ public class ImageControllerIntegrationTests {
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
                 .andExpect(status().isOk())
-                .andExpect(model().errorCount(2))
+                .andExpect(model().errorCount(1))
                 .andExpect(model().attributeHasFieldErrors(AppConstants.IMAGE_EDIT_BindingModel_Name,MODEL_FIELD_url));
     }
 
@@ -249,6 +250,9 @@ public class ImageControllerIntegrationTests {
         bindingModel.setLocalImageNames(new LinkedHashMap<>() {{
             put(CountryCodes.BG, TestConstants.IMAGE_BG_NAME_2);
             put(CountryCodes.FR, TestConstants.IMAGE_FR_NAME_2);
+            put(CountryCodes.ES, "");
+            put(CountryCodes.DE, "");
+            put(CountryCodes.EN, "");
         }});
         bindingModel.setUrl(TestConstants.IMAGE_URL_2);
         return bindingModel;
