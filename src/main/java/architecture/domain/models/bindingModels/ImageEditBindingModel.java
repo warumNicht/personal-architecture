@@ -19,7 +19,7 @@ public class ImageEditBindingModel extends BaseModel {
     private String url;
 
     @NotNull
-    @Size(min = 6, max = 6, message = "Must contain '${validatedValue[BG]}' {min} names")
+    @Size(min = AppConstants.COUNTRY_SIZE, max = AppConstants.COUNTRY_SIZE, message = "Must contain '${validatedValue}'  {min} names")
     @ContainsNotEmpty
     private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "wert") CountryCodes,
             @LengthOrEmpty(min = 3, max = 256) @BeginUppercase(allowEmpty = true) String> localImageNames;
