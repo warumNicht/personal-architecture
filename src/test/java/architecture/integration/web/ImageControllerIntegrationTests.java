@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,6 +51,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ImageControllerIntegrationTests {
     private static final String MODEL_FIELD_url="url";
     private static final String MODEL_FIELD_localImageNames="localImageNames";
+
+    @Value("${haha}")
+    private String data;
 
     private Image savedImage;
     @Autowired
