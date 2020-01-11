@@ -52,9 +52,6 @@ public class ImageControllerIntegrationTests {
     private static final String MODEL_FIELD_url="url";
     private static final String MODEL_FIELD_localImageNames="localImageNames";
 
-    @Value("${haha}")
-    private String data;
-
     private Image savedImage;
     @Autowired
     private MockMvc mockMvc;
