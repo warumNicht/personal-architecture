@@ -33,7 +33,7 @@
                    id="name" th:placeholder="#{article.title}+'...'" name="title"
                    required pattern="^.{2,}$" title="Please enter at least 2 characters">
 
-            <small th:each="error : ${#fields.errors('name')}" th:utext="#{${error}} + '<br>'">
+            <small th:each="error : ${#fields.errors('name')}" th:utext="${error} + '<br>'">
             </small>
         </div>
 
