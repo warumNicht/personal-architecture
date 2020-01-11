@@ -11,6 +11,8 @@ import java.lang.annotation.Target;
 @Target(value = {ElementType.FIELD, ElementType.TYPE_USE})
 @Constraint(validatedBy = BeginUppercaseImpl.class)
 public @interface BeginUppercase {
+    boolean allowEmpty() default false;
+
     String message() default "Must begin with uppercase letter!";
 
     Class<?>[] groups() default {};
