@@ -2,6 +2,7 @@ package architecture.domain.models.bindingModels;
 
 import architecture.annotations.BeginUppercase;
 import architecture.annotations.EnumValidator;
+import architecture.annotations.LengthOrEmpty;
 import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.BaseModel;
@@ -18,7 +19,7 @@ public class ImageEditBindingModel extends BaseModel {
 
     @NotNull
     private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "wert") CountryCodes,
-            @NotEmpty @Length(min = 5) @BeginUppercase(allowEmpty = true) String> localImageNames;
+            @LengthOrEmpty(min = 3, max = 30) @BeginUppercase(allowEmpty = true) String> localImageNames;
 
     public String getUrl() {
         return url;
