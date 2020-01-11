@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,6 +30,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -55,8 +59,8 @@ public class ImageControllerIntegrationTests {
     private ImageRepository imageRepository;
     @Autowired
     private ArticleRepository articleRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+//    @Autowired
+//    private ModelMapper modelMapper;
 
     @Before
     public void init() {
@@ -152,7 +156,8 @@ public class ImageControllerIntegrationTests {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel()));
+                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel()))
+                .andDo(print());
         Image modifiedImage = this.imageRepository.findAll().get(0);
         int expectedSize = this.savedImage.getLocalImageNames().size();
         int actualSize = modifiedImage.getLocalImageNames().size();
@@ -181,6 +186,24 @@ public class ImageControllerIntegrationTests {
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(3))
                 .andExpect(model().attributeHasFieldErrorCode(AppConstants.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_localImageNames, "NotNull"));
+    }
+
+    @Test
+    public void putImage_withInvalidLocalImageNameKey_hasErrors() throws Exception {
+        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+                .locale(Locale.FRANCE)
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .content(this.buildUrlEncodedFormEntity(
+                        "_method", "put",
+                        "id", this.savedImage.getArticle().getId().toString(),
+                        "url", TestConstants.IMAGE_URL,
+                        "localImageNames[FR]", TestConstants.IMAGE_FR_NAME,
+                        "localImageNames[FI]", TestConstants.IMAGE_ES_NAME
+                )))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(model().errorCount(1));
     }
 
     @Test
@@ -233,6 +256,28 @@ public class ImageControllerIntegrationTests {
 
     private ImageEditBindingModel getIncorrectBindingModel() {
         return new ImageEditBindingModel();
+    }
+
+    private String buildUrlEncodedFormEntity(String... params) {
+        if( (params.length % 2) > 0 ) {
+            throw new IllegalArgumentException("Need to give an even number of parameters");
+        }
+        StringBuilder result = new StringBuilder();
+        for (int i=0; i<params.length; i+=2) {
+            if( i > 0 ) {
+                result.append('&');
+            }
+            try {
+                result.
+                        append(URLEncoder.encode(params[i], StandardCharsets.UTF_8.name())).
+                        append('=').
+                        append(URLEncoder.encode(params[i+1], StandardCharsets.UTF_8.name()));
+            }
+            catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return result.toString();
     }
 
 

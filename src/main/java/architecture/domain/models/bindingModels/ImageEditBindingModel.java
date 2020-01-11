@@ -2,6 +2,7 @@ package architecture.domain.models.bindingModels;
 
 import architecture.annotations.BeginUppercase;
 import architecture.annotations.EnumValidator;
+import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.BaseModel;
 
