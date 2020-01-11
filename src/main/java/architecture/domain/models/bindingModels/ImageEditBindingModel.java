@@ -1,6 +1,7 @@
 package architecture.domain.models.bindingModels;
 
 import architecture.annotations.BeginUppercase;
+import architecture.annotations.ContainsNotEmpty;
 import architecture.annotations.EnumValidator;
 import architecture.annotations.LengthOrEmpty;
 import architecture.constants.AppConstants;
@@ -13,13 +14,14 @@ import java.util.LinkedHashMap;
 
 public class ImageEditBindingModel extends BaseModel {
     @NotNull
-    @Size
     @Pattern(regexp = "^https?:\\/\\/(www\\.)?(?!w{0,2}\\.)[^\"'\\s]{3,}\\.(png|jpg|jpeg|gif|png|svg|webp)$|^$", message = "Not a image url")
     private String url;
 
     @NotNull
+    @Size(min = 5, max = 5, message = "Must contain 5 names")
+    @ContainsNotEmpty
     private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "wert") CountryCodes,
-            @LengthOrEmpty(min = 3, max = 30) @BeginUppercase(allowEmpty = true) String> localImageNames;
+            @LengthOrEmpty(min = 3, max = 256) @BeginUppercase(allowEmpty = true) String> localImageNames;
 
     public String getUrl() {
         return url;
