@@ -15,7 +15,7 @@ public @interface LengthOrEmpty {
 
     int max() default Integer.MAX_VALUE;
 
-    String message() default "Length must be between {min} and {max}!";
+    String message() default "{length}";
 
     Class<?>[] groups() default {};
 
