@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -205,6 +204,19 @@ public class ImageControllerIntegrationTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(2))
+                .andExpect(model().attributeHasFieldErrors(AppConstants.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_localImageNames));
+    }
+
+    @Test
+    public void putImage_withInvalidLocalImageNamesSize_hasErrors() throws Exception {
+        ImageEditBindingModel invalidBindingModel = this.getCorrectBindingModel();
+        invalidBindingModel.getLocalImageNames().remove(CountryCodes.DE);
+        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+                .locale(Locale.FRANCE)
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
+                .andExpect(status().isOk())
+                .andExpect(model().errorCount(1))
                 .andExpect(model().attributeHasFieldErrors(AppConstants.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_localImageNames));
     }
 
