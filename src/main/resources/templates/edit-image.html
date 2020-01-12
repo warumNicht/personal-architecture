@@ -9,7 +9,7 @@
 
 <main>
 
-    <form class="mx-auto w-25" th:action="@{/admin/images/edit/{imageId}(imageId=${imageEdit.id})}" th:method="put" th:object="${imageEdit}">
+    <form class="mx-auto w-25" th:action="@{|/${@localeService.getLocale()}/admin/images/edit/${imageEdit.id}|}" th:method="put" th:object="${imageEdit}">
         <input type="hidden" th:field="*{id}" th:value="${imageEdit.id}">
         <div class="form-group">
             <img th:src="${imageEdit.url}" alt="">

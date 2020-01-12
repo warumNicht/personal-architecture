@@ -1,5 +1,6 @@
 package architecture.web.interceptors;
 
+import architecture.constants.AppConstants;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import javax.servlet.ServletException;
@@ -15,14 +16,14 @@ public class CustomLocalInterceptor extends LocaleChangeInterceptor {
         System.out.println(request.getRequestURI());
 
         super.preHandle(request, response, handler);
-        String newLocale = (String) request.getParameter("lang");
-        if (newLocale != null && request.getAttribute("lang") != null && (boolean) request.getAttribute("lang")) {
+        String newLocale = (String) request.getParameter(AppConstants.LOCALE_COOKIE_NAME);
+        if (newLocale != null && request.getAttribute(AppConstants.LOCALE_COOKIE_NAME) != null && (boolean) request.getAttribute(AppConstants.LOCALE_COOKIE_NAME)) {
             String requestURI = request.getRequestURI();
             if (requestURI.charAt(3) == '/') {
                 requestURI = "/" + newLocale + requestURI.substring(3);
             }
             try {
-                request.setAttribute("lang", false);
+                request.setAttribute(AppConstants.LOCALE_COOKIE_NAME, false);
                 response.sendRedirect(requestURI);
             } catch (IOException e) {
                 e.printStackTrace();
