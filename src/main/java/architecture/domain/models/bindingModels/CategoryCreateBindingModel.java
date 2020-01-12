@@ -12,10 +12,10 @@ public class CategoryCreateBindingModel {
     @EnumValidator(enumClass = CountryCodes.class, message = "wert")
     private CountryCodes country;
 
-    @Size(min=8, max=30, message = "category.name.length")
-    @BeginUppercase(message = "begin-uppercase")
+    @Size(min=8, max=36, message = "{length}")
+    @BeginUppercase(message = "{begin-uppercase}")
     @Pattern(regexp = "^(?=.*\\S).+$|^$",flags = Pattern.Flag.DOTALL,
-            message = "whitespaces")
+            message = "{whitespaces}")
     private String name;
 
     public CountryCodes getCountry() {

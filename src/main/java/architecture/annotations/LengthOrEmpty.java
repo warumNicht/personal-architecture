@@ -15,7 +15,7 @@ public @interface LengthOrEmpty {
 
     int max() default Integer.MAX_VALUE;
 
-    String message() default "Length not valid!";
+    String message() default "{length}";
 
     Class<?>[] groups() default {};
 
