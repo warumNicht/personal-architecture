@@ -9,7 +9,7 @@ function fetchCategories(selectElement) {
             const isSelected = categoryId == category.id ? 'selected ' : '';
             selectElement.append('<option ' + isSelected + 'value="' + category.id + '">' + category.name + '</option>');
         })
-        if (showAllCategories) {
+        if (window.showAllCategories) {
             showAllCategories();
         }
     }).catch(function (error) {
