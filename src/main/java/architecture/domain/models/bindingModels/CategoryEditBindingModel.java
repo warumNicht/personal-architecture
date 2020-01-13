@@ -13,10 +13,10 @@ import javax.validation.constraints.Size;
 import java.util.LinkedHashMap;
 
 public class CategoryEditBindingModel extends BaseModel {
-    @NotNull
+    @NotNull(message = "{value.null}")
     @Size(min = AppConstants.COUNTRY_SIZE, max = AppConstants.COUNTRY_SIZE, message = "Must contain {min} names")
     @ContainsNotEmpty
-    private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "wert") CountryCodes,
+    private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "{value.inexistent.country}") CountryCodes,
             @LengthOrEmpty(min = 3, max = 256) @BeginUppercase(allowEmpty = true) String> localNames;
 
     public CategoryEditBindingModel() {

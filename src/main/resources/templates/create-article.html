@@ -12,7 +12,7 @@
         <h1>My site will be here</h1>
         <p>L'architecture est le jeu savant, correct et magnifique des volumes...</p>
     </div>
-    <form class="mx-auto w-25" th:method="post" th:action="@{/admin/articles/create}" th:object="${articleBinding}">
+    <form class="mx-auto w-25" th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/articles/create|}" th:object="${articleBinding}">
 
         <div class="form-group">
             <label for="cat">Category</label>

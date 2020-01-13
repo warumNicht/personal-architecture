@@ -8,8 +8,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class CategoryCreateBindingModel {
-    @NotNull(message = "Cannot be null")
-    @EnumValidator(enumClass = CountryCodes.class, message = "wert")
+    @NotNull(message = "{value.null}")
+    @EnumValidator(enumClass = CountryCodes.class, message = "{value.inexistent.country}")
     private CountryCodes country;
 
     @Size(min=8, max=36, message = "{length}")

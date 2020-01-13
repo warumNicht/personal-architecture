@@ -3,7 +3,7 @@ package architecture.web.controllers;
 import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.bindingModels.ArticleAddImageBindingModel;
-import architecture.domain.models.bindingModels.ArticleBindingModel;
+import architecture.domain.models.bindingModels.ArticleCreateBindingModel;
 import architecture.domain.models.bindingModels.ArticleEditLangBindingModel;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
@@ -44,13 +44,13 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping("/create")
-    public String createArticle(@ModelAttribute(name = "articleBinding") ArticleBindingModel articleBindingModel, Model model) {
-        model.addAttribute("articleBinding", articleBindingModel);
+    public String createArticle(@ModelAttribute(name = "articleBinding") ArticleCreateBindingModel articleCreateBindingModel, Model model) {
+        model.addAttribute("articleBinding", articleCreateBindingModel);
         return "create-article";
     }
 
     @PostMapping("/create")
-    private String createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleBindingModel bindingModel,
+    private String createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel bindingModel,
                                      BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("articleBinding", bindingModel);
@@ -73,7 +73,7 @@ public class ArticleController extends BaseController {
 
     @GetMapping("/addLang/{id}")
     public String addLanguageToArticle(Model modelView, @PathVariable(name = "id") Long articleId,
-                                       @ModelAttribute(name = "articleBinding") ArticleBindingModel model) {
+                                       @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel model) {
         ArticleServiceModel article = this.articleService.findById(articleId);
         if (article.getMainImage() == null) {
             model.setMainImage(null);
@@ -84,7 +84,7 @@ public class ArticleController extends BaseController {
 
     @PostMapping("/addLang")
     public String addLanguageToArticlePost(Model modelView,
-                                           @ModelAttribute(name = "articleBinding") ArticleBindingModel model, @RequestParam(name = "articleId") Long articleId) {
+                                           @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel model, @RequestParam(name = "articleId") Long articleId) {
         ArticleServiceModel article = this.articleService.findById(articleId);
         LocalisedArticleContentServiceModel localisedArticleContent = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
         article.getLocalContent().put(model.getCountry(), localisedArticleContent);
