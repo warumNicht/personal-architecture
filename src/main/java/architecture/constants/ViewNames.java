@@ -15,10 +15,10 @@ public final class ViewNames {
     public static final String ARTICLES_LIST_ALL = "listAll";
 
     //Article controller
-    public static final String ARTICLE_CREATE = "article-create";
-    public static final String ARTICLE_EDIT = "article-edit";
-    public static final String ARTICLE_EDIT_LANG = "article-edit-lang";
-    public static final String ARTICLE_ADD_LANG = "article-add-lang";
-    public static final String ARTICLE_ADD_IMAGE = "article-add-image";
+    public static final String ARTICLE_CREATE = "articles/article-create";
+    public static final String ARTICLE_EDIT = "articles/article-edit";
+    public static final String ARTICLE_EDIT_LANG = "articles/article-edit-lang";
+    public static final String ARTICLE_ADD_LANG = "articles/article-add-lang";
+    public static final String ARTICLE_ADD_IMAGE = "articles/article-add-image";
 
 }
