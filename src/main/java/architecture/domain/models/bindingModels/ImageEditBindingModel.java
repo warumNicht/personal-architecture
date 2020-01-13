@@ -7,7 +7,6 @@ import architecture.annotations.LengthOrEmpty;
 import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.BaseModel;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.*;
 import java.util.LinkedHashMap;

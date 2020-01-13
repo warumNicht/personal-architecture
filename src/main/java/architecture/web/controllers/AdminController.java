@@ -71,8 +71,11 @@ public class AdminController extends BaseController {
     }
 
     @PutMapping("/category/edit/{categoryId}")
-    public String editCategoryPut(@ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model,
+    public String editCategoryPut(@Valid @ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model,BindingResult bindingResult,
                                   @PathVariable(name = "categoryId") Long categoryId) {
+        if(bindingResult.hasErrors()){
+            return "categories/category-edit";
+        }
         CategoryServiceModel categoryToEdit = this.modelMapper.map(model, CategoryServiceModel.class);
         Map<CountryCodes, String> filteredValues = categoryToEdit.getLocalCategoryNames().entrySet()
                 .stream()

@@ -32,8 +32,7 @@
             <label th:text="#{${'lang.' + countryCode.key }}"></label>
             <input type="text" class="form-control"
                    th:field="*{localImageNames[__${countryCode.key}__]}">
-            <small
-                    th:each="error : ${#fields.errors('localImageNames[__${countryCode.key}__]')}" th:utext="${error +'<br>'}">
+            <small th:each="error : ${#fields.errors('localImageNames[__${countryCode.key}__]')}" th:utext="${error +'<br>'}">
             </small>
         </div>
 

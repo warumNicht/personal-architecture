@@ -10,13 +10,20 @@
 <main>
 
     <form class="mx-auto w-25" th:method="put"
-          th:action="@{/admin/category/edit/{categoryId}(categoryId=${categoryEditModel.id})}"
+          th:action="@{/{locale}/admin/category/edit/{categoryId}(categoryId=${categoryEditModel.id},locale=${@localeService.getLocale()})}"
           th:object="${categoryEditModel}">
 
-        <div class="form-group" th:each="countryCode, stat :*{localNames}">
+        <div class="form-group" th:classappend="${#fields.hasErrors('localNames')} ? 'text-danger'">
+            <small th:each="error : ${#fields.errors('localNames')}" th:utext="${error +'<br>'}">
+            </small>
+        </div>
+
+        <div class="form-group" th:each="countryCode, stat :*{localNames}" th:classappend="${#fields.hasErrors('localNames[__${countryCode.key}__]')} ? 'text-danger'">
             <label th:text="#{${'lang.' + countryCode.key }}"></label>
             <input type="text" class="form-control"
                    th:field="*{localNames[__${countryCode.key}__]}">
+            <small th:each="error : ${#fields.errors('localNames[__${countryCode.key}__]')}" th:utext="${error +'<br>'}">
+            </small>
         </div>
         <input type="hidden" th:field="*{id}" th:value="${categoryEditModel.id}">
 
