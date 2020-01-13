@@ -1,18 +1,22 @@
 package architecture.domain.models.bindingModels;
 
 import architecture.annotations.BeginUppercase;
+import architecture.constants.AppConstants;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class ImageBindingModel {
     @NotNull
     @NotEmpty
-    @Pattern(regexp = "^https?:\\/\\/(www\\.)?(?!w{0,2}\\.)[^\"'\\s]{3,}\\.(png|PNG|jpg|JPG|jpeg|JPEG|gif|GIF|png|PNG|svg|SVG|webp|WEBP)$|^$", message = "Not a image url")
+    @Pattern(regexp = "^https?:\\/\\/(www\\.)?(?!w{0,2}\\.)[^\"'\\s]{3,}\\.(png|PNG|jpg|JPG|jpeg|JPEG|gif|GIF|png|PNG|svg|SVG|webp|WEBP)$|^$", message = "{url}")
     private String url;
+
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "{text.empty}")
+    @Size(min = AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH, message = "{text.length.between}")
     @BeginUppercase(allowEmpty = true)
     private String name;
 

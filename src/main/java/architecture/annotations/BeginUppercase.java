@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 public @interface BeginUppercase {
     boolean allowEmpty() default false;
 
-    String message() default "{begin-uppercase}";
+    String message() default "{text.beginUppercase}";
 
     Class<?>[] groups() default {};
 

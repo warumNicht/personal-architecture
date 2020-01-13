@@ -13,15 +13,15 @@ import java.util.LinkedHashMap;
 
 public class ImageEditBindingModel extends BaseModel {
     @NotNull
-    @NotEmpty
-    @Pattern(regexp = "^https?:\\/\\/(www\\.)?(?!w{0,2}\\.)[^\"'\\s]{3,}\\.(png|PNG|jpg|JPG|jpeg|JPEG|gif|GIF|png|PNG|svg|SVG|webp|WEBP)$|^$", message = "Not a image url")
+    @NotEmpty(message = "{text.empty}")
+    @Pattern(regexp = "^https?:\\/\\/(www\\.)?(?!w{0,2}\\.)[^\"'\\s]{3,}\\.(png|PNG|jpg|JPG|jpeg|JPEG|gif|GIF|png|PNG|svg|SVG|webp|WEBP)$|^$", message = "{url}")
     private String url;
 
     @NotNull
-    @Size(min = AppConstants.COUNTRY_SIZE, max = AppConstants.COUNTRY_SIZE, message = "Must contain {min} names")
+    @Size(min = AppConstants.COUNTRY_SIZE, max = AppConstants.COUNTRY_SIZE)
     @ContainsNotEmpty
     private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "{country.nonexistent}") CountryCodes,
-            @LengthOrEmpty(min = 3, max = 256) @BeginUppercase(allowEmpty = true) String> localImageNames;
+            @LengthOrEmpty(min=AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH) @BeginUppercase(allowEmpty = true) String> localImageNames;
 
     public String getUrl() {
         return url;

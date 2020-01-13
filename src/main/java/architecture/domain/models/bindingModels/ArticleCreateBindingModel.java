@@ -2,29 +2,32 @@ package architecture.domain.models.bindingModels;
 
 import architecture.annotations.BeginUppercase;
 import architecture.annotations.EnumValidator;
+import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class ArticleCreateBindingModel {
-    @NotNull(message = "{value.null}")
+    @NotNull
+    @Min(value = 1)
     private Long categoryId;
 
-    @NotNull(message = "{value.null}")
+    @NotNull
     @EnumValidator(enumClass = CountryCodes.class, message = "{country.nonexistent}")
     private CountryCodes country;
 
-    @NotNull(message = "{value.null}")
+    @NotNull
     @NotEmpty(message = "{value.empty}")
-    @Size(min = 4)
+    @Size(min = AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH, message = "{text.length.between}")
     @BeginUppercase(allowEmpty = true)
     private String title;
 
-    @NotNull(message = "{value.null}")
+    @NotNull
     @NotEmpty(message = "{value.empty}")
-    @Size(min = 4)
+    @Size(min = AppConstants.DESCRIPTION_MIN_LENGTH, message = "{text.length.min}")
     @BeginUppercase(allowEmpty = true)
     private String content;
 

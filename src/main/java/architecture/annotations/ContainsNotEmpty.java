@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = ContainsNotEmptyImpl.class)
 public @interface ContainsNotEmpty {
 
-    String message() default "Must contain min 1 not empty value!";
+    String message() default "{collection.minOneNotEmptyValue}";
 
     Class<?>[] groups() default {};
 
