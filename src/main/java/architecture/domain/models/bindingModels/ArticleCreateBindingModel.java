@@ -5,6 +5,7 @@ import architecture.annotations.EnumValidator;
 import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -31,6 +32,8 @@ public class ArticleCreateBindingModel {
     @BeginUppercase(allowEmpty = true)
     private String content;
 
+    @NotNull
+    @Valid
     private ImageBindingModel mainImage;
 
     public ArticleCreateBindingModel() {
