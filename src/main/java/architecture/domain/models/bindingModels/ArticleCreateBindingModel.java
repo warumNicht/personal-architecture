@@ -13,7 +13,7 @@ public class ArticleCreateBindingModel {
     private Long categoryId;
 
     @NotNull(message = "{value.null}")
-    @EnumValidator(enumClass = CountryCodes.class, message = "{value.inexistent.country}")
+    @EnumValidator(enumClass = CountryCodes.class, message = "{country.nonexistent}")
     private CountryCodes country;
 
     @NotNull(message = "{value.null}")

@@ -9,10 +9,10 @@ import javax.validation.constraints.Size;
 
 public class CategoryCreateBindingModel {
     @NotNull(message = "{value.null}")
-    @EnumValidator(enumClass = CountryCodes.class, message = "{value.inexistent.country}")
+    @EnumValidator(enumClass = CountryCodes.class, message = "{country.nonexistent}")
     private CountryCodes country;
 
-    @Size(min=8, max=36, message = "{length}")
+    @Size(min=8, max=36, message = "{length.between}")
     @BeginUppercase(message = "{begin-uppercase}")
     @Pattern(regexp = "^(?=.*\\S).+$|^$",flags = Pattern.Flag.DOTALL,
             message = "{whitespaces}")

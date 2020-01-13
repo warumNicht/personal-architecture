@@ -16,7 +16,7 @@ public class CategoryEditBindingModel extends BaseModel {
     @NotNull(message = "{value.null}")
     @Size(min = AppConstants.COUNTRY_SIZE, max = AppConstants.COUNTRY_SIZE, message = "Must contain {min} names")
     @ContainsNotEmpty
-    private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "{value.inexistent.country}") CountryCodes,
+    private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "{country.nonexistent}") CountryCodes,
             @LengthOrEmpty(min = 3, max = 256) @BeginUppercase(allowEmpty = true) String> localNames;
 
     public CategoryEditBindingModel() {
