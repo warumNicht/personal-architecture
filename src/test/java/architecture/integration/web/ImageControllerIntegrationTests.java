@@ -1,6 +1,7 @@
 package architecture.integration.web;
 
 import architecture.constants.AppConstants;
+import architecture.constants.ViewNames;
 import architecture.domain.entities.Article;
 import architecture.domain.models.bindingModels.ImageEditBindingModel;
 import architecture.repositories.ArticleRepository;
@@ -81,7 +82,7 @@ public class ImageControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
                 .andExpect(status().isOk())
-                .andExpect(view().name(AppConstants.IMAGE_EDIT_VIEW))
+                .andExpect(view().name(ViewNames.IMAGE_EDIT))
                 .andDo(print())
                 .andReturn().getResponse();
         String contentAsString = response.getContentAsString();
@@ -100,7 +101,7 @@ public class ImageControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
                 .andExpect(status().isOk())
-                .andExpect(view().name(AppConstants.CONTROLLER_ERROR_VIEW))
+                .andExpect(view().name(ViewNames.CONTROLLER_ERROR))
                 .andDo(print())
                 .andReturn();
 
@@ -117,7 +118,7 @@ public class ImageControllerIntegrationTests {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel()))
+                .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(model().hasNoErrors())
                 .andExpect(view().name("redirect:/fr/admin/articles/edit/" + this.savedImage.getArticle().getId()))
@@ -135,10 +136,10 @@ public class ImageControllerIntegrationTests {
         this.mockMvc.perform(put("/admin/images/edit/555")
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel()))
+                .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel()))
                 .andExpect(status().isOk())
                 .andExpect(model().hasNoErrors())
-                .andExpect(view().name(AppConstants.CONTROLLER_ERROR_VIEW))
+                .andExpect(view().name(ViewNames.CONTROLLER_ERROR))
                 .andDo(print());
         Image modifiedImage = this.imageRepository.findAll().get(0);
         int actualSize = modifiedImage.getLocalImageNames().size();
@@ -153,7 +154,7 @@ public class ImageControllerIntegrationTests {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel()))
+                .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel()))
                 .andDo(print());
         Image modifiedImage = this.imageRepository.findAll().get(0);
         int expectedSize = this.savedImage.getLocalImageNames().size();
@@ -169,9 +170,9 @@ public class ImageControllerIntegrationTests {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel()))
+                .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel()))
                 .andExpect(status().isOk())
-                .andExpect(view().name(AppConstants.IMAGE_EDIT_VIEW));
+                .andExpect(view().name(ViewNames.IMAGE_EDIT));
     }
 
     @Test
@@ -179,10 +180,10 @@ public class ImageControllerIntegrationTests {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel()))
+                .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel()))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(3))
-                .andExpect(model().attributeHasFieldErrorCode(AppConstants.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_localImageNames, "NotNull"));
+                .andExpect(model().attributeHasFieldErrorCode(ViewNames.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_localImageNames, "NotNull"));
     }
 
     @Test
@@ -204,7 +205,7 @@ public class ImageControllerIntegrationTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(2))
-                .andExpect(model().attributeHasFieldErrors(AppConstants.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_localImageNames));
+                .andExpect(model().attributeHasFieldErrors(ViewNames.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_localImageNames));
     }
 
     @Test
@@ -214,10 +215,10 @@ public class ImageControllerIntegrationTests {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
+                .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(1))
-                .andExpect(model().attributeHasFieldErrors(AppConstants.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_localImageNames));
+                .andExpect(model().attributeHasFieldErrors(ViewNames.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_localImageNames));
     }
 
     @Test
@@ -227,7 +228,7 @@ public class ImageControllerIntegrationTests {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
+                .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(2));
     }
@@ -239,10 +240,10 @@ public class ImageControllerIntegrationTests {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
+                .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(1))
-                .andExpect(model().attributeHasFieldErrors(AppConstants.IMAGE_EDIT_BindingModel_Name,MODEL_FIELD_url));
+                .andExpect(model().attributeHasFieldErrors(ViewNames.IMAGE_EDIT_BindingModel_Name,MODEL_FIELD_url));
     }
 
     @Test
@@ -252,10 +253,10 @@ public class ImageControllerIntegrationTests {
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(AppConstants.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
+                .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(2))
-                .andExpect(model().attributeHasFieldErrors(AppConstants.IMAGE_EDIT_BindingModel_Name,MODEL_FIELD_url));
+                .andExpect(model().attributeHasFieldErrors(ViewNames.IMAGE_EDIT_BindingModel_Name,MODEL_FIELD_url));
     }
 
     private ImageEditBindingModel getCorrectBindingModel() {

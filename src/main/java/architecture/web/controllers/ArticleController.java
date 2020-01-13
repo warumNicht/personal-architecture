@@ -1,6 +1,7 @@
 package architecture.web.controllers;
 
 import architecture.constants.AppConstants;
+import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.bindingModels.ArticleAddImageBindingModel;
 import architecture.domain.models.bindingModels.ArticleCreateBindingModel;
@@ -46,7 +47,7 @@ public class ArticleController extends BaseController {
     @GetMapping("/create")
     public String createArticle(@ModelAttribute(name = "articleBinding") ArticleCreateBindingModel articleCreateBindingModel, Model model) {
         model.addAttribute("articleBinding", articleCreateBindingModel);
-        return "create-article";
+        return ViewNames.ARTICLE_CREATE;
     }
 
     @PostMapping("/create")
@@ -54,7 +55,7 @@ public class ArticleController extends BaseController {
                                      BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("articleBinding", bindingModel);
-            return "create-article";
+            return ViewNames.ARTICLE_CREATE;
         }
         ArticleServiceModel article = new ArticleServiceModel(new Date());
         CategoryServiceModel category = this.categoryService.findById(bindingModel.getCategoryId());
@@ -79,7 +80,7 @@ public class ArticleController extends BaseController {
             model.setMainImage(null);
         }
         modelView.addAttribute("articleBinding", model);
-        return "article-add-lang";
+        return ViewNames.ARTICLE_ADD_LANG;
     }
 
     @PostMapping("/addLang")
@@ -107,7 +108,7 @@ public class ArticleController extends BaseController {
         }
         model = bindingModel;
         modelView.addAttribute("articleEditLang", model);
-        return "article-edit-lang";
+        return ViewNames.ARTICLE_EDIT_LANG;
     }
 
     @GetMapping(value = "/edit/{id}")
@@ -115,7 +116,7 @@ public class ArticleController extends BaseController {
         ArticleServiceModel article = this.articleService.findById(id);
         ArticleEditViewModel viewModel = this.modelMapper.map(article, ArticleEditViewModel.class);
         model.addAttribute("articleEdit", viewModel);
-        return "article-edit";
+        return ViewNames.ARTICLE_EDIT;
     }
 
     @ResponseBody
@@ -168,7 +169,7 @@ public class ArticleController extends BaseController {
             addImageViewModel = new ArticleAddImageViewModel(id, content.getTitle());
         }
         model.addAttribute("article", addImageViewModel);
-        return "article-add-image";
+        return ViewNames.ARTICLE_ADD_IMAGE;
     }
 
     @ResponseBody

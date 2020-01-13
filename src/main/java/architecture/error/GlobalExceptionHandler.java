@@ -1,6 +1,6 @@
 package architecture.error;
 
-import architecture.constants.AppConstants;
+import architecture.constants.ViewNames;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", e);
         mav.addObject("url", req.getRequestURL());
-        mav.setViewName(AppConstants.CONTROLLER_ERROR_VIEW);
+        mav.setViewName(ViewNames.CONTROLLER_ERROR);
         return mav;
     }
 
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
         // Otherwise setup and send the user to a default error-view.
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", e);
-        mav.setViewName(AppConstants.DEFAULT_ERROR_VIEW);
+        mav.setViewName(ViewNames.DEFAULT_ERROR);
         return mav;
     }
 

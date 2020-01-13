@@ -1,6 +1,6 @@
 package architecture.web.controllers;
 
-import architecture.constants.AppConstants;
+import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.bindingModels.CategoryCreateBindingModel;
 import architecture.domain.models.bindingModels.CategoryEditBindingModel;
@@ -37,20 +37,20 @@ public class AdminController extends BaseController {
     public String listAll(Model model) {
         List<ArticleServiceModel> allArticles = this.articleService.findAll();
         model.addAttribute("allArticles", allArticles);
-        return AppConstants.ARTICLES_LIST_ALL;
+        return ViewNames.ARTICLES_LIST_ALL;
     }
 
     @GetMapping("/category/create")
     public String createCategory(Model modelView, @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel model) {
         modelView.addAttribute("categoryCreateModel", model);
-        return AppConstants.CATEGORY_CREATE_VIEW;
+        return ViewNames.CATEGORY_CREATE;
     }
 
     @PostMapping("/category/create")
     public String createCategoryPost(@Valid @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel bindingModel,
                                      BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
-            return AppConstants.CATEGORY_CREATE_VIEW;
+            return ViewNames.CATEGORY_CREATE;
         }
         CategoryServiceModel category = new CategoryServiceModel();
         category.getLocalCategoryNames().put(bindingModel.getCountry(), bindingModel.getName());
@@ -68,14 +68,14 @@ public class AdminController extends BaseController {
             bindingModel.getLocalNames().put(local.getKey(), local.getValue());
         }
         model.addAttribute("categoryEditModel", bindingModel);
-        return AppConstants.CATEGORY_EDIT_VIEW;
+        return ViewNames.CATEGORY_EDIT;
     }
 
     @PutMapping("/category/edit/{categoryId}")
     public String editCategoryPut(@Valid @ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model,BindingResult bindingResult,
                                   @PathVariable(name = "categoryId") Long categoryId) {
         if(bindingResult.hasErrors()){
-            return AppConstants.CATEGORY_EDIT_VIEW;
+            return ViewNames.CATEGORY_EDIT;
         }
         CategoryServiceModel categoryToEdit = this.modelMapper.map(model, CategoryServiceModel.class);
         Map<CountryCodes, String> filteredValues = categoryToEdit.getLocalCategoryNames().entrySet()
@@ -90,6 +90,6 @@ public class AdminController extends BaseController {
 
     @GetMapping(value = "/category/list")
     public String listCategories() {
-        return AppConstants.CATEGORIES_LIST;
+        return ViewNames.CATEGORIES_LIST;
     }
 }
