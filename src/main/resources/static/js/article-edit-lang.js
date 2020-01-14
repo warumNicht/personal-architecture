@@ -14,7 +14,9 @@ $(document).ready(function () {
 //        }
         sendXmlHttpRequest('PATCH', '/admin/articles/edit', json).then(function (res) {
                 console.log(res);
-                window.location = res;
+                if (typeof (res) === 'string') {
+                    window.location = res;
+                }
             }
         );
     };

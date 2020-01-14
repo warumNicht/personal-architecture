@@ -15,13 +15,13 @@ public abstract class ArticleBindingModel {
     private CountryCodes country;
 
     @NotNull
-    @NotEmpty(message = "{value.empty}")
+    @NotEmpty(message = "{text.empty}")
     @Size(min = AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH, message = "{text.length.between}")
     @BeginUppercase(allowEmpty = true)
     private String title;
 
     @NotNull
-    @NotEmpty(message = "{value.empty}")
+    @NotEmpty(message = "{text.empty}")
     @Size(min = AppConstants.DESCRIPTION_MIN_LENGTH, message = "{text.length.min}")
     @BeginUppercase(allowEmpty = true)
     private String content;

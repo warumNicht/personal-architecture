@@ -22,11 +22,15 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/admin/articles")
@@ -97,8 +101,7 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping(value = "/edit/{id}/{lang}")
-    public String editArticleLang(Model modelView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") CountryCodes lang,
-                                  @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model) {
+    public String editArticleLang(Model modelView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") CountryCodes lang) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(id);
         LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(lang);
         ArticleEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleEditLangBindingModel.class);
@@ -106,8 +109,7 @@ public class ArticleController extends BaseController {
         if (articleServiceModel.getMainImage() != null) {
             bindingModel.setMainImageName(articleServiceModel.getMainImage().getLocalImageNames().get(lang));
         }
-        model = bindingModel;
-        modelView.addAttribute("articleEditLang", model);
+        modelView.addAttribute("articleEditLang", bindingModel);
         return ViewNames.ARTICLE_EDIT_LANG;
     }
 
@@ -122,8 +124,10 @@ public class ArticleController extends BaseController {
     @ResponseBody
     @RequestMapping(method = {RequestMethod.PATCH}, value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public String editArticleLangPut(@RequestBody ArticleEditLangBindingModel model) {
-
+    public Object editArticleLangPut(@Valid @RequestBody ArticleEditLangBindingModel model, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return this.getBindingErrorsMap(bindingResult.getAllErrors());
+        }
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
         articleServiceModel.getLocalContent().put(model.getCountry(), content);
@@ -189,6 +193,16 @@ public class ArticleController extends BaseController {
             this.imageService.saveImage(imageServiceModel);
         }
         return "\"/" + super.getLocale() + "/admin/listAll\"";
+    }
+
+    private HashMap<String, List<String>> getBindingErrorsMap(List<ObjectError> allErrors) {
+        HashMap<String, List<String>> errors = new HashMap<>();
+        for (ObjectError currentError : allErrors) {
+            FieldError fieldError = (FieldError) currentError;
+            errors.putIfAbsent(fieldError.getField(), new ArrayList<>());
+            errors.get(fieldError.getField()).add(fieldError.getDefaultMessage());
+        }
+        return errors;
     }
 
 }
