@@ -1,15 +1,10 @@
-package architecture.domain.models.bindingModels;
+package architecture.domain.models.bindingModels.articles;
 
-import architecture.annotations.BeginUppercase;
-import architecture.annotations.EnumValidator;
-import architecture.constants.AppConstants;
-import architecture.domain.CountryCodes;
+import architecture.domain.models.bindingModels.ImageBindingModel;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class ArticleCreateBindingModel extends ArticleBindingModel{
     @NotNull

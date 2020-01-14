@@ -1,4 +1,4 @@
-package architecture.domain.models.bindingModels;
+package architecture.domain.models.bindingModels.articles;
 
 import architecture.annotations.BeginUppercase;
 import architecture.annotations.EnumValidator;

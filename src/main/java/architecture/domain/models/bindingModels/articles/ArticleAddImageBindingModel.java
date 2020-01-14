@@ -1,7 +1,8 @@
-package architecture.domain.models.bindingModels;
+package architecture.domain.models.bindingModels.articles;
 
 import architecture.domain.CountryCodes;
 import architecture.domain.models.BaseModel;
+import architecture.domain.models.bindingModels.ImageBindingModel;
 
 public class ArticleAddImageBindingModel extends BaseModel {
     private CountryCodes lang;

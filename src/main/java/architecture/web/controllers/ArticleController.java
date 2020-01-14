@@ -3,9 +3,9 @@ package architecture.web.controllers;
 import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
-import architecture.domain.models.bindingModels.ArticleAddImageBindingModel;
-import architecture.domain.models.bindingModels.ArticleCreateBindingModel;
-import architecture.domain.models.bindingModels.ArticleEditLangBindingModel;
+import architecture.domain.models.bindingModels.articles.ArticleAddImageBindingModel;
+import architecture.domain.models.bindingModels.articles.ArticleCreateBindingModel;
+import architecture.domain.models.bindingModels.articles.ArticleEditLangBindingModel;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
 import architecture.domain.models.serviceModels.ImageServiceModel;
@@ -97,14 +97,14 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping(value = "/edit/{id}/{lang}")
-    public String editArticleLang(Model modelView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") String lang,
+    public String editArticleLang(Model modelView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") CountryCodes lang,
                                   @ModelAttribute(name = "articleEditLang") ArticleEditLangBindingModel model) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(id);
-        LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(CountryCodes.valueOf(lang));
+        LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(lang);
         ArticleEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleEditLangBindingModel.class);
         bindingModel.setId(id);
         if (articleServiceModel.getMainImage() != null) {
-            bindingModel.setMainImageName(articleServiceModel.getMainImage().getLocalImageNames().get(CountryCodes.valueOf(lang)));
+            bindingModel.setMainImageName(articleServiceModel.getMainImage().getLocalImageNames().get(lang));
         }
         model = bindingModel;
         modelView.addAttribute("articleEditLang", model);
@@ -126,9 +126,9 @@ public class ArticleController extends BaseController {
 
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
         LocalisedArticleContentServiceModel content = this.modelMapper.map(model, LocalisedArticleContentServiceModel.class);
-        articleServiceModel.getLocalContent().put(CountryCodes.valueOf(model.getLang()), content);
+        articleServiceModel.getLocalContent().put(model.getCountry(), content);
         if (articleServiceModel.getMainImage() != null) {
-            articleServiceModel.getMainImage().getLocalImageNames().put(CountryCodes.valueOf(model.getLang()), model.getMainImageName());
+            articleServiceModel.getMainImage().getLocalImageNames().put(model.getCountry(), model.getMainImageName());
         }
         this.articleService.updateArticle(articleServiceModel);
         return "\"/" + super.getLocale() + "/admin/listAll\"";
