@@ -1,4 +1,5 @@
 import {sendXmlHttpRequest} from "./http-requests.js";
+import {showFieldErrors, removeOldErrors} from "./functions.js";
 
 $(document).ready(function () {
     const button = document.getElementById("submit-button");
@@ -20,7 +21,7 @@ $(document).ready(function () {
              if (typeof (res) === 'string') {
                   window.location = res;
              }else{
-                   removeOldErrors();
+                   removeOldErrors(['image.url', 'image.name']);
                    showFieldErrors(res)
               }
             }
@@ -28,25 +29,25 @@ $(document).ready(function () {
     };
 });
 
-function showFieldErrors(errorMap){
-    for (const [key, value] of Object.entries(errorMap)) {
-        const currentFieldDiv = $(`#${key.replace('.','\\.')}Div`);
-        console.log(`#${key}Div`);
-        console.log(currentFieldDiv);
-        currentFieldDiv.addClass('text-danger');
-        const currentSmall = $('<small></small>').addClass('text-danger');
-
-        value.forEach((v)=>{
-            currentSmall.append(`${v}<br>`)
-        })
-        currentFieldDiv.append(currentSmall);
-     }
-}
-
-function removeOldErrors(){
-    const divFieldsIds=['image.url', 'image.name'];
-    divFieldsIds.forEach((name)=>{
-        $(`#${name}Div`).removeClass('text-danger');
-    })
-    $('small').remove('.text-danger');
-}
+//function showFieldErrors(errorMap){
+//    for (const [key, value] of Object.entries(errorMap)) {
+//        const currentFieldDiv = $(`#${key.replace('.','\\.')}Div`);
+//        console.log(`#${key}Div`);
+//        console.log(currentFieldDiv);
+//        currentFieldDiv.addClass('text-danger');
+//        const currentSmall = $('<small></small>').addClass('text-danger');
+//
+//        value.forEach((v)=>{
+//            currentSmall.append(`${v}<br>`)
+//        })
+//        currentFieldDiv.append(currentSmall);
+//     }
+//}
+//
+//function removeOldErrors(){
+//    const divFieldsIds=['image.url', 'image.name'];
+//    divFieldsIds.forEach((name)=>{
+//        $(`#${name}Div`).removeClass('text-danger');
+//    })
+//    $('small').remove('.text-danger');
+//}
