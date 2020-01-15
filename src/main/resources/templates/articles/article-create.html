@@ -16,7 +16,9 @@
 
         <div class="form-group">
             <label for="cat">Category</label>
-            <select name="categoryId" class="form-control" id="cat" th:field="${articleBinding.categoryId}">
+            <div th:text="${categoryId}"></div>
+            <select name="categoryId" class="form-control" id="cat" th:value="${categoryId}">
+                <option th:value="${categoryId}" selected></option>
             </select>
         </div>
 

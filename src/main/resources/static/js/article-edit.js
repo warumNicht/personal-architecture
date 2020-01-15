@@ -69,7 +69,6 @@ window.editImage = function (id) {
 };
 
 window.showAllCategories = function () {
-    const categoriesContainer = $('div.article-container');
     const categoriesSelect = $('#catSelect');
     const categoriesOptions = $('#select-categories option');
 

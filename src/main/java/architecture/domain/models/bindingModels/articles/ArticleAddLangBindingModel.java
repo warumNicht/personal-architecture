@@ -17,8 +17,8 @@ public class ArticleAddLangBindingModel extends ArticleBindingModel{
     @Min(value = 1)
     private Long id;
 
-    @LengthOrEmpty(min = AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH, message = "{text.length.between}")
-    @BeginUppercase(allowEmpty = true)
+    @Length(min = AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH, message = "{text.length.between}")
+    @BeginUppercase(allowNull = true)
     private String mainImage;
 
 

@@ -54,14 +54,16 @@ public class ArticleController extends BaseController {
     @GetMapping("/create")
     public String createArticle(@ModelAttribute(name = "articleBinding") ArticleCreateBindingModel articleCreateBindingModel, Model model) {
         model.addAttribute("articleBinding", articleCreateBindingModel);
+        model.addAttribute("categoryId", "");
         return ViewNames.ARTICLE_CREATE;
     }
 
     @PostMapping("/create")
     private String createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel bindingModel,
-                                     BindingResult bindingResult, Model model) {
+                                     BindingResult bindingResult, Model model, @RequestParam(name = "categoryId") Long categoryId) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("articleBinding", bindingModel);
+            model.addAttribute("categoryId", categoryId);
             return ViewNames.ARTICLE_CREATE;
         }
         ArticleServiceModel article = new ArticleServiceModel(new Date());
