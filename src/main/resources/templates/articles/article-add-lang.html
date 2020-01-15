@@ -12,7 +12,7 @@
         <h1>My site will be here</h1>
         <p>L'architecture est le jeu savant, correct et magnifique des volumes...</p>
     </div>
-    <form class="mx-auto w-25" th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/articles/addLang|}"
+    <form class="mx-auto w-25" th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/articles/addLang/${articleBinding.id}|}"
           th:object="${articleBinding}">
 
         <div class="form-group" th:classappend="${#fields.hasErrors('country')} ? 'text-danger'">
@@ -63,7 +63,6 @@
         </div>
 
         <div class="button-holder mt-4 d-flex justify-content-center">
-            <input type="hidden" name="articleId" th:value="${#strings.arraySplit(#request.getRequestURI(),'/')[4]}"/>
             <button type="submit" class="btn btn-secondary">Add Language</button>
         </div>
     </form>

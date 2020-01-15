@@ -4,6 +4,7 @@ import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.bindingModels.articles.ArticleAddImageBindingModel;
+import architecture.domain.models.bindingModels.articles.ArticleAddLangBindingModel;
 import architecture.domain.models.bindingModels.articles.ArticleCreateBindingModel;
 import architecture.domain.models.bindingModels.articles.ArticleEditLangBindingModel;
 import architecture.domain.models.serviceModels.ArticleServiceModel;
@@ -80,7 +81,7 @@ public class ArticleController extends BaseController {
 
     @GetMapping("/addLang/{id}")
     public String addLanguageToArticle(Model modelView, @PathVariable(name = "id") Long articleId,
-                                       @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel model) {
+                                       @ModelAttribute(name = "articleBinding") ArticleAddLangBindingModel model) {
         ArticleServiceModel article = this.articleService.findById(articleId);
         if (article.getMainImage() == null) {
             model.setMainImage(null);
@@ -89,9 +90,12 @@ public class ArticleController extends BaseController {
         return ViewNames.ARTICLE_ADD_LANG;
     }
 
-    @PostMapping("/addLang")
-    public String addLanguageToArticlePost(Model modelView,
-                                           @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel model, @RequestParam(name = "articleId") Long articleId) {
+    @PostMapping("/addLang/{id}")
+    public String addLanguageToArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleAddLangBindingModel model, BindingResult bindingResult,
+                                            @PathVariable(name = "id") Long articleId) {
+        if(bindingResult.hasErrors()){
+            return ViewNames.ARTICLE_ADD_LANG;
+        }
         ArticleServiceModel article = this.articleService.findById(articleId);
         LocalisedArticleContentServiceModel localisedArticleContent = new LocalisedArticleContentServiceModel(model.getTitle(), model.getContent());
         article.getLocalContent().put(model.getCountry(), localisedArticleContent);
