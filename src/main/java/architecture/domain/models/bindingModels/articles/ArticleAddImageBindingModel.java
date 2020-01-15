@@ -4,8 +4,15 @@ import architecture.domain.CountryCodes;
 import architecture.domain.models.BaseModel;
 import architecture.domain.models.bindingModels.ImageBindingModel;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 public class ArticleAddImageBindingModel extends BaseModel {
+    @NotNull
     private CountryCodes lang;
+
+    @NotNull
+    @Valid
     private ImageBindingModel image;
 
     public ArticleAddImageBindingModel() {

@@ -184,9 +184,12 @@ public class ArticleController extends BaseController {
     @ResponseBody
     @RequestMapping(method = {RequestMethod.PUT}, value = "/add-image/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public String articleAddImagePut(@RequestBody ArticleAddImageBindingModel image,
+    public Object articleAddImagePut(@Valid @RequestBody ArticleAddImageBindingModel image, BindingResult bindingResult,
                                      @PathVariable(name = "id") Long id,
                                      @RequestParam(value = "main", required = false) boolean isMain) {
+        if(bindingResult.hasErrors()){
+            return this.getBindingErrorsMap(bindingResult.getAllErrors());
+        }
         ArticleServiceModel article = this.articleService.findById(image.getId());
         ImageServiceModel imageServiceModel = new ImageServiceModel(image.getImage().getUrl());
         imageServiceModel.getLocalImageNames().put(image.getLang(), image.getImage().getName());
