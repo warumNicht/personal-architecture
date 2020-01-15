@@ -12,9 +12,11 @@ import architecture.domain.models.serviceModels.ImageServiceModel;
 import architecture.domain.models.serviceModels.LocalisedArticleContentServiceModel;
 import architecture.domain.models.viewModels.articles.ArticleAddImageViewModel;
 import architecture.domain.models.viewModels.articles.ArticleEditViewModel;
+import architecture.error.NotFoundException;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
 import architecture.services.interfaces.ImageService;
+import architecture.util.LocaleMessageUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -104,6 +106,9 @@ public class ArticleController extends BaseController {
     public String editArticleLang(Model modelView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") CountryCodes lang) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(id);
         LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(lang);
+        if(localisedArticleContentServiceModel==null){
+            throw new NotFoundException(LocaleMessageUtil.getLocalizedMessage("country.nonexistent"));
+        }
         ArticleEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleEditLangBindingModel.class);
         bindingModel.setId(id);
         if (articleServiceModel.getMainImage() != null) {
@@ -111,14 +116,6 @@ public class ArticleController extends BaseController {
         }
         modelView.addAttribute("articleEditLang", bindingModel);
         return ViewNames.ARTICLE_EDIT_LANG;
-    }
-
-    @GetMapping(value = "/edit/{id}")
-    public String editArticle(Model model, @PathVariable(name = "id") Long id) {
-        ArticleServiceModel article = this.articleService.findById(id);
-        ArticleEditViewModel viewModel = this.modelMapper.map(article, ArticleEditViewModel.class);
-        model.addAttribute("articleEdit", viewModel);
-        return ViewNames.ARTICLE_EDIT;
     }
 
     @ResponseBody
@@ -136,6 +133,14 @@ public class ArticleController extends BaseController {
         }
         this.articleService.updateArticle(articleServiceModel);
         return "\"/" + super.getLocale() + "/admin/listAll\"";
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public String editArticle(Model model, @PathVariable(name = "id") Long id) {
+        ArticleServiceModel article = this.articleService.findById(id);
+        ArticleEditViewModel viewModel = this.modelMapper.map(article, ArticleEditViewModel.class);
+        model.addAttribute("articleEdit", viewModel);
+        return ViewNames.ARTICLE_EDIT;
     }
 
     @ResponseBody

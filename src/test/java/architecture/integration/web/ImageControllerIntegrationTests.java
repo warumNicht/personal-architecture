@@ -313,7 +313,7 @@ public class ImageControllerIntegrationTests {
 //        Exception resolvedException = mvcResult.getResolvedException();
 //        String message = resolvedException.getMessage();
 //        String contentAsString = mvcResult.getResponse().getContentAsString();
-//        Assert.assertTrue(resolvedException instanceof CategoryNotFoundException);
+//        Assert.assertTrue(resolvedException instanceof NotFoundException);
 //        System.out.println();
 //
 //    }
