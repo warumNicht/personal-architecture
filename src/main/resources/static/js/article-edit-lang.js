@@ -8,16 +8,36 @@ $(document).ready(function () {
         const data = createJsonFromInputs(inputs);
         const json = JSON.stringify(data);
 
-//        function callback(request) {
-//            console.log(request.response);
-//            window.location=request.response;
-//        }
         sendXmlHttpRequest('PATCH', '/admin/articles/edit', json).then(function (res) {
                 console.log(res);
                 if (typeof (res) === 'string') {
                     window.location = res;
+                }else{
+                    removeOldErrors();
+                    showFieldErrors(res)
                 }
             }
         );
     };
 });
+
+function showFieldErrors(errorMap){
+    for (const [key, value] of Object.entries(errorMap)) {
+        const currentFieldDiv = $(`#${key}Div`);
+        currentFieldDiv.addClass('text-danger');
+        const currentSmall = $('<small></small>').addClass('text-danger');
+
+        value.forEach((v)=>{
+            currentSmall.append(`${v}<br>`)
+        })
+        currentFieldDiv.append(currentSmall);
+     }
+}
+
+function removeOldErrors(){
+    const divFieldsIds=['title', 'mainImageName', 'content'];
+    divFieldsIds.forEach((name)=>{
+        $(`#${name}Div`).removeClass('text-danger');
+    })
+    $('small').remove('.text-danger');
+}

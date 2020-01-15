@@ -11,7 +11,7 @@
 
     <div class="mx-auto w-25" th:object="${articleEditLang}">
         <input name="id" type="hidden" th:field="*{id}"/>
-        <div class="form-group">
+        <div class="form-group" id="titleDiv">
             <label for="title" th:text="#{article.title}"></label>
             <input type="text" class="form-control"
                    th:field="*{title}" th:value="${articleEditLang.title}"
@@ -20,7 +20,7 @@
 
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="contentDiv">
             <label for="content" th:text="#{article.content}"></label>
             <input type="text" class="form-control"
                    th:field="*{content}" th:value="${articleEditLang.content}"
@@ -29,8 +29,8 @@
 
         </div>
 
-        <div th:if="${articleEditLang.mainImageName != null}" class="form-group">
-            <label for="content">Main image name</label>
+        <div th:if="${articleEditLang.mainImageName != null}" class="form-group" id="mainImageNameDiv">
+            <label for="mainImageName">Main image name</label>
             <input type="text" class="form-control"
                    th:field="*{mainImageName}" th:value="${articleEditLang.mainImageName}"
                    id="mainImageName" th:placeholder="#{article.content}" name="mainImageName"
