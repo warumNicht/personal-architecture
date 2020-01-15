@@ -99,7 +99,7 @@ public class ArticleController extends BaseController {
             article.getMainImage().getLocalImageNames().put(model.getCountry(), model.getMainImage().getName());
         }
         this.articleService.updateArticle(article);
-        return "redirect:/" + super.getLocale() + "/admin/listAll";
+        return "redirect:/" + super.getLocale() + "/admin/articles/edit/" + articleId;
     }
 
     @GetMapping(value = "/edit/{id}/{lang}")
@@ -132,7 +132,7 @@ public class ArticleController extends BaseController {
             articleServiceModel.getMainImage().getLocalImageNames().put(model.getCountry(), model.getMainImageName());
         }
         this.articleService.updateArticle(articleServiceModel);
-        return "\"/" + super.getLocale() + "/admin/listAll\"";
+        return "\"/" + super.getLocale() + "/admin/articles/edit/" + model.getId() + "\"";
     }
 
     @GetMapping(value = "/edit/{id}")
@@ -190,7 +190,7 @@ public class ArticleController extends BaseController {
         if(bindingResult.hasErrors()){
             return this.getBindingErrorsMap(bindingResult.getAllErrors());
         }
-        ArticleServiceModel article = this.articleService.findById(image.getId());
+        ArticleServiceModel article = this.articleService.findById(id);
         ImageServiceModel imageServiceModel = new ImageServiceModel(image.getImage().getUrl());
         imageServiceModel.getLocalImageNames().put(image.getLang(), image.getImage().getName());
         imageServiceModel.setArticle(article);
@@ -200,7 +200,7 @@ public class ArticleController extends BaseController {
         } else {
             this.imageService.saveImage(imageServiceModel);
         }
-        return "\"/" + super.getLocale() + "/admin/listAll\"";
+        return "\"/" + super.getLocale() + "/admin/articles/edit/" + id + "\"";
     }
 
     private HashMap<String, List<String>> getBindingErrorsMap(List<ObjectError> allErrors) {
