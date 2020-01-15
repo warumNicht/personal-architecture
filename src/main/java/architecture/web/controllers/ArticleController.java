@@ -107,7 +107,7 @@ public class ArticleController extends BaseController {
         ArticleServiceModel articleServiceModel = this.articleService.findById(id);
         LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(lang);
         if(localisedArticleContentServiceModel==null){
-            throw new NotFoundException(LocaleMessageUtil.getLocalizedMessage("country.nonexistent"));
+            throw new NotFoundException("country.nonexistent");
         }
         ArticleEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleEditLangBindingModel.class);
         bindingModel.setId(id);

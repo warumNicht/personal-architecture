@@ -7,8 +7,10 @@ import architecture.domain.models.serviceModels.ArticleServiceModel;
 import architecture.domain.models.viewModels.articles.ArticleLocalViewModel;
 import architecture.domain.models.viewModels.ImageLocaleViewModel;
 import architecture.domain.models.viewModels.LocalisedArticleContentViewModel;
+import architecture.error.NotFoundException;
 import architecture.repositories.ArticleRepository;
 import architecture.services.interfaces.ArticleService;
+import architecture.util.LocaleMessageUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleServiceModel findById(Long id) {
-        Article article = this.articleRepository.findById(id).orElse(null);
+        Article article = this.articleRepository.findById(id).orElseThrow(()->new NotFoundException("notFound.article"));
         ArticleServiceModel articleServiceModel = this.modelMapper.map(article, ArticleServiceModel.class);
         return articleServiceModel;
     }
