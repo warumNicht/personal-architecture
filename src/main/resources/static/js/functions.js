@@ -14,9 +14,8 @@ function showFieldErrors(errorMap){
 }
 
 function removeOldErrors(fieldsNames){
-    const divFieldsIds=['image.url', 'image.name'];
     fieldsNames.forEach((name)=>{
-        $(`#${name}Div`).removeClass('text-danger');
+        $(`#${name.replace('.','\\.')}Div`).removeClass('text-danger');
     })
     $('small').remove('.text-danger');
 }
