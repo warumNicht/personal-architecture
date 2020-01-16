@@ -67,7 +67,7 @@ public class ArticleController extends BaseController {
             return ViewNames.ARTICLE_CREATE;
         }
         ArticleServiceModel article = new ArticleServiceModel(new Date());
-        CategoryServiceModel category = this.categoryService.findById(bindingModel.getCategoryId());
+        CategoryServiceModel category = this.categoryService.findById(categoryId);
         article.setCategory(category);
         LocalisedArticleContentServiceModel content = new LocalisedArticleContentServiceModel(bindingModel.getTitle(), bindingModel.getContent());
         article.getLocalContent().put(bindingModel.getCountry(), content);

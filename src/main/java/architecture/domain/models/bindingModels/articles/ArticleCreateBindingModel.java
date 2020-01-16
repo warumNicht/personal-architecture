@@ -8,23 +8,11 @@ import javax.validation.constraints.NotNull;
 
 public class ArticleCreateBindingModel extends ArticleBindingModel{
     @NotNull
-    @Min(value = 1)
-    private Long categoryId;
-
-    @NotNull
     @Valid
     private ImageBindingModel mainImage;
 
     public ArticleCreateBindingModel() {
         this.mainImage = new ImageBindingModel();
-    }
-
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
     }
 
     public ImageBindingModel getMainImage() {
