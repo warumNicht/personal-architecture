@@ -1,5 +1,7 @@
 package architecture.annotations;
 
+import architecture.annotations.impl.ContainsNotEmptyImpl;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;

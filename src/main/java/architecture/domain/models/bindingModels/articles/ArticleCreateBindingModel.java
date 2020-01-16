@@ -1,15 +1,13 @@
 package architecture.domain.models.bindingModels.articles;
 
-import architecture.annotations.ImageBindingValidWhenEmpty;
+import architecture.annotations.ImageBindingValidationEmpty;
 import architecture.domain.models.bindingModels.ImageBindingModel;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class ArticleCreateBindingModel extends ArticleBindingModel{
     @NotNull
-    @ImageBindingValidWhenEmpty
+    @ImageBindingValidationEmpty
     private ImageBindingModel mainImage;
 
     public ArticleCreateBindingModel() {

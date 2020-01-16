@@ -1,4 +1,6 @@
-package architecture.annotations;
+package architecture.annotations.impl;
+
+import architecture.annotations.EnumValidator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

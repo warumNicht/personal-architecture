@@ -1,16 +1,14 @@
-package architecture.annotations;
+package architecture.annotations.impl;
 
+import architecture.annotations.ImageBindingValidationEmpty;
 import architecture.constants.AppConstants;
 import architecture.domain.models.bindingModels.ImageBindingModel;
-import architecture.util.ValidationUtilImpl;
 import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintViolation;
-import java.util.Set;
 
-public class ImageBindingValidWhenEmptyImpl implements ConstraintValidator<ImageBindingValidWhenEmpty, ImageBindingModel> {
+public class ImageBindingValidationImpl implements ConstraintValidator<ImageBindingValidationEmpty, ImageBindingModel> {
     @Override
     public boolean isValid(ImageBindingModel value, ConstraintValidatorContext context) {
         if(value==null){
