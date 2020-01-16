@@ -60,12 +60,7 @@ public class ArticleController extends BaseController {
     private String createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel bindingModel,
                                      BindingResult bindingResult, Model model, @RequestParam(name = "categoryId") Long categoryId) {
         if (bindingResult.hasErrors()) {
-            int imageErrors = bindingResult.getFieldErrorCount("mainImage.url") + bindingResult.getFieldErrorCount("mainImage.name");
-            if(imageErrors!=bindingResult.getErrorCount()){
-                model.addAttribute("articleBinding", bindingModel);
-                model.addAttribute("categoryId", categoryId);
-                return ViewNames.ARTICLE_CREATE;
-            }
+            return ViewNames.ARTICLE_CREATE;
         }
         ArticleServiceModel article = new ArticleServiceModel(new Date());
         CategoryServiceModel category = this.categoryService.findById(categoryId);
@@ -78,7 +73,7 @@ public class ArticleController extends BaseController {
             mainImage.setArticle(article);
             article.setMainImage(mainImage);
         }
-        this.articleService.createArticle(article);
+//        this.articleService.createArticle(article);
         return "redirect:/" + super.getLocale() + "/";
     }
 
