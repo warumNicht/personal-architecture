@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class ArticleAddLangBindingModel extends ArticleBindingModel{
+public class ArticleAddEditLangBindingModel extends ArticleBindingModel{
     @NotNull
     @Min(value = 1)
     private Long id;
