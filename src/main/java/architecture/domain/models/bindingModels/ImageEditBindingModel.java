@@ -6,16 +6,12 @@ import architecture.annotations.EnumValidator;
 import architecture.annotations.LengthOrEmpty;
 import architecture.constants.AppConstants;
 import architecture.domain.CountryCodes;
-import architecture.domain.models.BaseModel;
 
 import javax.validation.constraints.*;
 import java.util.LinkedHashMap;
 
-public class ImageEditBindingModel extends BaseModel {
-    @NotNull
-    @NotEmpty(message = "{text.empty}")
-    @Pattern(regexp = "^https?:\\/\\/(www\\.)?(?!w{0,2}\\.)[^\"'\\s]{3,}\\.(png|PNG|jpg|JPG|jpeg|JPEG|gif|GIF|png|PNG|svg|SVG|webp|WEBP)$|^$", message = "{url}")
-    private String url;
+public class ImageEditBindingModel extends ImageBaseBindingModel {
+    private Long id;
 
     @NotNull
     @Size(min = AppConstants.COUNTRY_SIZE, max = AppConstants.COUNTRY_SIZE)
@@ -23,12 +19,12 @@ public class ImageEditBindingModel extends BaseModel {
     private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "{country.nonexistent}") CountryCodes,
             @LengthOrEmpty(min=AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH) @BeginUppercase(allowEmpty = true) String> localImageNames;
 
-    public String getUrl() {
-        return url;
+    public Long getId() {
+        return id;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LinkedHashMap<CountryCodes, String> getLocalImageNames() {
