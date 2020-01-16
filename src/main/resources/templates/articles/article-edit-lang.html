@@ -8,7 +8,6 @@
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
 <main>
-
     <div class="mx-auto w-25" th:object="${articleEditLang}">
         <input name="id" type="hidden" th:field="*{id}"/>
         <div class="form-group" id="titleDiv">
@@ -17,7 +16,6 @@
                    th:field="*{title}" th:value="${articleEditLang.title}"
                    id="title" th:placeholder="#{article.title}+'...'" name="title"
                    required pattern="^.{2,}$" title="Please enter at least 2 characters">
-
         </div>
 
         <div class="form-group" id="contentDiv">
@@ -26,7 +24,6 @@
                    th:field="*{content}" th:value="${articleEditLang.content}"
                    id="content" th:placeholder="#{article.content}" name="content"
                    required pattern="^.{2,}$" title="Please enter at least 2 characters">
-
         </div>
 
         <div th:if="${articleEditLang.mainImage != null}" class="form-group" id="mainImageDiv">
@@ -35,7 +32,6 @@
                    th:field="*{mainImage}" th:value="${articleEditLang.mainImage}"
                    id="mainImage" th:placeholder="#{article.content}" name="mainImage"
                    required pattern="^.{2,}$" title="Please enter at least 2 characters">
-
         </div>
 
         <div class="button-holder mt-4 d-flex justify-content-center">
