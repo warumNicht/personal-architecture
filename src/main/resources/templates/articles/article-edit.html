@@ -13,7 +13,7 @@
     <div id="top" class="article-container" th:with="locale=${@localeService.getLocale()}">
         <div class="article-centered" th:object="${articleEdit}">
 
-            <select name="category" class="form-control" id="catSelect" th:field="${articleEdit.category.id}">
+            <select name="category" class="form-control" id="cat" th:field="${articleEdit.category.id}">
                 <option th:value="${articleEdit.category.id}"
                         selected>
                 </option>

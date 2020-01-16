@@ -1,5 +1,6 @@
 import {sendXmlHttpRequest} from "./http-requests.js";
 import {getLocale} from "./fetch-functions.js";
+import {showAllCategories} from "./functions.js";
 
 window.getArticleId = function () {
     const urlParts = window.location.pathname.split('/');
@@ -68,26 +69,5 @@ window.editImage = function (id) {
     window.location = `${locale}admin/images/edit/${id}`;
 };
 
-window.showAllCategories = function () {
-    const categoriesSelect = $('#catSelect');
-    const categoriesOptions = $('#select-categories option');
-
-    categoriesOptions.each(function (index) {
-        const selectedOption = $('#catSelect option:selected');
-        const selectedOptionId = selectedOption.val();
-        if (index != 0) {
-            const value = $(this).val();
-            const innerText = $(this).text();
-
-            if (selectedOptionId === value) {
-                selectedOption.text(innerText);
-            } else {
-                categoriesSelect.append(`<option value="${value}">${innerText}</option>`);
-            }
-        }
-    });
-    categoriesSelect.change(function () {
-        $('#categoryChange').removeAttr('disabled');
-    });
-};
+window.showAllCategories = showAllCategories;
 

@@ -21,4 +21,29 @@ function removeOldErrors(fieldsNames){
     $('small').remove('.text-danger');
 }
 
-export {showFieldErrors, removeOldErrors}
+function showAllCategories () {
+    const categoriesSelect = $('#cat');
+                              const selectedOption = $('#cat option:selected');
+                              const selectedOptionId = selectedOption.val();
+                              categoriesSelect.empty();
+                              const categoriesOptions = $('#select-categories option');
+
+                              categoriesOptions.each(function (index) {
+
+                                  if (index != 0) {
+                                      const value = $(this).val();
+                                      const innerText = $(this).text();
+                                      if (selectedOptionId === value) {
+                                          selectedOption.text(innerText);
+                                          categoriesSelect.append(selectedOption);
+                                      } else {
+                                          categoriesSelect.append(`<option value="${value}">${innerText}</option>`);
+                                      }
+                                  }
+                              });
+                              categoriesSelect.change(function () {
+                                  $('#categoryChange').removeAttr('disabled');
+                              });
+                          }
+
+export {showFieldErrors, removeOldErrors, showAllCategories}
