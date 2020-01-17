@@ -10,8 +10,13 @@ import architecture.domain.CountryCodes;
 import javax.validation.constraints.*;
 import java.util.LinkedHashMap;
 
-public class ImageEditBindingModel extends ImageBaseBindingModel {
+public class ImageEditBindingModel{
     private Long id;
+
+    @NotNull
+    @NotEmpty(message = "{text.empty}")
+    @Pattern(regexp = AppConstants.URL_REGEX_PATTERN, message = "{url}")
+    private String url;
 
     @NotNull
     @Size(min = AppConstants.COUNTRY_SIZE, max = AppConstants.COUNTRY_SIZE)
@@ -25,6 +30,14 @@ public class ImageEditBindingModel extends ImageBaseBindingModel {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public LinkedHashMap<CountryCodes, String> getLocalImageNames() {

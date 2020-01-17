@@ -58,7 +58,7 @@ public class ArticleController extends BaseController {
 
     @PostMapping("/create")
     private String createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel bindingModel,
-                                     BindingResult bindingResult, Model model, @RequestParam(name = "categoryId") Long categoryId) {
+                                     BindingResult bindingResult, @RequestParam(name = "categoryId") Long categoryId) {
         if (bindingResult.hasErrors()) {
             return ViewNames.ARTICLE_CREATE;
         }
@@ -73,8 +73,8 @@ public class ArticleController extends BaseController {
             mainImage.setArticle(article);
             article.setMainImage(mainImage);
         }
-//        this.articleService.createArticle(article);
-        return "redirect:/" + super.getLocale() + "/";
+        this.articleService.createArticle(article);
+        return "redirect:/" + super.getLocale() + "/admin/listAll";
     }
 
     @GetMapping("/addLang/{id}")
