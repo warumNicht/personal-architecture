@@ -17,6 +17,7 @@ public final class ViewNames {
     //Article controller
     public static final String ARTICLE_CREATE = "articles/article-create";
     public static final String ARTICLE_CREATE_BindingModel_Name = "articleBinding";
+    public static final String ARTICLE_FIELD_COUNTRY = "country";
     public static final String ARTICLE_CREATE_Category_Id = "categoryId";
     public static final String ARTICLE_EDIT = "articles/article-edit";
     public static final String ARTICLE_EDIT_LANG = "articles/article-edit-lang";

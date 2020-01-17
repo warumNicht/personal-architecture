@@ -193,6 +193,43 @@ public class ArticleControllerIntegrationTests {
                 .andDo(print());
     }
 
+    //Test post when all data is valid except one invalid field
+    @Test
+    public void post_createArticle_withNullCountry_returnsForm() throws Exception {
+        ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
+        invalidModel.setCountry(null);
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .andExpect(status().isOk())
+                .andExpect(model().errorCount(1))
+                .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, ViewNames.ARTICLE_FIELD_COUNTRY, "NotNull"))
+                .andDo(print());
+    }
+
+    @Test
+    public void post_createArticle_withInvalidCountry_returnsErrorPage() throws Exception {
+        ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
+        invalidModel.setCountry(null);
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
+                .param("title", TestConstants.ARTICLE_VALID_TITLE)
+                .param("content", TestConstants.ARTICLE_VALID_CONTENT)
+                .param("mainImage.url", TestConstants.IMAGE_URL)
+                .param("mainImage.name", TestConstants.IMAGE_FR_NAME)
+                .param("country", "FI"))
+                .andExpect(status().isOk())
+                .andExpect(model().errorCount(1))
+                .andExpect(model().attributeHasFieldErrors(ViewNames.ARTICLE_CREATE_BindingModel_Name, ViewNames.ARTICLE_FIELD_COUNTRY))
+                .andDo(print());
+    }
+
     private ArticleCreateBindingModel getCorrectBindingModel(){
         ArticleCreateBindingModel model = new ArticleCreateBindingModel();
         model.setTitle(TestConstants.ARTICLE_VALID_TITLE);
