@@ -18,17 +18,21 @@ public class ImageBindingValidationImpl implements ConstraintValidator<ImageBind
             return true;
         }
 
+        boolean isValid=true;
+
         //url
         if(value.getUrl().isEmpty()){
             context.buildConstraintViolationWithTemplate("{text.empty}")
                     .addPropertyNode("url")
                     .addConstraintViolation();
+            isValid=false;
         }
 
         if(!value.getUrl().matches(AppConstants.URL_REGEX_PATTERN)){
             context.buildConstraintViolationWithTemplate("{url}")
                     .addPropertyNode("url")
                     .addConstraintViolation();
+            isValid=false;
         }
 
         //name
@@ -36,6 +40,7 @@ public class ImageBindingValidationImpl implements ConstraintValidator<ImageBind
             context.buildConstraintViolationWithTemplate("{text.empty}")
                     .addPropertyNode("name")
                     .addConstraintViolation();
+            isValid=false;
         }
 
         if(value.getName().length()< AppConstants.NAME_MIN_LENGTH){
@@ -45,6 +50,7 @@ public class ImageBindingValidationImpl implements ConstraintValidator<ImageBind
                     .buildConstraintViolationWithTemplate( "{text.length.min}" )
                     .addPropertyNode("name")
                     .addConstraintViolation();
+            isValid=false;
         }
 
         boolean isUpperCase = !value.getName().isEmpty() && Character.isUpperCase(value.getName().charAt(0));
@@ -52,7 +58,8 @@ public class ImageBindingValidationImpl implements ConstraintValidator<ImageBind
             context.buildConstraintViolationWithTemplate("{text.beginUppercase}")
                     .addPropertyNode("name")
                     .addConstraintViolation();
+            isValid=false;
         }
-        return false;
+        return isValid;
     }
 }

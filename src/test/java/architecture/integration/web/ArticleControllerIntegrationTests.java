@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -33,6 +34,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -69,7 +71,7 @@ public class ArticleControllerIntegrationTests {
     }
 
     @Test
-    public void post_createArticle_withValidData_emptyImage_redirectsCorrect() throws Exception {
+    public void post_createArticle_withValidData_andEmptyImage_redirectsCorrect() throws Exception {
         Long categoryId = this.categoryRepository.findAll().get(0).getId();
         this.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
@@ -83,7 +85,24 @@ public class ArticleControllerIntegrationTests {
     }
 
     @Test
-    public void post_createArticle_withValidData_emptyImage_storesCorrect() throws Exception {
+    public void post_createArticle_withValidData_andFullImage_redirectsCorrect() throws Exception {
+        ArticleCreateBindingModel correctBindingModel = this.getCorrectBindingModel();
+        correctBindingModel.setMainImage(this.getCorrectImageBindingModel());
+        Long categoryId = this.categoryRepository.findAll().get(0).getId();
+
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, categoryId.toString())
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, correctBindingModel))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/fr/admin/listAll"))
+                .andDo(print());
+    }
+
+    @Test
+    public void post_createArticle_withValidData_AndEmptyImage_storesCorrect() throws Exception {
         Long categoryId = this.categoryRepository.findAll().get(0).getId();
         this.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
@@ -99,17 +118,97 @@ public class ArticleControllerIntegrationTests {
         Assert.assertEquals(storedArticle.getCategory().getLocalCategoryNames().get(CountryCodes.FR), TestConstants.CATEGORY_1_FR_NAME);
         Assert.assertNull(storedArticle.getCategory().getLocalCategoryNames().get(CountryCodes.DE));
 
+        Assert.assertEquals(storedArticle.getLocalContent().size(), 1);
+        Assert.assertEquals(storedArticle.getLocalContent().get(CountryCodes.FR).getTitle(), TestConstants.ARTICLE_VALID_TITLE);
+        Assert.assertEquals(storedArticle.getLocalContent().get(CountryCodes.FR).getContent(), TestConstants.ARTICLE_VALID_CONTENT);
+
+        Assert.assertNull(storedArticle.getMainImage());
+    }
+
+    @Test
+    public void post_createArticle_withValidData_AndFullImage_storesCorrect() throws Exception {
+        ArticleCreateBindingModel correctBindingModel = this.getCorrectBindingModel();
+        correctBindingModel.setMainImage(this.getCorrectImageBindingModel());
+        Long categoryId = this.categoryRepository.findAll().get(0).getId();
+
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, categoryId.toString())
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, correctBindingModel));
+
+        Article storedArticle = this.articleRepository.findAll().get(0);
+
+        Assert.assertEquals(storedArticle.getCategory().getId(), categoryId);
+        Assert.assertEquals(storedArticle.getCategory().getLocalCategoryNames().get(CountryCodes.BG), TestConstants.CATEGORY_1_BG_NAME);
+        Assert.assertEquals(storedArticle.getCategory().getLocalCategoryNames().get(CountryCodes.FR), TestConstants.CATEGORY_1_FR_NAME);
+        Assert.assertNull(storedArticle.getCategory().getLocalCategoryNames().get(CountryCodes.DE));
+
+        Assert.assertEquals(storedArticle.getLocalContent().size(), 1);
+        Assert.assertEquals(storedArticle.getLocalContent().get(CountryCodes.FR).getTitle(), TestConstants.ARTICLE_VALID_TITLE);
+        Assert.assertEquals(storedArticle.getLocalContent().get(CountryCodes.FR).getContent(), TestConstants.ARTICLE_VALID_CONTENT);
+
+        Assert.assertNotNull(storedArticle.getMainImage());
+        Assert.assertEquals(storedArticle.getMainImage().getUrl(), TestConstants.IMAGE_URL);
+        Assert.assertEquals(storedArticle.getMainImage().getLocalImageNames().get(CountryCodes.FR), TestConstants.IMAGE_FR_NAME_2);
+    }
+
+    @Test
+    public void post_createArticle_withNullData_returnsForm() throws Exception {
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, new ArticleCreateBindingModel()))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ViewNames.ARTICLE_CREATE))
+                .andDo(print());
+    }
+
+    @Test
+    public void post_createArticle_withInvalidData_doesNotModifyData() throws Exception {
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, "invalidId")
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, new ArticleCreateBindingModel()))
+                .andDo(print());
+
+        Assert.assertEquals(this.articleRepository.count(), 0L);
+    }
+
+    @Test
+    public void post_createArticle_withValidData_AndNonexistentCategory_returnsErrorPage() throws Exception {
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, TestConstants.CATEGORY_INVALID_ID)
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getCorrectBindingModel()))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ViewNames.CONTROLLER_ERROR))
+                .andDo(print());
     }
 
     private ArticleCreateBindingModel getCorrectBindingModel(){
         ArticleCreateBindingModel model = new ArticleCreateBindingModel();
-        model.setTitle("Fofofo");
-        model.setContent("Content");
-        model.setCountry(CountryCodes.DE);
+        model.setTitle(TestConstants.ARTICLE_VALID_TITLE);
+        model.setContent(TestConstants.ARTICLE_VALID_CONTENT);
+        model.setCountry(CountryCodes.FR);
         model.setMainImage(new ImageBindingModel());
         model.getMainImage().setName("");
         model.getMainImage().setUrl("");
         return model;
+    }
+
+    private ImageBindingModel getCorrectImageBindingModel(){
+        ImageBindingModel imageBindingModel = new ImageBindingModel();
+        imageBindingModel.setUrl(TestConstants.IMAGE_URL);
+        imageBindingModel.setName(TestConstants.IMAGE_FR_NAME_2);
+        return imageBindingModel;
     }
 
     private void seedCategory(){
