@@ -17,7 +17,7 @@ public abstract class ArticleBindingModel {
     @NotNull
     @NotEmpty(message = "{text.empty}")
     @Size(min = AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH, message = "{text.length.between}")
-    @BeginUppercase(allowEmpty = true)
+    @BeginUppercase(allowNull = true)
     private String title;
 
     @NotNull

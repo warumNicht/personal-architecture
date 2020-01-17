@@ -1,5 +1,6 @@
 package architecture.integration.web;
 
+import architecture.annotations.BeginUppercase;
 import architecture.annotations.ImageBindingValidationEmpty;
 import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
+import javax.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -252,6 +254,69 @@ public class ArticleControllerIntegrationTests {
                 .andDo(print());
     }
 
+    //Title
+    @Test
+    public void post_createArticle_withNullTitle_returnsForm() throws Exception {
+        ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
+        invalidModel.setTitle(null);
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .andExpect(status().isOk())
+                .andExpect(model().errorCount(2))
+                .andDo(print());
+    }
+
+    @Test
+    public void post_createArticle_withEmptyTitle_returnsForm() throws Exception {
+        ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
+        invalidModel.setTitle("");
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .andExpect(status().isOk())
+                .andExpect(model().errorCount(3))
+                .andDo(print());
+    }
+
+    @Test
+    public void post_createArticle_withLowercaseTitle_returnsForm() throws Exception {
+        ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
+        invalidModel.setTitle("title");
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .andExpect(status().isOk())
+                .andExpect(model().errorCount(1))
+                .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "title", BeginUppercase.class.getSimpleName() ))
+                .andDo(print());
+    }
+
+    @Test
+    public void post_createArticle_withTitleLessThen2_returnsForm() throws Exception {
+        ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
+        invalidModel.setTitle("T");
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .andExpect(status().isOk())
+                .andExpect(model().errorCount(1))
+                .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "title", Size.class.getSimpleName() ))
+                .andDo(print());
+    }
+
     private ArticleCreateBindingModel getCorrectBindingModel(){
         ArticleCreateBindingModel model = new ArticleCreateBindingModel();
         model.setTitle(TestConstants.ARTICLE_VALID_TITLE);
@@ -261,13 +326,6 @@ public class ArticleControllerIntegrationTests {
         model.getMainImage().setName("");
         model.getMainImage().setUrl("");
         return model;
-    }
-
-    private ImageBindingModel getCorrectImageBindingModel(){
-        ImageBindingModel imageBindingModel = new ImageBindingModel();
-        imageBindingModel.setUrl(TestConstants.IMAGE_URL);
-        imageBindingModel.setName(TestConstants.IMAGE_FR_NAME_2);
-        return imageBindingModel;
     }
 
     private ArticleCreateBindingModel getFullCorrectBindingModel(){
