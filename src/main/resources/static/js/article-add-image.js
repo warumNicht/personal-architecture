@@ -18,12 +18,12 @@ $(document).ready(function () {
 
         sendXmlHttpRequest('PUT', location.href, json).then(function (res) {
 
-             if (typeof (res) === 'string') {
-                  window.location = res;
-             }else{
-                   removeOldErrors(['image.url', 'image.name']);
-                   showFieldErrors(res)
-              }
+                if (typeof (res) === 'string') {
+                    window.location = res;
+                } else {
+                    removeOldErrors(['image.url', 'image.name']);
+                    showFieldErrors(res)
+                }
             }
         );
     };

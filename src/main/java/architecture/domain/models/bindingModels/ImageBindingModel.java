@@ -1,6 +1,6 @@
 package architecture.domain.models.bindingModels;
 
-public class ImageBindingModel{
+public class ImageBindingModel {
     private String url;
     private String name;
 

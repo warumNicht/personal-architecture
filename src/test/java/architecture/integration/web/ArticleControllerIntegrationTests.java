@@ -49,13 +49,13 @@ public class ArticleControllerIntegrationTests {
     private CategoryRepository categoryRepository;
 
     @Before
-    public void init(){
+    public void init() {
         this.seedCategory();
     }
 
     @Test
     public void get_createArticle_returnsCorrectView() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/articles/create" )
+        this.mockMvc.perform(get("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -250,7 +250,7 @@ public class ArticleControllerIntegrationTests {
                 .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(2))
-                .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "mainImage.url", ImageBindingValidationEmpty.class.getSimpleName() ))
+                .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "mainImage.url", ImageBindingValidationEmpty.class.getSimpleName()))
                 .andDo(print());
     }
 
@@ -297,7 +297,7 @@ public class ArticleControllerIntegrationTests {
                 .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(1))
-                .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "title", BeginUppercase.class.getSimpleName() ))
+                .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "title", BeginUppercase.class.getSimpleName()))
                 .andDo(print());
     }
 
@@ -313,11 +313,11 @@ public class ArticleControllerIntegrationTests {
                 .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(1))
-                .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "title", Size.class.getSimpleName() ))
+                .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "title", Size.class.getSimpleName()))
                 .andDo(print());
     }
 
-    private ArticleCreateBindingModel getCorrectBindingModel(){
+    private ArticleCreateBindingModel getCorrectBindingModel() {
         ArticleCreateBindingModel model = new ArticleCreateBindingModel();
         model.setTitle(TestConstants.ARTICLE_VALID_TITLE);
         model.setContent(TestConstants.ARTICLE_VALID_CONTENT);
@@ -328,16 +328,16 @@ public class ArticleControllerIntegrationTests {
         return model;
     }
 
-    private ArticleCreateBindingModel getFullCorrectBindingModel(){
+    private ArticleCreateBindingModel getFullCorrectBindingModel() {
         ArticleCreateBindingModel correctBindingModel = this.getCorrectBindingModel();
         correctBindingModel.getMainImage().setUrl(TestConstants.IMAGE_URL);
         correctBindingModel.getMainImage().setName(TestConstants.IMAGE_FR_NAME_2);
         return correctBindingModel;
     }
 
-    private void seedCategory(){
+    private void seedCategory() {
         Category category = new Category();
-        category.setLocalCategoryNames(new HashMap<CountryCodes, String>(){{
+        category.setLocalCategoryNames(new HashMap<CountryCodes, String>() {{
             put(CountryCodes.BG, TestConstants.CATEGORY_1_BG_NAME);
             put(CountryCodes.FR, TestConstants.CATEGORY_1_FR_NAME);
         }});

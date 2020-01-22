@@ -9,6 +9,7 @@ import architecture.util.LocaleMessageUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,6 @@ public class ImageServiceImpl implements ImageService {
     public ImageServiceModel getImageById(Long id) {
         return this.modelMapper.map(
                 this.imageRepository.findById(id)
-                        .orElseThrow(()->new NotFoundException(LocaleMessageUtil.getLocalizedMessage("archSentence"))), ImageServiceModel.class);
+                        .orElseThrow(() -> new NotFoundException(LocaleMessageUtil.getLocalizedMessage("archSentence"))), ImageServiceModel.class);
     }
 }

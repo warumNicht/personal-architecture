@@ -12,7 +12,7 @@ $(document).ready(function () {
                 console.log(res);
                 if (typeof (res) === 'string') {
                     window.location = res;
-                }else{
+                } else {
                     removeOldErrors(['title', 'mainImageName', 'content']);
                     showFieldErrors(res)
                 }

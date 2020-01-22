@@ -39,7 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleServiceModel findById(Long id) {
-        Article article = this.articleRepository.findById(id).orElseThrow(()->new NotFoundException("notFound.article"));
+        Article article = this.articleRepository.findById(id).orElseThrow(() -> new NotFoundException("notFound.article"));
         ArticleServiceModel articleServiceModel = this.modelMapper.map(article, ArticleServiceModel.class);
         return articleServiceModel;
     }

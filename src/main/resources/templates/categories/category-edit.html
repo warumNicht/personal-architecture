@@ -18,11 +18,13 @@
             </small>
         </div>
 
-        <div class="form-group" th:each="countryCode, stat :*{localNames}" th:classappend="${#fields.hasErrors('localNames[__${countryCode.key}__]')} ? 'text-danger'">
+        <div class="form-group" th:each="countryCode, stat :*{localNames}"
+             th:classappend="${#fields.hasErrors('localNames[__${countryCode.key}__]')} ? 'text-danger'">
             <label th:text="#{${'lang.' + countryCode.key }}"></label>
             <input type="text" class="form-control"
                    th:field="*{localNames[__${countryCode.key}__]}">
-            <small th:each="error : ${#fields.errors('localNames[__${countryCode.key}__]')}" th:utext="${error +'<br>'}">
+            <small th:each="error : ${#fields.errors('localNames[__${countryCode.key}__]')}"
+                   th:utext="${error +'<br>'}">
             </small>
         </div>
         <input type="hidden" th:field="*{id}" th:value="${categoryEditModel.id}">

@@ -5,7 +5,7 @@ import architecture.domain.models.bindingModels.ImageBindingModel;
 
 import javax.validation.constraints.NotNull;
 
-public class ArticleCreateBindingModel extends ArticleBindingModel{
+public class ArticleCreateBindingModel extends ArticleBindingModel {
     @NotNull
     @ImageBindingValidationEmpty
     private ImageBindingModel mainImage;

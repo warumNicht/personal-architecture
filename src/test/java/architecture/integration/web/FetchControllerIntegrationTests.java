@@ -40,7 +40,7 @@ public class FetchControllerIntegrationTests {
 
     @Before
 //    @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-    public void setUp(){
+    public void setUp() {
         this.populateCategories();
     }
 
@@ -75,16 +75,16 @@ public class FetchControllerIntegrationTests {
                 .andExpect(jsonPath("$", hasSize(2)));
     }
 
-    private void populateCategories(){
+    private void populateCategories() {
         Category categoryOne = new Category();
-        categoryOne.setLocalCategoryNames(new HashMap<>(){{
+        categoryOne.setLocalCategoryNames(new HashMap<>() {{
             put(CountryCodes.FR, TestConstants.CATEGORY_1_FR_NAME);
             put(CountryCodes.BG, TestConstants.CATEGORY_1_BG_NAME);
         }});
         this.categoryRepository.save(categoryOne);
 
         Category categoryTwo = new Category();
-        categoryTwo.setLocalCategoryNames(new HashMap<>(){{
+        categoryTwo.setLocalCategoryNames(new HashMap<>() {{
             put(CountryCodes.FR, TestConstants.CATEGORY_2_FR_NAME);
             put(CountryCodes.BG, TestConstants.CATEGORY_2_BG_NAME);
             put(CountryCodes.ES, TestConstants.CATEGORY_2_ES_NAME);
@@ -92,7 +92,7 @@ public class FetchControllerIntegrationTests {
         this.categoryRepository.save(categoryTwo);
 
         Category categoryThree = new Category();
-        categoryThree.setLocalCategoryNames(new HashMap<>(){{
+        categoryThree.setLocalCategoryNames(new HashMap<>() {{
             put(CountryCodes.FR, TestConstants.CATEGORY_2_FR_NAME);
             put(CountryCodes.ES, TestConstants.CATEGORY_2_ES_NAME);
         }});

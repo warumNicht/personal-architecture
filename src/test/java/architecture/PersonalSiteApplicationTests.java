@@ -24,7 +24,7 @@ public class PersonalSiteApplicationTests {
         Assert.assertNotNull(this.wac);
 
         ServletContext servletContext = this.wac.getServletContext();
-        
+
         Assert.assertNotNull(servletContext);
         Assert.assertTrue(servletContext instanceof MockServletContext);
         Assert.assertNotNull(wac.getBean(HomeController.class));

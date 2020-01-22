@@ -40,7 +40,7 @@ public class ImageController extends BaseController {
     @PutMapping(value = "/edit/{imageId}")
     public String editImagePut(@Valid @ModelAttribute(name = ViewNames.IMAGE_EDIT_BindingModel_Name) ImageEditBindingModel model, BindingResult bindingResult,
                                @PathVariable(name = "imageId") Long imageId) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return ViewNames.IMAGE_EDIT;
         }
         model.getLocalImageNames().entrySet().removeIf(kv -> kv.getValue().isEmpty());

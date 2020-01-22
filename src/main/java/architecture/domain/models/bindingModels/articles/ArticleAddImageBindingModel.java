@@ -7,7 +7,7 @@ import architecture.domain.models.bindingModels.ImageBindingModel;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-public class ArticleAddImageBindingModel{
+public class ArticleAddImageBindingModel {
     @NotNull
     private CountryCodes lang;
 

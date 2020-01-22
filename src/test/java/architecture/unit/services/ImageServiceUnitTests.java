@@ -15,10 +15,10 @@ public class ImageServiceUnitTests {
     @MockBean
     private ImageRepository imageRepository;
     @Autowired
-    private  ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Test
-    public void t(){
+    public void t() {
         System.out.println();
         System.out.println();
     }

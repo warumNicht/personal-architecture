@@ -20,7 +20,7 @@ public class BeginUppercaseImpl implements ConstraintValidator<BeginUppercase, S
         if (value == null) {
             return this.allowNull;
         }
-        if (value.isEmpty()){
+        if (value.isEmpty()) {
             return this.allowEmpty;
         }
         char firstChar = value.charAt(0);

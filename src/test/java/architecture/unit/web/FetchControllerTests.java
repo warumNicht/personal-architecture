@@ -49,7 +49,7 @@ public class FetchControllerTests {
     private ModelMapper modelMapper;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         Mockito.when(localeService.getCurrentCookieLocale()).thenReturn(CountryCodes.DE);
     }
 
@@ -78,7 +78,7 @@ public class FetchControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
-                .andExpect( jsonPath("$[0].name", Matchers.is(TestConstants.CATEGORY_1_BG_NAME)))
-                .andExpect( jsonPath("$[1].name", Matchers.is(TestConstants.CATEGORY_2_BG_NAME)));
+                .andExpect(jsonPath("$[0].name", Matchers.is(TestConstants.CATEGORY_1_BG_NAME)))
+                .andExpect(jsonPath("$[1].name", Matchers.is(TestConstants.CATEGORY_2_BG_NAME)));
     }
 }

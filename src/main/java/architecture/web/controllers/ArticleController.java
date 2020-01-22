@@ -91,7 +91,7 @@ public class ArticleController extends BaseController {
     @PostMapping("/addLang/{id}")
     public String addLanguageToArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleAddEditLangBindingModel model, BindingResult bindingResult,
                                            @PathVariable(name = "id") Long articleId) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return ViewNames.ARTICLE_ADD_LANG;
         }
         ArticleServiceModel article = this.articleService.findById(articleId);
@@ -108,14 +108,14 @@ public class ArticleController extends BaseController {
     public String editArticleLang(Model modelView, @PathVariable(name = "id") Long id, @PathVariable(name = "lang") CountryCodes lang) {
         ArticleServiceModel articleServiceModel = this.articleService.findById(id);
         LocalisedArticleContentServiceModel localisedArticleContentServiceModel = articleServiceModel.getLocalContent().get(lang);
-        if(localisedArticleContentServiceModel==null){
+        if (localisedArticleContentServiceModel == null) {
             throw new NotFoundException("country.nonexistent");
         }
         ArticleAddEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleAddEditLangBindingModel.class);
         bindingModel.setId(id);
         if (articleServiceModel.getMainImage() != null) {
             String imageName = articleServiceModel.getMainImage().getLocalImageNames().get(lang);
-            bindingModel.setMainImage(imageName==null ? "" : imageName);
+            bindingModel.setMainImage(imageName == null ? "" : imageName);
         }
         modelView.addAttribute("articleEditLang", bindingModel);
         return ViewNames.ARTICLE_EDIT_LANG;
@@ -125,7 +125,7 @@ public class ArticleController extends BaseController {
     @RequestMapping(method = {RequestMethod.PATCH}, value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public Object editArticleLangPut(@Valid @RequestBody ArticleAddEditLangBindingModel model, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return this.getBindingErrorsMap(bindingResult.getAllErrors());
         }
         ArticleServiceModel articleServiceModel = this.articleService.findById(model.getId());
@@ -158,9 +158,9 @@ public class ArticleController extends BaseController {
         article.setCategory(newCategory);
         this.articleService.updateArticle(article);
         HashMap<String, Object> response = new HashMap<>();
-        response.put("oldCategoryName",oldCategoryName);
-        response.put("newCategoryName",newCategoryName);
-        response.put("title",article.getLocalContent().get(cookieLocale).getTitle());
+        response.put("oldCategoryName", oldCategoryName);
+        response.put("newCategoryName", newCategoryName);
+        response.put("title", article.getLocalContent().get(cookieLocale).getTitle());
         return response;
     }
 
@@ -190,7 +190,7 @@ public class ArticleController extends BaseController {
     public Object articleAddImagePut(@Valid @RequestBody ArticleAddImageBindingModel image, BindingResult bindingResult,
                                      @PathVariable(name = "id") Long id,
                                      @RequestParam(value = "main", required = false) boolean isMain) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return this.getBindingErrorsMap(bindingResult.getAllErrors());
         }
         ArticleServiceModel article = this.articleService.findById(id);

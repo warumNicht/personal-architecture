@@ -5,7 +5,7 @@ import architecture.annotations.EnumValidator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class EnumValidatorImpl implements ConstraintValidator<EnumValidator,Enum<?>> {
+public class EnumValidatorImpl implements ConstraintValidator<EnumValidator, Enum<?>> {
     private Class enumToValidate;
 
     @Override
@@ -15,7 +15,7 @@ public class EnumValidatorImpl implements ConstraintValidator<EnumValidator,Enum
 
     @Override
     public boolean isValid(Enum<?> value, ConstraintValidatorContext context) {
-        if(value==null){
+        if (value == null) {
             return true;
         }
         try {

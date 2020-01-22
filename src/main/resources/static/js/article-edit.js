@@ -21,8 +21,8 @@ $(document).ready(function () {
             setTimeout(function () {
                 responseDiv.empty();
             }, 4000);
-        }).catch(error=>{
-        console.log(error)
+        }).catch(error => {
+            console.log(error)
         });
     })
 

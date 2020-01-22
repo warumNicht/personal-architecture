@@ -12,7 +12,8 @@
         <h1>My site will be here</h1>
         <p>L'architecture est le jeu savant, correct et magnifique des volumes...</p>
     </div>
-    <form class="mx-auto w-25" th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/articles/addLang/${articleBinding.id}|}"
+    <form class="mx-auto w-25" th:method="post"
+          th:action="@{|/${@localeService.getLocale()}/admin/articles/addLang/${articleBinding.id}|}"
           th:object="${articleBinding}">
 
         <div class="form-group" th:classappend="${#fields.hasErrors('country')} ? 'text-danger'">
@@ -51,7 +52,8 @@
             </small>
         </div>
 
-        <div th:if="${articleBinding.mainImage!=null}" class="form-group" th:classappend="${#fields.hasErrors('mainImage')} ? 'text-danger'">
+        <div th:if="${articleBinding.mainImage!=null}" class="form-group"
+             th:classappend="${#fields.hasErrors('mainImage')} ? 'text-danger'">
             <label for="mainImageName">Image name</label>
             <input type="text" class="form-control"
                    th:field="*{mainImage}" th:value="${articleBinding.mainImage}"

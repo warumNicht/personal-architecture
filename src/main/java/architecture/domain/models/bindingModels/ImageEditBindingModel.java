@@ -10,7 +10,7 @@ import architecture.domain.CountryCodes;
 import javax.validation.constraints.*;
 import java.util.LinkedHashMap;
 
-public class ImageEditBindingModel{
+public class ImageEditBindingModel {
     private Long id;
 
     @NotNull
@@ -22,7 +22,7 @@ public class ImageEditBindingModel{
     @Size(min = AppConstants.COUNTRY_SIZE, max = AppConstants.COUNTRY_SIZE)
     @ContainsNotEmpty
     private LinkedHashMap<@EnumValidator(enumClass = CountryCodes.class, message = "{country.nonexistent}") CountryCodes,
-            @LengthOrEmpty(min=AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH) @BeginUppercase(allowEmpty = true) String> localImageNames;
+            @LengthOrEmpty(min = AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH) @BeginUppercase(allowEmpty = true) String> localImageNames;
 
     public Long getId() {
         return id;

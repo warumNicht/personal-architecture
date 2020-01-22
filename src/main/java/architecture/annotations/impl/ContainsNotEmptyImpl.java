@@ -9,11 +9,11 @@ import java.util.Map;
 public class ContainsNotEmptyImpl implements ConstraintValidator<ContainsNotEmpty, Map<?, String>> {
     @Override
     public boolean isValid(Map<?, String> value, ConstraintValidatorContext context) {
-        if(value==null){
+        if (value == null) {
             return true;
         }
         for (String s : value.values()) {
-            if(s!=null&&!s.isEmpty()){
+            if (s != null && !s.isEmpty()) {
                 return true;
             }
         }

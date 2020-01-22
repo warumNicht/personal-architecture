@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class AdminController extends BaseController {
     @PostMapping("/category/create")
     public String createCategoryPost(@Valid @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel bindingModel,
                                      BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return ViewNames.CATEGORY_CREATE;
         }
         CategoryServiceModel category = new CategoryServiceModel();
@@ -72,9 +73,9 @@ public class AdminController extends BaseController {
     }
 
     @PutMapping("/category/edit/{categoryId}")
-    public String editCategoryPut(@Valid @ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model,BindingResult bindingResult,
+    public String editCategoryPut(@Valid @ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model, BindingResult bindingResult,
                                   @PathVariable(name = "categoryId") Long categoryId) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return ViewNames.CATEGORY_EDIT;
         }
         CategoryServiceModel categoryToEdit = this.modelMapper.map(model, CategoryServiceModel.class);

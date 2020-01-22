@@ -24,20 +24,20 @@ public class LocaleServiceUnitTests {
     private HttpServletRequest request;
 
     @Before
-    public void init(){
-        this.localeService=new LocaleServiceImpl(request);
+    public void init() {
+        this.localeService = new LocaleServiceImpl(request);
     }
 
     @Test
-    public void givenCookie_FR_returnsCorrect(){
+    public void givenCookie_FR_returnsCorrect() {
         Mockito.when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")});
-        Assert.assertEquals(this.localeService.getCurrentCookieLocale(),CountryCodes.FR);
-        Assert.assertEquals(this.localeService.getLocale(),"fr");
+        Assert.assertEquals(this.localeService.getCurrentCookieLocale(), CountryCodes.FR);
+        Assert.assertEquals(this.localeService.getLocale(), "fr");
     }
 
     @Test
-    public void when_missingCookie_returnsDefaultLocale(){
+    public void when_missingCookie_returnsDefaultLocale() {
         Assert.assertEquals(this.localeService.getCurrentCookieLocale(), AppConstants.DEFAULT_COUNTRY_CODE);
-        Assert.assertEquals(this.localeService.getLocale(),"bg");
+        Assert.assertEquals(this.localeService.getLocale(), "bg");
     }
 }

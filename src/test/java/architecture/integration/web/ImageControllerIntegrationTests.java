@@ -49,8 +49,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 public class ImageControllerIntegrationTests {
-    private static final String MODEL_FIELD_url="url";
-    private static final String MODEL_FIELD_localImageNames="localImageNames";
+    private static final String MODEL_FIELD_url = "url";
+    private static final String MODEL_FIELD_localImageNames = "localImageNames";
 
     private Image savedImage;
     @Autowired
@@ -224,7 +224,7 @@ public class ImageControllerIntegrationTests {
     @Test
     public void putImage_withInvalidLocalImageName_hasErrors() throws Exception {
         ImageEditBindingModel invalidBindingModel = this.getCorrectBindingModel();
-        invalidBindingModel.getLocalImageNames().put(CountryCodes.BG,"1");
+        invalidBindingModel.getLocalImageNames().put(CountryCodes.BG, "1");
         this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -243,7 +243,7 @@ public class ImageControllerIntegrationTests {
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(1))
-                .andExpect(model().attributeHasFieldErrors(ViewNames.IMAGE_EDIT_BindingModel_Name,MODEL_FIELD_url));
+                .andExpect(model().attributeHasFieldErrors(ViewNames.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_url));
     }
 
     @Test
@@ -256,7 +256,7 @@ public class ImageControllerIntegrationTests {
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, invalidBindingModel))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(2))
-                .andExpect(model().attributeHasFieldErrors(ViewNames.IMAGE_EDIT_BindingModel_Name,MODEL_FIELD_url));
+                .andExpect(model().attributeHasFieldErrors(ViewNames.IMAGE_EDIT_BindingModel_Name, MODEL_FIELD_url));
     }
 
     private ImageEditBindingModel getCorrectBindingModel() {
@@ -277,21 +277,20 @@ public class ImageControllerIntegrationTests {
     }
 
     private String buildUrlEncodedFormEntity(String... params) {
-        if( (params.length % 2) > 0 ) {
+        if ((params.length % 2) > 0) {
             throw new IllegalArgumentException("Need to give an even number of parameters");
         }
         StringBuilder result = new StringBuilder();
-        for (int i=0; i<params.length; i+=2) {
-            if( i > 0 ) {
+        for (int i = 0; i < params.length; i += 2) {
+            if (i > 0) {
                 result.append('&');
             }
             try {
                 result.
                         append(URLEncoder.encode(params[i], StandardCharsets.UTF_8.name())).
                         append('=').
-                        append(URLEncoder.encode(params[i+1], StandardCharsets.UTF_8.name()));
-            }
-            catch (UnsupportedEncodingException e) {
+                        append(URLEncoder.encode(params[i + 1], StandardCharsets.UTF_8.name()));
+            } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }
         }
