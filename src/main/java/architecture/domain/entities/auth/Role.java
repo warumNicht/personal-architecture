@@ -8,7 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name = "roles")
 public class Role extends BaseEntity {
-    @Column
+    @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private UserRoles role;
 
