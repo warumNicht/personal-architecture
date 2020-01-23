@@ -2,14 +2,17 @@ package architecture.domain.entities.auth;
 
 import architecture.domain.entities.BaseEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
-//@Entity
+@Entity
 @Table(name = "roles")
 public class Role extends BaseEntity {
+    @Column
+    @Enumerated(value = EnumType.STRING)
     private UserRoles role;
+
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
     public UserRoles getRole() {
