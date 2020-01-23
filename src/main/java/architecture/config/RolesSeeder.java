@@ -18,8 +18,8 @@ public class RolesSeeder {
     }
 
     @PostConstruct
-    public void init(){
-        if(this.roleRepository.count()==0){
+    public void init() {
+        if (this.roleRepository.count() == 0) {
             Role user = new Role(UserRoles.ROLE_USER);
             Role admin = new Role(UserRoles.ROLE_ADMIN);
             this.roleRepository.save(user);

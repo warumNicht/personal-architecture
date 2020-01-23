@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
 
 @Controller
 @RequestMapping(value = "/users")
-public class UserController extends BaseController{
+public class UserController extends BaseController {
     private final UserService userService;
     private final ModelMapper modelMapper;
 
@@ -28,12 +28,12 @@ public class UserController extends BaseController{
 
 
     @GetMapping(value = "/register")
-    public String registerUser(@ModelAttribute(name = "userRegister") UserCreateBindingModel model){
+    public String registerUser(@ModelAttribute(name = "userRegister") UserCreateBindingModel model) {
         return ViewNames.USER_CREATE;
     }
 
     @PostMapping(value = "/register")
-    public String registerUserPost(@ModelAttribute(name = "userRegister") UserCreateBindingModel bindingModel){
+    public String registerUserPost(@ModelAttribute(name = "userRegister") UserCreateBindingModel bindingModel) {
         UserServiceModel user = this.modelMapper.map(bindingModel, UserServiceModel.class);
         this.userService.registerUser(user);
         System.out.println();
