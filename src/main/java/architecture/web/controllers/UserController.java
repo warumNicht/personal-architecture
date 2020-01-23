@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.PostConstruct;
+
 @Controller
 @RequestMapping(value = "/users")
-public class UserController {
+public class UserController extends BaseController{
+
 
     @GetMapping(value = "/register")
     public String registerUser(@ModelAttribute(name = "userRegister") UserCreateBindingModel model){
@@ -21,5 +24,10 @@ public class UserController {
     public String registerUserPost(@ModelAttribute(name = "userRegister") UserCreateBindingModel bindingModel){
         System.out.println();
         return "redirect:/";
+    }
+
+    @PostConstruct
+    public void doLog() {
+        super.logger.info("User controller started");
     }
 }
