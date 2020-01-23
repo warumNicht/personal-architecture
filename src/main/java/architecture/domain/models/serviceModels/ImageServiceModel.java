@@ -2,6 +2,7 @@ package architecture.domain.models.serviceModels;
 
 import architecture.domain.CountryCodes;
 import architecture.domain.models.BaseModel;
+import architecture.domain.models.serviceModels.article.ArticleServiceModel;
 
 import java.util.HashMap;
 import java.util.Map;

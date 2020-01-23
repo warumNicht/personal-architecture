@@ -1,4 +1,4 @@
-package architecture.domain.models.serviceModels;
+package architecture.domain.models.serviceModels.article;
 
 public class LocalisedArticleContentServiceModel {
     private String title;

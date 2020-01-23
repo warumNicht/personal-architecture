@@ -24,4 +24,7 @@ public final class ViewNames {
     public static final String ARTICLE_ADD_LANG = "articles/article-add-lang";
     public static final String ARTICLE_ADD_IMAGE = "articles/article-add-image";
 
+    //User controller
+    public static final String USER_CREATE = "authentication/user-register";
+
 }

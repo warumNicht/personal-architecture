@@ -4,7 +4,7 @@ import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.bindingModels.CategoryCreateBindingModel;
 import architecture.domain.models.bindingModels.CategoryEditBindingModel;
-import architecture.domain.models.serviceModels.ArticleServiceModel;
+import architecture.domain.models.serviceModels.article.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;

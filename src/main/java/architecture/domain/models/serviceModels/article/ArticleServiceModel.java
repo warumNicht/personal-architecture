@@ -1,7 +1,9 @@
-package architecture.domain.models.serviceModels;
+package architecture.domain.models.serviceModels.article;
 
 import architecture.domain.CountryCodes;
 import architecture.domain.models.BaseModel;
+import architecture.domain.models.serviceModels.CategoryServiceModel;
+import architecture.domain.models.serviceModels.ImageServiceModel;
 
 import java.util.Date;
 import java.util.HashMap;

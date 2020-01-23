@@ -1,7 +1,7 @@
 package architecture.services.interfaces;
 
 import architecture.domain.CountryCodes;
-import architecture.domain.models.serviceModels.ArticleServiceModel;
+import architecture.domain.models.serviceModels.article.ArticleServiceModel;
 import architecture.domain.models.viewModels.articles.ArticleLocalViewModel;
 
 import java.util.List;
