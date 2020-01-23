@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: head}"></head>
+
+<body>
+
+<header th:insert="~{fragments/navbar :: guest-ul}"></header>
+
+<main>
+
+    <form class="mx-auto w-25" th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/articles/create|}"
+          th:object="${userRegister}">
+
+        <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? 'text-danger'">
+            <label for="username" th:text="#{article.title}"></label>
+            <input type="text" class="form-control"
+                   th:field="*{username}" th:value="${userRegister.username}"
+                   id="username" th:placeholder="#{article.title}+'...'" name="username">
+
+            <small th:each="error : ${#fields.errors('username')}" th:utext="${error +'<br>'}"></small>
+        </div>
+
+
+        <div class="button-holder mt-4 d-flex justify-content-center">
+            <button type="submit" class="btn btn-info">Register</button>
+        </div>
+    </form>
+</main>
+
+<footer th:replace="~{fragments/general :: footer}"></footer>
+
+</body>
+</html>
