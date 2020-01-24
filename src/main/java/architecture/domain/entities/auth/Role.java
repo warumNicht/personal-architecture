@@ -1,40 +1,38 @@
 package architecture.domain.entities.auth;
 
 import architecture.domain.entities.BaseEntity;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-public class Role extends BaseEntity {
+public class Role extends BaseEntity implements GrantedAuthority {
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
-    private UserRoles role;
+    private UserRoles authority;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    private Set<User> authorities;
 
     public Role() {
     }
 
-    public Role(UserRoles role) {
-        this.role = role;
+    @Override
+    public String getAuthority() {
+        return this.authority.toString();
     }
 
-    public UserRoles getRole() {
-        return role;
+    public void setAuthority(UserRoles authority) {
+        this.authority = authority;
     }
 
-    public void setRole(UserRoles role) {
-        this.role = role;
+    public Set<User> getAuthorities() {
+        return authorities;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setAuthorities(Set<User> authorities) {
+        this.authorities = authorities;
     }
 }

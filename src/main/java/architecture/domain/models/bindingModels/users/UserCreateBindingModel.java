@@ -1,7 +1,5 @@
 package architecture.domain.models.bindingModels.users;
 
-import architecture.domain.models.BaseModel;
-
 public class UserCreateBindingModel {
     private String username;
     private String email;
