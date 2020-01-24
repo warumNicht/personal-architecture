@@ -26,5 +26,6 @@ public final class ViewNames {
 
     //User controller
     public static final String USER_CREATE = "authentication/user-register";
+    public static final String USER_LOGIN = "authentication/user-login";
 
 }

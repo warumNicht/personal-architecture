@@ -19,15 +19,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrfTokenRepository(this.csrfTokenRepository())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/users/login", "/users/register").permitAll()
-                .antMatchers( "/admin/**").access("hasRole('ADMIN')")
+                .antMatchers("/","/{en|de|fr}/", "/{en|de|fr}/users/login", "/{en|de|fr}/users/register").permitAll()
+                .antMatchers( "/{en|de|fr}/admin/**").access("hasRole('ADMIN')")
 
 
                 .antMatchers("/css/**", "/js/**", "/favicon/**","/images/**","/fetch/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-//                .loginPage("/en/users/login")
+
+//                .loginProcessingUrl("/{en|de|fr}/users/login")
+                .loginPage("/en/users/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home")

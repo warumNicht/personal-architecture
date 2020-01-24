@@ -2,6 +2,7 @@ package architecture.web.controllers;
 
 import architecture.constants.ViewNames;
 import architecture.domain.models.bindingModels.users.UserCreateBindingModel;
+import architecture.domain.models.bindingModels.users.UserLoginBindingModel;
 import architecture.domain.models.serviceModels.UserServiceModel;
 import architecture.services.interfaces.UserService;
 import org.modelmapper.ModelMapper;
@@ -38,6 +39,11 @@ public class UserController extends BaseController {
         this.userService.registerUser(user);
         System.out.println();
         return "redirect:/";
+    }
+
+    @GetMapping(value = "/login")
+    public String loginUser(@ModelAttribute(name = "userLogin") UserLoginBindingModel model) {
+        return ViewNames.USER_LOGIN;
     }
 
     @PostConstruct
