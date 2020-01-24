@@ -13,10 +13,14 @@ public class Role extends BaseEntity implements GrantedAuthority {
     @Enumerated(value = EnumType.STRING)
     private UserRoles authority;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "authorities")
     private Set<User> authorities;
 
     public Role() {
+    }
+
+    public Role(UserRoles authority) {
+        this.authority = authority;
     }
 
     @Override
