@@ -23,15 +23,15 @@ public class CustomLoginFilter extends GenericFilterBean {
             ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        if(httpServletRequest.getRequestURI().contains("admin")){
+        if (httpServletRequest.getRequestURI().contains("admin")) {
             SecurityContext context = SecurityContextHolder.getContext();
             Authentication authentication = context.getAuthentication();
-            if(authentication==null){
+            if (authentication == null) {
                 String locale = Arrays.stream(httpServletRequest.getCookies())
                         .filter(c -> c.getName().equals(AppConstants.LOCALE_COOKIE_NAME))
                         .findFirst().orElse(null).getValue();
                 HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-                httpServletResponse.sendRedirect(String.format("/%s/users/login",locale));
+                httpServletResponse.sendRedirect(String.format("/%s/users/login", locale));
                 return;
             }
 
