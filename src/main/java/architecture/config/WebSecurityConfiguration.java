@@ -28,19 +28,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers( "/{en|de|fr}/admin/**").access("hasRole('ADMIN')")
-                .antMatchers("/","/{en|de|fr}/", "/{en|de|fr}/users/login","/users/login", "/{en|de|fr}/users/register").permitAll()
+                .antMatchers("/","/{en|de|fr}/","/users/login", "/{en|de|fr}/users/register").permitAll()
                 .antMatchers("/css/**", "/js/**", "/favicon/**","/images/**","/fetch/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new CustomLoginFilter(), ChannelProcessingFilter.class)
                 .formLogin()
-                .loginProcessingUrl("/{en|de|fr}/users/login")
 
-                .loginPage("/es/users/login")
+                .loginPage("/users/login")
 
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/home")
+                .defaultSuccessUrl("/")
                 .and()
 
 

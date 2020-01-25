@@ -8,7 +8,7 @@
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
 <main>
-    <form class="mx-auto w-25" th:method="post" th:action="@{|/${@localeService.getLocale()}/users/login|}"
+    <form class="mx-auto w-25" th:method="post" th:action="@{/users/login}"
           th:object="${userLogin}">
 
         <div class="form-group">
