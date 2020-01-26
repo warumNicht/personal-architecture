@@ -34,6 +34,11 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{|/${locale}/users/login|}">Login</a>
             </li>
+            <li class="nav-item">
+                <form th:action="@{/logout}" th:method="post">
+                    <button class="btn btn-link nav-link nav-link-white active">Logout</button>
+                </form>
+            </li>
             <li class="nav-item dropdown">
                 <select class="browser-default custom-select" id="select-locales">
                     <option selected value="" th:text="#{lang.change}"></option>
