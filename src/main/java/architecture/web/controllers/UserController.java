@@ -46,10 +46,10 @@ public class UserController extends BaseController {
         return ViewNames.USER_LOGIN;
     }
 
-    @PostMapping(value = "/login")
-    public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel model) {
-        return "redirect:/" +super.getLocale() + "/";
-    }
+//    @PostMapping(value = "/login")
+//    public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel model) {
+//        return "redirect:/" +super.getLocale() + "/";
+//    }
 
     @PostConstruct
     public void doLog() {
