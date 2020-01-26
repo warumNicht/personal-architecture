@@ -5,5 +5,5 @@ import architecture.domain.entities.auth.UserRoles;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    Role findRoleByAuthorities(UserRoles authority);
+    Role findRoleByAuthority(UserRoles authority);
 }
