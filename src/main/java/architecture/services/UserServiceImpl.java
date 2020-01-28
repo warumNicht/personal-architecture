@@ -9,6 +9,9 @@ import architecture.repositories.UserRepository;
 import architecture.services.interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,25 +19,33 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void registerUser(UserServiceModel userServiceModel) {
         User user = this.modelMapper.map(userServiceModel, User.class);
-        Role roleUser = this.roleRepository.findRoleByAuthorities(UserRoles.ROLE_USER);
+        Role roleUser = this.roleRepository.findByAuthority(UserRoles.ROLE_USER);
         user.getAuthorities().add(roleUser);
+        user.setPassword(this.passwordEncoder.encode(userServiceModel.getPassword()));
         if (this.userRepository.count() == 0) {
-            Role admin = this.roleRepository.findRoleByAuthorities(UserRoles.ROLE_ADMIN);
+            Role admin = this.roleRepository.findByAuthority(UserRoles.ROLE_ADMIN);
             user.getAuthorities().add(admin);
         }
         this.userRepository.save(user);
         System.out.println();
-//        user.getRoles().add(this.roleRepository);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = this.userRepository.findByUsername(username).orElse(null);
+        return user;
     }
 }
