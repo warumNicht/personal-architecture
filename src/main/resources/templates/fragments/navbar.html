@@ -39,9 +39,7 @@
                     <button class="btn btn-link nav-link nav-link-white active">Logout</button>
                 </form>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{|/${locale}/users/logout|}">Logout</a>
-            </li>
+
             <li class="nav-item dropdown">
                 <select class="browser-default custom-select" id="select-locales">
                     <option selected value="" th:text="#{lang.change}"></option>
@@ -57,10 +55,7 @@
                 </select>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" th:placeholder="#{search}" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" th:text="#{search}"></button>
-        </form>
+
     </div>
 
     <script type="module" th:src="@{/js/nav.js}"></script>
