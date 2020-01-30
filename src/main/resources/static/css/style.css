@@ -23,3 +23,8 @@ body {
 img {
     max-width: 100%;
 }
+
+.nav-between{
+    justify-content: space-between;
+    width: 100%;
+}
