@@ -24,7 +24,6 @@ public class User extends BaseEntity implements UserDetails {
     private Set<Role> authorities = new HashSet<>();
 
 
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
