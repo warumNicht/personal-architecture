@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,6 +32,7 @@ import javax.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Locale;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -39,6 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
+@WithMockUser(roles = {"USER", "ADMIN"})
 public class ArticleControllerIntegrationTests {
     @Autowired
     private MockMvc mockMvc;
@@ -55,7 +59,6 @@ public class ArticleControllerIntegrationTests {
     }
 
     @Test
-//    @WithMockUser(roles = {"ADMIN"})
     public void get_createArticle_returnsCorrectView() throws Exception {
         this.mockMvc.perform(get("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
@@ -67,7 +70,6 @@ public class ArticleControllerIntegrationTests {
     }
 
     @Test
-    @WithMockUser(roles = {"ADMIN"})
     public void post_createArticle_withValidData_andEmptyImage_redirectsCorrect() throws Exception {
         Long categoryId = this.categoryRepository.findAll().get(0).getId();
         this.mockMvc.perform(post("/fr/admin/articles/create")
@@ -75,10 +77,11 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, categoryId.toString())
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getCorrectBindingModel()))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getCorrectBindingModel())
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/fr/admin/listAll"))
-                .andDo(print());
+                .andDo(print()).andReturn().getRequest();
     }
 
     @Test
@@ -90,7 +93,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, categoryId.toString())
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getFullCorrectBindingModel()))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getFullCorrectBindingModel())
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/fr/admin/listAll"))
                 .andDo(print());
@@ -104,7 +108,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, categoryId.toString())
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getCorrectBindingModel()));
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getCorrectBindingModel())
+                .with(csrf()));
 
         Article storedArticle = this.articleRepository.findAll().get(0);
 
@@ -129,7 +134,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, categoryId.toString())
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getFullCorrectBindingModel()));
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getFullCorrectBindingModel())
+                .with(csrf()));
 
         Article storedArticle = this.articleRepository.findAll().get(0);
 
@@ -154,7 +160,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, new ArticleCreateBindingModel()))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, new ArticleCreateBindingModel())
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ViewNames.ARTICLE_CREATE))
                 .andDo(print());
@@ -167,7 +174,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, "invalidId")
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, new ArticleCreateBindingModel()))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, new ArticleCreateBindingModel())
+                .with(csrf()))
                 .andDo(print());
 
         Assert.assertEquals(this.articleRepository.count(), 0L);
@@ -180,7 +188,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, TestConstants.CATEGORY_INVALID_ID)
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getCorrectBindingModel()))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getCorrectBindingModel())
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ViewNames.CONTROLLER_ERROR))
                 .andDo(print());
@@ -198,7 +207,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(1))
                 .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, ViewNames.ARTICLE_FIELD_COUNTRY, "NotNull"))
@@ -218,7 +228,8 @@ public class ArticleControllerIntegrationTests {
                 .param("content", TestConstants.ARTICLE_VALID_CONTENT)
                 .param("mainImage.url", TestConstants.IMAGE_URL)
                 .param("mainImage.name", TestConstants.IMAGE_FR_NAME)
-                .param("country", "FI"))
+                .param("country", "FI")
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(1))
                 .andExpect(model().attributeHasFieldErrors(ViewNames.ARTICLE_CREATE_BindingModel_Name, ViewNames.ARTICLE_FIELD_COUNTRY))
@@ -235,7 +246,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(1))
                 .andDo(print());
@@ -250,7 +262,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(2))
                 .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "mainImage.url", ImageBindingValidationEmpty.class.getSimpleName()))
@@ -267,7 +280,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(2))
                 .andDo(print());
@@ -282,7 +296,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(3))
                 .andDo(print());
@@ -297,7 +312,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(1))
                 .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "title", BeginUppercase.class.getSimpleName()))
@@ -313,7 +329,8 @@ public class ArticleControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .param(ViewNames.ARTICLE_CREATE_Category_Id, "")
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, invalidModel)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(model().errorCount(1))
                 .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "title", Size.class.getSimpleName()))

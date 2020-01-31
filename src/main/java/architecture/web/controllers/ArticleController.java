@@ -20,6 +20,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,6 +51,7 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping("/create")
+
     public String createArticle(@ModelAttribute(name = "articleBinding") ArticleCreateBindingModel articleCreateBindingModel, Model model) {
         model.addAttribute("articleBinding", articleCreateBindingModel);
         model.addAttribute("categoryId", "");
@@ -57,6 +59,7 @@ public class ArticleController extends BaseController {
     }
 
     @PostMapping("/create")
+//    @PreAuthorize(value = "hasRole('ADMIN')")
     private String createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel bindingModel,
                                      BindingResult bindingResult, @RequestParam(name = "categoryId") Long categoryId) {
         if (bindingResult.hasErrors()) {
