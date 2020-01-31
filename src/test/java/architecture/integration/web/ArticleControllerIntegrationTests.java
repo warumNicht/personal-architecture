@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +55,7 @@ public class ArticleControllerIntegrationTests {
     }
 
     @Test
+//    @WithMockUser(roles = {"ADMIN"})
     public void get_createArticle_returnsCorrectView() throws Exception {
         this.mockMvc.perform(get("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
@@ -65,6 +67,7 @@ public class ArticleControllerIntegrationTests {
     }
 
     @Test
+    @WithMockUser(roles = {"ADMIN"})
     public void post_createArticle_withValidData_andEmptyImage_redirectsCorrect() throws Exception {
         Long categoryId = this.categoryRepository.findAll().get(0).getId();
         this.mockMvc.perform(post("/fr/admin/articles/create")
