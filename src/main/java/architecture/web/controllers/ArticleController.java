@@ -36,6 +36,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/admin/articles")
+@PreAuthorize(value = "hasRole('ADMIN')")
 public class ArticleController extends BaseController {
     private final ArticleService articleService;
     private final CategoryService categoryService;
@@ -59,8 +60,7 @@ public class ArticleController extends BaseController {
     }
 
     @PostMapping("/create")
-//    @PreAuthorize(value = "hasRole('ADMIN')")
-    private String createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel bindingModel,
+    public String createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel bindingModel,
                                      BindingResult bindingResult, @RequestParam(name = "categoryId") Long categoryId) {
         if (bindingResult.hasErrors()) {
             return ViewNames.ARTICLE_CREATE;
