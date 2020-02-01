@@ -28,4 +28,7 @@ public final class ViewNames {
     public static final String USER_CREATE = "authentication/user-register";
     public static final String USER_LOGIN = "authentication/user-login";
 
+    //Access controller
+    public static final String UNAUTHORIZED = "error/unauthorized";
+
 }
