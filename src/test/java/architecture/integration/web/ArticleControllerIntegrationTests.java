@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -57,13 +58,40 @@ public class ArticleControllerIntegrationTests {
     }
 
     @Test
-    public void get_createArticle_returnsCorrectView() throws Exception {
+    public void get_createArticle_withRoleAdmin_returnsCorrectView() throws Exception {
         this.mockMvc.perform(get("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
-                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ViewNames.ARTICLE_CREATE))
+                .andDo(print());
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void get_createArticle_anonymous_redirectsLogin() throws Exception {
+        this.mockMvc.perform(get("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/fr/users/login"))
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser(roles = {"USER"})
+    public void get_createArticle_withRoleUser_redirectsUnauthorized() throws Exception {
+        this.mockMvc.perform(get("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/fr/unauthorized"))
                 .andDo(print());
     }
 
@@ -79,7 +107,7 @@ public class ArticleControllerIntegrationTests {
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/fr/admin/listAll"))
-                .andDo(print()).andReturn().getRequest();
+                .andDo(print());
     }
 
     @Test
@@ -95,6 +123,40 @@ public class ArticleControllerIntegrationTests {
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/fr/admin/listAll"))
+                .andDo(print());
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void post_createArticle_withValidData_Anonymous_redirectsLogin() throws Exception {
+        Long categoryId = this.categoryRepository.findAll().get(0).getId();
+
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, categoryId.toString())
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getFullCorrectBindingModel())
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/fr/users/login"))
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser
+    public void post_createArticle_withValidData_RoleUser_redirectsUnauthorized() throws Exception {
+        Long categoryId = this.categoryRepository.findAll().get(0).getId();
+
+        this.mockMvc.perform(post("/fr/admin/articles/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, categoryId.toString())
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getFullCorrectBindingModel())
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/fr/unauthorized"))
                 .andDo(print());
     }
 

@@ -7,10 +7,11 @@
 
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
-<main>
+<main >
     <h1>
         UNAUTHORIZED
     </h1>
+    <div th:text="${exception.message}"></div>
 
 </main>
 

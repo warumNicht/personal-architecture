@@ -61,7 +61,7 @@ public class ArticleController extends BaseController {
 
     @PostMapping("/create")
     public String createArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleCreateBindingModel bindingModel,
-                                     BindingResult bindingResult, @RequestParam(name = "categoryId") Long categoryId) {
+                                    BindingResult bindingResult, @RequestParam(name = "categoryId") Long categoryId) {
         if (bindingResult.hasErrors()) {
             return ViewNames.ARTICLE_CREATE;
         }

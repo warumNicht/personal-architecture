@@ -2,6 +2,8 @@ package architecture.error;
 
 import architecture.constants.ViewNames;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -9,7 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 @ControllerAdvice
+@Order(Integer.MIN_VALUE)
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = BaseControllerException.class)
@@ -25,6 +29,12 @@ public class GlobalExceptionHandler {
         mav.addObject("url", req.getRequestURL());
         mav.setViewName(ViewNames.CONTROLLER_ERROR);
         return mav;
+    }
+
+    //only for tests
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ModelAndView defaultErrorHandler2(HttpServletRequest req, AccessDeniedException e) throws Exception {
+        throw e;
     }
 
     @ExceptionHandler(value = Exception.class)
