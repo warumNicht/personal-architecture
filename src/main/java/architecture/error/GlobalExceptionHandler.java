@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
 
     //only for tests
     @ExceptionHandler(value = AccessDeniedException.class)
-    public ModelAndView defaultErrorHandler2(HttpServletRequest req, AccessDeniedException e) throws Exception {
+    public ModelAndView accessDeniedHandler(HttpServletRequest req, AccessDeniedException e) throws Exception {
         throw e;
     }
 
