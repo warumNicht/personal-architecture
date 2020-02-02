@@ -23,6 +23,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -79,7 +80,7 @@ public class ImageControllerIntegrationTests {
     }
 
     @Test
-    public void getImage_returnsCorrectView() throws Exception {
+    public void getImage_withADMIN_role_returnsCorrectView() throws Exception {
         MockHttpServletResponse response = this.mockMvc.perform(get("/fr/admin/images/edit/" + this.savedImage.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -95,6 +96,30 @@ public class ImageControllerIntegrationTests {
             String escapedValue = StringEscapeUtils.escapeHtml4(value);
             Assert.assertTrue(contentAsString.contains(escapedValue));
         }
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void getImage_withAnonymous_redirectsLogin() throws Exception {
+        this.mockMvc.perform(get("/fr/admin/images/edit/" + this.savedImage.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/fr/users/login"))
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser
+    public void getImage_withUSER_role_redirectsUnauthorized() throws Exception {
+        this.mockMvc.perform(get("/fr/admin/images/edit/" + this.savedImage.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/fr/unauthorized"))
+                .andDo(print());
     }
 
     @Test

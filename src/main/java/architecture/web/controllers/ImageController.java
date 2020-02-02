@@ -7,6 +7,7 @@ import architecture.domain.models.serviceModels.ImageServiceModel;
 import architecture.services.interfaces.ImageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/admin/images")
+@PreAuthorize(value = "hasRole('ADMIN')")
 public class ImageController extends BaseController {
     private final ImageService imageService;
     private final ModelMapper modelMapper;
