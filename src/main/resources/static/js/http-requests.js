@@ -4,7 +4,7 @@ function sendXmlHttpRequest(method, url, data, token) {
             const xhttp = new XMLHttpRequest();
             xhttp.open(method, url, true);
             xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-            if(token){
+            if (token) {
                 xhttp.setRequestHeader(token.header, token.content);
             }
             xhttp.onreadystatechange = function () {

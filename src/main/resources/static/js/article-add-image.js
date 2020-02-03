@@ -19,7 +19,6 @@ $(document).ready(function () {
             content: token
         };
         const json = JSON.stringify(data);
-        console.log('submit-button');
         sendXmlHttpRequest('PUT', location.href, json, credentials).then(function (res) {
 
                 if (typeof (res) === 'string') {
