@@ -14,9 +14,13 @@ $(document).ready(function () {
                 name: document.getElementById('name').value
             }
         };
+        const credentials = {
+            header: tokenHeader,
+            content: token
+        };
         const json = JSON.stringify(data);
-
-        sendXmlHttpRequest('PUT', location.href, json).then(function (res) {
+        console.log('submit-button');
+        sendXmlHttpRequest('PUT', location.href, json, credentials).then(function (res) {
 
                 if (typeof (res) === 'string') {
                     window.location = res;
