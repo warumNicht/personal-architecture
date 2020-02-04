@@ -22,6 +22,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest()
+@SpringBootTest
+@ActiveProfiles("test")
 @Transactional
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
@@ -91,7 +93,7 @@ public class ArticleControllerIntegrationTests {
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/fr/unauthorized"))
+                .andExpect(redirectedUrlPattern("/**/fr/unauthorized"))
                 .andDo(print());
     }
 
@@ -156,7 +158,7 @@ public class ArticleControllerIntegrationTests {
                 .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getFullCorrectBindingModel())
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/fr/unauthorized"))
+                .andExpect(redirectedUrlPattern("/**/unauthorized"))
                 .andDo(print());
     }
 

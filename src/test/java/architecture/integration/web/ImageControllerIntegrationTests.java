@@ -25,6 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -48,6 +49,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
@@ -118,7 +120,7 @@ public class ImageControllerIntegrationTests {
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/fr/unauthorized"))
+                .andExpect(redirectedUrlPattern("/**/unauthorized"))
                 .andDo(print());
     }
 
@@ -182,7 +184,7 @@ public class ImageControllerIntegrationTests {
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel())
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/unauthorized"))
+                .andExpect(redirectedUrl("/fr/unauthorized"))
                 .andDo(print());
     }
 
