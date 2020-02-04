@@ -3,7 +3,7 @@ package architecture.integration.web;
 import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.entities.Article;
-import architecture.domain.models.bindingModels.ImageEditBindingModel;
+import architecture.domain.models.bindingModels.images.ImageEditBindingModel;
 import architecture.repositories.ArticleRepository;
 import architecture.util.TestConstants;
 import architecture.domain.CountryCodes;

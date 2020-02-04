@@ -1,4 +1,4 @@
-package architecture.domain.models.bindingModels;
+package architecture.domain.models.bindingModels.images;
 
 import architecture.annotations.BeginUppercase;
 import architecture.annotations.ContainsNotEmpty;

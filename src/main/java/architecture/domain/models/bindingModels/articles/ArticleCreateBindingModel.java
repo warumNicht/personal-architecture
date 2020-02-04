@@ -1,7 +1,7 @@
 package architecture.domain.models.bindingModels.articles;
 
 import architecture.annotations.ImageBindingValidationEmpty;
-import architecture.domain.models.bindingModels.ImageBindingModel;
+import architecture.domain.models.bindingModels.images.ImageBindingModel;
 
 import javax.validation.constraints.NotNull;
 

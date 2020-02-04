@@ -1,8 +1,7 @@
 package architecture.domain.models.bindingModels.articles;
 
 import architecture.domain.CountryCodes;
-import architecture.domain.models.BaseModel;
-import architecture.domain.models.bindingModels.ImageBindingModel;
+import architecture.domain.models.bindingModels.images.ImageBindingModel;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

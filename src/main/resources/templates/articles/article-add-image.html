@@ -12,7 +12,7 @@
     <div class="mx-auto w-25" th:object="${article}">
         <div class="form-group">
             <label for="title" th:text="#{article.title}"></label>
-            <input type="text" class="form-control"
+            <input type="text" class="form-control" disabled
                    th:value="${article.title}"
                    id="title" th:placeholder="#{article.title}+'...'" name="title">
         </div>

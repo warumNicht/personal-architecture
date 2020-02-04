@@ -2,7 +2,7 @@ package architecture.web.controllers;
 
 import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
-import architecture.domain.models.bindingModels.ImageEditBindingModel;
+import architecture.domain.models.bindingModels.images.ImageEditBindingModel;
 import architecture.domain.models.serviceModels.ImageServiceModel;
 import architecture.services.interfaces.ImageService;
 import org.modelmapper.ModelMapper;

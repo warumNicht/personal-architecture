@@ -7,7 +7,7 @@ import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.Category;
-import architecture.domain.models.bindingModels.ImageBindingModel;
+import architecture.domain.models.bindingModels.images.ImageBindingModel;
 import architecture.domain.models.bindingModels.articles.ArticleCreateBindingModel;
 import architecture.repositories.ArticleRepository;
 import architecture.repositories.CategoryRepository;

@@ -2,7 +2,7 @@ package architecture.annotations.impl;
 
 import architecture.annotations.ImageBindingValidationEmpty;
 import architecture.constants.AppConstants;
-import architecture.domain.models.bindingModels.ImageBindingModel;
+import architecture.domain.models.bindingModels.images.ImageBindingModel;
 import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
 
 import javax.validation.ConstraintValidator;
