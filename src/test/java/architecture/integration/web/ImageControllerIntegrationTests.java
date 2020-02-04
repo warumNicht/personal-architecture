@@ -145,7 +145,7 @@ public class ImageControllerIntegrationTests {
 
     @Test
     public void putImage_withCorrectData_redirectsCorrectAndModifiesData() throws Exception {
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel())
