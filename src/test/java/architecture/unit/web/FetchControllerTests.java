@@ -1,6 +1,7 @@
 package architecture.unit.web;
 
 import architecture.constants.AppConstants;
+import architecture.services.interfaces.UserService;
 import architecture.util.TestConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.viewModels.LocalisedCategoryViewModel;
@@ -15,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -36,17 +38,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(FetchController.class)
 public class FetchControllerTests {
-
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @MockBean
+    private UserService userService;
     @MockBean
     private CategoryService categoryService;
     @MockBean
     private ImageService imageService;
     @MockBean
     private LocaleService localeService;
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Before
     public void setUp() {
