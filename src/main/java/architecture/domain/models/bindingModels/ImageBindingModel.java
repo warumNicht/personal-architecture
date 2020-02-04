@@ -1,16 +1,16 @@
 package architecture.domain.models.bindingModels;
 
-public class ImageBindingModel {
-    private String url;
+import architecture.annotations.BeginUppercase;
+import architecture.annotations.LengthOrEmpty;
+import architecture.constants.AppConstants;
+
+import javax.validation.constraints.NotEmpty;
+
+public class ImageBindingModel extends ImageUrlModel{
+    @NotEmpty
+    @LengthOrEmpty(min = AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH)
+    @BeginUppercase(allowEmpty = true)
     private String name;
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public String getName() {
         return name;

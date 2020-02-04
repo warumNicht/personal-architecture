@@ -17,7 +17,7 @@ public @interface LengthOrEmpty {
 
     int max() default Integer.MAX_VALUE;
 
-    String message() default "{length.between}";
+    String message() default "{text.length.between}";
 
     Class<?>[] groups() default {};
 
