@@ -1,4 +1,4 @@
-package architecture.integration.web;
+package architecture.integration.web.articles;
 
 import architecture.annotations.BeginUppercase;
 import architecture.annotations.ImageBindingValidationEmpty;
@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @WithMockUser(roles = {"ADMIN"})
-public class ArticleControllerIntegrationTests {
+public class ArticleControllerCreateIntegrationTests {
     @Autowired
     private MockMvc mockMvc;
 
@@ -399,66 +399,6 @@ public class ArticleControllerIntegrationTests {
                 .andExpect(model().errorCount(1))
                 .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "title", Size.class.getSimpleName()))
                 .andDo(print());
-    }
-
-    // testing admin/articles/addLang/{id}
-    @Test
-    public void get_addLang_withRoleAdmin_returnsCorrectView() throws Exception {
-        Article article = this.seedArticle();
-        this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
-                .locale(Locale.FRANCE)
-                .contextPath("/fr")
-                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
-                .andExpect(status().isOk())
-                .andExpect(view().name(ViewNames.ARTICLE_ADD_LANG))
-                .andDo(print());
-    }
-
-    @Test
-    @WithAnonymousUser
-    public void get_addLang_withAnonymous_redirectsLogin() throws Exception {
-        Article article = this.seedArticle();
-        this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
-                .locale(Locale.FRANCE)
-                .contextPath("/fr")
-                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/fr/users/login"))
-                .andDo(print());
-    }
-
-    @Test
-    @WithMockUser
-    public void get_addLang_withRoleUser_redirectsLogin() throws Exception {
-        Article article = this.seedArticle();
-        this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
-                .locale(Locale.FRANCE)
-                .contextPath("/fr")
-                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("/**/unauthorized"))
-                .andDo(print());
-    }
-
-    @Test
-    public void post_addLang_withRoleAdmin_returnsCorrectView() throws Exception {
-        Article article = this.seedArticle();
-        this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
-                .locale(Locale.FRANCE)
-                .contextPath("/fr")
-                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, new ArticleLangBindingModel())
-                .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name(ViewNames.ARTICLE_ADD_LANG))
-                .andDo(print());
-    }
-
-    private Article seedArticle() {
-        Article article = new Article();
-        article.setMainImage(new Image());
-        Article savedArticle = this.articleRepository.save(article);
-        return savedArticle;
     }
 
     private ArticleCreateBindingModel getCorrectBindingModel() {
