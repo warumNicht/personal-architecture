@@ -1,21 +1,14 @@
 package architecture.integration.web.articles;
 
-import architecture.annotations.BeginUppercase;
-import architecture.annotations.ImageBindingValidationEmpty;
 import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
-import architecture.domain.entities.Category;
 import architecture.domain.entities.Image;
-import architecture.domain.models.bindingModels.articles.ArticleCreateBindingModel;
+import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.articles.ArticleLangBindingModel;
-import architecture.domain.models.bindingModels.images.ImageBindingModel;
 import architecture.repositories.ArticleRepository;
-import architecture.repositories.CategoryRepository;
 import architecture.util.TestConstants;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
-import javax.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -53,14 +45,6 @@ public class ArticleControllerAddLangIntegrationTests {
 
     @Autowired
     private ArticleRepository articleRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Before
-    public void init() {
-        this.seedCategory();
-    }
 
     @Test
     public void get_addLang_withRoleAdmin_returnsCorrectView() throws Exception {
@@ -115,6 +99,20 @@ public class ArticleControllerAddLangIntegrationTests {
     }
 
     @Test
+    public void post_addLang_withRoleAdmin_validModelWithImageNull_redirectsEdit() throws Exception {
+        Article article = this.articleRepository.save(new Article());
+        this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getValidArticleLangBindingModel())
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/fr/admin/articles/edit/" + article.getId()))
+                .andDo(print());
+    }
+
+    @Test
     @WithAnonymousUser
     public void post_addLang_withAnonymous_validModelWithImage_redirectsLogin() throws Exception {
         Article article = this.createArticleWithImage();
@@ -144,11 +142,32 @@ public class ArticleControllerAddLangIntegrationTests {
                 .andDo(print());
     }
 
+    @Test
+    public void post_addLang_withAdmin_nullModel_returnsForm() throws Exception {
+        Article article = this.articleRepository.save(new Article());
+        this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, new ArticleLangBindingModel())
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(model().hasErrors())
+                .andExpect(view().name(ViewNames.ARTICLE_ADD_LANG))
+                .andDo(print());
+    }
+
     private Article createArticleWithImage() {
         Article article = new Article();
+        LocalisedArticleContent localisedContent = new LocalisedArticleContent();
+        localisedContent.setTitle(TestConstants.ARTICLE_VALID_TITLE);
+        localisedContent.setContent(TestConstants.ARTICLE_VALID_CONTENT);
+
+        article.setLocalContent(new HashMap<>() {{
+            put(CountryCodes.FR, localisedContent);
+        }});
         article.setMainImage(new Image());
-        Article savedArticle = this.articleRepository.save(article);
-        return savedArticle;
+        return this.articleRepository.save(article);
     }
 
     private ArticleLangBindingModel getValidArticleLangBindingModel(){
@@ -160,12 +179,4 @@ public class ArticleControllerAddLangIntegrationTests {
         return model;
     }
 
-    private void seedCategory() {
-        Category category = new Category();
-        category.setLocalCategoryNames(new HashMap<CountryCodes, String>() {{
-            put(CountryCodes.BG, TestConstants.CATEGORY_1_BG_NAME);
-            put(CountryCodes.FR, TestConstants.CATEGORY_1_FR_NAME);
-        }});
-        this.categoryRepository.save(category);
-    }
 }
