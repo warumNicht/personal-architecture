@@ -8,7 +8,7 @@ import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.Category;
 import architecture.domain.entities.Image;
-import architecture.domain.models.bindingModels.articles.ArticleAddEditLangBindingModel;
+import architecture.domain.models.bindingModels.articles.ArticleLangBindingModel;
 import architecture.domain.models.bindingModels.images.ImageBindingModel;
 import architecture.domain.models.bindingModels.articles.ArticleCreateBindingModel;
 import architecture.repositories.ArticleRepository;
@@ -447,7 +447,7 @@ public class ArticleControllerIntegrationTests {
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, new ArticleAddEditLangBindingModel())
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, new ArticleLangBindingModel())
                 .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ViewNames.ARTICLE_ADD_LANG))

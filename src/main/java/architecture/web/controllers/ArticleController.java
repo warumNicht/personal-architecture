@@ -4,7 +4,7 @@ import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.bindingModels.articles.ArticleAddImageBindingModel;
-import architecture.domain.models.bindingModels.articles.ArticleAddEditLangBindingModel;
+import architecture.domain.models.bindingModels.articles.ArticleLangBindingModel;
 import architecture.domain.models.bindingModels.articles.ArticleCreateBindingModel;
 import architecture.domain.models.serviceModels.article.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
@@ -81,7 +81,7 @@ public class ArticleController extends BaseController {
 
     @GetMapping("/addLang/{id}")
     public String addLanguageToArticle(Model modelView, @PathVariable(name = "id") Long articleId,
-                                       @ModelAttribute(name = "articleBinding") ArticleAddEditLangBindingModel model) {
+                                       @ModelAttribute(name = "articleBinding") ArticleLangBindingModel model) {
         ArticleServiceModel article = this.articleService.findById(articleId);
         if (article.getMainImage() != null) {
             model.setMainImage("");
@@ -91,7 +91,7 @@ public class ArticleController extends BaseController {
     }
 
     @PostMapping("/addLang/{id}")
-    public String addLanguageToArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleAddEditLangBindingModel model, BindingResult bindingResult,
+    public String addLanguageToArticlePost(@Valid @ModelAttribute(name = "articleBinding") ArticleLangBindingModel model, BindingResult bindingResult,
                                            @PathVariable(name = "id") Long articleId) {
         if (bindingResult.hasErrors()) {
             return ViewNames.ARTICLE_ADD_LANG;
@@ -113,7 +113,7 @@ public class ArticleController extends BaseController {
         if (localisedArticleContentServiceModel == null) {
             throw new NotFoundException("country.nonexistent");
         }
-        ArticleAddEditLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleAddEditLangBindingModel.class);
+        ArticleLangBindingModel bindingModel = this.modelMapper.map(localisedArticleContentServiceModel, ArticleLangBindingModel.class);
         bindingModel.setId(id);
         if (articleServiceModel.getMainImage() != null) {
             String imageName = articleServiceModel.getMainImage().getLocalImageNames().get(lang);
@@ -126,7 +126,7 @@ public class ArticleController extends BaseController {
     @ResponseBody
     @RequestMapping(method = {RequestMethod.PATCH}, value = "/edit", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public Object editArticleLangPut(@Valid @RequestBody ArticleAddEditLangBindingModel model, BindingResult bindingResult) {
+    public Object editArticleLangPut(@Valid @RequestBody ArticleLangBindingModel model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return this.getBindingErrorsMap(bindingResult.getAllErrors());
         }

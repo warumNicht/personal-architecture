@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-public class ArticleAddEditLangBindingModel extends ArticleBindingModel {
+public class ArticleLangBindingModel extends ArticleBindingModel {
     @NotNull
     @Min(value = 1)
     private Long id;
