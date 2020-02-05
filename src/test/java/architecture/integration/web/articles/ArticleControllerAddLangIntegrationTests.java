@@ -157,6 +157,32 @@ public class ArticleControllerAddLangIntegrationTests {
                 .andDo(print());
     }
 
+    // admin/articles/edit/{articleId}/{lang}
+
+    @Test
+    public void get_editExistingLang_withRoleAdmin_returnsCorrectView() throws Exception {
+        Article article = this.createArticleWithImage();
+        this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ViewNames.ARTICLE_EDIT_LANG))
+                .andDo(print());
+    }
+
+    @Test
+    public void get_editNonExistingLang_withRoleAdmin_returnsNotFound() throws Exception {
+        Article article = this.createArticleWithImage();
+        this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/DE")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ViewNames.CONTROLLER_ERROR))
+                .andDo(print());
+    }
+
     private Article createArticleWithImage() {
         Article article = new Article();
         LocalisedArticleContent localisedContent = new LocalisedArticleContent();
