@@ -7,6 +7,8 @@ import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.Category;
+import architecture.domain.entities.Image;
+import architecture.domain.models.bindingModels.articles.ArticleAddEditLangBindingModel;
 import architecture.domain.models.bindingModels.images.ImageBindingModel;
 import architecture.domain.models.bindingModels.articles.ArticleCreateBindingModel;
 import architecture.repositories.ArticleRepository;
@@ -397,6 +399,66 @@ public class ArticleControllerIntegrationTests {
                 .andExpect(model().errorCount(1))
                 .andExpect(model().attributeHasFieldErrorCode(ViewNames.ARTICLE_CREATE_BindingModel_Name, "title", Size.class.getSimpleName()))
                 .andDo(print());
+    }
+
+    // testing admin/articles/addLang/{id}
+    @Test
+    public void get_addLang_withRoleAdmin_returnsCorrectView() throws Exception {
+        Article article = this.seedArticle();
+        this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ViewNames.ARTICLE_ADD_LANG))
+                .andDo(print());
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void get_addLang_withAnonymous_redirectsLogin() throws Exception {
+        Article article = this.seedArticle();
+        this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/fr/users/login"))
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser
+    public void get_addLang_withRoleUser_redirectsLogin() throws Exception {
+        Article article = this.seedArticle();
+        this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("/**/unauthorized"))
+                .andDo(print());
+    }
+
+    @Test
+    public void post_addLang_withRoleAdmin_returnsCorrectView() throws Exception {
+        Article article = this.seedArticle();
+        this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, new ArticleAddEditLangBindingModel())
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ViewNames.ARTICLE_ADD_LANG))
+                .andDo(print());
+    }
+
+    private Article seedArticle() {
+        Article article = new Article();
+        article.setMainImage(new Image());
+        Article savedArticle = this.articleRepository.save(article);
+        return savedArticle;
     }
 
     private ArticleCreateBindingModel getCorrectBindingModel() {

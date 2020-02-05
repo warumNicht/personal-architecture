@@ -52,7 +52,6 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping("/create")
-
     public String createArticle(@ModelAttribute(name = "articleBinding") ArticleCreateBindingModel articleCreateBindingModel, Model model) {
         model.addAttribute("articleBinding", articleCreateBindingModel);
         model.addAttribute("categoryId", "");
