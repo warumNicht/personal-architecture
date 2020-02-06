@@ -183,6 +183,32 @@ public class ArticleControllerAddLangIntegrationTests {
                 .andDo(print());
     }
 
+    @Test
+    @WithAnonymousUser
+    public void get_editExistingLang_withAnonymous_redirectsLogin() throws Exception {
+        Article article = this.createArticleWithImage();
+        this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/fr/users/login"))
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser
+    public void get_editExistingLang_withRoleUser_redirectsUnauthorized() throws Exception {
+        Article article = this.createArticleWithImage();
+        this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("/**/unauthorized"))
+                .andDo(print());
+    }
+
     private Article createArticleWithImage() {
         Article article = new Article();
         LocalisedArticleContent localisedContent = new LocalisedArticleContent();
