@@ -193,8 +193,19 @@ public class ArticleControllerAddLangIntegrationTests {
     }
 
     @Test
+    public void get_editNonExistingArticle_withRoleAdmin_returnsNotFound() throws Exception {
+        this.mockMvc.perform(get("/fr/admin/articles/edit/1054/DE")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ViewNames.CONTROLLER_ERROR))
+                .andDo(print());
+    }
+
+    @Test
     @WithAnonymousUser
-    public void get_editExistingLang_withAnonymous_redirectsLogin() throws Exception {
+    public void get_editLang_withAnonymous_redirectsLogin() throws Exception {
         Article article = this.createArticleWithImage();
         this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
                 .locale(Locale.FRANCE)
@@ -207,7 +218,7 @@ public class ArticleControllerAddLangIntegrationTests {
 
     @Test
     @WithMockUser
-    public void get_editExistingLang_withRoleUser_redirectsUnauthorized() throws Exception {
+    public void get_editLang_withRoleUser_redirectsUnauthorized() throws Exception {
         Article article = this.createArticleWithImage();
         this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
                 .locale(Locale.FRANCE)
@@ -289,6 +300,24 @@ public class ArticleControllerAddLangIntegrationTests {
 
         HashMap<String, List<String>> errorMap = (HashMap<String, List<String>>) this.getObjectFromJsonString(response.getContentAsString());
         Assert.assertTrue(errorMap.size()>0);
+    }
+
+    @Test
+    public void patch_editLang_withRoleAdmin_nonexistentArticle_returnsNotFound() throws Exception {
+        ArticleLangBindingModel bindingModel = this.getValidArticleLangBindingModel();
+        bindingModel.setId(345L);
+        String requestBody = this.getJsonFromObject(bindingModel);
+
+        this.mockMvc.perform(patch("/fr/admin/articles/edit/")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .with(csrf()))
+                .andExpect(status().is(200))
+                .andExpect(view().name(ViewNames.CONTROLLER_ERROR))
+                .andDo(print());
     }
 
     private String getJsonFromObject(Object object) throws JsonProcessingException {
