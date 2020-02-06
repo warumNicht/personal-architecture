@@ -246,15 +246,43 @@ public class ArticleControllerAddLangIntegrationTests {
     }
 
     @Test
+    @WithAnonymousUser
+    public void patch_editLang_withAnonymous_redirectsLogin() throws Exception {
+        this.mockMvc.perform(patch("/fr/admin/articles/edit/")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .with(csrf()))
+                .andExpect(status().is(302))
+                .andExpect(redirectedUrlPattern("**/fr/users/login"))
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser
+    public void patch_editLang_withRoleUser_redirectsUnauthorized() throws Exception {
+        this.mockMvc.perform(patch("/fr/admin/articles/edit/")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{}")
+                .with(csrf()))
+                .andExpect(status().is(302))
+                .andExpect(redirectedUrlPattern("/**/unauthorized"))
+                .andDo(print());
+    }
+
+    @Test
     public void patch_editLang_withRoleAdmin_invalidModel_returnsForm() throws Exception {
-        String model = this.getJsonFromObject(new ArticleLangBindingModel());
+        String requestBody = this.getJsonFromObject(new ArticleLangBindingModel());
 
         MockHttpServletResponse response = this.mockMvc.perform(patch("/fr/admin/articles/edit/")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(model)
+                .content(requestBody)
                 .with(csrf()))
                 .andExpect(status().is(202))
                 .andDo(print()).andReturn().getResponse();
