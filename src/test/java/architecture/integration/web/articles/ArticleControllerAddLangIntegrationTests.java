@@ -9,12 +9,17 @@ import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.articles.ArticleLangBindingModel;
 import architecture.repositories.ArticleRepository;
 import architecture.util.TestConstants;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,11 +28,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -209,6 +218,61 @@ public class ArticleControllerAddLangIntegrationTests {
                 .andDo(print());
     }
 
+    @Test
+    public void patch_editLang_withRoleAdmin_validModel_returnsCorrectView_andModifiesData() throws Exception {
+        Article article = this.createArticleWithImage();
+        ArticleLangBindingModel bindingModel = this.getValidArticleLangBindingModel();
+        bindingModel.setId(article.getId());
+
+        String requestBody = this.getJsonFromObject(bindingModel);
+
+        MockHttpServletResponse response = this.mockMvc.perform(patch("/fr/admin/articles/edit/")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .with(csrf()))
+                .andExpect(status().is(202))
+                .andDo(print()).andReturn().getResponse();
+
+        Assert.assertEquals(response.getContentAsString(),
+                "\"/fr/admin/articles/edit/" + article.getId() + "\"");
+        Article modified = this.articleRepository.findById(article.getId()).orElse(null);
+
+        Assert.assertEquals(modified.getLocalContent().get(CountryCodes.FR).getTitle(), TestConstants.ARTICLE_VALID_TITLE_2);
+        Assert.assertEquals(modified.getLocalContent().get(CountryCodes.FR).getContent(), TestConstants.ARTICLE_VALID_CONTENT_2);
+        Assert.assertEquals(modified.getMainImage().getLocalImageNames().get(CountryCodes.FR), TestConstants.IMAGE_FR_NAME_2);
+    }
+
+    @Test
+    public void patch_editLang_withRoleAdmin_invalidModel_returnsForm() throws Exception {
+        String model = this.getJsonFromObject(new ArticleLangBindingModel());
+
+        MockHttpServletResponse response = this.mockMvc.perform(patch("/fr/admin/articles/edit/")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(model)
+                .with(csrf()))
+                .andExpect(status().is(202))
+                .andDo(print()).andReturn().getResponse();
+
+        HashMap<String, List<String>> errorMap = (HashMap<String, List<String>>) this.getObjectFromJsonString(response.getContentAsString());
+        Assert.assertTrue(errorMap.size()>0);
+    }
+
+    private String getJsonFromObject(Object object) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(object);
+    }
+
+    private Object getObjectFromJsonString(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, Object.class);
+    }
+
     private Article createArticleWithImage() {
         Article article = new Article();
         LocalisedArticleContent localisedContent = new LocalisedArticleContent();
@@ -222,12 +286,12 @@ public class ArticleControllerAddLangIntegrationTests {
         return this.articleRepository.save(article);
     }
 
-    private ArticleLangBindingModel getValidArticleLangBindingModel(){
+    private ArticleLangBindingModel getValidArticleLangBindingModel() {
         ArticleLangBindingModel model = new ArticleLangBindingModel();
-        model.setTitle(TestConstants.ARTICLE_VALID_TITLE);
-        model.setContent(TestConstants.ARTICLE_VALID_CONTENT);
+        model.setTitle(TestConstants.ARTICLE_VALID_TITLE_2);
+        model.setContent(TestConstants.ARTICLE_VALID_CONTENT_2);
         model.setCountry(CountryCodes.FR);
-        model.setMainImage(TestConstants.IMAGE_FR_NAME);
+        model.setMainImage(TestConstants.IMAGE_FR_NAME_2);
         return model;
     }
 
