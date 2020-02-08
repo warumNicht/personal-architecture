@@ -11,10 +11,15 @@ $(document).ready(function () {
     const catChangeButton = $('#categoryChange');
 
     catChangeButton.click(function () {
-        const selectedCatId = $('#catSelect option:selected').val();
+        const selectedCatId = $('#cat option:selected').val();
         console.log(selectedCatId);
 
-        sendXmlHttpRequest('PATCH', `/admin/articles/change-category/${getArticleId()}`, selectedCatId).then(res => {
+        const credentials = {
+            header: csrf.headerName,
+            content: csrf.token
+        };
+
+        sendXmlHttpRequest('PATCH', `/admin/articles/change-category/${getArticleId()}`, selectedCatId, credentials).then(res => {
             const responseDiv = $('#message');
             responseDiv.append(`Category for article: ${res.title} successfully changed from ${res.oldCategoryName} to ${res.newCategoryName}!`);
             catChangeButton.attr('disabled', true);

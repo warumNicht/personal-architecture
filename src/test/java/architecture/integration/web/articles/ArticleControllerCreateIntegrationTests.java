@@ -46,19 +46,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @WithMockUser(roles = {"ADMIN"})
-public class ArticleControllerCreateIntegrationTests {
+public class ArticleControllerCreateIntegrationTests extends ArticleControllerBaseTests{
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ArticleRepository articleRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-
     @Before
     public void init() {
-        this.seedCategory();
+        super.seedCategories();
     }
 
     @Test
@@ -101,7 +98,7 @@ public class ArticleControllerCreateIntegrationTests {
 
     @Test
     public void post_createArticle_withValidData_andEmptyImage_redirectsCorrect() throws Exception {
-        Long categoryId = this.categoryRepository.findAll().get(0).getId();
+        Long categoryId = super.categoryRepository.findAll().get(0).getId();
         this.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -116,7 +113,7 @@ public class ArticleControllerCreateIntegrationTests {
 
     @Test
     public void post_createArticle_withValidData_andFullImage_redirectsCorrect() throws Exception {
-        Long categoryId = this.categoryRepository.findAll().get(0).getId();
+        Long categoryId = super.categoryRepository.findAll().get(0).getId();
 
         this.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
@@ -133,7 +130,7 @@ public class ArticleControllerCreateIntegrationTests {
     @Test
     @WithAnonymousUser
     public void post_createArticle_withValidData_Anonymous_redirectsLogin() throws Exception {
-        Long categoryId = this.categoryRepository.findAll().get(0).getId();
+        Long categoryId = super.categoryRepository.findAll().get(0).getId();
 
         this.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
@@ -150,7 +147,7 @@ public class ArticleControllerCreateIntegrationTests {
     @Test
     @WithMockUser
     public void post_createArticle_withValidData_RoleUser_redirectsUnauthorized() throws Exception {
-        Long categoryId = this.categoryRepository.findAll().get(0).getId();
+        Long categoryId = super.categoryRepository.findAll().get(0).getId();
 
         this.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
@@ -166,7 +163,7 @@ public class ArticleControllerCreateIntegrationTests {
 
     @Test
     public void post_createArticle_withValidData_AndEmptyImage_storesCorrect() throws Exception {
-        Long categoryId = this.categoryRepository.findAll().get(0).getId();
+        Long categoryId = super.categoryRepository.findAll().get(0).getId();
         this.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -191,7 +188,7 @@ public class ArticleControllerCreateIntegrationTests {
 
     @Test
     public void post_createArticle_withValidData_AndFullImage_storesCorrect() throws Exception {
-        Long categoryId = this.categoryRepository.findAll().get(0).getId();
+        Long categoryId = super.categoryRepository.findAll().get(0).getId();
 
         this.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
@@ -419,12 +416,4 @@ public class ArticleControllerCreateIntegrationTests {
         return correctBindingModel;
     }
 
-    private void seedCategory() {
-        Category category = new Category();
-        category.setLocalCategoryNames(new HashMap<CountryCodes, String>() {{
-            put(CountryCodes.BG, TestConstants.CATEGORY_1_BG_NAME);
-            put(CountryCodes.FR, TestConstants.CATEGORY_1_FR_NAME);
-        }});
-        this.categoryRepository.save(category);
-    }
 }

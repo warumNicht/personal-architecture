@@ -1,18 +1,22 @@
 function sendXmlHttpRequest(method, url, data, token) {
     return new Promise(function (resolve, reject) {
         try {
-            const xhttp = new XMLHttpRequest();
-            xhttp.open(method, url, true);
-            xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            const req = new XMLHttpRequest();
+            req.open(method, url, true);
+            req.setRequestHeader('Content-type', 'application/json; charset=utf-8');
             if (token) {
-                xhttp.setRequestHeader(token.header, token.content);
+                req.setRequestHeader(token.header, token.content);
             }
-            xhttp.onreadystatechange = function () {
+            req.onreadystatechange = function () {
                 if (this.readyState == 4) {
-                    resolve(JSON.parse(this.response));
+                    const jsonResult =JSON.parse(this.response);
+                    if(jsonResult.error){
+                        reject(jsonResult);
+                    }
+                    resolve(jsonResult);
                 }
             };
-            xhttp.send(data);
+            req.send(data);
         } catch (e) {
             reject(e);
         }

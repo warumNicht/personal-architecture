@@ -48,7 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @WithMockUser(roles = {"ADMIN"})
-public class ArticleControllerAddLangIntegrationTests {
+public class ArticleControllerAddLangIntegrationTests extends ArticleControllerBaseTests{
     @Autowired
     private MockMvc mockMvc;
 
@@ -235,7 +235,7 @@ public class ArticleControllerAddLangIntegrationTests {
         ArticleLangBindingModel bindingModel = this.getValidArticleLangBindingModel();
         bindingModel.setId(article.getId());
 
-        String requestBody = this.getJsonFromObject(bindingModel);
+        String requestBody = super.getJsonFromObject(bindingModel);
 
         MockHttpServletResponse response = this.mockMvc.perform(patch("/fr/admin/articles/edit/")
                 .locale(Locale.FRANCE)
@@ -286,7 +286,7 @@ public class ArticleControllerAddLangIntegrationTests {
 
     @Test
     public void patch_editLang_withRoleAdmin_invalidModel_returnsForm() throws Exception {
-        String requestBody = this.getJsonFromObject(new ArticleLangBindingModel());
+        String requestBody = super.getJsonFromObject(new ArticleLangBindingModel());
 
         MockHttpServletResponse response = this.mockMvc.perform(patch("/fr/admin/articles/edit/")
                 .locale(Locale.FRANCE)
@@ -306,7 +306,7 @@ public class ArticleControllerAddLangIntegrationTests {
     public void patch_editLang_withRoleAdmin_nonexistentArticle_returnsNotFound() throws Exception {
         ArticleLangBindingModel bindingModel = this.getValidArticleLangBindingModel();
         bindingModel.setId(345L);
-        String requestBody = this.getJsonFromObject(bindingModel);
+        String requestBody = super.getJsonFromObject(bindingModel);
 
         this.mockMvc.perform(patch("/fr/admin/articles/edit/")
                 .locale(Locale.FRANCE)
@@ -318,16 +318,6 @@ public class ArticleControllerAddLangIntegrationTests {
                 .andExpect(status().is(200))
                 .andExpect(view().name(ViewNames.CONTROLLER_ERROR))
                 .andDo(print());
-    }
-
-    private String getJsonFromObject(Object object) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
-    }
-
-    private Object getObjectFromJsonString(String json) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(json, Object.class);
     }
 
     private Article createArticleWithImage() {

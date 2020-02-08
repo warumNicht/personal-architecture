@@ -66,6 +66,9 @@
 
 <footer th:replace="~{fragments/general :: footer}"></footer>
 
+<script th:inline="javascript">
+    const csrf = [[${_csrf}]];
+</script>
 <script type="module" th:src="@{/js/article-edit.js}"></script>
 
 </body>

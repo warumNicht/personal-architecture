@@ -13,6 +13,7 @@ import architecture.domain.models.serviceModels.article.LocalisedArticleContentS
 import architecture.domain.models.viewModels.articles.ArticleAddImageViewModel;
 import architecture.domain.models.viewModels.articles.ArticleEditViewModel;
 import architecture.error.NotFoundException;
+import architecture.error.RestException;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
 import architecture.services.interfaces.ImageService;
@@ -149,20 +150,28 @@ public class ArticleController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(method = {RequestMethod.PATCH}, value = "/change-category/{articleId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method = RequestMethod.PATCH, value = "/change-category/{articleId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public Object changeCategory(@RequestBody Long categoryId, @PathVariable(name = "articleId") Long articleId) {
+    public Object changeCategory(@RequestBody Long categoryId, @PathVariable(name = "articleId") Long articleId) throws RestException {
         CountryCodes cookieLocale = super.getCurrentCookieLocale();
         ArticleServiceModel article = this.articleService.findById(articleId);
         String oldCategoryName = article.getCategory().getLocalCategoryNames().get(cookieLocale);
-        CategoryServiceModel newCategory = this.categoryService.findById(categoryId);
+
+        CategoryServiceModel newCategory;
+        try {
+            newCategory = this.categoryService.findById(categoryId);
+        }catch(NotFoundException e) {
+            throw new RestException(e.getMessage());
+        }
+        
         String newCategoryName = newCategory.getLocalCategoryNames().get(cookieLocale);
         article.setCategory(newCategory);
         this.articleService.updateArticle(article);
         HashMap<String, Object> response = new HashMap<>();
         response.put("oldCategoryName", oldCategoryName);
         response.put("newCategoryName", newCategoryName);
-        response.put("title", article.getLocalContent().get(cookieLocale).getTitle());
+        response.put("title",
+                article.getLocalContent().get(cookieLocale)!= null ? article.getLocalContent().get(cookieLocale).getTitle() : null);
         return response;
     }
 

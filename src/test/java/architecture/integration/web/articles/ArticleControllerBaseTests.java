@@ -1,0 +1,43 @@
+package architecture.integration.web.articles;
+
+import architecture.domain.CountryCodes;
+import architecture.domain.entities.Category;
+import architecture.repositories.CategoryRepository;
+import architecture.util.TestConstants;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+public abstract class ArticleControllerBaseTests {
+    @Autowired
+    protected CategoryRepository categoryRepository;
+
+    protected void seedCategories(){
+        Category category = new Category();
+        category.setLocalCategoryNames(new HashMap<CountryCodes, String>() {{
+            put(CountryCodes.BG, TestConstants.CATEGORY_1_BG_NAME);
+            put(CountryCodes.FR, TestConstants.CATEGORY_1_FR_NAME);
+        }});
+        this.categoryRepository.save(category);
+
+        Category category2 = new Category();
+        category2.setLocalCategoryNames(new HashMap<CountryCodes, String>() {{
+            put(CountryCodes.BG, TestConstants.CATEGORY_2_BG_NAME);
+            put(CountryCodes.FR, TestConstants.CATEGORY_2_FR_NAME);
+        }});
+        this.categoryRepository.save(category2);
+    }
+
+    protected String getJsonFromObject(Object object) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(object);
+    }
+
+    protected Object getObjectFromJsonString(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, Object.class);
+    }
+}

@@ -3,18 +3,25 @@ package architecture.error;
 import architecture.constants.ViewNames;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.HashMap;
 
 
 @ControllerAdvice
 @Order(Integer.MIN_VALUE)
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = BaseControllerException.class)
     public ModelAndView controllerErrorHandler(HttpServletRequest req, BaseControllerException e) throws Exception {
@@ -29,6 +36,16 @@ public class GlobalExceptionHandler {
         mav.addObject("url", req.getRequestURL());
         mav.setViewName(ViewNames.CONTROLLER_ERROR);
         return mav;
+    }
+
+    @ExceptionHandler(value = RestException.class)
+    protected ResponseEntity<Object> handleConflict(
+            RestException ex, HttpServletRequest request) {
+        return ResponseEntity.status(404).body(new HashMap<>() {{
+            put("status", 404);
+            put("error", ex.getMessage());
+            put("timestamp", new Date());
+        }});
     }
 
     //only for tests

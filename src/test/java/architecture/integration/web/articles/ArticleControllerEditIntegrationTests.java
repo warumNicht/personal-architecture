@@ -1,18 +1,9 @@
 package architecture.integration.web.articles;
 
-import architecture.annotations.BeginUppercase;
-import architecture.annotations.ImageBindingValidationEmpty;
 import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
-import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
-import architecture.domain.entities.Category;
-import architecture.domain.models.bindingModels.articles.ArticleCreateBindingModel;
-import architecture.domain.models.bindingModels.images.ImageBindingModel;
 import architecture.repositories.ArticleRepository;
-import architecture.repositories.CategoryRepository;
-import architecture.util.TestConstants;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,13 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
-import javax.validation.constraints.Size;
-import java.util.HashMap;
 import java.util.Locale;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
