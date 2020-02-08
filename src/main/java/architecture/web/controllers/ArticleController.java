@@ -153,26 +153,23 @@ public class ArticleController extends BaseController {
     @RequestMapping(method = RequestMethod.PATCH, value = "/change-category/{articleId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     public Object changeCategory(@RequestBody Long categoryId, @PathVariable(name = "articleId") Long articleId) throws RestException {
-        CountryCodes cookieLocale = super.getCurrentCookieLocale();
-        ArticleServiceModel article = this.articleService.findById(articleId);
-        String oldCategoryName = article.getCategory().getLocalCategoryNames().get(cookieLocale);
-
-        CategoryServiceModel newCategory;
         try {
-            newCategory = this.categoryService.findById(categoryId);
+            CountryCodes cookieLocale = super.getCurrentCookieLocale();
+            ArticleServiceModel article = this.articleService.findById(articleId);
+            String oldCategoryName = article.getCategory().getLocalCategoryNames().get(cookieLocale);
+            CategoryServiceModel newCategory = this.categoryService.findById(categoryId);
+            String newCategoryName = newCategory.getLocalCategoryNames().get(cookieLocale);
+            article.setCategory(newCategory);
+            this.articleService.updateArticle(article);
+            HashMap<String, Object> response = new HashMap<>();
+            response.put("oldCategoryName", oldCategoryName);
+            response.put("newCategoryName", newCategoryName);
+            response.put("title",
+                    article.getLocalContent().get(cookieLocale)!= null ? article.getLocalContent().get(cookieLocale).getTitle() : null);
+            return response;
         }catch(NotFoundException e) {
             throw new RestException(e.getMessage());
         }
-        
-        String newCategoryName = newCategory.getLocalCategoryNames().get(cookieLocale);
-        article.setCategory(newCategory);
-        this.articleService.updateArticle(article);
-        HashMap<String, Object> response = new HashMap<>();
-        response.put("oldCategoryName", oldCategoryName);
-        response.put("newCategoryName", newCategoryName);
-        response.put("title",
-                article.getLocalContent().get(cookieLocale)!= null ? article.getLocalContent().get(cookieLocale).getTitle() : null);
-        return response;
     }
 
     @GetMapping(value = "/add-image/{id}")

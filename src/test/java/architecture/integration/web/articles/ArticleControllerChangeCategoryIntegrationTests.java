@@ -96,7 +96,25 @@ public class ArticleControllerChangeCategoryIntegrationTests extends ArticleCont
     }
 
     @Test
-    public void patch_changeCategory_withAdmin_nonexistentCategory_redirectsNotFound() throws Exception {
+    public void patch_changeCategory_withAdmin_nonexistentCategory_returnsError() throws Exception {
+        MockHttpServletResponse response = this.mockMvc.perform(patch("/fr/admin/articles/change-category/555" )
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("555")
+                .with(csrf()))
+                .andExpect(status().is(404))
+                .andDo(print()).andReturn().getResponse();
+
+        Object res = super.getObjectFromJsonString(response.getContentAsString());
+        HashMap<String, Object> hashMap = (HashMap<String, Object>) res;
+        Integer status = (Integer) hashMap.get("status");
+        Assert.assertEquals(404, (int) status);
+    }
+
+    @Test
+    public void patch_changeCategory_withAdmin_nonexistentArticle_returnsError() throws Exception {
         MockHttpServletResponse response = this.mockMvc.perform(patch("/fr/admin/articles/change-category/" + this.seededArticle.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -110,7 +128,7 @@ public class ArticleControllerChangeCategoryIntegrationTests extends ArticleCont
         Object res = super.getObjectFromJsonString(response.getContentAsString());
         HashMap<String, Object> hashMap = (HashMap<String, Object>) res;
         Integer status = (Integer) hashMap.get("status");
-        Assert.assertTrue(status == 404);
+        Assert.assertEquals(404, (int) status);
     }
 
 }
