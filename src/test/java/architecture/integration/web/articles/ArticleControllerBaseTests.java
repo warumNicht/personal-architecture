@@ -1,7 +1,11 @@
 package architecture.integration.web.articles;
 
 import architecture.domain.CountryCodes;
+import architecture.domain.entities.Article;
 import architecture.domain.entities.Category;
+import architecture.domain.entities.Image;
+import architecture.domain.entities.LocalisedArticleContent;
+import architecture.repositories.ArticleRepository;
 import architecture.repositories.CategoryRepository;
 import architecture.util.TestConstants;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,6 +16,9 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public abstract class ArticleControllerBaseTests {
+
+    @Autowired
+    protected ArticleRepository articleRepository;
     @Autowired
     protected CategoryRepository categoryRepository;
 
@@ -39,5 +46,18 @@ public abstract class ArticleControllerBaseTests {
     protected Object getObjectFromJsonString(String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(json, Object.class);
+    }
+
+    protected Article createArticleWithImage() {
+        Article article = new Article();
+        LocalisedArticleContent localisedContent = new LocalisedArticleContent();
+        localisedContent.setTitle(TestConstants.ARTICLE_VALID_TITLE);
+        localisedContent.setContent(TestConstants.ARTICLE_VALID_CONTENT);
+
+        article.setLocalContent(new HashMap<>() {{
+            put(CountryCodes.FR, localisedContent);
+        }});
+        article.setMainImage(new Image());
+        return this.articleRepository.save(article);
     }
 }

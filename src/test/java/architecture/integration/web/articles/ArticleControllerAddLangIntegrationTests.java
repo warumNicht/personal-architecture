@@ -52,12 +52,9 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ArticleRepository articleRepository;
-
     @Test
     public void get_addLang_withRoleAdmin_returnsCorrectView() throws Exception {
-        Article article = this.createArticleWithImage();
+        Article article = super.createArticleWithImage();
         this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -70,7 +67,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     @WithAnonymousUser
     public void get_addLang_withAnonymous_redirectsLogin() throws Exception {
-        Article article = this.createArticleWithImage();
+        Article article = super.createArticleWithImage();
         this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -83,7 +80,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     @WithMockUser
     public void get_addLang_withRoleUser_redirectsLogin() throws Exception {
-        Article article = this.createArticleWithImage();
+        Article article = super.createArticleWithImage();
         this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -95,7 +92,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
 
     @Test
     public void post_addLang_withRoleAdmin_validModelWithImage_redirectsEdit() throws Exception {
-        Article article = this.createArticleWithImage();
+        Article article = super.createArticleWithImage();
         this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -109,7 +106,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
 
     @Test
     public void post_addLang_withRoleAdmin_validModelWithImageNull_redirectsEdit() throws Exception {
-        Article article = this.articleRepository.save(new Article());
+        Article article = super.articleRepository.save(new Article());
         this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -124,7 +121,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     @WithAnonymousUser
     public void post_addLang_withAnonymous_validModelWithImage_redirectsLogin() throws Exception {
-        Article article = this.createArticleWithImage();
+        Article article = super.createArticleWithImage();
         this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -139,7 +136,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     @WithMockUser
     public void post_addLang_withUserRole_validModelWithImage_redirectsUnauthorized() throws Exception {
-        Article article = this.createArticleWithImage();
+        Article article = super.createArticleWithImage();
         this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -153,7 +150,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
 
     @Test
     public void post_addLang_withAdmin_nullModel_returnsForm() throws Exception {
-        Article article = this.articleRepository.save(new Article());
+        Article article = super.articleRepository.save(new Article());
         this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -170,7 +167,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
 
     @Test
     public void get_editExistingLang_withRoleAdmin_returnsCorrectView() throws Exception {
-        Article article = this.createArticleWithImage();
+        Article article = super.createArticleWithImage();
         this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -182,7 +179,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
 
     @Test
     public void get_editNonExistingLang_withRoleAdmin_returnsNotFound() throws Exception {
-        Article article = this.createArticleWithImage();
+        Article article = super.createArticleWithImage();
         this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/DE")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -206,7 +203,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     @WithAnonymousUser
     public void get_editLang_withAnonymous_redirectsLogin() throws Exception {
-        Article article = this.createArticleWithImage();
+        Article article = super.createArticleWithImage();
         this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -219,7 +216,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     @WithMockUser
     public void get_editLang_withRoleUser_redirectsUnauthorized() throws Exception {
-        Article article = this.createArticleWithImage();
+        Article article = super.createArticleWithImage();
         this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -231,7 +228,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
 
     @Test
     public void patch_editLang_withRoleAdmin_validModel_returnsCorrectView_andModifiesData() throws Exception {
-        Article article = this.createArticleWithImage();
+        Article article = super.createArticleWithImage();
         ArticleLangBindingModel bindingModel = this.getValidArticleLangBindingModel();
         bindingModel.setId(article.getId());
 
@@ -249,7 +246,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
 
         Assert.assertEquals(response.getContentAsString(),
                 "\"/fr/admin/articles/edit/" + article.getId() + "\"");
-        Article modified = this.articleRepository.findById(article.getId()).orElse(null);
+        Article modified = super.articleRepository.findById(article.getId()).orElse(null);
 
         Assert.assertEquals(modified.getLocalContent().get(CountryCodes.FR).getTitle(), TestConstants.ARTICLE_VALID_TITLE_2);
         Assert.assertEquals(modified.getLocalContent().get(CountryCodes.FR).getContent(), TestConstants.ARTICLE_VALID_CONTENT_2);
@@ -318,19 +315,6 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
                 .andExpect(status().is(200))
                 .andExpect(view().name(ViewNames.CONTROLLER_ERROR))
                 .andDo(print());
-    }
-
-    private Article createArticleWithImage() {
-        Article article = new Article();
-        LocalisedArticleContent localisedContent = new LocalisedArticleContent();
-        localisedContent.setTitle(TestConstants.ARTICLE_VALID_TITLE);
-        localisedContent.setContent(TestConstants.ARTICLE_VALID_CONTENT);
-
-        article.setLocalContent(new HashMap<>() {{
-            put(CountryCodes.FR, localisedContent);
-        }});
-        article.setMainImage(new Image());
-        return this.articleRepository.save(article);
     }
 
     private ArticleLangBindingModel getValidArticleLangBindingModel() {
