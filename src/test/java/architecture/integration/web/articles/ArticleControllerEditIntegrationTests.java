@@ -3,11 +3,9 @@ package architecture.integration.web.articles;
 import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.entities.Article;
-import architecture.repositories.ArticleRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +13,6 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
@@ -31,24 +28,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
-public class ArticleControllerEditIntegrationTests {
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ArticleRepository articleRepository;
-
+public class ArticleControllerEditIntegrationTests extends ArticleControllerBaseTests{
     private Article seededArticle;
 
     @Before
     public void init() {
-        this.seededArticle = this.articleRepository.save(new Article());
+        this.seededArticle = super.articleRepository.save(new Article());
     }
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
     public void getArticleEdit_withAdmin_returnsCorrectView() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/articles/edit/" + this.seededArticle.getId())
+        super.mockMvc.perform(get("/fr/admin/articles/edit/" + this.seededArticle.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -60,7 +51,7 @@ public class ArticleControllerEditIntegrationTests {
     @Test
     @WithAnonymousUser
     public void getArticleEdit_withAnonymous_redirectsLogin() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/articles/edit/" + this.seededArticle.getId())
+        super.mockMvc.perform(get("/fr/admin/articles/edit/" + this.seededArticle.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -72,7 +63,7 @@ public class ArticleControllerEditIntegrationTests {
     @Test
     @WithMockUser
     public void getArticleEdit_withRoleUser_redirectsUnauthorized() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/articles/edit/" + this.seededArticle.getId())
+        super.mockMvc.perform(get("/fr/admin/articles/edit/" + this.seededArticle.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))

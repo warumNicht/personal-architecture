@@ -6,19 +6,13 @@ import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
-import architecture.domain.entities.Category;
-import architecture.domain.entities.Image;
-import architecture.domain.models.bindingModels.articles.ArticleLangBindingModel;
 import architecture.domain.models.bindingModels.images.ImageBindingModel;
 import architecture.domain.models.bindingModels.articles.ArticleCreateBindingModel;
-import architecture.repositories.ArticleRepository;
-import architecture.repositories.CategoryRepository;
 import architecture.util.TestConstants;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,12 +20,10 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.validation.constraints.Size;
-import java.util.HashMap;
 import java.util.Locale;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -47,12 +39,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase
 @WithMockUser(roles = {"ADMIN"})
 public class ArticleControllerCreateIntegrationTests extends ArticleControllerBaseTests{
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ArticleRepository articleRepository;
-
     @Before
     public void init() {
         super.seedCategories();
@@ -60,7 +46,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
 
     @Test
     public void get_createArticle_withRoleAdmin_returnsCorrectView() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/articles/create")
+        super.mockMvc.perform(get("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -73,7 +59,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     @Test
     @WithAnonymousUser
     public void get_createArticle_anonymous_redirectsLogin() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/articles/create")
+        super.mockMvc.perform(get("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -86,7 +72,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     @Test
     @WithMockUser(roles = {"USER"})
     public void get_createArticle_withRoleUser_redirectsUnauthorized() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/articles/create")
+        super.mockMvc.perform(get("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -99,7 +85,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     @Test
     public void post_createArticle_withValidData_andEmptyImage_redirectsCorrect() throws Exception {
         Long categoryId = super.categoryRepository.findAll().get(0).getId();
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -115,7 +101,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_withValidData_andFullImage_redirectsCorrect() throws Exception {
         Long categoryId = super.categoryRepository.findAll().get(0).getId();
 
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -132,7 +118,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_withValidData_Anonymous_redirectsLogin() throws Exception {
         Long categoryId = super.categoryRepository.findAll().get(0).getId();
 
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -149,7 +135,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_withValidData_RoleUser_redirectsUnauthorized() throws Exception {
         Long categoryId = super.categoryRepository.findAll().get(0).getId();
 
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -164,7 +150,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     @Test
     public void post_createArticle_withValidData_AndEmptyImage_storesCorrect() throws Exception {
         Long categoryId = super.categoryRepository.findAll().get(0).getId();
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -172,7 +158,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
                 .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getCorrectBindingModel())
                 .with(csrf()));
 
-        Article storedArticle = this.articleRepository.findAll().get(0);
+        Article storedArticle = super.articleRepository.findAll().get(0);
 
         Assert.assertEquals(storedArticle.getCategory().getId(), categoryId);
         Assert.assertEquals(storedArticle.getCategory().getLocalCategoryNames().get(CountryCodes.BG), TestConstants.CATEGORY_1_BG_NAME);
@@ -190,7 +176,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_withValidData_AndFullImage_storesCorrect() throws Exception {
         Long categoryId = super.categoryRepository.findAll().get(0).getId();
 
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -198,7 +184,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
                 .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getFullCorrectBindingModel())
                 .with(csrf()));
 
-        Article storedArticle = this.articleRepository.findAll().get(0);
+        Article storedArticle = super.articleRepository.findAll().get(0);
 
         Assert.assertEquals(storedArticle.getCategory().getId(), categoryId);
         Assert.assertEquals(storedArticle.getCategory().getLocalCategoryNames().get(CountryCodes.BG), TestConstants.CATEGORY_1_BG_NAME);
@@ -216,7 +202,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
 
     @Test
     public void post_createArticle_withNullData_returnsForm() throws Exception {
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -230,7 +216,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
 
     @Test
     public void post_createArticle_withInvalidData_doesNotModifyData() throws Exception {
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -239,12 +225,12 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
                 .with(csrf()))
                 .andDo(print());
 
-        Assert.assertEquals(this.articleRepository.count(), 0L);
+        Assert.assertEquals(super.articleRepository.count(), 0L);
     }
 
     @Test
     public void post_createArticle_withValidData_AndNonexistentCategory_returnsErrorPage() throws Exception {
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -263,7 +249,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_withNullCountry_returnsForm() throws Exception {
         ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
         invalidModel.setCountry(null);
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -280,7 +266,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_withInvalidCountry_returnsErrorPage() throws Exception {
         ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
         invalidModel.setCountry(null);
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -302,7 +288,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_withNullUrl_returnsForm() throws Exception {
         ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
         invalidModel.getMainImage().setUrl(null);
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -318,7 +304,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_invalidUrl_returnsForm() throws Exception {
         ArticleCreateBindingModel invalidModel = this.getFullCorrectBindingModel();
         invalidModel.getMainImage().setUrl("invalidUrl");
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -336,7 +322,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_withNullTitle_returnsForm() throws Exception {
         ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
         invalidModel.setTitle(null);
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -352,7 +338,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_withEmptyTitle_returnsForm() throws Exception {
         ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
         invalidModel.setTitle("");
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -368,7 +354,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_withLowercaseTitle_returnsForm() throws Exception {
         ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
         invalidModel.setTitle("title");
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -385,7 +371,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
     public void post_createArticle_withTitleLessThen2_returnsForm() throws Exception {
         ArticleCreateBindingModel invalidModel = this.getCorrectBindingModel();
         invalidModel.setTitle("T");
-        this.mockMvc.perform(post("/fr/admin/articles/create")
+        super.mockMvc.perform(post("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))

@@ -4,17 +4,11 @@ import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
-import architecture.domain.entities.Image;
-import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.bindingModels.articles.ArticleLangBindingModel;
-import architecture.repositories.ArticleRepository;
 import architecture.util.TestConstants;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,15 +18,12 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -49,13 +40,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase
 @WithMockUser(roles = {"ADMIN"})
 public class ArticleControllerAddLangIntegrationTests extends ArticleControllerBaseTests{
-    @Autowired
-    private MockMvc mockMvc;
 
     @Test
     public void get_addLang_withRoleAdmin_returnsCorrectView() throws Exception {
         Article article = super.createArticleWithImage();
-        this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
+        super.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -68,7 +57,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @WithAnonymousUser
     public void get_addLang_withAnonymous_redirectsLogin() throws Exception {
         Article article = super.createArticleWithImage();
-        this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
+        super.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -81,7 +70,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @WithMockUser
     public void get_addLang_withRoleUser_redirectsLogin() throws Exception {
         Article article = super.createArticleWithImage();
-        this.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
+        super.mockMvc.perform(get("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -93,7 +82,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     public void post_addLang_withRoleAdmin_validModelWithImage_redirectsEdit() throws Exception {
         Article article = super.createArticleWithImage();
-        this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
+        super.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -107,7 +96,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     public void post_addLang_withRoleAdmin_validModelWithImageNull_redirectsEdit() throws Exception {
         Article article = super.articleRepository.save(new Article());
-        this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
+        super.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -122,7 +111,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @WithAnonymousUser
     public void post_addLang_withAnonymous_validModelWithImage_redirectsLogin() throws Exception {
         Article article = super.createArticleWithImage();
-        this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
+        super.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -137,7 +126,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @WithMockUser
     public void post_addLang_withUserRole_validModelWithImage_redirectsUnauthorized() throws Exception {
         Article article = super.createArticleWithImage();
-        this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
+        super.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -151,7 +140,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     public void post_addLang_withAdmin_nullModel_returnsForm() throws Exception {
         Article article = super.articleRepository.save(new Article());
-        this.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
+        super.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -168,7 +157,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     public void get_editExistingLang_withRoleAdmin_returnsCorrectView() throws Exception {
         Article article = super.createArticleWithImage();
-        this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
+        super.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -180,7 +169,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     public void get_editNonExistingLang_withRoleAdmin_returnsNotFound() throws Exception {
         Article article = super.createArticleWithImage();
-        this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/DE")
+        super.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/DE")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -191,7 +180,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
 
     @Test
     public void get_editNonExistingArticle_withRoleAdmin_returnsNotFound() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/articles/edit/1054/DE")
+        super.mockMvc.perform(get("/fr/admin/articles/edit/1054/DE")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -204,7 +193,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @WithAnonymousUser
     public void get_editLang_withAnonymous_redirectsLogin() throws Exception {
         Article article = super.createArticleWithImage();
-        this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
+        super.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -217,7 +206,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @WithMockUser
     public void get_editLang_withRoleUser_redirectsUnauthorized() throws Exception {
         Article article = super.createArticleWithImage();
-        this.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
+        super.mockMvc.perform(get("/fr/admin/articles/edit/" + article.getId() + "/FR")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -234,7 +223,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
 
         String requestBody = super.getJsonFromObject(bindingModel);
 
-        MockHttpServletResponse response = this.mockMvc.perform(patch("/fr/admin/articles/edit/")
+        MockHttpServletResponse response = super.mockMvc.perform(patch("/fr/admin/articles/edit/")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -256,7 +245,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     @WithAnonymousUser
     public void patch_editLang_withAnonymous_redirectsLogin() throws Exception {
-        this.mockMvc.perform(patch("/fr/admin/articles/edit/")
+        super.mockMvc.perform(patch("/fr/admin/articles/edit/")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -269,7 +258,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     @Test
     @WithMockUser
     public void patch_editLang_withRoleUser_redirectsUnauthorized() throws Exception {
-        this.mockMvc.perform(patch("/fr/admin/articles/edit/")
+        super.mockMvc.perform(patch("/fr/admin/articles/edit/")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -285,7 +274,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
     public void patch_editLang_withRoleAdmin_invalidModel_returnsForm() throws Exception {
         String requestBody = super.getJsonFromObject(new ArticleLangBindingModel());
 
-        MockHttpServletResponse response = this.mockMvc.perform(patch("/fr/admin/articles/edit/")
+        MockHttpServletResponse response = super.mockMvc.perform(patch("/fr/admin/articles/edit/")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
@@ -305,7 +294,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
         bindingModel.setId(345L);
         String requestBody = super.getJsonFromObject(bindingModel);
 
-        this.mockMvc.perform(patch("/fr/admin/articles/edit/")
+        super.mockMvc.perform(patch("/fr/admin/articles/edit/")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
