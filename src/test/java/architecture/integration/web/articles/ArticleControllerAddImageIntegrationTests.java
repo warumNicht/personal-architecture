@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -59,6 +60,30 @@ public class ArticleControllerAddImageIntegrationTests extends ArticleController
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ViewNames.ARTICLE_ADD_IMAGE))
+                .andDo(print());
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void getArticleAddImage_withImage_Anonymous_redirectsLogin() throws Exception {
+        super.mockMvc.perform(get("/fr/admin/articles/add-image/" + this.seededArticle.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/fr/users/login"))
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser
+    public void getArticleAddImage_withImage_User_redirectsUnauthorized() throws Exception {
+        super.mockMvc.perform(get("/fr/admin/articles/add-image/" + this.seededArticle.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("/**/fr/unauthorized"))
                 .andDo(print());
     }
 
