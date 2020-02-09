@@ -10,7 +10,7 @@ import architecture.domain.CountryCodes;
 import javax.validation.constraints.*;
 import java.util.LinkedHashMap;
 
-public class ImageEditBindingModel extends ImageUrlModel{
+public class ImageEditBindingModel extends ImageUrlModel {
     private Long id;
 
     @NotNull

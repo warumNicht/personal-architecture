@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @WithMockUser(roles = {"ADMIN"})
-public class ArticleControllerAddLangIntegrationTests extends ArticleControllerBaseTests{
+public class ArticleControllerAddLangIntegrationTests extends ArticleControllerBaseTests {
 
     @Test
     public void get_addLang_withRoleAdmin_returnsCorrectView() throws Exception {
@@ -285,7 +285,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
                 .andDo(print()).andReturn().getResponse();
 
         HashMap<String, List<String>> errorMap = (HashMap<String, List<String>>) super.getObjectFromJsonString(response.getContentAsString());
-        Assert.assertTrue(errorMap.size()>0);
+        Assert.assertTrue(errorMap.size() > 0);
     }
 
     @Test

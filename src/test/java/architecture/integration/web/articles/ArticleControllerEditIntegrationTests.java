@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
-public class ArticleControllerEditIntegrationTests extends ArticleControllerBaseTests{
+public class ArticleControllerEditIntegrationTests extends ArticleControllerBaseTests {
     private Article seededArticle;
 
     @Before

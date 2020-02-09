@@ -24,7 +24,7 @@ public abstract class ArticleControllerBaseTests {
     @Autowired
     protected CategoryRepository categoryRepository;
 
-    protected void seedCategories(){
+    protected void seedCategories() {
         Category category = new Category();
         category.setLocalCategoryNames(new HashMap<CountryCodes, String>() {{
             put(CountryCodes.BG, TestConstants.CATEGORY_1_BG_NAME);

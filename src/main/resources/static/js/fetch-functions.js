@@ -6,9 +6,9 @@ function fetchCategories(selectElement) {
 
     sendXmlHttpRequest('GET', '/fetch/categories/all').then(function (res) {
         res.forEach(function (category) {
-            const isSelected = categoryId == category.id ? 'selected ' : '';
+            const isSelected = categoryId === category.id ? 'selected ' : '';
             selectElement.append('<option ' + isSelected + 'value="' + category.id + '">' + category.name + '</option>');
-        })
+        });
         if (window.showAllCategories) {
             showAllCategories();
         }

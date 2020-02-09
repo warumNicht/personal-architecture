@@ -8,7 +8,7 @@ function showFieldErrors(errorMap) {
 
         value.forEach((v) => {
             currentSmall.append(`${v}<br>`)
-        })
+        });
         currentFieldDiv.append(currentSmall);
     }
 }
@@ -16,7 +16,7 @@ function showFieldErrors(errorMap) {
 function removeOldErrors(fieldsNames) {
     fieldsNames.forEach((name) => {
         $(`#${name.replace('.', '\\.')}Div`).removeClass('text-danger');
-    })
+    });
     $('small').remove('.text-danger');
 }
 
@@ -29,7 +29,7 @@ function showAllCategories() {
 
     categoriesOptions.each(function (index) {
 
-        if (index != 0) {
+        if (index !== 0) {
             const value = $(this).val();
             const innerText = $(this).text();
             if (selectedOptionId === value) {

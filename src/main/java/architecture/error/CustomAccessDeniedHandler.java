@@ -16,7 +16,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response,
                        AccessDeniedException e) throws IOException, ServletException {
         Cookie actualCookie = WebUtils.getCookie(request, AppConstants.LOCALE_COOKIE_NAME);
-        String localeContext= actualCookie!=null ? actualCookie.getValue() : "en";
+        String localeContext = actualCookie != null ? actualCookie.getValue() : "en";
         request.getSession().setAttribute("accessDeniedException", e);
         String contextPath = request.getContextPath();
         String redirectedUrl = String.format("%s/%s/%s",

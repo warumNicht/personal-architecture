@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser(roles = {"ADMIN"})
 public class ArticleControllerChangeCategoryIntegrationTests extends ArticleControllerBaseTests {
     private Article seededArticle;
-    
+
     @Before
     public void init() {
         super.seedCategories();
@@ -75,7 +75,7 @@ public class ArticleControllerChangeCategoryIntegrationTests extends ArticleCont
 
     @Test
     public void patch_changeCategory_withAdmin_nonexistentCategory_returnsError() throws Exception {
-        MockHttpServletResponse response = super.mockMvc.perform(patch("/fr/admin/articles/change-category/555" )
+        MockHttpServletResponse response = super.mockMvc.perform(patch("/fr/admin/articles/change-category/555")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))

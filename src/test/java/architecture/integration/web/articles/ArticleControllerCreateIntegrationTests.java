@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @WithMockUser(roles = {"ADMIN"})
-public class ArticleControllerCreateIntegrationTests extends ArticleControllerBaseTests{
+public class ArticleControllerCreateIntegrationTests extends ArticleControllerBaseTests {
     @Before
     public void init() {
         super.seedCategories();

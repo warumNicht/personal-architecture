@@ -186,8 +186,6 @@ public class ArticleControllerAddImageIntegrationTests extends ArticleController
     }
 
 
-
-
     private ArticleAddImageBindingModel createValidArticleAddImageBindingModel() {
         ArticleAddImageBindingModel model = new ArticleAddImageBindingModel();
         model.setLang(CountryCodes.ES);

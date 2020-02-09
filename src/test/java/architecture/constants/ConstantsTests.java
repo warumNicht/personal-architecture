@@ -10,7 +10,7 @@ public class ConstantsTests {
     public void countryMapSizeEquals_const_COUNTRY_SIZE() {
         int expected = AppConstants.COUNTRY_SIZE;
         int actual = CountryCodes.values().length;
-        
+
         Assert.assertEquals(expected, actual);
     }
 }

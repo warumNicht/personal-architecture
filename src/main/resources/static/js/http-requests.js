@@ -8,7 +8,7 @@ function sendXmlHttpRequest(method, url, data, token) {
                 req.setRequestHeader(token.header, token.content);
             }
             req.onreadystatechange = function () {
-                if (this.readyState == 4) {
+                if (this.readyState === 4) {
                     const jsonResult =JSON.parse(this.response);
                     if(jsonResult.error){
                         reject(jsonResult);

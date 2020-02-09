@@ -13,7 +13,7 @@ $('ul.navbar-nav').find('select').click(function (e) {
 $(document).ready(function () {
     $("#select-locales").change(function () {
         let selectedOption = $('#select-locales').val();
-        if (selectedOption != '') {
+        if (selectedOption !== '') {
             location.replace('?lang=' + selectedOption.toLowerCase());
         }
     });
@@ -21,7 +21,7 @@ $(document).ready(function () {
     fetchCategories(select);
     select.change(function () {
         let selectedOption = select.val();
-        if (selectedOption != '') {
+        if (selectedOption !== '') {
             location.href = `${getLocale(location.href)}projects/category/${selectedOption}`;
         }
     });

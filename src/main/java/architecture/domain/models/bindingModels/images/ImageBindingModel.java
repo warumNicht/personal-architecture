@@ -6,7 +6,7 @@ import architecture.constants.AppConstants;
 
 import javax.validation.constraints.NotEmpty;
 
-public class ImageBindingModel extends ImageUrlModel{
+public class ImageBindingModel extends ImageUrlModel {
     @NotEmpty
     @LengthOrEmpty(min = AppConstants.NAME_MIN_LENGTH, max = AppConstants.NAME_MAX_LENGTH)
     @BeginUppercase(allowEmpty = true)
