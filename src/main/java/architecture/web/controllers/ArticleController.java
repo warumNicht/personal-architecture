@@ -21,6 +21,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -165,9 +166,9 @@ public class ArticleController extends BaseController {
             response.put("oldCategoryName", oldCategoryName);
             response.put("newCategoryName", newCategoryName);
             response.put("title",
-                    article.getLocalContent().get(cookieLocale)!= null ? article.getLocalContent().get(cookieLocale).getTitle() : null);
+                    article.getLocalContent().get(cookieLocale) != null ? article.getLocalContent().get(cookieLocale).getTitle() : null);
             return response;
-        }catch(NotFoundException e) {
+        } catch (NotFoundException e) {
             throw new RestException(e.getMessage());
         }
     }
@@ -177,10 +178,8 @@ public class ArticleController extends BaseController {
         ArticleServiceModel article = this.articleService.findById(id);
         LocalisedArticleContentServiceModel content = article.getLocalContent().get(super.getCurrentCookieLocale());
         if (content == null) {
-            content = article.getLocalContent().get(AppConstants.DEFAULT_COUNTRY_CODE);
-        }
-        if (content == null) {
-            content = article.getLocalContent().entrySet().iterator().next().getValue();
+            LocalisedArticleContentServiceModel localContent = article.getLocalContent().get(AppConstants.DEFAULT_COUNTRY_CODE);
+            content = localContent != null ? localContent : article.getLocalContent().entrySet().iterator().next().getValue();
         }
         ArticleAddImageViewModel addImageViewModel;
         if (article.getMainImage() != null) {
@@ -194,12 +193,13 @@ public class ArticleController extends BaseController {
 
     @ResponseBody
     @RequestMapping(method = {RequestMethod.PUT}, value = "/add-image/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public Object articleAddImagePut(@Valid @RequestBody ArticleAddImageBindingModel image, BindingResult bindingResult,
-                                     @PathVariable(name = "id") Long id,
-                                     @RequestParam(value = "main", required = false) boolean isMain) {
+//    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    public ResponseEntity articleAddImagePut(@Valid @RequestBody ArticleAddImageBindingModel image, BindingResult bindingResult,
+                                             @PathVariable(name = "id") Long id,
+                                             @RequestParam(value = "main", required = false) boolean isMain) {
         if (bindingResult.hasErrors()) {
-            return this.getBindingErrorsMap(bindingResult.getAllErrors());
+            return ResponseEntity.status(405).body(this.getBindingErrorsMap(bindingResult.getAllErrors()));
+//            return this.getBindingErrorsMap(bindingResult.getAllErrors());
         }
         ArticleServiceModel article = this.articleService.findById(id);
         ImageServiceModel imageServiceModel = new ImageServiceModel(image.getImage().getUrl());
@@ -211,7 +211,8 @@ public class ArticleController extends BaseController {
         } else {
             this.imageService.saveImage(imageServiceModel);
         }
-        return "\"/" + super.getLocale() + "/admin/articles/edit/" + id + "\"";
+        return ResponseEntity.status(202).body("\"/" + super.getLocale() + "/admin/articles/edit/" + id + "\"");
+//        return "\"/" + super.getLocale() + "/admin/articles/edit/" + id + "\"";
     }
 
     private HashMap<String, List<String>> getBindingErrorsMap(List<ObjectError> allErrors) {

@@ -284,7 +284,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
                 .andExpect(status().is(202))
                 .andDo(print()).andReturn().getResponse();
 
-        HashMap<String, List<String>> errorMap = (HashMap<String, List<String>>) this.getObjectFromJsonString(response.getContentAsString());
+        HashMap<String, List<String>> errorMap = (HashMap<String, List<String>>) super.getObjectFromJsonString(response.getContentAsString());
         Assert.assertTrue(errorMap.size()>0);
     }
 
