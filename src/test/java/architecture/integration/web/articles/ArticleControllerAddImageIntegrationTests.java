@@ -151,6 +151,43 @@ public class ArticleControllerAddImageIntegrationTests extends ArticleController
         Assert.assertEquals(2, errorMap.size());
     }
 
+    @Test
+    @WithAnonymousUser
+    public void putArticleAddImage_withImage_Anonymous_validData_redirectsLogin() throws Exception {
+        String requestBody = super.getJsonFromObject(this.createValidArticleAddImageBindingModel());
+
+        super.mockMvc.perform(put("/fr/admin/articles/add-image/" + this.seededArticle.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/fr/users/login"))
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser
+    public void putArticleAddImage_withImage_User_validData_redirectsUnauthorized() throws Exception {
+        String requestBody = super.getJsonFromObject(this.createValidArticleAddImageBindingModel());
+
+        super.mockMvc.perform(put("/fr/admin/articles/add-image/" + this.seededArticle.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("/**/fr/unauthorized"))
+                .andDo(print());
+    }
+
+
+
+
     private ArticleAddImageBindingModel createValidArticleAddImageBindingModel() {
         ArticleAddImageBindingModel model = new ArticleAddImageBindingModel();
         model.setLang(CountryCodes.ES);
