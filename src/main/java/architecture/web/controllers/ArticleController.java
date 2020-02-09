@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -193,13 +194,11 @@ public class ArticleController extends BaseController {
 
     @ResponseBody
     @RequestMapping(method = {RequestMethod.PUT}, value = "/add-image/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    @ResponseStatus(code = HttpStatus.ACCEPTED)
     public ResponseEntity articleAddImagePut(@Valid @RequestBody ArticleAddImageBindingModel image, BindingResult bindingResult,
                                              @PathVariable(name = "id") Long id,
                                              @RequestParam(value = "main", required = false) boolean isMain) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(405).body(this.getBindingErrorsMap(bindingResult.getAllErrors()));
-//            return this.getBindingErrorsMap(bindingResult.getAllErrors());
         }
         ArticleServiceModel article = this.articleService.findById(id);
         ImageServiceModel imageServiceModel = new ImageServiceModel(image.getImage().getUrl());
@@ -212,7 +211,6 @@ public class ArticleController extends BaseController {
             this.imageService.saveImage(imageServiceModel);
         }
         return ResponseEntity.status(202).body("\"/" + super.getLocale() + "/admin/articles/edit/" + id + "\"");
-//        return "\"/" + super.getLocale() + "/admin/articles/edit/" + id + "\"";
     }
 
     private HashMap<String, List<String>> getBindingErrorsMap(List<ObjectError> allErrors) {

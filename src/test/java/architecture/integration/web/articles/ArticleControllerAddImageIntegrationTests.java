@@ -6,11 +6,13 @@ import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
 import architecture.domain.models.bindingModels.articles.ArticleAddImageBindingModel;
 import architecture.domain.models.bindingModels.images.ImageBindingModel;
+import architecture.services.interfaces.ImageService;
 import architecture.util.TestConstants;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,6 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase
 @WithMockUser(roles = {"ADMIN"})
 public class ArticleControllerAddImageIntegrationTests extends ArticleControllerBaseTests {
+    @Autowired
+    private ImageService imageService;
     private Article seededArticle;
 
     @Before
@@ -48,7 +52,7 @@ public class ArticleControllerAddImageIntegrationTests extends ArticleController
     }
 
     @Test
-    public void getArticleAddImage_withAdmin_returnsCorrectView() throws Exception {
+    public void getArticleAddImage_withImage_Admin_returnsCorrectView() throws Exception {
         super.mockMvc.perform(get("/fr/admin/articles/add-image/" + this.seededArticle.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -59,7 +63,7 @@ public class ArticleControllerAddImageIntegrationTests extends ArticleController
     }
 
     @Test
-    public void putArticleAddImage_withAdmin_validData_returnsCorrectUrl() throws Exception {
+    public void putArticleAddImage_withImage_Admin_validData_returnsCorrectUrl() throws Exception {
         String requestBody = super.getJsonFromObject(this.createValidArticleAddImageBindingModel());
 
         MockHttpServletResponse res = super.mockMvc.perform(put("/fr/admin/articles/add-image/" + this.seededArticle.getId())
@@ -72,12 +76,42 @@ public class ArticleControllerAddImageIntegrationTests extends ArticleController
                 .andExpect(status().is(202))
                 .andDo(print()).andReturn().getResponse();
 
+        int articleImages = this.imageService.getImagesByArticle(this.seededArticle.getId()).size();
+        Assert.assertEquals(1, articleImages);
+
         String contentAsString = res.getContentAsString();
         Assert.assertEquals(contentAsString, "\"/fr/admin/articles/edit/" + this.seededArticle.getId() + "\"");
     }
 
     @Test
-    public void putArticleAddImage_withAdmin_nullData_returnsErrorMap() throws Exception {
+    public void putArticleAddMainImage_withImage_Admin_validData_returnsCorrectUrlAndModifiesData() throws Exception {
+        this.seededArticle = super.articleRepository.save(new Article());
+        String requestBody = super.getJsonFromObject(this.createValidArticleAddImageBindingModel());
+
+        Assert.assertNull(this.seededArticle.getMainImage());
+
+        MockHttpServletResponse res = super.mockMvc.perform(put("/fr/admin/articles/add-image/" + this.seededArticle.getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .param("main", "true")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .with(csrf()))
+                .andExpect(status().is(202))
+                .andDo(print()).andReturn().getResponse();
+
+        Assert.assertNotNull(this.seededArticle.getMainImage());
+        Assert.assertEquals(this.seededArticle.getMainImage().getUrl(), TestConstants.IMAGE_URL);
+        Assert.assertEquals(this.seededArticle.getMainImage().getLocalImageNames().size(), 1);
+        Assert.assertEquals(this.seededArticle.getMainImage().getLocalImageNames().get(CountryCodes.ES), TestConstants.IMAGE_ES_NAME);
+
+        String contentAsString = res.getContentAsString();
+        Assert.assertEquals(contentAsString, "\"/fr/admin/articles/edit/" + this.seededArticle.getId() + "\"");
+    }
+
+    @Test
+    public void putArticleAddImage_withImage_Admin_nullData_returnsErrorMap() throws Exception {
         MockHttpServletResponse res = super.mockMvc.perform(put("/fr/admin/articles/add-image/" + this.seededArticle.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
