@@ -234,7 +234,7 @@ public class ArticleControllerCreateIntegrationTests extends ArticleControllerBa
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
-                .param(ViewNames.ARTICLE_CREATE_Category_Id, TestConstants.CATEGORY_INVALID_ID)
+                .param(ViewNames.ARTICLE_CREATE_Category_Id, TestConstants.INVALID_ID)
                 .flashAttr(ViewNames.ARTICLE_CREATE_BindingModel_Name, this.getCorrectBindingModel())
                 .with(csrf()))
                 .andExpect(status().isOk())

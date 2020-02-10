@@ -12,6 +12,7 @@ public final class ViewNames {
     public static final String CATEGORY_CREATE = "categories/category-create";
     public static final String CATEGORY_EDIT = "categories/category-edit";
     public static final String CATEGORY_CREATE_binding_model_name = "categoryCreateModel";
+    public static final String CATEGORY_EDIT_binding_model_name = "categoryEditModel";
     public static final String CATEGORIES_LIST = "categories/categories-list";
     public static final String ARTICLES_LIST_ALL = "listAll";
 

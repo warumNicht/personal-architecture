@@ -57,8 +57,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void editCategory(CategoryServiceModel categoryServiceModel) {
+    public void updateCategory(CategoryServiceModel categoryServiceModel) {
         Category category = this.mapper.map(categoryServiceModel, Category.class);
-        this.categoryRepository.saveAndFlush(category);
+        this.categoryRepository.save(category);
     }
+
 }

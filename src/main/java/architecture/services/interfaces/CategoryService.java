@@ -13,5 +13,5 @@ public interface CategoryService {
 
     CategoryServiceModel findById(Long id);
 
-    void editCategory(CategoryServiceModel categoryServiceModel);
+    void updateCategory(CategoryServiceModel categoryServiceModel);
 }

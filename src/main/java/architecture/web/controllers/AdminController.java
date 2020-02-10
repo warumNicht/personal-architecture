@@ -6,6 +6,7 @@ import architecture.domain.models.bindingModels.CategoryCreateBindingModel;
 import architecture.domain.models.bindingModels.CategoryEditBindingModel;
 import architecture.domain.models.serviceModels.article.ArticleServiceModel;
 import architecture.domain.models.serviceModels.CategoryServiceModel;
+import architecture.error.NotFoundException;
 import architecture.services.interfaces.ArticleService;
 import architecture.services.interfaces.CategoryService;
 import org.modelmapper.ModelMapper;
@@ -70,24 +71,26 @@ public class AdminController extends BaseController {
         for (Map.Entry<CountryCodes, String> local : category.getLocalCategoryNames().entrySet()) {
             bindingModel.getLocalNames().put(local.getKey(), local.getValue());
         }
-        model.addAttribute("categoryEditModel", bindingModel);
+        model.addAttribute(ViewNames.CATEGORY_EDIT_binding_model_name, bindingModel);
         return ViewNames.CATEGORY_EDIT;
     }
 
     @PutMapping("/category/edit/{categoryId}")
-    public String editCategoryPut(@Valid @ModelAttribute(name = "categoryEditModel") CategoryEditBindingModel model, BindingResult bindingResult,
+    public String editCategoryPut(@Valid @ModelAttribute(name = ViewNames.CATEGORY_EDIT_binding_model_name) CategoryEditBindingModel model, BindingResult bindingResult,
                                   @PathVariable(name = "categoryId") Long categoryId) {
+        this.categoryService.findById(categoryId);
         if (bindingResult.hasErrors()) {
             return ViewNames.CATEGORY_EDIT;
         }
-        CategoryServiceModel categoryToEdit = this.modelMapper.map(model, CategoryServiceModel.class);
-        Map<CountryCodes, String> filteredValues = categoryToEdit.getLocalCategoryNames().entrySet()
+        CategoryServiceModel categoryToUpdate = this.modelMapper.map(model, CategoryServiceModel.class);
+        Map<CountryCodes, String> filteredValues = categoryToUpdate.getLocalCategoryNames().entrySet()
                 .stream()
                 .filter(entry -> !"".equals(entry.getValue()))
                 .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
-        categoryToEdit.setLocalCategoryNames(filteredValues);
+        categoryToUpdate.setLocalCategoryNames(filteredValues);
+        categoryToUpdate.setId(categoryId);
 
-        this.categoryService.editCategory(categoryToEdit);
+        this.categoryService.updateCategory(categoryToUpdate);
         return "redirect:/" + super.getLocale() + "/admin/category/list";
     }
 
