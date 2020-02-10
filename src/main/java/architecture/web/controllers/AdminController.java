@@ -44,13 +44,13 @@ public class AdminController extends BaseController {
     }
 
     @GetMapping("/category/create")
-    public String createCategory(Model modelView, @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel model) {
+    public String createCategory(Model modelView, @ModelAttribute(name = ViewNames.CATEGORY_CREATE_binding_model_name) CategoryCreateBindingModel model) {
         modelView.addAttribute("categoryCreateModel", model);
         return ViewNames.CATEGORY_CREATE;
     }
 
     @PostMapping("/category/create")
-    public String createCategoryPost(@Valid @ModelAttribute(name = "categoryCreateModel") CategoryCreateBindingModel bindingModel,
+    public String createCategoryPost(@Valid @ModelAttribute(name = ViewNames.CATEGORY_CREATE_binding_model_name) CategoryCreateBindingModel bindingModel,
                                      BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ViewNames.CATEGORY_CREATE;

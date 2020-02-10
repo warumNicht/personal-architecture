@@ -11,6 +11,7 @@ public final class ViewNames {
     //Admin controller
     public static final String CATEGORY_CREATE = "categories/category-create";
     public static final String CATEGORY_EDIT = "categories/category-edit";
+    public static final String CATEGORY_CREATE_binding_model_name = "categoryCreateModel";
     public static final String CATEGORIES_LIST = "categories/categories-list";
     public static final String ARTICLES_LIST_ALL = "listAll";
 
