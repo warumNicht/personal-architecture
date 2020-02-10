@@ -5,6 +5,7 @@ import architecture.domain.entities.Article;
 import architecture.domain.entities.Category;
 import architecture.domain.entities.Image;
 import architecture.domain.entities.LocalisedArticleContent;
+import architecture.integration.web.CategorySeed;
 import architecture.repositories.ArticleRepository;
 import architecture.repositories.CategoryRepository;
 import architecture.util.TestConstants;
@@ -16,29 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.io.IOException;
 import java.util.HashMap;
 
-public abstract class ArticleControllerBaseTests {
+public abstract class ArticleControllerBaseTests extends CategorySeed {
     @Autowired
     protected MockMvc mockMvc;
     @Autowired
     protected ArticleRepository articleRepository;
-    @Autowired
-    protected CategoryRepository categoryRepository;
-
-    protected void seedCategories() {
-        Category category = new Category();
-        category.setLocalCategoryNames(new HashMap<CountryCodes, String>() {{
-            put(CountryCodes.BG, TestConstants.CATEGORY_1_BG_NAME);
-            put(CountryCodes.FR, TestConstants.CATEGORY_1_FR_NAME);
-        }});
-        this.categoryRepository.save(category);
-
-        Category category2 = new Category();
-        category2.setLocalCategoryNames(new HashMap<CountryCodes, String>() {{
-            put(CountryCodes.BG, TestConstants.CATEGORY_2_BG_NAME);
-            put(CountryCodes.FR, TestConstants.CATEGORY_2_FR_NAME);
-        }});
-        this.categoryRepository.save(category2);
-    }
 
     protected String getJsonFromObject(Object object) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
