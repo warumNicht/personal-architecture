@@ -122,6 +122,19 @@ public class AdminControllerIntegrationTests extends CategorySeed {
                 .andDo(print());
     }
 
+    @Test
+    public void postCreateCategory_invalidDataAndAdmin_returnsForm() throws Exception {
+        this.mockMvc.perform(post("/fr/admin/category/create")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(ViewNames.CATEGORY_CREATE_binding_model_name, new CategoryCreateBindingModel())
+                .with(csrf()))
+                .andExpect(status().is(200))
+                .andExpect(view().name(ViewNames.CATEGORY_CREATE))
+                .andDo(print());
+    }
+
     private CategoryCreateBindingModel createValidCategoryCreateModel() {
         CategoryCreateBindingModel model = new CategoryCreateBindingModel();
         model.setCountry(CountryCodes.FR);
