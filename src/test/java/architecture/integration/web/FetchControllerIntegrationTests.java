@@ -1,6 +1,10 @@
 package architecture.integration.web;
 
 import architecture.constants.AppConstants;
+import architecture.domain.entities.Article;
+import architecture.domain.entities.Image;
+import architecture.repositories.ArticleRepository;
+import architecture.repositories.ImageRepository;
 import architecture.util.TestConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Category;
@@ -22,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.Cookie;
 
 import java.util.HashMap;
+import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -36,17 +41,16 @@ public class FetchControllerIntegrationTests {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
+    private ArticleRepository articleRepository;
+    @Autowired
+    private ImageRepository imageRepository;
+    @Autowired
     private CategoryRepository categoryRepository;
-
-    @Before
-//    @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-    public void setUp() {
-        this.populateCategories();
-    }
 
     @Test
     public void fetchCategories_locale_FR_returnsCorrect_whenAllNamesPresent() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
+        this.populateCategories();
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
                 .andExpect(status().isOk())
@@ -57,7 +61,8 @@ public class FetchControllerIntegrationTests {
 
     @Test
     public void fetchCategories_locale_ES_returnsDefault_whenSomeNamesAbsent() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
+        this.populateCategories();
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "es")))
                 .andExpect(status().isOk())
@@ -68,11 +73,24 @@ public class FetchControllerIntegrationTests {
 
     @Test
     public void fetchCategories_locale_DE_doesNotReturn_whenNameAndDefaultAbsent() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
+        this.populateCategories();
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "de")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    public void fetchArticleImages_locale_FR_returnsCorrect() throws Exception {
+        Article article = this.createArticleWithImages();
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/images/" + article.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "es")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].localImageNames.*", hasSize(3)))
+                .andExpect(jsonPath("$[1].localImageNames.*", hasSize(2)));
     }
 
     private void populateCategories() {
@@ -97,5 +115,28 @@ public class FetchControllerIntegrationTests {
             put(CountryCodes.ES, TestConstants.CATEGORY_2_ES_NAME);
         }});
         this.categoryRepository.save(categoryThree);
+    }
+
+    private Article createArticleWithImages(){
+        Article article = this.articleRepository.save(new Article());
+        Image image1 = new Image();
+        image1.setUrl(TestConstants.IMAGE_URL);
+        image1.setLocalImageNames(new HashMap<>(){{
+            put(CountryCodes.FR, TestConstants.IMAGE_FR_NAME);
+            put(CountryCodes.BG, TestConstants.IMAGE_BG_NAME);
+            put(CountryCodes.ES, TestConstants.IMAGE_ES_NAME);
+        }});
+        image1.setArticle(article);
+        this.imageRepository.save(image1);
+
+        Image image2 = new Image();
+        image2.setUrl(TestConstants.IMAGE_URL_2);
+        image2.setLocalImageNames(new HashMap<>(){{
+            put(CountryCodes.FR, TestConstants.IMAGE_FR_NAME_2);
+            put(CountryCodes.BG, TestConstants.IMAGE_BG_NAME_2);
+        }});
+        image2.setArticle(article);
+        this.imageRepository.save(image2);
+        return article;
     }
 }
