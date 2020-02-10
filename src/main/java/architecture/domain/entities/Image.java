@@ -9,17 +9,18 @@ import java.util.Map;
 @Entity
 @Table(name = "images")
 public class Image extends BaseEntity {
-    @Column(name = "image_url", columnDefinition = "TEXT")
+    @Column(name = "image_url", columnDefinition = "TEXT", nullable = false)
     private String url;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "image_names", joinColumns = @JoinColumn(name = "image_id"))
-    @MapKeyColumn(name = "country_code")
+    @CollectionTable(name = "image_names", joinColumns = @JoinColumn(name = "image_id", nullable = false))
+    @MapKeyColumn(name = "country_code", length = 2)
     @MapKeyEnumerated(EnumType.STRING)
+    @Column(name = "image_names", nullable = false)
     private Map<CountryCodes, String> localImageNames = new HashMap<>();
 
     @OneToOne
-    @JoinColumn(name = "article_id", referencedColumnName = "id")
+    @JoinColumn(name = "article_id", referencedColumnName = "id", nullable = false)
     private Article article;
 
 
