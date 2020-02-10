@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -224,6 +223,28 @@ public class AdminControllerIntegrationTests extends CategorySeed {
                 .with(csrf()))
                 .andExpect(status().is(200))
                 .andExpect(view().name(ViewNames.CONTROLLER_ERROR))
+                .andDo(print());
+    }
+
+    @Test
+    public void getListAll_Admin_returnsCorrectView() throws Exception {
+        this.mockMvc.perform(get("/fr/admin/listAll" )
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ViewNames.ARTICLES_LIST_ALL))
+                .andDo(print());
+    }
+
+    @Test
+    public void getCategoryList_Admin_returnsCorrectView() throws Exception {
+        this.mockMvc.perform(get("/fr/admin/category/list" )
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ViewNames.CATEGORIES_LIST))
                 .andDo(print());
     }
 
