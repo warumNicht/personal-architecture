@@ -25,4 +25,10 @@ public final class TestConstants {
     public final static String ARTICLE_VALID_TITLE_2 = "Château de Veau";
     public final static String ARTICLE_VALID_CONTENT = "Le plus grand et frequenté musée de France";
     public final static String ARTICLE_VALID_CONTENT_2 = "Envié, jamais égalé!";
+
+
+
+    public final static String USERNAME_VALID = "Wagram";
+    public final static String USER_EMAIL_VALID = "haho@asa.de";
+    public final static String USER_PASSWORD_VALID = "Az39!$_";
 }

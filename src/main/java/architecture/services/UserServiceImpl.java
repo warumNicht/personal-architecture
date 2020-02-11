@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
             user.getAuthorities().add(admin);
         }
         this.userRepository.save(user);
-        System.out.println();
     }
 
     @Override

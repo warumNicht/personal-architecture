@@ -27,7 +27,8 @@ public final class ViewNames {
     public static final String ARTICLE_ADD_IMAGE = "articles/article-add-image";
 
     //User controller
-    public static final String USER_CREATE = "authentication/user-register";
+    public static final String USER_REGISTER = "authentication/user-register";
+    public static final String USER_REGISTER_binding_model = "userRegister";
     public static final String USER_LOGIN = "authentication/user-login";
 
     //Access controller

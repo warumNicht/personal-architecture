@@ -29,16 +29,15 @@ public class UserController extends BaseController {
 
 
     @GetMapping(value = "/register")
-    public String registerUser(@ModelAttribute(name = "userRegister") UserCreateBindingModel model) {
-        return ViewNames.USER_CREATE;
+    public String registerUser(@ModelAttribute(name = ViewNames.USER_REGISTER_binding_model) UserCreateBindingModel model) {
+        return ViewNames.USER_REGISTER;
     }
 
     @PostMapping(value = "/register")
-    public String registerUserPost(@ModelAttribute(name = "userRegister") UserCreateBindingModel bindingModel) {
+    public String registerUserPost(@ModelAttribute(name = ViewNames.USER_REGISTER_binding_model) UserCreateBindingModel bindingModel) {
         UserServiceModel user = this.modelMapper.map(bindingModel, UserServiceModel.class);
         this.userService.registerUser(user);
-        System.out.println();
-        return "redirect:/";
+        return "redirect:/" + super.getLocale() + "/";
     }
 
     @GetMapping(value = "/login")
