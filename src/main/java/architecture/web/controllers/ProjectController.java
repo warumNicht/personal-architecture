@@ -1,5 +1,6 @@
 package architecture.web.controllers;
 
+import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.viewModels.articles.ArticleLocalViewModel;
 import architecture.services.interfaces.ArticleService;
@@ -26,8 +27,8 @@ public class ProjectController extends BaseController {
     public ModelAndView projectsByCategory(ModelAndView modelAndView, @PathVariable Long id) {
         CountryCodes wantedCode = super.getCurrentCookieLocale();
         List<ArticleLocalViewModel> localisedArticles = this.articleService.findArticlesByCategory(id, wantedCode);
-        modelAndView.addObject("articles", localisedArticles);
-        modelAndView.setViewName("projects-category");
+        modelAndView.addObject(ViewNames.PROJECTS_model_attribute_name, localisedArticles);
+        modelAndView.setViewName(ViewNames.PROJECTS_BY_CATEGORY);
         return modelAndView;
     }
 }

@@ -33,4 +33,8 @@ public final class ViewNames {
     //Access controller
     public static final String UNAUTHORIZED = "error/unauthorized";
 
+    //Project controller
+    public static final String PROJECTS_BY_CATEGORY = "projects-category";
+    public static final String PROJECTS_model_attribute_name = "articles";
+
 }
