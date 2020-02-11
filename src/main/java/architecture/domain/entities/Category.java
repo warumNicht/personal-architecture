@@ -11,9 +11,10 @@ import java.util.Map;
 public class Category extends BaseEntity {
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "category_names", joinColumns = @JoinColumn(name = "category_id"))
+    @CollectionTable(name = "category_names", joinColumns = @JoinColumn(name = "category_id", nullable = false))
     @MapKeyColumn(name = "country_code")
     @MapKeyEnumerated(EnumType.STRING)
+    @Column(name = "category_names", nullable = false)
     private Map<CountryCodes, String> localCategoryNames = new HashMap<>();
 
     public Map<CountryCodes, String> getLocalCategoryNames() {
