@@ -40,11 +40,11 @@ public class ProjectControllerIntegrationTests extends ArticleControllerBaseTest
     @Before
     public void init() {
         super.seedCategories();
-        super.createArticleWithoutImage();
     }
 
     @Test
     public void getArticlesByCategory_returnsCorrectViewAndArticles() throws Exception {
+        super.createArticleWithoutImage();
         Article article = super.articleRepository.findAll().get(0);
         super.mockMvc.perform(get("/fr/projects/category/" + super.categoryRepository.findAll().get(0).getId())
                 .locale(Locale.FRANCE)
@@ -69,7 +69,35 @@ public class ProjectControllerIntegrationTests extends ArticleControllerBaseTest
     }
 
     @Test
+    public void getArticlesByCategory_returnsCorrectArticles_whenWithMainImage() throws Exception {
+        super.createArticleWithImage();
+        Article article = super.articleRepository.findAll().get(0);
+        super.mockMvc.perform(get("/fr/projects/category/" + super.categoryRepository.findAll().get(0).getId())
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute(ViewNames.PROJECTS_model_attribute_name, hasSize(1)))
+                .andExpect(model().attribute(ViewNames.PROJECTS_model_attribute_name, hasItem(
+                        allOf(
+                                hasProperty("id", is(article.getId())),
+                                hasProperty("date", notNullValue()),
+                                hasProperty("mainImage", allOf(
+                                        hasProperty("name", is(article.getMainImage().getLocalImageNames().get(CountryCodes.FR)))
+                                )),
+                                hasProperty("localisedContent", notNullValue()),
+                                hasProperty("localisedContent", allOf(
+                                        hasProperty("title", is(article.getLocalContent().get(CountryCodes.FR).getTitle())),
+                                        hasProperty("content", is(article.getLocalContent().get(CountryCodes.FR).getContent()))
+                                ))
+                        )
+                )))
+                .andDo(print());
+    }
+
+    @Test
     public void getArticlesByNonexistentCategory_returnsZeroArticles() throws Exception {
+        super.createArticleWithoutImage();
         super.mockMvc.perform(get("/fr/projects/category/" + TestConstants.INVALID_ID)
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
