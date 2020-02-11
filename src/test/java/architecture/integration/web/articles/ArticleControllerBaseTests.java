@@ -42,7 +42,14 @@ public abstract class ArticleControllerBaseTests extends CategorySeed {
         article.setLocalContent(new HashMap<>() {{
             put(CountryCodes.FR, localisedContent);
         }});
-        article.setMainImage(new Image());
+        Image image = new Image();
+        image.setUrl(TestConstants.IMAGE_URL);
+        image.setLocalImageNames(new HashMap<>(){{
+            put(CountryCodes.FR, TestConstants.IMAGE_FR_NAME);
+        }});
+        image.setArticle(article);
+
+        article.setMainImage(image);
         return this.articleRepository.save(article);
     }
 }

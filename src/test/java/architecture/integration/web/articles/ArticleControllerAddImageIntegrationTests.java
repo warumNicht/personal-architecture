@@ -102,7 +102,7 @@ public class ArticleControllerAddImageIntegrationTests extends ArticleController
                 .andDo(print()).andReturn().getResponse();
 
         int articleImages = this.imageService.getImagesByArticle(this.seededArticle.getId()).size();
-        Assert.assertEquals(1, articleImages);
+        Assert.assertEquals(2, articleImages);
 
         String contentAsString = res.getContentAsString();
         Assert.assertEquals(contentAsString, "\"/fr/admin/articles/edit/" + this.seededArticle.getId() + "\"");
