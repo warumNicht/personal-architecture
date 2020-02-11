@@ -10,19 +10,19 @@ import java.util.Map;
 @Entity
 @Table(name = "articles")
 public class Article extends BaseEntity {
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     private Category category;
 
     @OneToOne(cascade = {CascadeType.ALL})
     private Image mainImage;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "localised_content", joinColumns = @JoinColumn(name = "article_id"))
-    @MapKeyColumn(name = "country_code")
+    @CollectionTable(name = "localised_content", joinColumns = @JoinColumn(name = "article_id", nullable = false))
+    @MapKeyColumn(name = "country_code", length = 2)
     @MapKeyEnumerated(EnumType.STRING)
     private Map<CountryCodes, LocalisedArticleContent> localContent = new HashMap<>();
 

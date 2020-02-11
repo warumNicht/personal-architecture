@@ -1,5 +1,6 @@
 package architecture.domain.entities.auth;
 
+import architecture.constants.AppConstants;
 import architecture.domain.entities.BaseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,17 +11,17 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, length = AppConstants.USERNAME_MAX_LENGTH)
     private String username;
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, length = AppConstants.USER_EMAIL_MAX_LENGTH)
     private String email;
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, length = AppConstants.USER_PASSWORD_MAX_LENGTH)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id" , nullable = false))
     private Set<Role> authorities = new HashSet<>();
 
 
