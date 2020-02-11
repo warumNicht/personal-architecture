@@ -49,7 +49,8 @@ public class ArticleControllerAddImageIntegrationTests extends ArticleController
 
     @Before
     public void init() {
-        this.seededArticle = super.createArticleWithImage();
+        super.seedCategories();
+        this.seededArticle = super.createArticleWithoutImage();
     }
 
     @Test
@@ -89,6 +90,7 @@ public class ArticleControllerAddImageIntegrationTests extends ArticleController
 
     @Test
     public void putArticleAddImage_withImage_Admin_validData_returnsCorrectUrl() throws Exception {
+        this.seededArticle = super.createArticleWithImage();
         String requestBody = super.getJsonFromObject(this.createValidArticleAddImageBindingModel());
 
         MockHttpServletResponse res = super.mockMvc.perform(put("/fr/admin/articles/add-image/" + this.seededArticle.getId())
@@ -110,7 +112,7 @@ public class ArticleControllerAddImageIntegrationTests extends ArticleController
 
     @Test
     public void putArticleAddMainImage_withImage_Admin_validData_returnsCorrectUrlAndModifiesData() throws Exception {
-        this.seededArticle = super.articleRepository.save(new Article());
+        this.seededArticle.setMainImage(null);
         String requestBody = super.getJsonFromObject(this.createValidArticleAddImageBindingModel());
 
         Assert.assertNull(this.seededArticle.getMainImage());

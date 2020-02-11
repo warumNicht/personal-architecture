@@ -33,7 +33,8 @@ public class ArticleControllerEditIntegrationTests extends ArticleControllerBase
 
     @Before
     public void init() {
-        this.seededArticle = super.articleRepository.save(new Article());
+        super.seedCategories();
+        this.seededArticle = super.createArticleWithImage();
     }
 
     @Test

@@ -1,9 +1,7 @@
 package architecture.integration.web.articles;
 
 import architecture.constants.AppConstants;
-import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
-import architecture.domain.entities.LocalisedArticleContent;
 import architecture.util.TestConstants;
 import org.junit.Assert;
 import org.junit.Before;
@@ -41,13 +39,7 @@ public class ArticleControllerChangeCategoryIntegrationTests extends ArticleCont
     @Before
     public void init() {
         super.seedCategories();
-        Article article = new Article();
-        article.setCategory(super.categoryRepository.findAll().get(0));
-        article.setLocalContent(new HashMap<>() {{
-            put(CountryCodes.FR,
-                    new LocalisedArticleContent(TestConstants.ARTICLE_VALID_TITLE, TestConstants.ARTICLE_VALID_CONTENT));
-        }});
-        this.seededArticle = super.articleRepository.save(article);
+        this.seededArticle = super.createArticleWithImage();
     }
 
     @Test

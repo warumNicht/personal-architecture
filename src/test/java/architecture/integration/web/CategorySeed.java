@@ -24,7 +24,15 @@ public abstract class CategorySeed {
         category2.setLocalCategoryNames(new HashMap<CountryCodes, String>() {{
             put(CountryCodes.BG, TestConstants.CATEGORY_2_BG_NAME);
             put(CountryCodes.FR, TestConstants.CATEGORY_2_FR_NAME);
+            put(CountryCodes.ES, TestConstants.CATEGORY_1_ES_NAME);
         }});
         this.categoryRepository.save(category2);
+
+        Category categoryThree = new Category();
+        categoryThree.setLocalCategoryNames(new HashMap<>() {{
+            put(CountryCodes.FR, TestConstants.CATEGORY_3_FR_NAME);
+            put(CountryCodes.ES, TestConstants.CATEGORY_2_ES_NAME);
+        }});
+        this.categoryRepository.save(categoryThree);
     }
 }

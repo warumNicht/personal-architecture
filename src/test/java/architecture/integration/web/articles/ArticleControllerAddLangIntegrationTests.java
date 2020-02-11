@@ -7,6 +7,7 @@ import architecture.domain.entities.Article;
 import architecture.domain.models.bindingModels.articles.ArticleLangBindingModel;
 import architecture.util.TestConstants;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -40,6 +41,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase
 @WithMockUser(roles = {"ADMIN"})
 public class ArticleControllerAddLangIntegrationTests extends ArticleControllerBaseTests {
+
+    @Before
+    public void init() {
+        super.seedCategories();
+    }
 
     @Test
     public void get_addLang_withRoleAdmin_returnsCorrectView() throws Exception {
@@ -95,7 +101,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
 
     @Test
     public void post_addLang_withRoleAdmin_validModelWithImageNull_redirectsEdit() throws Exception {
-        Article article = super.articleRepository.save(new Article());
+        Article article = super.createArticleWithoutImage();
         super.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -139,7 +145,7 @@ public class ArticleControllerAddLangIntegrationTests extends ArticleControllerB
 
     @Test
     public void post_addLang_withAdmin_nullModel_returnsForm() throws Exception {
-        Article article = super.articleRepository.save(new Article());
+        Article article = super.createArticleWithoutImage();
         super.mockMvc.perform(post("/fr/admin/articles/addLang/" + article.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")

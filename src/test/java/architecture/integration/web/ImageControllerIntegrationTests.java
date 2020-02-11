@@ -4,7 +4,7 @@ import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.entities.Article;
 import architecture.domain.models.bindingModels.images.ImageEditBindingModel;
-import architecture.repositories.ArticleRepository;
+import architecture.integration.web.articles.ArticleControllerBaseTests;
 import architecture.util.TestConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Image;
@@ -27,15 +27,11 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -54,22 +50,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @WithMockUser(roles = {"ADMIN"})
-public class ImageControllerIntegrationTests {
+public class ImageControllerIntegrationTests extends ArticleControllerBaseTests {
     private static final String MODEL_FIELD_url = "url";
     private static final String MODEL_FIELD_localImageNames = "localImageNames";
 
     private Image savedImage;
-    @Autowired
-    private MockMvc mockMvc;
+
     @Autowired
     private ImageRepository imageRepository;
-    @Autowired
-    private ArticleRepository articleRepository;
 
     @Before
     public void init() {
-        Article article = new Article();
-        article = this.articleRepository.save(article);
+        super.seedCategories();
+        Article article = super.createArticleWithImage();
         Image image = new Image();
         image.setUrl(TestConstants.IMAGE_URL);
         image.setLocalImageNames(new HashMap<>() {{
@@ -83,7 +76,7 @@ public class ImageControllerIntegrationTests {
 
     @Test
     public void getImage_withADMIN_role_returnsCorrectView() throws Exception {
-        MockHttpServletResponse response = this.mockMvc.perform(get("/fr/admin/images/edit/" + this.savedImage.getId())
+        MockHttpServletResponse response = super.mockMvc.perform(get("/fr/admin/images/edit/" + this.savedImage.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -103,7 +96,7 @@ public class ImageControllerIntegrationTests {
     @Test
     @WithAnonymousUser
     public void getImage_withAnonymous_redirectsLogin() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/images/edit/" + this.savedImage.getId())
+        super.mockMvc.perform(get("/fr/admin/images/edit/" + this.savedImage.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -115,7 +108,7 @@ public class ImageControllerIntegrationTests {
     @Test
     @WithMockUser
     public void getImage_withUSER_role_redirectsUnauthorized() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/images/edit/" + this.savedImage.getId())
+        super.mockMvc.perform(get("/fr/admin/images/edit/" + this.savedImage.getId())
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -126,7 +119,7 @@ public class ImageControllerIntegrationTests {
 
     @Test
     public void getNonexistentImage_returnsErrorPage() throws Exception {
-        MvcResult mvcResult = this.mockMvc.perform(get("/fr/admin/images/edit/111")
+        MvcResult mvcResult = super.mockMvc.perform(get("/fr/admin/images/edit/111")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -145,7 +138,7 @@ public class ImageControllerIntegrationTests {
 
     @Test
     public void putImage_withCorrectData_redirectsCorrectAndModifiesData() throws Exception {
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getId())
+        super.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel())
@@ -154,7 +147,8 @@ public class ImageControllerIntegrationTests {
                 .andExpect(model().hasNoErrors())
                 .andExpect(view().name("redirect:/fr/admin/articles/edit/" + this.savedImage.getArticle().getId()))
                 .andDo(print());
-        Image modifiedImage = this.imageRepository.findAll().get(0);
+
+        Image modifiedImage = this.imageRepository.findById(this.savedImage.getId()).orElse(null);
         int actualSize = modifiedImage.getLocalImageNames().size();
         Assert.assertEquals(2, actualSize);
         Assert.assertEquals(modifiedImage.getLocalImageNames().get(CountryCodes.BG), TestConstants.IMAGE_BG_NAME_2);
@@ -165,7 +159,7 @@ public class ImageControllerIntegrationTests {
     @Test
     @WithAnonymousUser
     public void putImage_withCorrectData_anonymous_redirectsLogin() throws Exception {
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+        super.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel())
@@ -178,7 +172,7 @@ public class ImageControllerIntegrationTests {
     @Test
     @WithMockUser
     public void putImage_withCorrectData_RoleUSER_redirectsUnauthorized() throws Exception {
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+        super.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel())
@@ -190,7 +184,7 @@ public class ImageControllerIntegrationTests {
 
     @Test
     public void putImage_withCorrectData_andInvalidId_returnsErrorPage() throws Exception {
-        this.mockMvc.perform(put("/admin/images/edit/555")
+        super.mockMvc.perform(put("/admin/images/edit/555")
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getCorrectBindingModel())
@@ -199,7 +193,7 @@ public class ImageControllerIntegrationTests {
                 .andExpect(model().hasNoErrors())
                 .andExpect(view().name(ViewNames.CONTROLLER_ERROR))
                 .andDo(print());
-        Image modifiedImage = this.imageRepository.findAll().get(0);
+        Image modifiedImage = this.imageRepository.findById(this.savedImage.getId()).orElse(null);
         int actualSize = modifiedImage.getLocalImageNames().size();
         Assert.assertEquals(3, actualSize);
         Assert.assertEquals(modifiedImage.getLocalImageNames().get(CountryCodes.BG), TestConstants.IMAGE_BG_NAME);
@@ -209,13 +203,13 @@ public class ImageControllerIntegrationTests {
 
     @Test
     public void putImage_withInvalidData_doesNotModifyData() throws Exception {
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+        super.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel())
                 .with(csrf()))
                 .andDo(print());
-        Image modifiedImage = this.imageRepository.findAll().get(0);
+        Image modifiedImage = this.imageRepository.findById(this.savedImage.getId()).orElse(null);
         int expectedSize = this.savedImage.getLocalImageNames().size();
         int actualSize = modifiedImage.getLocalImageNames().size();
         Assert.assertEquals(expectedSize, actualSize);
@@ -226,7 +220,7 @@ public class ImageControllerIntegrationTests {
 
     @Test
     public void putImage_withInvalidData_returnsEditPage() throws Exception {
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+        super.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel())
@@ -237,7 +231,7 @@ public class ImageControllerIntegrationTests {
 
     @Test
     public void putImage_withNullDataFields_hasErrors() throws Exception {
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+        super.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, this.getIncorrectBindingModel())
@@ -249,11 +243,11 @@ public class ImageControllerIntegrationTests {
 
     @Test
     public void putImage_withInvalidLocalImageNameKey_hasErrors() throws Exception {
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+        super.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .content(this.buildUrlEncodedFormEntity(
+                .content(TestUtils.buildUrlEncodedFormEntity(
                         "_method", "put",
                         "id", this.savedImage.getArticle().getId().toString(),
                         "url", TestConstants.IMAGE_URL,
@@ -274,7 +268,7 @@ public class ImageControllerIntegrationTests {
     public void putImage_withInvalidLocalImageNamesSize_hasErrors() throws Exception {
         ImageEditBindingModel invalidBindingModel = this.getCorrectBindingModel();
         invalidBindingModel.getLocalImageNames().remove(CountryCodes.DE);
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+        super.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, invalidBindingModel)
@@ -288,7 +282,7 @@ public class ImageControllerIntegrationTests {
     public void putImage_withInvalidLocalImageName_hasErrors() throws Exception {
         ImageEditBindingModel invalidBindingModel = this.getCorrectBindingModel();
         invalidBindingModel.getLocalImageNames().put(CountryCodes.BG, "1");
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+        super.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, invalidBindingModel)
@@ -301,7 +295,7 @@ public class ImageControllerIntegrationTests {
     public void putImage_withEmptyUrl_hasErrors() throws Exception {
         ImageEditBindingModel invalidBindingModel = this.getCorrectBindingModel();
         invalidBindingModel.setUrl("");
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+        super.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, invalidBindingModel)
@@ -315,7 +309,7 @@ public class ImageControllerIntegrationTests {
     public void putImage_withNullUrl_hasErrors() throws Exception {
         ImageEditBindingModel invalidBindingModel = this.getCorrectBindingModel();
         invalidBindingModel.setUrl(null);
-        this.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
+        super.mockMvc.perform(put("/admin/images/edit/" + this.savedImage.getArticle().getId())
                 .locale(Locale.FRANCE)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
                 .flashAttr(ViewNames.IMAGE_EDIT_BindingModel_Name, invalidBindingModel)
@@ -342,32 +336,12 @@ public class ImageControllerIntegrationTests {
         return new ImageEditBindingModel();
     }
 
-    private String buildUrlEncodedFormEntity(String... params) {
-        if ((params.length % 2) > 0) {
-            throw new IllegalArgumentException("Need to give an even number of parameters");
-        }
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < params.length; i += 2) {
-            if (i > 0) {
-                result.append('&');
-            }
-            try {
-                result.
-                        append(URLEncoder.encode(params[i], StandardCharsets.UTF_8.name())).
-                        append('=').
-                        append(URLEncoder.encode(params[i + 1], StandardCharsets.UTF_8.name()));
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return result.toString();
-    }
 
 
     // тест за хвърлена грешка от GlobalExceptionHandler
 //    @Test
 //    public void getInexistentImage_returnsNotFound() throws Exception {
-//        MvcResult mvcResult = this.mockMvc.perform(get("/fr/admin/images/edit/111")
+//        MvcResult mvcResult = super.mockMvc.perform(get("/fr/admin/images/edit/111")
 //                .locale(Locale.FRANCE)
 //                .contextPath("/fr")
 //                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))

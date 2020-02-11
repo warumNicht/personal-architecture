@@ -3,12 +3,10 @@ package architecture.integration.web;
 import architecture.constants.AppConstants;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.Image;
-import architecture.repositories.ArticleRepository;
+import architecture.integration.web.articles.ArticleControllerBaseTests;
 import architecture.repositories.ImageRepository;
 import architecture.util.TestConstants;
 import architecture.domain.CountryCodes;
-import architecture.domain.entities.Category;
-import architecture.repositories.CategoryRepository;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,14 +17,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 
 import java.util.HashMap;
-import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -37,44 +33,42 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
-public class FetchControllerIntegrationTests {
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ArticleRepository articleRepository;
+public class FetchControllerIntegrationTests extends ArticleControllerBaseTests {
     @Autowired
     private ImageRepository imageRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
+
+    @Before
+    public void init() {
+        super.seedCategories();
+    }
 
     @Test
     public void fetchCategories_locale_FR_returnsCorrect_whenAllNamesPresent() throws Exception {
-        this.populateCategories();
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
+        super.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].name", Matchers.is(TestConstants.CATEGORY_1_FR_NAME)))
-                .andExpect(jsonPath("$[1].name", Matchers.is(TestConstants.CATEGORY_2_FR_NAME)));
+                .andExpect(jsonPath("$[1].name", Matchers.is(TestConstants.CATEGORY_2_FR_NAME)))
+                .andExpect(jsonPath("$[2].name", Matchers.is(TestConstants.CATEGORY_3_FR_NAME)));
     }
 
     @Test
     public void fetchCategories_locale_ES_returnsDefault_whenSomeNamesAbsent() throws Exception {
-        this.populateCategories();
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
+        super.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "es")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].name", Matchers.is(TestConstants.CATEGORY_1_BG_NAME)))
-                .andExpect(jsonPath("$[1].name", Matchers.is(TestConstants.CATEGORY_2_ES_NAME)));
+                .andExpect(jsonPath("$[1].name", Matchers.is(TestConstants.CATEGORY_1_ES_NAME)))
+                .andExpect(jsonPath("$[2].name", Matchers.is(TestConstants.CATEGORY_2_ES_NAME)));
     }
 
     @Test
     public void fetchCategories_locale_DE_doesNotReturn_whenNameAndDefaultAbsent() throws Exception {
-        this.populateCategories();
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
+        super.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/categories/all")
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "de")))
                 .andExpect(status().isOk())
@@ -84,7 +78,7 @@ public class FetchControllerIntegrationTests {
     @Test
     public void fetchArticleImages_locale_FR_returnsCorrect() throws Exception {
         Article article = this.createArticleWithImages();
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/images/" + article.getId())
+        super.mockMvc.perform(MockMvcRequestBuilders.get("/fetch/images/" + article.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "es")))
                 .andExpect(status().isOk())
@@ -93,32 +87,8 @@ public class FetchControllerIntegrationTests {
                 .andExpect(jsonPath("$[1].localImageNames.*", hasSize(2)));
     }
 
-    private void populateCategories() {
-        Category categoryOne = new Category();
-        categoryOne.setLocalCategoryNames(new HashMap<>() {{
-            put(CountryCodes.FR, TestConstants.CATEGORY_1_FR_NAME);
-            put(CountryCodes.BG, TestConstants.CATEGORY_1_BG_NAME);
-        }});
-        this.categoryRepository.save(categoryOne);
-
-        Category categoryTwo = new Category();
-        categoryTwo.setLocalCategoryNames(new HashMap<>() {{
-            put(CountryCodes.FR, TestConstants.CATEGORY_2_FR_NAME);
-            put(CountryCodes.BG, TestConstants.CATEGORY_2_BG_NAME);
-            put(CountryCodes.ES, TestConstants.CATEGORY_2_ES_NAME);
-        }});
-        this.categoryRepository.save(categoryTwo);
-
-        Category categoryThree = new Category();
-        categoryThree.setLocalCategoryNames(new HashMap<>() {{
-            put(CountryCodes.FR, TestConstants.CATEGORY_2_FR_NAME);
-            put(CountryCodes.ES, TestConstants.CATEGORY_2_ES_NAME);
-        }});
-        this.categoryRepository.save(categoryThree);
-    }
-
     private Article createArticleWithImages(){
-        Article article = this.articleRepository.save(new Article());
+        Article article = super.createArticleWithoutImage();
         Image image1 = new Image();
         image1.setUrl(TestConstants.IMAGE_URL);
         image1.setLocalImageNames(new HashMap<>(){{
