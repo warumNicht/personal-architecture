@@ -31,4 +31,5 @@ public final class TestConstants {
     public final static String USERNAME_VALID = "Wagram";
     public final static String USER_EMAIL_VALID = "haho@asa.de";
     public final static String USER_PASSWORD_VALID = "Az39!$_";
+    public final static String USER_PASSWORD_NOT_MATCHING = "Az34!$_";
 }

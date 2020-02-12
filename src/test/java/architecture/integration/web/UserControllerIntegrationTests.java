@@ -53,7 +53,7 @@ public class UserControllerIntegrationTests {
     }
 
     @Test
-    public void postUserRegister_redirectsCorrectAndSavesData() throws Exception {
+    public void postUserRegister_validModel_redirectsCorrectAndSavesData() throws Exception {
         this.mockMvc.perform(post("/fr/users/register")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
@@ -65,6 +65,43 @@ public class UserControllerIntegrationTests {
                 .andDo(print());
 
         Assert.assertEquals(1, this.userRepository.count());
+    }
+
+    @Test
+    public void postUserRegister_invalidData_returnsForm_withoutFlushing() throws Exception {
+        this.mockMvc.perform(post("/fr/users/register")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(ViewNames.USER_REGISTER_binding_model, new UserCreateBindingModel())
+                .with(csrf()))
+                .andExpect(status().is(200))
+                .andExpect(model().hasErrors())
+                .andExpect(view().name(ViewNames.USER_REGISTER))
+                .andDo(print());
+
+        Assert.assertEquals(0, this.userRepository.count());
+    }
+
+    @Test
+    public void postUserRegister_validDataNotMatchingPasswords_returnsForm_withoutFlushing() throws Exception {
+        UserCreateBindingModel user = this.createValidUser();
+        user.setConfirmPassword(TestConstants.USER_PASSWORD_NOT_MATCHING);
+        this.mockMvc.perform(post("/fr/users/register")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(ViewNames.USER_REGISTER_binding_model, user)
+                .with(csrf()))
+                .andExpect(status().is(200))
+                .andExpect(model().errorCount(1))
+                .andExpect(model()
+                        .attributeHasFieldErrorCode(ViewNames.USER_REGISTER_binding_model,
+                                "confirmPassword", "user.password.notMatch"))
+                .andExpect(view().name(ViewNames.USER_REGISTER))
+                .andDo(print());
+
+        Assert.assertEquals(0, this.userRepository.count());
     }
 
     private UserCreateBindingModel createValidUser() {
