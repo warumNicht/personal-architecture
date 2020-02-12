@@ -11,9 +11,9 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
-    @Column(name = "username", nullable = false, length = AppConstants.USERNAME_MAX_LENGTH)
+    @Column(name = "username", unique = true, nullable = false, length = AppConstants.USERNAME_MAX_LENGTH)
     private String username;
-    @Column(name = "email", nullable = false, length = AppConstants.USER_EMAIL_MAX_LENGTH)
+    @Column(name = "email", unique = true, nullable = false, length = AppConstants.USER_EMAIL_MAX_LENGTH)
     private String email;
     @Column(name = "password", nullable = false, length = AppConstants.USER_PASSWORD_MAX_LENGTH)
     private String password;
@@ -21,7 +21,7 @@ public class User extends BaseEntity implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id" , nullable = false))
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false))
     private Set<Role> authorities = new HashSet<>();
 
 

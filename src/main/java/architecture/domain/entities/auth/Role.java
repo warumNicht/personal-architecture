@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "roles")
 public class Role extends BaseEntity implements GrantedAuthority {
-    @Column(name = "authority", nullable = false, length = AppConstants.USER_ROLE_MAX_LENGTH)
+    @Column(name = "authority", unique = true, nullable = false, length = AppConstants.USER_ROLE_MAX_LENGTH)
     @Enumerated(value = EnumType.STRING)
     private UserRoles authority;
 
