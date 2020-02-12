@@ -5,6 +5,7 @@ import architecture.constants.ViewNames;
 import architecture.domain.models.bindingModels.users.UserCreateBindingModel;
 import architecture.repositories.UserRepository;
 import architecture.util.TestConstants;
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,12 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
 import java.util.Locale;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -65,6 +71,34 @@ public class UserControllerIntegrationTests {
                 .andDo(print());
 
         Assert.assertEquals(1, this.userRepository.count());
+    }
+
+    @Test
+    public void postUserRegister_validModel_DuplicatedData_returnsErrroPage_throwsDataIntegrityError() throws Exception {
+        this.mockMvc.perform(post("/fr/users/register")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(ViewNames.USER_REGISTER_binding_model, this.createValidUser())
+                .with(csrf()))
+                .andExpect(status().is(302))
+                .andExpect(view().name("redirect:/fr/"));
+
+        MvcResult mvcResult = this.mockMvc.perform(post("/fr/users/register")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr"))
+                .flashAttr(ViewNames.USER_REGISTER_binding_model, this.createValidUser())
+                .with(csrf()))
+                .andExpect(status().is(200))
+                .andExpect(view().name(ViewNames.DEFAULT_ERROR))
+                .andDo(print()).andReturn();
+
+        Exception resolvedException = mvcResult.getResolvedException();
+        Throwable cause = resolvedException.getCause();
+
+        Assert.assertTrue(resolvedException instanceof DataIntegrityViolationException);
+        Assert.assertEquals(cause.getClass().getSimpleName(), "ConstraintViolationException");
     }
 
     @Test
