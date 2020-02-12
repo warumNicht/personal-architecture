@@ -1,18 +1,8 @@
 package architecture.domain.models.bindingModels.users;
 
-public class UserCreateBindingModel {
-    private String username;
+public class UserCreateBindingModel extends UserBindingModel{
     private String email;
-    private String password;
     private String confirmPassword;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getEmail() {
         return email;
@@ -20,14 +10,6 @@ public class UserCreateBindingModel {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getConfirmPassword() {
