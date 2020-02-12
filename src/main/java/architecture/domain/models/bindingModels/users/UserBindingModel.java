@@ -1,21 +1,23 @@
 package architecture.domain.models.bindingModels.users;
 
+import architecture.constants.AppConstants;
+
 import javax.validation.constraints.*;
 
 public abstract class UserBindingModel {
     @NotNull
-    @NotEmpty
-    @Size(min = 3, max = 50)
-    @NotBlank(message = "Username of whitespaces is not valid!")
+    @NotEmpty(message = "{text.empty}")
+    @Size(min = 3, max = AppConstants.USERNAME_MAX_LENGTH, message = "{text.length.between}")
+    @NotBlank(message = "{text.blank}")
     private String username;
 
     @NotNull
-    @NotEmpty
-    @NotBlank
-    @Size(min = 4, message = "Password require at least 4 characters!")
-    @Pattern(regexp = "^(?=.*[a-z]).+$", message = "Password require at least 1 lowercase letter!")
-    @Pattern(regexp = "^(?=.*[A-Z]).+$", message = "Password require at least 1 uppercase letter!")
-    @Pattern(regexp = "^(?=.*\\d).+$", message = "Password require at least 1 digit!")
+    @NotEmpty(message = "{text.empty}")
+    @NotBlank(message = "{text.blank}")
+    @Size(min = 4, max=AppConstants.USER_PASSWORD_MAX_LENGTH, message = "{text.length.between}")
+    @Pattern(regexp = "^(?=.*[a-z]).+$", message = "{user.password.lowercase}")
+    @Pattern(regexp = "^(?=.*[A-Z]).+$", message = "{user.password.uppercase}")
+    @Pattern(regexp = "^(?=.*\\d).+$", message = "{user.password.digit}")
     private String password;
 
     public String getUsername() {
