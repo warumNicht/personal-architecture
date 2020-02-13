@@ -138,6 +138,17 @@ public class UserControllerIntegrationTests {
         Assert.assertEquals(0, this.userRepository.count());
     }
 
+    @Test
+    public void getUserLogin_returnsCorrectView() throws Exception {
+        this.mockMvc.perform(get("/fr/users/login")
+                .locale(Locale.FRANCE)
+                .contextPath("/fr")
+                .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ViewNames.USER_LOGIN))
+                .andDo(print());
+    }
+
     private UserCreateBindingModel createValidUser() {
         UserCreateBindingModel user = new UserCreateBindingModel();
         user.setUsername(TestConstants.USERNAME_VALID);
