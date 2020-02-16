@@ -21,7 +21,7 @@ $(document).ready(function () {
     fetchCategories(select);
     select.change(function () {
         let selectedOption = select.val();
-        if (selectedOption !== '') {
+        if (selectedOption !== 'all') {
             location.href = `${getLocale(location.href)}projects/category/${selectedOption}`;
         }
     });
