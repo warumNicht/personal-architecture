@@ -25,7 +25,7 @@ public final class AppConstants {
 
     public static final int DESCRIPTION_MIN_LENGTH = 5;
 
-    public static final String URL_REGEX_PATTERN = "^https?:\\/\\/(www\\.)?(?!w{0,2}\\.)[^\"'\\s]{3,}\\.(png|PNG|jpg|JPG|jpeg|JPEG|gif|GIF|png|PNG|svg|SVG|webp|WEBP)$|^$";
+    public static final String URL_REGEX_PATTERN = "^https?:\\/\\/(www\\.)?(?!w{0,2}\\.)[^\"'\\s]{3,}$|^";
 
 
 }
