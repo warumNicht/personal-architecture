@@ -63,7 +63,7 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleLocalViewModel> findArticlesByCategory(Long id, CountryCodes wantedCode) {
         Object[] all;
         all = id == 555 ? this.articleRepository.findAllArticles(CountryCodes.BG, wantedCode)
-        : this.articleRepository.getAllByCategory(CountryCodes.BG, wantedCode, id);
+                : this.articleRepository.getAllByCategory(CountryCodes.BG, wantedCode, id);
 
         List<ArticleLocalViewModel> localisedArticles = new ArrayList<>();
         for (Object article : all) {

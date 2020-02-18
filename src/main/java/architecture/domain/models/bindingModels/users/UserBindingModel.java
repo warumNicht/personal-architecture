@@ -14,7 +14,7 @@ public abstract class UserBindingModel {
     @NotNull
     @NotEmpty(message = "{text.empty}")
     @NotBlank(message = "{text.blank}")
-    @Size(min = 4, max=AppConstants.USER_PASSWORD_MAX_LENGTH, message = "{text.length.between}")
+    @Size(min = 4, max = AppConstants.USER_PASSWORD_MAX_LENGTH, message = "{text.length.between}")
     @Pattern(regexp = "^(?=.*[a-z]).+$", message = "{user.password.lowercase}")
     @Pattern(regexp = "^(?=.*[A-Z]).+$", message = "{user.password.uppercase}")
     @Pattern(regexp = "^(?=.*\\d).+$", message = "{user.password.digit}")

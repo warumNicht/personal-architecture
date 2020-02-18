@@ -17,7 +17,7 @@ public class Image extends BaseEntity {
     @CollectionTable(name = "image_names", joinColumns = @JoinColumn(name = "image_id", nullable = false))
     @MapKeyColumn(name = "country_code", length = 2)
     @MapKeyEnumerated(EnumType.STRING)
-    @Column(name = "image_names", nullable = false,length = AppConstants.NAME_MAX_LENGTH)
+    @Column(name = "image_names", nullable = false, length = AppConstants.NAME_MAX_LENGTH)
     private Map<CountryCodes, String> localImageNames = new HashMap<>();
 
     @OneToOne

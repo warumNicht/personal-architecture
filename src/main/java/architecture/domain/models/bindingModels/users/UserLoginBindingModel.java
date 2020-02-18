@@ -1,4 +1,4 @@
 package architecture.domain.models.bindingModels.users;
 
-public class UserLoginBindingModel extends UserBindingModel{
+public class UserLoginBindingModel extends UserBindingModel {
 }

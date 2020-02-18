@@ -39,13 +39,13 @@ public class UserController extends BaseController {
     @PostMapping(value = "/register")
     public String registerUserPost(@Valid @ModelAttribute(name = ViewNames.USER_REGISTER_binding_model) UserCreateBindingModel bindingModel,
                                    BindingResult bindingResult, Model model) {
-        if(bindingResult.hasErrors()){
-            model.addAttribute( ViewNames.USER_REGISTER_binding_model, bindingModel);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute(ViewNames.USER_REGISTER_binding_model, bindingModel);
             return ViewNames.USER_REGISTER;
         }
-        if(!bindingModel.getPassword().equals(bindingModel.getConfirmPassword())){
+        if (!bindingModel.getPassword().equals(bindingModel.getConfirmPassword())) {
             bindingResult.rejectValue("confirmPassword", "user.password.notMatch");
-            model.addAttribute( ViewNames.USER_REGISTER_binding_model, bindingModel);
+            model.addAttribute(ViewNames.USER_REGISTER_binding_model, bindingModel);
             return ViewNames.USER_REGISTER;
         }
         UserServiceModel user = this.modelMapper.map(bindingModel, UserServiceModel.class);

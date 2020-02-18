@@ -4,7 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class UserCreateBindingModel extends UserBindingModel{
+public class UserCreateBindingModel extends UserBindingModel {
     @NotNull
     @NotEmpty(message = "{text.empty}")
     @Email(message = "{user.email}")
