@@ -9,6 +9,9 @@ import architecture.domain.CountryCodes;
 
 import javax.validation.constraints.*;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ImageEditBindingModel extends ImageUrlModel {
     private Long id;
@@ -32,6 +35,10 @@ public class ImageEditBindingModel extends ImageUrlModel {
     }
 
     public void setLocalImageNames(LinkedHashMap<CountryCodes, String> localImageNames) {
-        this.localImageNames = localImageNames;
+        this.localImageNames = localImageNames.entrySet()
+                .stream()
+                .collect(LinkedHashMap::new,                                   // Supplier
+                        (map, item) -> map.put(item.getKey(), item.getValue().trim()),  // Accumulator
+                        Map::putAll);                                                   // Combiner
     }
 }
