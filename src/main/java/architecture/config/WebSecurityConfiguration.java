@@ -1,5 +1,6 @@
 package architecture.config;
 
+import architecture.constants.AppConstants;
 import architecture.error.CustomAccessDeniedHandler;
 import architecture.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,14 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -45,12 +49,30 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
+
                 .loginPage("/users/login")
+//                .defaultSuccessUrl("/users/log")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/")
+                .successHandler((req,res,auth)->{    //Success handler invoked after successful authentication
+                    for (GrantedAuthority authority : auth.getAuthorities()) {
+                        System.out.println(authority.getAuthority());
+                    }
+                    String contextPath = Arrays.stream(req.getCookies())
+                            .filter(c -> c.getName().equals(AppConstants.LOCALE_COOKIE_NAME))
+                            .findFirst().orElse(null).getValue();
+                    System.out.println(auth.getName());
+                    res.sendRedirect("/" + contextPath + "/"); // Redirect user to index/home page
+                })
                 .and()
-                .logout().logoutSuccessUrl("/")
+                .logout()
+                .logoutSuccessHandler((req,res,auth)->{   // Logout handler called after successful logout
+                    String contextPath = Arrays.stream(req.getCookies())
+                            .filter(c -> c.getName().equals(AppConstants.LOCALE_COOKIE_NAME))
+                            .findFirst().orElse(null).getValue();
+                    req.getSession().setAttribute("message", "You are logged out successfully.");
+                    res.sendRedirect("/" + contextPath + "/"); // Redirect user to login page with message.
+                })
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler());
     }
