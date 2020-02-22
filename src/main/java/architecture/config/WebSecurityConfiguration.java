@@ -49,8 +49,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .usernameParameter("username")
-                .passwordParameter("password")
+                .loginPage("/users/login")
                 .and()
                 .logout()
                 .logoutSuccessHandler((req,res,auth)->{   // Logout handler called after successful logout
@@ -66,8 +65,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManager();
+        return super.authenticationManager();
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
