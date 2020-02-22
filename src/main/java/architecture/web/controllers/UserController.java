@@ -7,6 +7,12 @@ import architecture.domain.models.serviceModels.UserServiceModel;
 import architecture.services.interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,11 +29,13 @@ import javax.validation.Valid;
 public class UserController extends BaseController {
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, ModelMapper modelMapper, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.authenticationManager = authenticationManager;
     }
 
 
@@ -58,9 +66,30 @@ public class UserController extends BaseController {
         return ViewNames.USER_LOGIN;
     }
 
-    @PostMapping(value = "/log")
-    public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel model) {
+    @PostMapping(value = "/login")
+    public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel loggingUser) {
         System.out.println();
+
+        UserDetails principal = userService.loadUserByUsername(loggingUser.getUsername());
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(principal, loggingUser.getPassword(), principal.getAuthorities());
+
+        if (token.isAuthenticated()) {
+            logger.debug(String.format("Auto login %s successfully!", loggingUser.getUsername()));
+        }
+
+        try{
+            Authentication authenticate = this.authenticationManager.authenticate(token);
+            System.out.println();
+        }catch (AuthenticationException e){
+            System.out.println(e.getMessage());
+        }
+
+
+        if (token.isAuthenticated()) {
+            SecurityContextHolder.getContext().setAuthentication(token);
+            logger.debug(String.format("Auto login %s successfully!", loggingUser.getUsername()));
+        }
         return "redirect:/" +super.getLocale() + "/";
     }
 
