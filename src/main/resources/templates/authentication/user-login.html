@@ -25,16 +25,17 @@
                    id="password" th:placeholder="#{enter.password}" name="password">
         </div>
 
-        <div class="button-holder mt-4 d-flex justify-content-center">
-            <button type="submit" class="btn btn-info" th:text="#{login}"></button>
-        </div>
-
-        <th:block th:if="${session.SPRING_SECURITY_LAST_EXCEPTION!=null}">
+        <th:block th:if="${exception!=null}">
             <div class="text-center mt-3" style="color: red; font-size: 20px;font-weight: bold"
-                 th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}">
+                 th:text="${exception.getMessage()}">
                 <!--Bad Credentials-->
             </div>
         </th:block>
+
+        <div class="button-holder mt-4 d-flex justify-content-center">
+            <button type="submit" class="btn btn-info" th:text="#{login}"></button>
+        </div>
+        
     </form>
 </main>
 

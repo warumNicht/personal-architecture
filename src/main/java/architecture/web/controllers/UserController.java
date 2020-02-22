@@ -67,28 +67,23 @@ public class UserController extends BaseController {
     }
 
     @PostMapping(value = "/login")
-    public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel loggingUser) {
-        System.out.println();
+    public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel loggingUser,
+                                Model model) {
 
         UserDetails principal = userService.loadUserByUsername(loggingUser.getUsername());
         UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(principal, loggingUser.getPassword(), principal.getAuthorities());
-
-        if (token.isAuthenticated()) {
-            logger.debug(String.format("Auto login %s successfully!", loggingUser.getUsername()));
-        }
+                new UsernamePasswordAuthenticationToken(principal,
+                        loggingUser.getPassword(), principal.getAuthorities());
 
         try{
             Authentication authenticate = this.authenticationManager.authenticate(token);
-            System.out.println();
+            if (token.isAuthenticated()) {
+                SecurityContextHolder.getContext().setAuthentication(token);
+                super.logger.info(String.format("Login of user: %s, successfully!", loggingUser.getUsername()));
+            }
         }catch (AuthenticationException e){
-            System.out.println(e.getMessage());
-        }
-
-
-        if (token.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(token);
-            logger.debug(String.format("Auto login %s successfully!", loggingUser.getUsername()));
+            model.addAttribute("exception", e);
+            return ViewNames.USER_LOGIN;
         }
         return "redirect:/" +super.getLocale() + "/";
     }
