@@ -69,23 +69,23 @@ public class UserController extends BaseController {
     @PostMapping(value = "/login")
     public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel loggingUser,
                                 Model model) {
+        try {
+            UserDetails principal = userService.loadUserByUsername(loggingUser.getUsername());
+            UsernamePasswordAuthenticationToken token =
+                    new UsernamePasswordAuthenticationToken(principal,
+                            loggingUser.getPassword(), principal.getAuthorities());
 
-        UserDetails principal = userService.loadUserByUsername(loggingUser.getUsername());
-        UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(principal,
-                        loggingUser.getPassword(), principal.getAuthorities());
-
-        try{
             Authentication authenticate = this.authenticationManager.authenticate(token);
+
             if (token.isAuthenticated()) {
                 SecurityContextHolder.getContext().setAuthentication(token);
                 super.logger.info(String.format("Login of user: %s, successfully!", loggingUser.getUsername()));
             }
-        }catch (AuthenticationException e){
+        } catch (AuthenticationException e) {
             model.addAttribute("exception", e);
             return ViewNames.USER_LOGIN;
         }
-        return "redirect:/" +super.getLocale() + "/";
+        return "redirect:/" + super.getLocale() + "/";
     }
 
     @PostConstruct

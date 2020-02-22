@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -50,21 +49,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-//                .loginProcessingUrl("/users/login")
-//                .loginPage("/users/login")
-//                .defaultSuccessUrl("/users/log")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .successHandler((req,res,auth)->{    //Success handler invoked after successful authentication
-                    for (GrantedAuthority authority : auth.getAuthorities()) {
-                        System.out.println(authority.getAuthority());
-                    }
-                    String contextPath = Arrays.stream(req.getCookies())
-                            .filter(c -> c.getName().equals(AppConstants.LOCALE_COOKIE_NAME))
-                            .findFirst().orElse(null).getValue();
-                    System.out.println(auth.getName());
-                    res.sendRedirect("/" + contextPath + "/"); // Redirect user to index/home page
-                })
                 .and()
                 .logout()
                 .logoutSuccessHandler((req,res,auth)->{   // Logout handler called after successful logout

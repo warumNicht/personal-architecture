@@ -7,6 +7,7 @@ import architecture.domain.models.serviceModels.UserServiceModel;
 import architecture.repositories.RoleRepository;
 import architecture.repositories.UserRepository;
 import architecture.services.interfaces.UserService;
+import architecture.util.LocaleMessageUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,7 +45,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = this.userRepository.findByUsername(username).orElse(null);
+        User user = this.userRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        String.format(LocaleMessageUtil.getLocalizedMessage("user.notFound"), username)
+                ));
         return user;
     }
 }
