@@ -10,7 +10,7 @@ public final class TestConstants {
     public final static String CATEGORY_2_ES_NAME = "Parques y jardines";
     public final static String CATEGORY_3_FR_NAME = "Monuments historiques";
 
-    public final static String INVALID_ID = "555";
+    public final static String INVALID_ID = "5555";
 
     public final static String IMAGE_URL = "https://www.vivadavinci2019.fr/wp-content/uploads/2018/11/chateau-chenonceau-1024x683.jpg";
     public final static String IMAGE_URL_2 = "https://images.france.fr/zeaejvyq9bhj/64kCwS0ni6U425WaHzUZGj/2f1cdfa24b5a6497f45bb1a521a78430/LATONE_-_Vue_du_Bassin___Cha__teau_de_Versailles__Christian_Milet.JPG";
