@@ -69,7 +69,6 @@ public class UserController extends BaseController {
     @PostMapping(value = "/authentication")
     public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel loggingUser,
                                 Model model) {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
         try {
             UserDetails principal = userService.loadUserByUsername(loggingUser.getUsername());
             UsernamePasswordAuthenticationToken token =
