@@ -27,10 +27,10 @@
         </div>
 
         <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'text-danger'">
-            <label for="name" th:text="#{article.title}"></label>
+            <label for="name" th:text="#{name}"></label>
             <input type="text" class="form-control"
                    th:field="*{name}" th:value="${categoryCreateModel.name}"
-                   id="name" th:placeholder="#{article.title}+'...'" name="title"
+                   id="name" th:placeholder="#{name}+'...'" name="title"
                    required pattern="^.{2,}$" title="Please enter at least 2 characters">
 
             <small th:each="error : ${#fields.errors('name')}" th:utext="${error} + '<br>'">
@@ -38,7 +38,7 @@
         </div>
 
         <div class="button-holder mt-4 d-flex justify-content-center">
-            <button type="submit" class="btn btn-info">Create Category</button>
+            <button type="submit" class="btn btn-info" th:text="#{category.create}"></button>
         </div>
     </form>
 </main>
