@@ -8,7 +8,7 @@
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
 <main class="container-fluid">
-    <a href="#btm">Skip to Page Foot</a>
+    <a href="#btm" th:text="#{go.foot}"></a>
 
     <div id="top" class="article-container" th:with="locale=${@localeService.getLocale()}">
         <div class="article-centered" th:object="${articleEdit}">
@@ -19,7 +19,8 @@
                 </option>
             </select>
             <div class="button-holder mt-4 d-flex justify-content-center">
-                <button id="categoryChange" class="btn btn-info" disabled>Change category</button>
+                <button id="categoryChange" class="btn btn-info" disabled
+                 th:text="#{article.changeCategory}"></button>
             </div>
 
             <div id="message"></div>
@@ -32,12 +33,12 @@
                      alt="Not found">
             </div>
             <div th:if="${articleEdit.mainImage==null}">
-                <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/add-image/${articleEdit.id}?main=true|}">
-                    Add main image</a>
+                <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/add-image/${articleEdit.id}?main=true|}"
+                th:text="#{article.add.mainImage}"></a>
             </div>
             <div th:if="${articleEdit.mainImage!=null}">
-                <a class="btn btn-info" th:href="@{|/${locale}/admin/images/edit/${articleEdit.mainImage.id}|}">
-                    Edit main image</a>
+                <a class="btn btn-info" th:href="@{|/${locale}/admin/images/edit/${articleEdit.mainImage.id}|}"
+                   th:text="#{article.edit.mainImage}"></a>
             </div>
             <div>
                 <div th:each="local : ${articleEdit.localContent}">
@@ -56,10 +57,10 @@
                th:text="#{add.lang}"></a>
             <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/add-image/${articleEdit.id}|}"
                th:text="#{add.image}"></a>
-            <a class="btn btn-info" id="show-hide-images" onclick="showImages()">View images</a>
+            <a class="btn btn-info" id="show-hide-images" onclick="showImages()" th:text="#{article.viewImages}"></a>
         </div>
         <div id="image-container"></div>
-        <a id="btm" href="#top">Skip to Page Head</a>
+        <a id="btm" href="#top" th:text="#{go.head}"></a>
     </div>
 
 </main>
