@@ -41,7 +41,11 @@ public class UserController extends BaseController {
 
     @GetMapping(value = "/register")
     public String registerUser(@ModelAttribute(name = ViewNames.USER_REGISTER_binding_model) UserCreateBindingModel model) {
-        return ViewNames.USER_REGISTER;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal.equals("anonymousUser")){
+            return ViewNames.USER_REGISTER;
+        }
+        return "redirect:/" + super.getLocale() + "/";
     }
 
     @PostMapping(value = "/register")
