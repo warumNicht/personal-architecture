@@ -70,24 +70,32 @@ public class UserController extends BaseController {
     }
 
     @GetMapping(value = "/login")
-    public String loginUser(@ModelAttribute(name = "userLogin") UserLoginBindingModel model) {
-        return ViewNames.USER_LOGIN;
+    public String loginUser(@ModelAttribute(name = "userLogin") UserLoginBindingModel model,
+                            Principal principal) {
+        if(principal==null){
+            return ViewNames.USER_LOGIN;
+        }
+        return "redirect:/" + super.getLocale() + "/";
     }
 
     @PostMapping(value = "/authentication")
-    public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel loggingUser,
-                                Model model) {
+    public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel userBinding,
+                                Model model, Principal principal) {
+        if(principal!=null){
+            return "redirect:/" + super.getLocale() + "/";
+        }
+
         try {
-            UserDetails principal = userService.loadUserByUsername(loggingUser.getUsername());
+            UserDetails loggingUser = userService.loadUserByUsername(userBinding.getUsername());
             UsernamePasswordAuthenticationToken token =
-                    new UsernamePasswordAuthenticationToken(principal,
-                            loggingUser.getPassword(), principal.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(loggingUser,
+                            userBinding.getPassword(), loggingUser.getAuthorities());
 
             Authentication authenticate = this.authenticationManager.authenticate(token);
 
             if (token.isAuthenticated()) {
                 SecurityContextHolder.getContext().setAuthentication(token);
-                super.logger.info(String.format("Login of user: %s, successfully!", loggingUser.getUsername()));
+                super.logger.info(String.format("Login of user: %s, successfully!", userBinding.getUsername()));
             }
         } catch (AuthenticationException e) {
             model.addAttribute("exception", e);
