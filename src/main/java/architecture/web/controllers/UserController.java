@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping(value = "/users")
@@ -40,9 +41,9 @@ public class UserController extends BaseController {
 
 
     @GetMapping(value = "/register")
-    public String registerUser(@ModelAttribute(name = ViewNames.USER_REGISTER_binding_model) UserCreateBindingModel model) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal.equals("anonymousUser")){
+    public String registerUser(@ModelAttribute(name = ViewNames.USER_REGISTER_binding_model) UserCreateBindingModel model,
+                               Principal principal) {
+        if(principal==null){
             return ViewNames.USER_REGISTER;
         }
         return "redirect:/" + super.getLocale() + "/";
@@ -50,7 +51,10 @@ public class UserController extends BaseController {
 
     @PostMapping(value = "/register")
     public String registerUserPost(@Valid @ModelAttribute(name = ViewNames.USER_REGISTER_binding_model) UserCreateBindingModel bindingModel,
-                                   BindingResult bindingResult, Model model) {
+                                   BindingResult bindingResult, Model model, Principal principal) {
+        if(principal!=null){
+            return "redirect:/" + super.getLocale() + "/";
+        }
         if (bindingResult.hasErrors()) {
             model.addAttribute(ViewNames.USER_REGISTER_binding_model, bindingModel);
             return ViewNames.USER_REGISTER;
