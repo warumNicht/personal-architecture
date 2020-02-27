@@ -193,7 +193,7 @@ public class AdminControllerIntegrationTests extends CategorySeed {
                 .andExpect(view().name("redirect:/fr/admin/category/list"))
                 .andDo(print());
 
-        Assert.assertEquals(category.getLocalCategoryNames().size(),1);
+        Assert.assertEquals(category.getLocalCategoryNames().size(), 1);
         Assert.assertEquals(category.getLocalCategoryNames().get(CountryCodes.DE),
                 TestConstants.CATEGORY_1_DE_NAME);
     }
@@ -228,7 +228,7 @@ public class AdminControllerIntegrationTests extends CategorySeed {
 
     @Test
     public void getListAll_Admin_returnsCorrectView() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/listAll" )
+        this.mockMvc.perform(get("/fr/admin/listAll")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))
@@ -239,7 +239,7 @@ public class AdminControllerIntegrationTests extends CategorySeed {
 
     @Test
     public void getCategoryList_Admin_returnsCorrectView() throws Exception {
-        this.mockMvc.perform(get("/fr/admin/category/list" )
+        this.mockMvc.perform(get("/fr/admin/category/list")
                 .locale(Locale.FRANCE)
                 .contextPath("/fr")
                 .cookie(new Cookie(AppConstants.LOCALE_COOKIE_NAME, "fr")))

@@ -337,7 +337,6 @@ public class ImageControllerIntegrationTests extends ArticleControllerBaseTests 
     }
 
 
-
     // тест за хвърлена грешка от GlobalExceptionHandler
 //    @Test
 //    public void getInexistentImage_returnsNotFound() throws Exception {

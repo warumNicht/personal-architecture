@@ -87,11 +87,11 @@ public class FetchControllerIntegrationTests extends ArticleControllerBaseTests 
                 .andExpect(jsonPath("$[1].localImageNames.*", hasSize(2)));
     }
 
-    private Article createArticleWithImages(){
+    private Article createArticleWithImages() {
         Article article = super.createArticleWithoutImage();
         Image image1 = new Image();
         image1.setUrl(TestConstants.IMAGE_URL);
-        image1.setLocalImageNames(new HashMap<>(){{
+        image1.setLocalImageNames(new HashMap<>() {{
             put(CountryCodes.FR, TestConstants.IMAGE_FR_NAME);
             put(CountryCodes.BG, TestConstants.IMAGE_BG_NAME);
             put(CountryCodes.ES, TestConstants.IMAGE_ES_NAME);
@@ -101,7 +101,7 @@ public class FetchControllerIntegrationTests extends ArticleControllerBaseTests 
 
         Image image2 = new Image();
         image2.setUrl(TestConstants.IMAGE_URL_2);
-        image2.setLocalImageNames(new HashMap<>(){{
+        image2.setLocalImageNames(new HashMap<>() {{
             put(CountryCodes.FR, TestConstants.IMAGE_FR_NAME_2);
             put(CountryCodes.BG, TestConstants.IMAGE_BG_NAME_2);
         }});

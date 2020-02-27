@@ -36,7 +36,7 @@ public abstract class ArticleControllerBaseTests extends CategorySeed {
         Article article = this.createArticleEntityWithoutImage();
         Image image = new Image();
         image.setUrl(TestConstants.IMAGE_URL);
-        image.setLocalImageNames(new HashMap<>(){{
+        image.setLocalImageNames(new HashMap<>() {{
             put(CountryCodes.FR, TestConstants.IMAGE_FR_NAME);
         }});
         image.setArticle(article);
@@ -49,7 +49,7 @@ public abstract class ArticleControllerBaseTests extends CategorySeed {
         return this.articleRepository.save(this.createArticleEntityWithoutImage());
     }
 
-    private Article createArticleEntityWithoutImage(){
+    private Article createArticleEntityWithoutImage() {
         Article article = new Article();
         article.setDate(new Date());
         article.setCategory(super.categoryRepository.findAll().get(0));

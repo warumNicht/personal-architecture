@@ -34,7 +34,7 @@ public class AccessControllerIntegrationTests {
     @WithMockUser
     public void getAdminPage_withUser_returnsUnauthorized() throws Exception {
         MockHttpSession mockHttpSession = new MockHttpSession();
-        this.mockMvc.perform(get("/fr/admin/articles/create" )
+        this.mockMvc.perform(get("/fr/admin/articles/create")
                 .locale(Locale.FRANCE)
                 .session(mockHttpSession)
                 .contextPath("/fr")
@@ -43,7 +43,7 @@ public class AccessControllerIntegrationTests {
                 .andExpect(redirectedUrlPattern("/**/unauthorized"))
                 .andDo(print());
 
-        this.mockMvc.perform(get("/fr/unauthorized" )
+        this.mockMvc.perform(get("/fr/unauthorized")
                 .locale(Locale.FRANCE)
                 .session(mockHttpSession)
                 .contextPath("/fr")

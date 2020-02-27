@@ -52,7 +52,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/users/login")
                 .and()
                 .logout()
-                .logoutSuccessHandler((req,res,auth)->{   // Logout handler called after successful logout
+                .logoutSuccessHandler((req, res, auth) -> {   // Logout handler called after successful logout
                     String contextPath = Arrays.stream(req.getCookies())
                             .filter(c -> c.getName().equals(AppConstants.LOCALE_COOKIE_NAME))
                             .findFirst().orElse(null).getValue();

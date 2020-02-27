@@ -43,7 +43,7 @@ public class UserController extends BaseController {
     @GetMapping(value = "/register")
     public String registerUser(@ModelAttribute(name = ViewNames.USER_REGISTER_binding_model) UserCreateBindingModel model,
                                Principal principal) {
-        if(principal==null){
+        if (principal == null) {
             return ViewNames.USER_REGISTER;
         }
         return "redirect:/" + super.getLocale() + "/";
@@ -52,7 +52,7 @@ public class UserController extends BaseController {
     @PostMapping(value = "/register")
     public String registerUserPost(@Valid @ModelAttribute(name = ViewNames.USER_REGISTER_binding_model) UserCreateBindingModel bindingModel,
                                    BindingResult bindingResult, Model model, Principal principal) {
-        if(principal!=null){
+        if (principal != null) {
             return "redirect:/" + super.getLocale() + "/";
         }
         if (bindingResult.hasErrors()) {
@@ -72,7 +72,7 @@ public class UserController extends BaseController {
     @GetMapping(value = "/login")
     public String loginUser(@ModelAttribute(name = "userLogin") UserLoginBindingModel model,
                             Principal principal) {
-        if(principal==null){
+        if (principal == null) {
             return ViewNames.USER_LOGIN;
         }
         return "redirect:/" + super.getLocale() + "/";
@@ -81,7 +81,7 @@ public class UserController extends BaseController {
     @PostMapping(value = "/authentication")
     public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel userBinding,
                                 Model model, Principal principal) {
-        if(principal!=null){
+        if (principal != null) {
             return "redirect:/" + super.getLocale() + "/";
         }
 
