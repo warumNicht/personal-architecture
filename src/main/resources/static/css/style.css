@@ -28,3 +28,13 @@ img {
     justify-content: space-between;
     width: 100%;
 }
+
+.wrapper-login{
+    margin: auto 30%;
+}
+
+@media (max-width: 550px) {
+    .wrapper-login{
+        margin: auto 10%;
+    }
+}
