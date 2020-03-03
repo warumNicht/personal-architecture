@@ -49,10 +49,12 @@
 
         <div class="form-group" th:classappend="${#fields.hasErrors('content')} ? 'text-danger'">
             <label for="content" th:text="#{article.content}"></label>
-            <input type="text" class="form-control"
+            <textarea type="text" class="form-control" rows="7"
                    th:field="*{content}" th:value="${articleBinding.content}"
                    id="content" th:placeholder="#{article.content}" name="content"
-                   required pattern="^.{2,}$" title="Please enter at least 2 characters">
+                      required pattern="^.{2,}$" title="Please enter at least 2 characters">
+
+            </textarea>
 
             <small th:each="error : ${#fields.errors('content')}" th:utext="${error +'<br>'}"></small>
         </div>
