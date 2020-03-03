@@ -8,6 +8,7 @@
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
 <main class="wrapper-25">
+    <div class="title" th:text="#{category.edit}"></div>
 
     <form th:method="put"
           th:action="@{/{locale}/admin/category/edit/{categoryId}(categoryId=${categoryEditModel.id},locale=${@localeService.getLocale()})}"

@@ -8,6 +8,7 @@
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
 <main class="wrapper-25">
+    <div class="title" th:text="#{category.create}"></div>
 
     <form th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/category/create|}"
           th:object="${categoryCreateModel}">
