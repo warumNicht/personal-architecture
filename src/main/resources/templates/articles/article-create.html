@@ -8,10 +8,8 @@
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
 <main class="wrapper-80">
-    <div>
-        <h1>My site will be here</h1>
-        <p>L'architecture est le jeu savant, correct et magnifique des volumes...</p>
-    </div>
+    <div class="title" th:text="#{article.create}"></div>
+
     <form th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/articles/create|}"
           th:object="${articleBinding}">
 

@@ -42,6 +42,13 @@ img {
     justify-content: space-between;
 }
 
+.title{
+    text-align: center;
+    font-size: 2rem;
+    margin: 1rem auto;
+    font-weight: bold;
+}
+
 .two-fields > div {
     width: 45%;
 }
