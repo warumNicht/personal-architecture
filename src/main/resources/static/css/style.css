@@ -58,15 +58,12 @@ img {
 }
 
 @media (max-width: 550px) {
-    .wrapper-login {
-        margin: auto 10%;
-    }
 
-    .wrapper-80, .wrapper-25 {
+    .wrapper-login, .wrapper-80, .wrapper-25 {
         margin: auto 5%;
     }
 
-    .wrapper-80 button, .wrapper-25 button{
+    .wrapper-login button, .wrapper-80 button, .wrapper-25 button{
         width: 100%;
     }
 

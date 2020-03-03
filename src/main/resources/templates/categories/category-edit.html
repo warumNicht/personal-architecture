@@ -7,9 +7,9 @@
 
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
-<main>
+<main class="wrapper-25">
 
-    <form class="mx-auto w-25" th:method="put"
+    <form th:method="put"
           th:action="@{/{locale}/admin/category/edit/{categoryId}(categoryId=${categoryEditModel.id},locale=${@localeService.getLocale()})}"
           th:object="${categoryEditModel}">
 
@@ -28,7 +28,7 @@
             </small>
         </div>
 
-        <div class="button-holder mt-4 d-flex justify-content-center">
+        <div class="mt-4 d-flex justify-content-center">
             <button type="submit" class="btn btn-info" th:text="#{category.edit}"></button>
         </div>
     </form>
