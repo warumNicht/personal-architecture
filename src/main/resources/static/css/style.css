@@ -37,6 +37,10 @@ img {
     margin: auto 10%;
 }
 
+.wrapper-25 {
+    margin: auto 37.5%;
+}
+
 .two-fields {
     display: flex;
     justify-content: space-between;
@@ -58,11 +62,11 @@ img {
         margin: auto 10%;
     }
 
-    .wrapper-80 {
+    .wrapper-80, .wrapper-25 {
         margin: auto 5%;
     }
 
-    .wrapper-80 button {
+    .wrapper-80 button, .wrapper-25 button{
         width: 100%;
     }
 

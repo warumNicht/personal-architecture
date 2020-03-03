@@ -7,9 +7,9 @@
 
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
-<main>
+<main class="wrapper-25">
 
-    <form class="mx-auto w-25" th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/category/create|}"
+    <form th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/category/create|}"
           th:object="${categoryCreateModel}">
 
         <div class="form-group" th:classappend="${#fields.hasErrors('country')} ? 'text-danger'">
@@ -37,7 +37,7 @@
             </small>
         </div>
 
-        <div class="button-holder mt-4 d-flex justify-content-center">
+        <div class="mt-4 d-flex justify-content-center">
             <button type="submit" class="btn btn-info" th:text="#{category.create}"></button>
         </div>
     </form>
