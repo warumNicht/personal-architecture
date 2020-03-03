@@ -29,12 +29,41 @@ img {
     width: 100%;
 }
 
-.wrapper-login{
+.wrapper-login {
     margin: auto 30%;
 }
 
+.wrapper-80 {
+    margin: auto 10%;
+}
+
+.two-fields {
+    display: flex;
+    justify-content: space-between;
+}
+
+.two-fields > div {
+    width: 45%;
+}
+
 @media (max-width: 550px) {
-    .wrapper-login{
+    .wrapper-login {
         margin: auto 10%;
+    }
+
+    .wrapper-80 {
+        margin: auto 5%;
+    }
+
+    .wrapper-80 button {
+        width: 100%;
+    }
+
+    .two-fields {
+        display: block;
+    }
+
+    .two-fields > div {
+        width: 100%;
     }
 }
