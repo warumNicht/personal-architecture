@@ -66,6 +66,8 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
         return bean;
     }
 
+
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")

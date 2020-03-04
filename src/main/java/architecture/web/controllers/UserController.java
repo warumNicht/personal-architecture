@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -80,7 +81,7 @@ public class UserController extends BaseController {
 
     @PostMapping(value = "/authentication")
     public String loginUserPost(@ModelAttribute(name = "userLogin") UserLoginBindingModel userBinding,
-                                Model model, Principal principal) {
+                                Model model, Principal principal, HttpSession session) {
         if (principal != null) {
             return "redirect:/" + super.getLocale() + "/";
         }
@@ -100,6 +101,11 @@ public class UserController extends BaseController {
         } catch (AuthenticationException e) {
             model.addAttribute("exception", e);
             return ViewNames.USER_LOGIN;
+        }
+        Object attribute = session.getAttribute("ref");
+        if(attribute!=null){
+            session.removeAttribute("ref");
+            return "redirect:" + attribute;
         }
         return "redirect:/" + super.getLocale() + "/";
     }

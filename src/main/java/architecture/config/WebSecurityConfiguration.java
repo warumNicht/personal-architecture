@@ -14,7 +14,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
@@ -37,6 +39,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new CustomAccessDeniedHandler();
     }
 
+    @Bean
+    public AuthenticationEntryPoint loginUrlAuthenticationEntryPoint() {
+        LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint =
+                new CustomLoginUrlAuthenticationEntryPoint("/users/login");
+        return loginUrlAuthenticationEntryPoint;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -47,6 +56,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
+
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(loginUrlAuthenticationEntryPoint())
                 .and()
                 .formLogin()
                 .loginPage("/users/login")
