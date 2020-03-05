@@ -1,5 +1,6 @@
 package architecture.config;
 
+import architecture.services.interfaces.LocaleService;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
@@ -9,19 +10,26 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class CustomLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
-    /**
-     * @param loginFormUrl URL where the login page can be found. Should either be
-     *                     relative to the web-app context path (include a leading {@code /}) or an absolute
-     *                     URL.
-     */
-    public CustomLoginUrlAuthenticationEntryPoint(String loginFormUrl) {
+
+    private final LocaleService localeService;
+
+    public CustomLoginUrlAuthenticationEntryPoint(String loginFormUrl, LocaleService localeService) {
         super(loginFormUrl);
+        this.localeService = localeService;
     }
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        String requestURI = request.getRequestURI();
+        System.out.println(requestURI);
         response.setHeader("ref", request.getRequestURI());
         request.getSession().setAttribute("ref", request.getRequestURI());
         super.commence(request, response, authException);
+    }
+
+    @Override
+    public String getLoginFormUrl() {
+        String locale = this.localeService.getLocale();
+        return "/" + locale + super.getLoginFormUrl();
     }
 }

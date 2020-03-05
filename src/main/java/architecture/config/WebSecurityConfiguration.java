@@ -2,6 +2,7 @@ package architecture.config;
 
 import architecture.constants.AppConstants;
 import architecture.error.CustomAccessDeniedHandler;
+import architecture.services.interfaces.LocaleService;
 import architecture.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userDetailsService;
 
+    @Autowired
+    private LocaleService localeService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -42,7 +46,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationEntryPoint loginUrlAuthenticationEntryPoint() {
         LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint =
-                new CustomLoginUrlAuthenticationEntryPoint("/users/login");
+                new CustomLoginUrlAuthenticationEntryPoint("/users/login", this.localeService);
         return loginUrlAuthenticationEntryPoint;
     }
 
