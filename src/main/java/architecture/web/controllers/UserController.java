@@ -1,5 +1,6 @@
 package architecture.web.controllers;
 
+import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.models.bindingModels.users.UserCreateBindingModel;
 import architecture.domain.models.bindingModels.users.UserLoginBindingModel;
@@ -102,10 +103,10 @@ public class UserController extends BaseController {
             model.addAttribute("exception", e);
             return ViewNames.USER_LOGIN;
         }
-        Object attribute = session.getAttribute("ref");
+        Object attribute = session.getAttribute(AppConstants.LOGIN_REFERRER_SESSION_ATTRIBUTE_NAME);
         if(attribute!=null){
-            session.removeAttribute("ref");
-            return "redirect:" + attribute;
+            session.removeAttribute(AppConstants.LOGIN_REFERRER_SESSION_ATTRIBUTE_NAME);
+            return "redirect:/" + super.getLocale() + attribute;
         }
         return "redirect:/" + super.getLocale() + "/";
     }

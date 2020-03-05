@@ -7,6 +7,8 @@ import java.util.Locale;
 public final class AppConstants {
     public static final String LOCALE_COOKIE_NAME = "lang";
 
+    public static final String LOGIN_REFERRER_SESSION_ATTRIBUTE_NAME = "loginReferrer";
+
     public static final Locale DEFAULT_LOCALE = Locale.US;
 
     public static final CountryCodes DEFAULT_COUNTRY_CODE = CountryCodes.BG;
