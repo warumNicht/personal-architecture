@@ -51,10 +51,6 @@ img {
     width: 100%;
 }
 
-.wrapper-login {
-    margin: auto 30%;
-}
-
 .wrapper-80 {
     margin: auto 10%;
 }
@@ -71,7 +67,7 @@ img {
 .title{
     text-align: center;
     font-size: 2rem;
-    margin: 1rem auto;
+    margin-bottom: 2rem;
     font-weight: bold;
 }
 
@@ -81,11 +77,11 @@ img {
 
 @media (max-width: 550px) {
 
-    .wrapper-login, .wrapper-80, .wrapper-25 {
+    .wrapper-80, .wrapper-25 {
         margin: auto 5%;
     }
 
-    .wrapper-login button, .wrapper-80 button, .wrapper-25 button{
+    .wrapper-80 button, .wrapper-25 button{
         width: 100%;
     }
 

@@ -8,8 +8,9 @@
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
 <main class="center-main">
-    <form class="wrapper-login" th:method="post" th:action="@{/users/authentication}"
+    <form class="wrapper-25" th:method="post" th:action="@{/users/authentication}"
           th:object="${userLogin}">
+        <div class="title" th:text="#{login}"></div>
 
         <div class="form-group">
             <label for="username" th:text="#{user.username}"></label>
