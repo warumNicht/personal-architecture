@@ -7,11 +7,11 @@
 
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
-<main class="wrapper-25">
-    <div class="title" th:text="#{category.create}"></div>
+<main class="wrapper-25 center-main">
 
     <form th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/category/create|}"
           th:object="${categoryCreateModel}">
+        <div class="title" th:text="#{category.create}"></div>
 
         <div class="form-group" th:classappend="${#fields.hasErrors('country')} ? 'text-danger'">
             <label for="lang" th:text="#{lang.country}"></label>
@@ -42,6 +42,7 @@
             <button type="submit" class="btn btn-info" th:text="#{category.create}"></button>
         </div>
     </form>
+
 </main>
 
 <footer th:replace="~{fragments/general :: footer}"></footer>

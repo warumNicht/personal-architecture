@@ -7,7 +7,7 @@
 
 <header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
-<main>
+<main class="center-main">
     <form class="wrapper-login" th:method="post" th:action="@{/users/authentication}"
           th:object="${userLogin}">
 
