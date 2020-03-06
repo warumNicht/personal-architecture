@@ -2,11 +2,14 @@ body {
     font-family: 'Exo 2', sans-serif;
     background-color: palegoldenrod;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+main{
+    flex: 1;
 }
 
 footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
     text-align: center;
     background-color: #f8f9fa;
