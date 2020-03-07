@@ -11,8 +11,26 @@ main{
 
 footer {
     width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     background-color: #f8f9fa;
+}
+
+footer div{
+    margin: 0 5%;
+}
+
+.stretch{
+    text-align: justify;
+    height: 25px;
+}
+
+.stretch span{
+    display: inline-block;
+    width: 100%;
 }
 
 .center-main{
@@ -76,6 +94,10 @@ img {
 }
 
 @media (max-width: 550px) {
+
+    .stretch{
+        height: 50px;
+    }
 
     .wrapper-80, .wrapper-25 {
         margin: auto 5%;
