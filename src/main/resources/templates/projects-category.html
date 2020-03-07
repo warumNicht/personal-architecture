@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/base-layout::layout(~{this :: main}, ~{this :: script})">
 <head th:replace="~{fragments/general :: head}"></head>
-
-<body>
-
-<header th:insert="~{fragments/navbar :: guest-ul}"></header>
 
 <main class="container-fluid">
     <div>
@@ -33,14 +30,6 @@
                 EDIT</a>
         </div>
     </div>
-
 </main>
 
-<script>
-
-</script>
-
-<footer th:replace="~{fragments/general :: footer}"></footer>
-
-</body>
 </html>
