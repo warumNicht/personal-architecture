@@ -1,7 +1,7 @@
 <!DOCTYPE html >
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="fragments/base-layout::layout(~{this :: main})" >
+      th:replace="fragments/base-layout::layout(~{this :: main}, null)" >
 
 <main class="wrapper-25 center-main">
     <form th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/category/create|}"

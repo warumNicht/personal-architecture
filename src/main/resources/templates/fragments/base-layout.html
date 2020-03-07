@@ -1,6 +1,6 @@
 <!DOCTYPE html >
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" th:fragment="layout(main)">
+      xmlns:th="http://www.thymeleaf.org" th:fragment="layout(main, script)">
 <head th:replace="~{fragments/general :: head}"></head>
 
 <body>
@@ -10,6 +10,10 @@
 <main th:replace="${main}"></main>
 
 <footer th:replace="~{fragments/general :: footer}"></footer>
+
+<th:block th:if="${script!=null}">
+    <th:block th:replace="${script}" />
+</th:block>
 
 </body>
 </html>
