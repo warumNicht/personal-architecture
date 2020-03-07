@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="fragments/base-layout::layout(~{this :: main},~{this :: #script-block})" >
-
+      th:replace="fragments/base-layout::layout(~{this :: main},~{this :: #script-block})">
 <main>
-
     <div class="mx-auto w-25" th:object="${article}">
         <div class="form-group">
             <label for="title" th:text="#{article.title}"></label>

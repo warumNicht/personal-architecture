@@ -20,7 +20,7 @@
             </select>
             <div class="button-holder mt-4 d-flex justify-content-center">
                 <button id="categoryChange" class="btn btn-info" disabled
-                 th:text="#{article.changeCategory}"></button>
+                        th:text="#{article.changeCategory}"></button>
             </div>
 
             <div id="message"></div>
@@ -34,7 +34,7 @@
             </div>
             <div th:if="${articleEdit.mainImage==null}">
                 <a class="btn btn-info" th:href="@{|/${locale}/admin/articles/add-image/${articleEdit.id}?main=true|}"
-                th:text="#{article.add.mainImage}"></a>
+                   th:text="#{article.add.mainImage}"></a>
             </div>
             <div th:if="${articleEdit.mainImage!=null}">
                 <a class="btn btn-info" th:href="@{|/${locale}/admin/images/edit/${articleEdit.mainImage.id}|}"
