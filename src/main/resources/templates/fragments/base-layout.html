@@ -1,0 +1,15 @@
+<!DOCTYPE html >
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" th:fragment="layout(main)">
+<head th:replace="~{fragments/general :: head}"></head>
+
+<body>
+
+<header th:insert="~{fragments/navbar :: guest-ul}"></header>
+
+<main th:replace="${main}"></main>
+
+<footer th:replace="~{fragments/general :: footer}"></footer>
+
+</body>
+</html>

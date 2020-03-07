@@ -1,14 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/general :: head}"></head>
-
-<body>
-
-<header th:insert="~{fragments/navbar :: guest-ul}"></header>
+      xmlns:th="http://www.thymeleaf.org" th:replace="fragments/base-layout::layout(~{this :: main})" >
 
 <main class="wrapper-25 center-main">
-
     <form th:method="post" th:action="@{|/${@localeService.getLocale()}/admin/category/create|}"
           th:object="${categoryCreateModel}">
         <div class="title" th:text="#{category.create}"></div>
@@ -42,10 +36,6 @@
             <button type="submit" class="btn btn-info" th:text="#{category.create}"></button>
         </div>
     </form>
-
 </main>
 
-<footer th:replace="~{fragments/general :: footer}"></footer>
-
-</body>
 </html>
