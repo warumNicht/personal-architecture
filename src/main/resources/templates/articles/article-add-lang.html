@@ -2,12 +2,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       th:replace="fragments/base-layout::layout(~{this :: main},null)">
-<main>
-    <div>
-        <h1>My site will be here</h1>
-        <p>L'architecture est le jeu savant, correct et magnifique des volumes...</p>
-    </div>
-    <form class="mx-auto w-25" th:method="post"
+<main class="wrapper-80">
+    <div class="title" th:text="#{article.add.lang}"></div>
+    <form th:method="post"
           th:action="@{|/${@localeService.getLocale()}/admin/articles/addLang/${articleBinding.id}|}"
           th:object="${articleBinding}">
 
@@ -38,10 +35,11 @@
 
         <div class="form-group" th:classappend="${#fields.hasErrors('content')} ? 'text-danger'">
             <label for="content" th:text="#{article.content}"></label>
-            <input type="text" class="form-control"
+            <textarea type="text" class="form-control" rows="9"
                    th:field="*{content}" th:value="${articleBinding.content}"
                    id="content" th:placeholder="#{article.content}" name="content"
-                   required pattern="^.{2,}$" title="Please enter at least 2 characters">
+                      required pattern="^.{2,}$" title="Please enter at least 2 characters">
+            </textarea>
 
             <small th:each="error : ${#fields.errors('content')}" th:utext="${error +'<br>'}">
             </small>
@@ -59,7 +57,7 @@
         </div>
 
         <div class="button-holder mt-4 d-flex justify-content-center">
-            <button type="submit" class="btn btn-secondary">Add Language</button>
+            <button type="submit" class="btn btn-secondary" th:text="#{article.add.lang}"></button>
         </div>
     </form>
 </main>

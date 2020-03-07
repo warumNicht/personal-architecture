@@ -17,20 +17,7 @@ footer {
     align-items: center;
     text-align: center;
     background-color: #f8f9fa;
-}
-
-footer div{
-    margin: 0 5%;
-}
-
-.stretch{
-    text-align: justify;
-    height: 25px;
-}
-
-.stretch span{
-    display: inline-block;
-    width: 100%;
+    margin-top: 25px;
 }
 
 .center-main{
@@ -94,9 +81,8 @@ img {
 }
 
 @media (max-width: 550px) {
-
-    .stretch{
-        height: 50px;
+    footer div{
+        margin: 0 5%;
     }
 
     .wrapper-80, .wrapper-25 {
