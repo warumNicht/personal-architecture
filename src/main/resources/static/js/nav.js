@@ -22,7 +22,8 @@ $(document).ready(function () {
     select.change(function () {
         let selectedOption = select.val();
         if (selectedOption !== 'all') {
-            location.href = getLocale(location.href) + 'projects/category/' + selectedOption; //IE does not support `${var}`
+            //IE does not support `${var}`
+            location.href = getLocale(location.href) + 'projects/category/' + selectedOption;
         }
     });
 });

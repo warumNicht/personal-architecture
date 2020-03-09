@@ -1,12 +1,18 @@
+html,body {
+    display: flex;
+    flex-flow:column nowrap;
+    height:100vh; /* fix IE11 */
+    min-height:100%; /* fix IE11 */
+}
+
 body {
     font-family: 'Exo 2', sans-serif;
     background-color: palegoldenrod;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 main{
-    flex: 1;
+    flex: 1 0 auto; /* last 2 arguments fix IE11 */
 }
 
 footer {
