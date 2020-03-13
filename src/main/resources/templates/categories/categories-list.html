@@ -4,11 +4,11 @@
       th:replace="fragments/base-layout::layout(~{this :: main},~{this :: #script-block})">
 
 <main class="wrapper-80 category-list-main">
-    <div class="title" th:text="#{category.create}"></div>
+    <div class="title" th:text="#{category.all}"></div>
 
     <div th:replace="~{fragments/loading-spinner :: spinner}"></div>
     <div class="categories-container"></div>
-
+    <input id="edit-button-name" type="hidden" th:value="#{category.edit}">
 </main>
 
 <th:block id="script-block">

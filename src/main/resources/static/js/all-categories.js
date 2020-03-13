@@ -6,6 +6,7 @@ function editCategory(categoryId) {
 function showAllCategories() {
     const categoriesContainer = $('div.categories-container');
     const categoriesSelect = $('#select-categories option');
+    const editButtonName = $('#edit-button-name').val();
 
     categoriesSelect.each(function (index) {
         if (index !== 0) {
@@ -13,7 +14,7 @@ function showAllCategories() {
             const innerText = $(this).text();
             const currentCategoryDiv = $('<div class="category-wrapper"></div>');
             currentCategoryDiv.append(`<div class="category-name">${innerText}</div>`);
-            currentCategoryDiv.append(`<button class="btn btn-info" onclick="editCategory(${value})">Edit Category</button>`);
+            currentCategoryDiv.append(`<button class="btn btn-info" onclick="editCategory(${value})">${editButtonName}</button>`);
             categoriesContainer.append(currentCategoryDiv);
         }
     });
