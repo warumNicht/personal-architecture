@@ -4,15 +4,15 @@ function editCategory(categoryId) {
 }
 
 function showAllCategories() {
-    const categoriesContainer = $('div.article-container');
+    const categoriesContainer = $('div.categories-container');
     const categoriesSelect = $('#select-categories option');
 
     categoriesSelect.each(function (index) {
         if (index !== 0) {
             const value = $(this).val();
             const innerText = $(this).text();
-            const currentCategoryDiv = $('<div></div>');
-            currentCategoryDiv.append(`<div>${innerText}</div>`);
+            const currentCategoryDiv = $('<div class="category-wrapper"></div>');
+            currentCategoryDiv.append(`<div class="category-name">${innerText}</div>`);
             currentCategoryDiv.append(`<button class="btn btn-info" onclick="editCategory(${value})">Edit Category</button>`);
             categoriesContainer.append(currentCategoryDiv);
         }

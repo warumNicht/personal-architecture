@@ -32,6 +32,34 @@ footer {
     align-items: center;
 }
 
+.category-list-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.categories-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.category-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.category-name{
+    font-size: 22px;
+    margin: 20px;
+}
+
 .center-main form{
     width: 100%;
 }
@@ -105,5 +133,9 @@ img {
 
     .two-fields > div {
         width: 100%;
+    }
+
+    .category-wrapper {
+        flex-direction: column;
     }
 }

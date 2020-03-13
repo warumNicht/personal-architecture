@@ -3,13 +3,11 @@
       xmlns:th="http://www.thymeleaf.org"
       th:replace="fragments/base-layout::layout(~{this :: main},~{this :: #script-block})">
 
-<main class="container-fluid">
-    <div>
-        <h1>All categories</h1>
-    </div>
+<main class="wrapper-80 category-list-main">
+    <div class="title" th:text="#{category.create}"></div>
 
     <div th:replace="~{fragments/loading-spinner :: spinner}"></div>
-    <div class="article-container"></div>
+    <div class="categories-container"></div>
 
 </main>
 
