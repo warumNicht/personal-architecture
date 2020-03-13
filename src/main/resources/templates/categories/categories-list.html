@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/general :: head}"></head>
-
-<body>
-
-<header th:insert="~{fragments/navbar :: guest-ul}"></header>
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/base-layout::layout(~{this :: main},~{this :: #script-block})">
 
 <main class="container-fluid">
     <div>
@@ -17,11 +13,11 @@
 
 </main>
 
-<footer th:replace="~{fragments/general :: footer}"></footer>
+<th:block id="script-block">
 <script th:inline="javascript">
     const locale = [[${@localeService.getLocale()}]];
 </script>
 <script th:src="@{/js/all-categories.js}"></script>
+</th:block>
 
-</body>
 </html>
