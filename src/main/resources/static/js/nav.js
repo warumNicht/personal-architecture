@@ -11,11 +11,19 @@ $('ul.navbar-nav').find('select').click(function (e) {
 });
 
 $(document).ready(function () {
-    $("#select-locales").change(function () {
-        let selectedOption = $('#select-locales').val();
-        if (selectedOption !== '') {
-            location.replace('?lang=' + selectedOption.toLowerCase());
-        }
+    // $("#select-locales").change(function () {
+    //     let selectedOption = $('#select-locales').val();
+    //     if (selectedOption !== '') {
+    //         location.replace('?lang=' + selectedOption.toLowerCase());
+    //     }
+    // });
+
+    $('.dropdown').each(function (){
+        this.addEventListener('click',function (event){
+            console.log(event);
+
+            $(this).find( 'div' ).css({display:"block"})
+        });
     });
     const select = $('#select-categories');
     fetchCategories(select);

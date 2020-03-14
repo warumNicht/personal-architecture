@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
-<nav th:fragment="guest-ul" class="navbar navbar-expand-lg navbar-light bg-light">
+<nav th:fragment="guest-ul" class="navbar navbar-expand-lg navbar-light bg-light nav-pad-v-0">
     <a class="navbar-brand" href="#" th:text="#{greeting}"></a>
     <button class="navbar-toggler" type="button" data-toggle="dropdown" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,16 +55,18 @@
 
 
             <li class="nav-item dropdown">
-                <select class="browser-default custom-select" id="select-locales">
-                    <option selected value="" th:text="#{lang.change}"></option>
-                    <option th:each="countryCode : ${T(architecture.domain.CountryCodes).values()}"
-                            th:value="${countryCode}"
-                            th:text="#{${'lang.' + countryCode }}">
-                    </option>
-                </select>
+                <p th:text="#{${'lang.' + #strings.toUpperCase(locale) }}"></p>
+
+                <div class="dropdown-content">
+                    <a th:each="countryCode : ${T(architecture.domain.CountryCodes).values()}"
+                       th:href="@{${#request.getRequestURL()} + '?lang='
+                            + ${#strings.toLowerCase(countryCode)}}" th:text="#{${'lang.' + countryCode }}">
+                    </a>
+                </div>
+
             </li>
-            <li class="nav-item dropdown">
-                <select class="browser-default custom-select" id="select-categories">
+            <li class="nav-item">
+                <select class="browser-default custom-select dropdown" id="select-categories">
                     <option value="555" th:text="#{all}"></option>
                 </select>
             </li>
