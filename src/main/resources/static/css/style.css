@@ -133,11 +133,26 @@ img {
     display: block;
 }
 
-.dropdown:hover .dropdown-content{
+.dropdown-content a:hover {
+    background-color: #c6c8ca;
+}
+
+.dropdown:hover .dropdown-content, .dropdown:active .dropdown-content {
     display: block;
 }
 
+.selected-lang{
+    display: flex;
+    justify-content: space-between;
+}
+
+.selected-lang svg{
+    width: 30px;
+}
 @media (max-width: 550px) {
+    .dropdown-content{
+        position: initial;
+    }
     footer div{
         margin: 0 5%;
     }
