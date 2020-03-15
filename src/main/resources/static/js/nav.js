@@ -1,5 +1,9 @@
 import {fetchCategories, getLocale} from "./fetch-functions.js";
 
+
+
+
+
 //test for touch events support and if not supported, attach .no-touch class to the HTML tag.
 
 if (!("ontouchstart" in document.documentElement)) {
@@ -17,6 +21,7 @@ $('ul.navbar-nav').find('.dropdown').click(function (e) {
 });
 
 $(document).ready(function () {
+
     // $("#select-locales").change(function () {
     //     let selectedOption = $('#select-locales').val();
     //     if (selectedOption !== '') {
