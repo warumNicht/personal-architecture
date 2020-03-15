@@ -28,7 +28,7 @@ $(document).ready(function () {
         this.addEventListener('click',function (event){
             console.log(event);
 
-            $(this).find( 'div' ).css({display:"block"})
+            $(this).find( 'div.dropdown-content' ).css({display:"block"})
         });
     });
     const select = $('#select-categories');
