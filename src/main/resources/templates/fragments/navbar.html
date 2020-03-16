@@ -96,7 +96,7 @@
 
                 scripts.forEach(function (src) {
                     console.log(src);
-                    let script = document.createElement('script');
+                    const script = document.createElement('script');
                     script.src = src;
                     script.async = false;
                     document.head.insertBefore(script, document.getElementById('first-script'));
