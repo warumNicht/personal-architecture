@@ -28,15 +28,11 @@
 
 .dropdown-icon{
     display: none;
-}
-
-li.dropdown:hover div.dropdown-content{
-    display: block;
-}
-
-
-li.show div.dropdown-icon{
     transform: rotate(180deg);
+}
+
+.dropdown:hover .dropdown-content{
+    display: block;
 }
 
 .selected-lang{
@@ -50,11 +46,16 @@ li.show div.dropdown-icon{
 }
 
 @media (max-width: 550px) {
-    li.dropdown div.dropdown-content, li.dropdown:hover div.dropdown-content{
+
+    .expanded-dropdown .dropdown-icon{
+        transform: rotate(360deg);
+    }
+
+    .dropdown .dropdown-content, .dropdown:hover .dropdown-content{
         display: none;
     }
 
-    li.show:hover div.dropdown-content{
+    .expanded-dropdown:hover .dropdown-content{
         display: block;
     }
 

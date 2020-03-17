@@ -43,7 +43,7 @@ $(document).ready(function () {
         if(currentLang){
             currentLang.addEventListener('click', function(event){
                 console.log(event);
-                dropdown.classList.toggle('show');
+                dropdown.classList.toggle('expanded-dropdown');
             })
         }
     });
