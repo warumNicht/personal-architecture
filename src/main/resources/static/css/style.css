@@ -137,8 +137,17 @@ img {
     background-color: #c6c8ca;
 }
 
-.dropdown:hover .dropdown-content, .dropdown:active .dropdown-content {
+.dropdown-icon{
+    display: none;
+}
+
+li.dropdown:hover div.dropdown-content{
     display: block;
+}
+
+
+li.show div.dropdown-icon{
+    transform: rotate(180deg);
 }
 
 .selected-lang{
@@ -146,13 +155,30 @@ img {
     justify-content: space-between;
 }
 
+
 .selected-lang svg{
     width: 30px;
 }
 @media (max-width: 550px) {
+
+    li.dropdown div.dropdown-content, li.dropdown:hover div.dropdown-content{
+             display: none;
+    }
+
+    li.show:hover div.dropdown-content{
+        display: block;
+    }
+
+
     .dropdown-content{
         position: initial;
     }
+
+    .dropdown-icon{
+        display: block;
+    }
+
+
     footer div{
         margin: 0 5%;
     }

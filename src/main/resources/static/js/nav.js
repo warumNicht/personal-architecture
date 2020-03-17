@@ -29,13 +29,25 @@ $(document).ready(function () {
     //     }
     // });
 
-    $('.dropdown').each(function (){
-        this.addEventListener('click',function (event){
-            console.log(event);
+    // $('.dropdown').each(function (){
+    //     this.addEventListener('click',function (event){
+    //         console.log(event);
+    //
+    //         $(this).find( 'div.dropdown-content' ).css({display:"block"})
+    //     });
+    // });
 
-            $(this).find( 'div.dropdown-content' ).css({display:"block"})
-        });
+    document.querySelectorAll('.dropdown').forEach(function(dropdown){
+        const currentLang=dropdown.querySelector('.dropdown-icon');
+        const content=dropdown.querySelector('.dropdown-content');
+        if(currentLang){
+            currentLang.addEventListener('click', function(event){
+                console.log(event);
+                dropdown.classList.toggle('show');
+            })
+        }
     });
+
     const select = $('#select-categories');
     fetchCategories(select);
     select.change(function () {
