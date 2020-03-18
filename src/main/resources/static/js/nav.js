@@ -1,4 +1,4 @@
-import {fetchCategories, getLocale} from "./fetch-functions.js";
+import {fetchCategories, getLocale, fetchCategoriesDropdown} from "./fetch-functions.js";
 
 
 
@@ -49,7 +49,9 @@ $(document).ready(function () {
     });
 
     const select = $('#select-categories');
+    const selectDropdown = $('#select-categories2');
     fetchCategories(select);
+    fetchCategoriesDropdown(selectDropdown);
     select.change(function () {
         let selectedOption = select.val();
         if (selectedOption !== 'all') {

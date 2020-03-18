@@ -17,10 +17,26 @@ function fetchCategories(selectElement) {
     });
 }
 
+function fetchCategoriesDropdown(selectElement) {
+    let urlParts = window.location.toString().split('/');
+    let categoryId = urlParts[urlParts.length - 1];
+
+    sendXmlHttpRequest('GET', '/fetch/categories/all').then(function (res) {
+        res.forEach(function (category) {
+            const isSelected = categoryId == category.id ? 'selected ' : '';
+            const href=  getLocale(window.location.href) + 'projects/category/'  + category.id;
+            selectElement.append('<a href="' + href + '" ' + (isSelected ? 'class="selected-item"' : '') + '>' + category.name + '</a>');
+        });
+
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
+
 function getLocale(url) {
     const regex = /^.*\/(fr|en|bg|es|de)\//g;
     const found = url.match(regex);
     return found[0];
 }
 
-export {fetchCategories, getLocale}
+export {fetchCategories, getLocale, fetchCategoriesDropdown}
