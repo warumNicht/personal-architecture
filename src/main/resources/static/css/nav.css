@@ -35,10 +35,10 @@
     display: block;
 }
 
-.selected-lang{
-    display: flex;
-    justify-content: space-between;
-}
+/*.selected-lang{*/
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+/*}*/
 
 .selected-item{
     background-color: #ffe8a1;

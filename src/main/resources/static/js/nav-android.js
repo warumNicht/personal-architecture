@@ -1,27 +1,27 @@
 
 function sendXmlHttpRequest(method, url, data, token) {
-    // return new Promise(function (resolve, reject) {
-    //     try {
-    //         const req = new XMLHttpRequest();
-    //         req.open(method, url, true);
-    //         req.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    //         if (token) {
-    //             req.setRequestHeader(token.header, token.content);
-    //         }
-    //         req.onreadystatechange = function () {
-    //             if (this.readyState === 4) {
-    //                 const jsonResult =JSON.parse(this.response);
-    //                 if(jsonResult.error){
-    //                     reject(jsonResult);
-    //                 }
-    //                 resolve(jsonResult);
-    //             }
-    //         };
-    //         req.send(data);
-    //     } catch (e) {
-    //         reject(e);
-    //     }
-    // });
+    return new Promise(function (resolve, reject) {
+        try {
+            const req = new XMLHttpRequest();
+            req.open(method, url, true);
+            req.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            if (token) {
+                req.setRequestHeader(token.header, token.content);
+            }
+            req.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    const jsonResult =JSON.parse(this.response);
+                    if(jsonResult.error){
+                        reject(jsonResult);
+                    }
+                    resolve(jsonResult);
+                }
+            };
+            req.send(data);
+        } catch (e) {
+            reject(e);
+        }
+    });
 }
 
 
@@ -30,16 +30,17 @@ function fetchCategoriesDropdown(selectElement) {
     const urlParts = window.location.toString().split('/');
     const categoryId = urlParts[urlParts.length - 1];
 
-    // sendXmlHttpRequest('GET', '/fetch/categories/all').then(function (res) {
-    //     // res.forEach(function (category) {
-    //     //     const isSelected = categoryId == category.id ? 'selected ' : '';
-    //     //     const href=  getLocale(window.location.href) + 'projects/category/'  + category.id;
-    //     //     selectElement.append('<a href="' + href + '" ' + (isSelected ? 'class="selected-item"' : '') + '>' + category.name + '</a>');
-    //     // });
-    //
-    // }).catch(function (error) {
-    //     console.log(error);
-    // });
+    sendXmlHttpRequest('GET', '/fetch/categories/all').then(function (res) {
+        console.log(res);
+        res.forEach(function (category) {
+            const isSelected = categoryId == category.id ? 'selected ' : '';
+            const href=  getLocale(window.location.href) + 'projects/category/'  + category.id;
+            selectElement.append('<a href="' + href + '" ' + (isSelected ? 'class="selected-item"' : '') + '>' + category.name + '</a>');
+        });
+
+    }).catch(function (error) {
+        console.log(error);
+    });
 }
 
 function getLocale(url) {
@@ -67,22 +68,16 @@ $('ul.navbar-nav').find('.dropdown').click(function (e) {
 
 $(document).ready(function () {
 
-    const dropdowns=document.querySelectorAll('.dropdown');
-
-    for(var i=0; i<dropdowns.length; i++){
-            const currentDropdown=dropdowns[i];
-        console.log(currentDropdown);
-            const currentLang=currentDropdown.querySelector('.dropdown-icon');
-            const content=currentDropdown.querySelector('.dropdown-content');
-
-            if(currentLang){
-                currentLang.addEventListener('click', function(event){
-                    console.log(event);
-                    currentDropdown.classList.toggle('expanded-dropdown');
-                })
-            }
-
-    }
+    document.querySelectorAll('.dropdown').forEach(function(dropdown){
+        const currentLang=dropdown.querySelector('.dropdown-icon');
+        const content=dropdown.querySelector('.dropdown-content');
+        if(currentLang){
+            currentLang.addEventListener('click', function(event){
+                console.log(event);
+                dropdown.classList.toggle('expanded-dropdown');
+            })
+        }
+    });
 
 
     const selectDropdown = $('#select-categories2');
