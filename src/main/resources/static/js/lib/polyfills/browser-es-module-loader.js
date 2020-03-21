@@ -1145,7 +1145,7 @@
 // <script type="module"> support
     var anonSources = {};
     if (typeof document != 'undefined' && document.getElementsByTagName) {
-        function ready() {
+        var  ready = function() {
             document.removeEventListener('DOMContentLoaded', ready, false );
 
             var anonCnt = 0;
