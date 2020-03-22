@@ -138,21 +138,16 @@
                 const androidpoint = userAgent.indexOf('Android');
                 const rest = userAgent.substring(androidpoint + 8, userAgent.length);
                 const version = getAndroidVersion(userAgent);
-                console.log(version);
+                console.log('Android version -> ', version);
                 if(version<5){
                     console.log('Android < 5');
                     const androidScripts = [
                         '/js/lib/polyfills/polyfill.min.js',
-                        '/js/lib/polyfills/babel-browser-build.js',
-                        '/js/lib/polyfills/nodelist-polyfill.js'
+                        '/js/lib/polyfills/babel-browser-build.js'
                     ];
                     console.log('Before android scripts');
                     androidScripts.forEach(createScript);
                     console.log('After android scripts');
-                    const loaded=document.querySelectorAll('script');
-                    // for (var i=0;i<loaded.length; i++){
-                    //     console.log(loaded[i].src)
-                    // }
                     return;
                 }else {
                     console.log('Android > 5');
