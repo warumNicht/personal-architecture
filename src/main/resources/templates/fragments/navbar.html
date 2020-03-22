@@ -99,9 +99,25 @@
 
     </div>
     <script>
+        function createScript(src) {
+            console.log(src);
+            const script = document.createElement('script');
+            script.src = src;
+            script.async = false;
+            document.head.insertBefore(script, document.getElementById('first-script'));
+        }
+
+        function getAndroidVersion(userAgent) {
+            const regex = /[A|a]ndroid\s+(\d+)/;
+            const found = userAgent.match(regex);
+            return found[1];
+        }
+
         function msIeCheck() {
             const userAgent = window.navigator.userAgent;
 
+            console.log(version);
+            console.log(userAgent);
             if (userAgent.indexOf('Trident/') > 0 || userAgent.indexOf('MSIE ') > 0) {
                 console.log('found IE');
                 const scripts = [
@@ -112,14 +128,36 @@
                     '/js/lib/polyfills/fetch.js'
                 ];
 
-                scripts.forEach(function (src) {
-                    console.log(src);
-                    const script = document.createElement('script');
-                    script.src = src;
-                    script.async = false;
-                    document.head.insertBefore(script, document.getElementById('first-script'));
-                });
+                scripts.forEach(createScript);
                 return;
+            }
+            if(userAgent.indexOf('Android') < 0){
+                console.log('not Android');
+                return;
+            }else {
+                const androidpoint = userAgent.indexOf('Android');
+                const rest = userAgent.substring(androidpoint + 8, userAgent.length);
+                const version = getAndroidVersion(userAgent);
+                console.log(version);
+                if(version<5){
+                    console.log('Android < 5');
+                    const androidScripts = [
+                        '/js/lib/polyfills/polyfill.min.js',
+                        '/js/lib/polyfills/babel-browser-build.js',
+                        '/js/lib/polyfills/nodelist-polyfill.js'
+                    ];
+                    console.log('Before android scripts');
+                    androidScripts.forEach(createScript);
+                    console.log('After android scripts');
+                    const loaded=document.querySelectorAll('script');
+                    // for (var i=0;i<loaded.length; i++){
+                    //     console.log(loaded[i].src)
+                    // }
+                    return;
+                }else {
+                    console.log('Android > 5');
+                }
+
             }
             console.log('not IE');
         }
