@@ -9,6 +9,8 @@ import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service(value = "localeService")
 public class LocaleServiceImpl implements LocaleService {
@@ -22,6 +24,27 @@ public class LocaleServiceImpl implements LocaleService {
     @Override
     public String getLocale() {
         return this.getCurrentCookieLocale().toString().toLowerCase();
+    }
+
+    @Override
+    public boolean checkOldAndroid() {
+        String userAgent = this.request.getHeader("user-agent");
+        System.out.println(userAgent);
+        String text =
+                "John writes about this, Android 4.1.2; that," +
+                        " and John writes about everything. ";
+
+        String androidPattern = "[A|a]ndroid\\s+(\\d+)";
+
+        Pattern pattern = Pattern.compile(androidPattern);
+        Matcher matcher = pattern.matcher(userAgent);
+        if(matcher.find()){
+            String androidVersion = matcher.group(1);
+            System.out.println(androidVersion);
+            int version = Integer.parseInt(androidVersion);
+            return version < AppConstants.ANDROID_VERSION_WITHOUT_POLYFILLS;
+        }
+        return false;
     }
 
     @Override

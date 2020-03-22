@@ -32,12 +32,11 @@ function fetchCategoriesDropdown(selectElement) {
 
     sendXmlHttpRequest('GET', '/fetch/categories/all').then(function (res) {
         console.log(res);
-        for(var i=0; i<res.length; i++){
-            const category = res[i];
+        res.forEach(function (category) {
             const isSelected = categoryId == category.id ? 'selected ' : '';
             const href=  getLocale(window.location.href) + 'projects/category/'  + category.id;
             selectElement.append('<a href="' + href + '" ' + (isSelected ? 'class="selected-item"' : '') + '>' + category.name + '</a>');
-        }
+        });
 
     }).catch(function (error) {
         console.log(error);
@@ -69,22 +68,16 @@ $('ul.navbar-nav').find('.dropdown').click(function (e) {
 
 $(document).ready(function () {
 
-    const dropdowns=document.querySelectorAll('.dropdown');
-
-    for(var i=0; i<dropdowns.length; i++){
-        const currentDropdown=dropdowns[i];
-        console.log(currentDropdown);
-        const currentLang=currentDropdown.querySelector('.dropdown-icon');
-        const content=currentDropdown.querySelector('.dropdown-content');
-
+    document.querySelectorAll('.dropdown').forEach(function(dropdown){
+        const currentLang=dropdown.querySelector('.dropdown-icon');
+        const content=dropdown.querySelector('.dropdown-content');
         if(currentLang){
             currentLang.addEventListener('click', function(event){
                 console.log(event);
-                currentDropdown.classList.toggle('expanded-dropdown');
+                dropdown.classList.toggle('expanded-dropdown');
             })
         }
-
-    }
+    });
 
 
     const selectDropdown = $('#select-categories2');

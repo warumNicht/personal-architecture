@@ -6,5 +6,7 @@ public interface LocaleService {
 
     String getLocale();
 
+    boolean checkOldAndroid();
+
     CountryCodes getCurrentCookieLocale();
 }

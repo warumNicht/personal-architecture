@@ -29,5 +29,7 @@ public final class AppConstants {
 
     public static final String URL_REGEX_PATTERN = "^https?:\\/\\/(www\\.)?(?!w{0,2}\\.)[^\"'\\s]{3,}$|^";
 
+    public static final int ANDROID_VERSION_WITHOUT_POLYFILLS = 5;
+
 
 }
