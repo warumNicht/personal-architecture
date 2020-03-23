@@ -20,7 +20,8 @@ public class LocaleServiceImpl implements LocaleService {
     private final String[] OLD_ANDROID = {
             "/js/lib/polyfills/polyfill.min.js",
             "/js/lib/polyfills/babel-browser-build.js",
-            "/js/lib/polyfills/nodelist-polyfill.js",};
+            "/js/lib/polyfills/nodelist-polyfill.js",
+            "/js/lib/polyfills/classList-polyfill.js"};
 
     private final String[] IE_SCRIPTS = {
             "/js/lib/polyfills/polyfill.min.js",
