@@ -98,38 +98,10 @@
         </ul>
 
     </div>
-    <!--<script>-->
-        <!--function createScript(src) {-->
-            <!--console.log(src);-->
-            <!--const script = document.createElement('script');-->
-            <!--script.src = src;-->
-            <!--script.async = false;-->
-            <!--document.head.insertBefore(script, document.getElementById('first-script'));-->
-        <!--}-->
 
-        <!--function msIeCheck() {-->
-            <!--const userAgent = window.navigator.userAgent;-->
-            <!--console.log(userAgent);-->
-            <!--if (userAgent.indexOf('Trident/') > 0 || userAgent.indexOf('MSIE ') > 0) {-->
-                <!--console.log('found IE');-->
-                <!--const scripts = [-->
-                    <!--'/js/lib/polyfills/polyfill.min.js',-->
-                    <!--'/js/lib/polyfills/babel-browser-build.js',-->
-                    <!--'/js/lib/polyfills/browser-es-module-loader.js',-->
-                    <!--'/js/lib/polyfills/nodelist-polyfill.js',-->
-                    <!--'/js/lib/polyfills/fetch.js'-->
-                <!--];-->
-
-                <!--scripts.forEach(createScript);-->
-                <!--return;-->
-            <!--}-->
-            <!--console.log('not IE');-->
-        <!--}-->
-        <!--msIeCheck();-->
-    <!--</script>-->
 
     <script type="module" th:src="@{/js/nav.js}"></script>
-    <script nomodule th:src="@{/js/nav-android.js}"></script>
+    <script th:if="${@localeService.checkOldAndroid()}" nomodule th:src="@{/js/nav-android.js}"></script>
 
 </nav>
 
