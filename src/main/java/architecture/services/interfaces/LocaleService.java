@@ -9,4 +9,6 @@ public interface LocaleService {
     boolean checkOldAndroid();
 
     CountryCodes getCurrentCookieLocale();
+
+    String loadScripts();
 }

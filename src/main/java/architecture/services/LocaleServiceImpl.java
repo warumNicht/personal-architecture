@@ -9,11 +9,25 @@ import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service(value = "localeService")
 public class LocaleServiceImpl implements LocaleService {
+    private final String[] OLD_ANDROID = {
+            "/js/lib/polyfills/polyfill.min.js",
+            "/js/lib/polyfills/babel-browser-build.js",
+            "/js/lib/polyfills/nodelist-polyfill.js",};
+
+    private final String[] IE_SCRIPTS = {
+            "/js/lib/polyfills/polyfill.min.js",
+            "/js/lib/polyfills/babel-browser-build.js",
+            "/js/lib/polyfills/browser-es-module-loader.js",
+            "/js/lib/polyfills/nodelist-polyfill.js"};
+
     private HttpServletRequest request;
 
     @Autowired
@@ -30,9 +44,6 @@ public class LocaleServiceImpl implements LocaleService {
     public boolean checkOldAndroid() {
         String userAgent = this.request.getHeader("user-agent");
         System.out.println(userAgent);
-        String text =
-                "John writes about this, Android 4.1.2; that," +
-                        " and John writes about everything. ";
 
         String androidPattern = "[A|a]ndroid\\s+(\\d+)";
 
@@ -54,5 +65,28 @@ public class LocaleServiceImpl implements LocaleService {
             return CountryCodes.valueOf(actualCookie.getValue().toUpperCase());
         }
         return AppConstants.DEFAULT_COUNTRY_CODE;
+    }
+
+    @Override
+    public String loadScripts() {
+        StringBuilder res = new StringBuilder();
+        this.listNeededScripts().forEach(s -> {
+            String current = String.format("<script src=\"%s\"></script>", s);
+            res.append(current).append('\n');
+        });
+        return res.toString();
+    }
+
+    private List<String> listNeededScripts() {
+        String userAgent = this.request.getHeader("user-agent");
+        System.out.println(userAgent);
+
+        if(userAgent.contains("Trident/") || userAgent.contains("MSIE ")){
+             return Arrays.asList(IE_SCRIPTS);
+        }
+        if(this.checkOldAndroid()){
+            return  Arrays.asList(OLD_ANDROID);
+        }
+        return new ArrayList<>();
     }
 }
