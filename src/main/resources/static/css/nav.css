@@ -35,10 +35,10 @@
     display: block;
 }
 
-/*.selected-lang{*/
-    /*display: flex;*/
-    /*justify-content: space-between;*/
-/*}*/
+.selected-lang{
+    display: flex;
+    justify-content: space-between;
+}
 
 .selected-item{
     background-color: #ffe8a1;
@@ -47,6 +47,7 @@
 
 .selected-lang svg{
     width: 30px;
+    height: 30px;
 }
 
 @media (max-width: 550px) {
