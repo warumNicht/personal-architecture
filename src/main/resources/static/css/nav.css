@@ -109,13 +109,13 @@
         overflow: hidden;
         animation-name: example;
         animation-timing-function: linear;
-        animation-duration: 0.5s;
+        animation-duration: 2s;
         animation-fill-mode: forwards;
     }
 
     @keyframes example {
-        from {height: 0}
-        to {height: 100%}
+        from {max-height: 0}
+        to {max-height: 500px}
     }
 
     .dropdown-content-arch a:hover {
