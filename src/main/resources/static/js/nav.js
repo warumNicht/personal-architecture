@@ -16,7 +16,7 @@ $('ul.navbar-nav li.dropdown').hover(function () {
     $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeOut(500);
 });
 
-$('ul.navbar-nav').find('.dropdown').click(function (e) {
+$('ul.navbar-nav').find('.dropdown-arch').click(function (e) {
     e.stopPropagation();
 });
 

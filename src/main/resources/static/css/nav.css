@@ -20,7 +20,7 @@
     display: block;
 }
 
-.expanded-dropdown .dropdown-content-arch {
+.expanded-dropdown-arch .dropdown-content-arch {
     display: block;
 }
 
@@ -113,9 +113,23 @@
         animation-fill-mode: forwards;
     }
 
+    .dropdown-arch .dropdown-content-arch{
+        display: block;
+        overflow: hidden;
+        animation-name: slide-out;
+        animation-timing-function: linear;
+        animation-duration: 2s;
+        animation-fill-mode: forwards;
+    }
+
     @keyframes slide-in {
         from {max-height: 0}
         to {max-height: 500px}
+    }
+
+    @keyframes slide-out {
+        from {max-height: 500px}
+        to {max-height: 0}
     }
 
     .dropdown-content-arch a:hover {
