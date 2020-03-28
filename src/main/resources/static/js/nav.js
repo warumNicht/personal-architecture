@@ -37,13 +37,13 @@ $(document).ready(function () {
     //     });
     // });
 
-    document.querySelectorAll('.dropdown').forEach(function(dropdown){
+    document.querySelectorAll('.dropdown-arch').forEach(function(dropdown){
         const currentLang=dropdown.querySelector('.dropdown-icon');
-        const content=dropdown.querySelector('.dropdown-content');
+        const content=dropdown.querySelector('.dropdown-content-arch');
         if(currentLang){
             currentLang.addEventListener('click', function(event){
                 console.log(event);
-                dropdown.classList.toggle('expanded-dropdown');
+                dropdown.classList.toggle('expanded-dropdown-arch');
             })
         }
     });

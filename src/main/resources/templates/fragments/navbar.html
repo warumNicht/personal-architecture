@@ -19,7 +19,7 @@
             <li class="nav-item" sec:authorize="isAnonymous()">
                 <a class="nav-link" th:href="@{|/${locale}/users/register|}" th:text="#{register}"></a>
             </li>
-            <li class="nav-item dropdown" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+            <li class="nav-item dropdown-arch" sec:authorize="hasAnyRole('ROLE_ADMIN')">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false" th:text="#{admin}">
                 </a>
@@ -54,7 +54,7 @@
             </th:block>
 
 
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown-arch">
                 <div class="selected-lang">
                     <div th:text="#{${'lang.' + #strings.toUpperCase(locale) }}"></div>
                     <div class="dropdown-icon">
@@ -66,7 +66,7 @@
                 </div>
 
 
-                <div class="dropdown-content">
+                <div class="dropdown-content-arch">
                     <a th:each="countryCode : ${T(architecture.domain.CountryCodes).values()}"
                        th:href="@{${#request.getRequestURL()} + '?lang='
                             + ${#strings.toLowerCase(countryCode)}}" th:text="#{${'lang.' + countryCode }}">
@@ -74,13 +74,13 @@
                 </div>
             </li>
 
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown-arch">
                 <select class="browser-default custom-select dropdown" id="select-categories">
                     <option value="555" th:text="#{all}"></option>
                 </select>
             </li>
 
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown-arch">
                 <div class="selected-lang">
                     <div>Project category</div>
                     <div class="dropdown-icon">
@@ -92,7 +92,7 @@
                 </div>
 
 
-                <div class="dropdown-content" id="select-categories2">
+                <div class="dropdown-content-arch" id="select-categories2">
 
                 </div>
             </li>
