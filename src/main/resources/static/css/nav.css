@@ -107,13 +107,13 @@
     .dropdown-arch:hover .dropdown-content-arch{
         display: block;
         overflow: hidden;
-        animation-name: example;
+        animation-name: slide-in;
         animation-timing-function: linear;
         animation-duration: 2s;
         animation-fill-mode: forwards;
     }
 
-    @keyframes example {
+    @keyframes slide-in {
         from {max-height: 0}
         to {max-height: 500px}
     }
