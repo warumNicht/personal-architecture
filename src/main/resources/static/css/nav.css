@@ -106,6 +106,16 @@
 
     .dropdown:hover .dropdown-content{
         display: block;
+        overflow: hidden;
+        animation-name: example;
+        animation-timing-function: linear;
+        animation-duration: 0.5s;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes example {
+        from {height: 0}
+        to {height: 100%}
     }
 
     .dropdown-content a:hover {
