@@ -41,7 +41,7 @@ $(document).ready(function () {
             $(this).removeClass('dropdown-out');
         }, function () {
             $(this).addClass('dropdown-out');
-            setTimeout(()=>{
+            setTimeout(function(){
                 $(this).removeClass('dropdown-out');
                 console.log('removed class')
             },2000);
