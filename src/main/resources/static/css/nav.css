@@ -33,10 +33,12 @@
 
 
 
-.dropdown-arch .dropdown-content-arch {
+
+.dropdown-out .dropdown-content-arch{
     display: block;
     overflow: hidden;
     animation-name: slide-out;
+    animation-delay: -1.5s;
     animation-timing-function: linear;
     animation-duration: 2s;
     animation-fill-mode: forwards;
@@ -50,6 +52,8 @@
     animation-duration: 2s;
     animation-fill-mode: forwards;
 }
+
+
 
 .dropdown-icon {
     display: block;
@@ -133,18 +137,10 @@
         animation-name: slide-in;
         animation-timing-function: linear;
         animation-duration: 2s;
-        /*animation-fill-mode: forwards;*/
-    }
-
-    .dropdown-out .dropdown-content-arch{
-        display: block;
-        overflow: hidden;
-        animation-name: slide-out;
-        animation-delay: -1.5s;
-        animation-timing-function: linear;
-        animation-duration: 2s;
         animation-fill-mode: forwards;
     }
+
+
 
 
     .dropdown-content-arch a:hover {

@@ -53,10 +53,19 @@ $(document).ready(function () {
     document.querySelectorAll('.dropdown-arch').forEach(function(dropdown){
         const currentLang=dropdown.querySelector('.dropdown-icon');
         const content=dropdown.querySelector('.dropdown-content-arch');
+        let index=0;
         if(currentLang){
             currentLang.addEventListener('click', function(event){
                 console.log(event);
-                dropdown.classList.toggle('expanded-dropdown-arch');
+                if(index%2===0){
+                    dropdown.classList.toggle('expanded-dropdown-arch');
+                    dropdown.classList.remove('dropdown-out');
+                }else {
+                    dropdown.classList.toggle('dropdown-out');
+                    dropdown.classList.remove('expanded-dropdown-arch');
+                }
+                index++;
+
             })
         }
     });
