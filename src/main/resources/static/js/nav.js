@@ -41,6 +41,10 @@ $(document).ready(function () {
             $(this).removeClass('dropdown-out');
         }, function () {
             $(this).addClass('dropdown-out');
+            setTimeout(()=>{
+                $(this).removeClass('dropdown-out');
+                console.log('removed class')
+            },2000);
             console.log('hover -> out')
 
         })
