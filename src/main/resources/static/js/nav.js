@@ -1,7 +1,4 @@
-import {fetchCategories, getLocale, fetchCategoriesDropdown} from "./fetch-functions.js";
-
-
-
+import {fetchCategories, fetchCategoriesDropdown, getLocale} from "./fetch-functions.js";
 
 
 //test for touch events support and if not supported, attach .no-touch class to the HTML tag.
@@ -39,12 +36,14 @@ $(document).ready(function () {
 
     $('.dropdown-arch').each(function (index, e) {
         console.log(index, e);
-        $(this).mouseleave(function () {
+        $(this).hover(function () {
+            console.log('hover -> in');
+            $(this).removeClass('dropdown-out');
+        }, function () {
+            $(this).addClass('dropdown-out');
+            console.log('hover -> out')
 
-                    $(this).find('.dropdown-content-arch').slideUp( "slow");
-                    console.log('hover -> out')
-
-            })
+        })
     });
 
     document.querySelectorAll('.dropdown-arch').forEach(function(dropdown){
