@@ -20,8 +20,23 @@
     display: block;
 }
 
+
+@keyframes slide-in {
+    from {max-height: 0}
+    to {max-height: 500px}
+}
+
+@keyframes slide-out {
+    from {max-height: 500px}
+    to {max-height: 0}
+}
+
 .expanded-dropdown-arch .dropdown-content-arch {
     display: block;
+    overflow: hidden;
+    animation-name: slide-in;
+    animation-timing-function: linear;
+    animation-duration: 2s;
 }
 
 .dropdown-content-arch {
@@ -123,15 +138,6 @@
         animation-fill-mode: forwards;
     }
 
-    @keyframes slide-in {
-        from {max-height: 0}
-        to {max-height: 500px}
-    }
-
-    @keyframes slide-out {
-        from {max-height: 500px}
-        to {max-height: 0}
-    }
 
     .dropdown-content-arch a:hover {
         background-color: #c6c8ca;
