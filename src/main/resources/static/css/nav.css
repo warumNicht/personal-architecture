@@ -10,23 +10,50 @@
 }
 
 /* mobile dropdown*/
-.dropdown-content{
+.dropdown-content-arch{
     display: none;
     background-color: #f9f9f9;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
-.dropdown-content a {
+.dropdown-content-arch a {
     display: block;
 }
 
-.expanded-dropdown .dropdown-content {
-    display: block;
+
+@keyframes slide-in {
+    from {max-height: 0}
+    to {max-height: 500px}
 }
 
-.dropdown-content {
-    position: initial;
+@keyframes slide-out {
+    from {max-height: 500px}
+    to {max-height: 0}
 }
+
+
+
+
+.dropdown-out .dropdown-content-arch{
+    display: block;
+    overflow: hidden;
+    animation-name: slide-out;
+    animation-delay: -1.5s;
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
+.expanded-dropdown-arch .dropdown-content-arch {
+    display: block;
+    overflow: hidden;
+    animation-name: slide-in;
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    /*animation-fill-mode: forwards;*/
+}
+
+
 
 .dropdown-icon {
     display: block;
@@ -46,7 +73,7 @@
     transition-property: transform;
 }
 
-.expanded-dropdown div.dropdown-icon{
+.expanded-dropdown-arch div.dropdown-icon{
     -ms-transform: rotate(360deg); /* IE 9 */
     -webkit-transform: rotate(360deg); /* Safari and Chrome */
     -o-transform: rotate(360deg); /* Opera */
@@ -94,21 +121,29 @@
 @media (min-width: 550px) {
 
     /*dropdown*/
-    .dropdown-content{
+    .dropdown-content-arch{
         position: absolute;
         min-width: 160px;
         z-index: 1;
     }
 
-    .expanded-dropdown .dropdown-content {
+    .expanded-dropdown-arch .dropdown-content-arch {
         display: none;
     }
 
-    .dropdown:hover .dropdown-content{
+    .dropdown-arch:hover .dropdown-content-arch{
         display: block;
+        overflow: hidden;
+        animation-name: slide-in;
+        animation-timing-function: linear;
+        animation-duration: 2s;
+        animation-fill-mode: forwards;
     }
 
-    .dropdown-content a:hover {
+
+
+
+    .dropdown-content-arch a:hover {
         background-color: #c6c8ca;
     }
 
