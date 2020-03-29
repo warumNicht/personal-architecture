@@ -37,6 +37,16 @@ $(document).ready(function () {
     //     });
     // });
 
+    $('.dropdown-arch').each(function (index, e) {
+        console.log(index, e);
+        $(this).mouseleave(function () {
+
+                    $(this).find('.dropdown-content-arch').slideUp( "slow");
+                    console.log('hover -> out')
+
+            })
+    });
+
     document.querySelectorAll('.dropdown-arch').forEach(function(dropdown){
         const currentLang=dropdown.querySelector('.dropdown-icon');
         const content=dropdown.querySelector('.dropdown-content-arch');
