@@ -41,8 +41,9 @@ $(document).ready(function () {
             $(this).removeClass('dropdown-out');
         }, function () {
             $(this).addClass('dropdown-out');
+            const that=$(this);
             setTimeout(function(){
-                $(this).removeClass('dropdown-out');
+                that.removeClass('dropdown-out');
                 console.log('removed class')
             },2000);
             console.log('hover -> out')
@@ -63,6 +64,10 @@ $(document).ready(function () {
                 }else {
                     dropdown.classList.toggle('dropdown-out');
                     dropdown.classList.remove('expanded-dropdown-arch');
+                    setTimeout(function(){
+                        dropdown.classList.remove('dropdown-out');
+                        console.log('removed class')
+                    },2000);
                 }
                 index++;
 
