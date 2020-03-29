@@ -31,16 +31,24 @@
     to {max-height: 0}
 }
 
+
+
+.dropdown-arch .dropdown-content-arch {
+    display: block;
+    overflow: hidden;
+    animation-name: slide-out;
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
 .expanded-dropdown-arch .dropdown-content-arch {
     display: block;
     overflow: hidden;
     animation-name: slide-in;
     animation-timing-function: linear;
     animation-duration: 2s;
-}
-
-.dropdown-content-arch {
-    position: initial;
+    animation-fill-mode: forwards;
 }
 
 .dropdown-icon {
