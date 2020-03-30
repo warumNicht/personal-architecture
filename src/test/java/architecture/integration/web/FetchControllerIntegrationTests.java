@@ -1,12 +1,12 @@
 package architecture.integration.web;
 
 import architecture.constants.AppConstants;
+import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
 import architecture.domain.entities.Image;
 import architecture.integration.web.articles.ArticleControllerBaseTests;
 import architecture.repositories.ImageRepository;
 import architecture.util.TestConstants;
-import architecture.domain.CountryCodes;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
-
 import java.util.HashMap;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;

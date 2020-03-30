@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
       th:replace="fragments/base-layout::layout(~{this :: main}, ~{this :: null})">
 <main>
     <form class="mx-auto w-25" th:method="post" th:action="@{|/${@localeService.getLocale()}/users/register|}"

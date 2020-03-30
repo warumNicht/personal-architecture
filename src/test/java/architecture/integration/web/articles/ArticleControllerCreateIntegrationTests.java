@@ -6,8 +6,8 @@ import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
-import architecture.domain.models.bindingModels.images.ImageBindingModel;
 import architecture.domain.models.bindingModels.articles.ArticleCreateBindingModel;
+import architecture.domain.models.bindingModels.images.ImageBindingModel;
 import architecture.util.TestConstants;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,7 +27,8 @@ import javax.validation.constraints.Size;
 import java.util.Locale;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 

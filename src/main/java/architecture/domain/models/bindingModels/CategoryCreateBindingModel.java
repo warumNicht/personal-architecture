@@ -26,16 +26,16 @@ public class CategoryCreateBindingModel {
         return country;
     }
 
+    public void setCountry(CountryCodes country) {
+        this.country = country;
+    }
+
     public void setCountry(String country) {
         try {
             this.country = CountryCodes.valueOf(country);
         } catch (Exception e) {
             this.country = null;
         }
-    }
-
-    public void setCountry(CountryCodes country) {
-        this.country = country;
     }
 
     public String getName() {

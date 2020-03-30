@@ -49,7 +49,7 @@ public class LocaleServiceImpl implements LocaleService {
 
         Pattern pattern = Pattern.compile(androidPattern);
         Matcher matcher = pattern.matcher(userAgent);
-        if(matcher.find()){
+        if (matcher.find()) {
             String androidVersion = matcher.group(1);
             System.out.println(androidVersion);
             int version = Integer.parseInt(androidVersion);
@@ -81,11 +81,11 @@ public class LocaleServiceImpl implements LocaleService {
         String userAgent = this.request.getHeader("user-agent");
         System.out.println(userAgent);
 
-        if(userAgent.contains("Trident/") || userAgent.contains("MSIE ")){
-             return Arrays.asList(IE_SCRIPTS);
+        if (userAgent.contains("Trident/") || userAgent.contains("MSIE ")) {
+            return Arrays.asList(IE_SCRIPTS);
         }
-        if(this.checkOldAndroid()){
-            return  Arrays.asList(OLD_ANDROID);
+        if (this.checkOldAndroid()) {
+            return Arrays.asList(OLD_ANDROID);
         }
         return new ArrayList<>();
     }

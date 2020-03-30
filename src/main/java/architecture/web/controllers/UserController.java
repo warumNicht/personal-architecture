@@ -104,7 +104,7 @@ public class UserController extends BaseController {
             return ViewNames.USER_LOGIN;
         }
         Object attribute = session.getAttribute(AppConstants.LOGIN_REFERRER_SESSION_ATTRIBUTE_NAME);
-        if(attribute!=null){
+        if (attribute != null) {
             session.removeAttribute(AppConstants.LOGIN_REFERRER_SESSION_ATTRIBUTE_NAME);
             return "redirect:/" + super.getLocale() + attribute;
         }

@@ -1,8 +1,8 @@
-html,body {
+html, body {
     display: flex;
-    flex-flow:column nowrap;
-    height:100vh; /* fix IE11 */
-    min-height:100%; /* fix IE11 */
+    flex-flow: column nowrap;
+    height: 100vh; /* fix IE11 */
+    min-height: 100%; /* fix IE11 */
 }
 
 body {
@@ -11,7 +11,8 @@ body {
     display: flex;
     flex-direction: column;
 }
-main{
+
+main {
     flex: 1 0 auto; /* last 2 arguments fix IE11 */
 }
 
@@ -26,7 +27,7 @@ footer {
     margin-top: 25px;
 }
 
-.center-main{
+.center-main {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -55,12 +56,12 @@ footer {
     margin-bottom: 20px;
 }
 
-.category-name{
+.category-name {
     font-size: 22px;
     margin: 20px;
 }
 
-.center-main form{
+.center-main form {
     width: 100%;
 }
 
@@ -98,7 +99,7 @@ img {
     justify-content: space-between;
 }
 
-.title{
+.title {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 2rem;
@@ -110,7 +111,7 @@ img {
 }
 
 @media (max-width: 550px) {
-    footer div{
+    footer div {
         margin: 0 5%;
     }
 
@@ -118,7 +119,7 @@ img {
         margin: auto 5%;
     }
 
-    .wrapper-80 button, .wrapper-25 button{
+    .wrapper-80 button, .wrapper-25 button {
         width: 100%;
     }
 

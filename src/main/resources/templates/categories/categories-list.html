@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
       th:replace="fragments/base-layout::layout(~{this :: main},~{this :: #script-block})">
 
 <main class="wrapper-80 category-list-main">
@@ -12,10 +12,10 @@
 </main>
 
 <th:block id="script-block">
-<script th:inline="javascript">
-    const locale = [[${@localeService.getLocale()}]];
-</script>
-<script th:src="@{/js/all-categories.js}"></script>
+    <script th:inline="javascript">
+        const locale = [[${@localeService.getLocale()}]];
+    </script>
+    <script th:src="@{/js/all-categories.js}"></script>
 </th:block>
 
 </html>

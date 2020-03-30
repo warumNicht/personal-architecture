@@ -24,7 +24,7 @@ function fetchCategoriesDropdown(selectElement) {
     sendXmlHttpRequest('GET', '/fetch/categories/all').then(function (res) {
         res.forEach(function (category) {
             const isSelected = categoryId == category.id ? 'selected ' : '';
-            const href=  getLocale(window.location.href) + 'projects/category/'  + category.id;
+            const href = getLocale(window.location.href) + 'projects/category/' + category.id;
             selectElement.append('<a href="' + href + '" ' + (isSelected ? 'class="selected-item"' : '') + '>' + category.name + '</a>');
         });
 

@@ -1,9 +1,9 @@
 package architecture.web.controllers;
 
-import architecture.domain.models.viewModels.articles.ArticleLocalViewModel;
 import architecture.domain.CountryCodes;
 import architecture.domain.entities.LocalisedArticleContent;
 import architecture.domain.models.viewModels.LocalisedArticleContentViewModel;
+import architecture.domain.models.viewModels.articles.ArticleLocalViewModel;
 import architecture.repositories.ArticleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +21,8 @@ import java.util.List;
 @RequestMapping("/")
 public class HomeController extends BaseController {
 
-    private ArticleRepository articleRepository;
     private final ModelMapper modelMapper;
+    private ArticleRepository articleRepository;
 
     @Autowired
     public HomeController(ArticleRepository articleRepository, ModelMapper modelMapper) {

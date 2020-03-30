@@ -1,5 +1,5 @@
-import {sendXmlHttpRequest, createJsonFromInputs} from "./http-requests.js";
-import {showFieldErrors, removeOldErrors} from "./functions.js";
+import {createJsonFromInputs, sendXmlHttpRequest} from "./http-requests.js";
+import {removeOldErrors, showFieldErrors} from "./functions.js";
 
 $(document).ready(function () {
     const button = document.getElementById("submit-button");

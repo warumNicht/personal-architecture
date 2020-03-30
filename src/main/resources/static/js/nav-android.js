@@ -1,4 +1,3 @@
-
 function sendXmlHttpRequest(method, url, data, token) {
     return new Promise(function (resolve, reject) {
         try {
@@ -10,8 +9,8 @@ function sendXmlHttpRequest(method, url, data, token) {
             }
             req.onreadystatechange = function () {
                 if (this.readyState === 4) {
-                    const jsonResult =JSON.parse(this.response);
-                    if(jsonResult.error){
+                    const jsonResult = JSON.parse(this.response);
+                    if (jsonResult.error) {
                         reject(jsonResult);
                     }
                     resolve(jsonResult);
@@ -25,7 +24,6 @@ function sendXmlHttpRequest(method, url, data, token) {
 }
 
 
-
 function fetchCategoriesDropdown(selectElement) {
     const urlParts = window.location.toString().split('/');
     const categoryId = urlParts[urlParts.length - 1];
@@ -34,7 +32,7 @@ function fetchCategoriesDropdown(selectElement) {
         console.log(res);
         res.forEach(function (category) {
             const isSelected = categoryId == category.id ? 'selected ' : '';
-            const href=  getLocale(window.location.href) + 'projects/category/'  + category.id;
+            const href = getLocale(window.location.href) + 'projects/category/' + category.id;
             selectElement.append('<a href="' + href + '" ' + (isSelected ? 'class="selected-item"' : '') + '>' + category.name + '</a>');
         });
 
@@ -68,11 +66,11 @@ $('ul.navbar-nav').find('.dropdown').click(function (e) {
 
 $(document).ready(function () {
 
-    document.querySelectorAll('.dropdown').forEach(function(dropdown){
-        const currentLang=dropdown.querySelector('.dropdown-icon');
-        const content=dropdown.querySelector('.dropdown-content');
-        if(currentLang){
-            currentLang.addEventListener('click', function(event){
+    document.querySelectorAll('.dropdown').forEach(function (dropdown) {
+        const currentLang = dropdown.querySelector('.dropdown-icon');
+        const content = dropdown.querySelector('.dropdown-content');
+        if (currentLang) {
+            currentLang.addEventListener('click', function (event) {
                 console.log(event);
                 dropdown.classList.toggle('expanded-dropdown');
             })

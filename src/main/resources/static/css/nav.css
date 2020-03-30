@@ -1,4 +1,4 @@
-.nav-pad-v-0{
+.nav-pad-v-0 {
     padding: 0 10px;
     min-height: 60px;
     align-items: stretch;
@@ -10,31 +10,35 @@
 }
 
 /* mobile dropdown*/
-.dropdown-content-arch{
+.dropdown-content-arch {
     display: none;
     background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
 .dropdown-content-arch a {
     display: block;
 }
 
-
 @keyframes slide-in {
-    from {max-height: 0}
-    to {max-height: 500px}
+    from {
+        max-height: 0
+    }
+    to {
+        max-height: 500px
+    }
 }
 
 @keyframes slide-out {
-    from {max-height: 500px}
-    to {max-height: 0}
+    from {
+        max-height: 500px
+    }
+    to {
+        max-height: 0
+    }
 }
 
-
-
-
-.dropdown-out .dropdown-content-arch{
+.dropdown-out .dropdown-content-arch {
     display: block;
     overflow: hidden;
     animation-name: slide-out;
@@ -52,8 +56,6 @@
     animation-duration: 2s;
     /*animation-fill-mode: forwards;*/
 }
-
-
 
 .dropdown-icon {
     display: block;
@@ -73,7 +75,7 @@
     transition-property: transform;
 }
 
-.expanded-dropdown-arch div.dropdown-icon{
+.expanded-dropdown-arch div.dropdown-icon {
     -ms-transform: rotate(360deg); /* IE 9 */
     -webkit-transform: rotate(360deg); /* Safari and Chrome */
     -o-transform: rotate(360deg); /* Opera */
@@ -96,7 +98,6 @@
     display: -ms-flexbox;
     display: flex;
 
-
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     -webkit-justify-content: space-between;
@@ -117,11 +118,10 @@
     height: 30px;
 }
 
-
 @media (min-width: 550px) {
 
     /*dropdown*/
-    .dropdown-content-arch{
+    .dropdown-content-arch {
         position: absolute;
         min-width: 160px;
         z-index: 1;
@@ -131,7 +131,7 @@
         display: none;
     }
 
-    .dropdown-arch:hover .dropdown-content-arch{
+    .dropdown-arch:hover .dropdown-content-arch {
         display: block;
         overflow: hidden;
         animation-name: slide-in;
@@ -140,22 +140,12 @@
         animation-fill-mode: forwards;
     }
 
-
-
-
     .dropdown-content-arch a:hover {
         background-color: #c6c8ca;
     }
 
-    .dropdown-icon{
+    .dropdown-icon {
         display: none;
     }
-
-
-
-
-
-
-
 
 }

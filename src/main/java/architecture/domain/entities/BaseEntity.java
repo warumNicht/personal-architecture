@@ -1,7 +1,5 @@
 package architecture.domain.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 @MappedSuperclass

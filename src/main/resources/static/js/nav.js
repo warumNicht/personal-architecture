@@ -1,4 +1,4 @@
-import {fetchCategories, getLocale, fetchCategoriesDropdown} from "./fetch-functions.js";
+import {fetchCategories, fetchCategoriesDropdown, getLocale} from "./fetch-functions.js";
 
 $('ul.navbar-nav li.dropdown').hover(function () {
     $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeIn(500);
@@ -19,33 +19,33 @@ $(document).ready(function () {
             $(this).removeClass('dropdown-out');
         }, function () {
             $(this).addClass('dropdown-out');
-            const that=$(this);
-            setTimeout(function(){
+            const that = $(this);
+            setTimeout(function () {
                 that.removeClass('dropdown-out');
                 console.log('removed class')
-            },2000);
+            }, 2000);
             console.log('hover -> out')
 
         })
     });
 
-    document.querySelectorAll('.dropdown-arch').forEach(function(dropdown){
-        const currentLang=dropdown.querySelector('.dropdown-icon');
-        const content=dropdown.querySelector('.dropdown-content-arch');
-        let index=0;
-        if(currentLang){
-            currentLang.addEventListener('click', function(event){
+    document.querySelectorAll('.dropdown-arch').forEach(function (dropdown) {
+        const currentLang = dropdown.querySelector('.dropdown-icon');
+        const content = dropdown.querySelector('.dropdown-content-arch');
+        let index = 0;
+        if (currentLang) {
+            currentLang.addEventListener('click', function (event) {
                 console.log(event);
-                if(index%2===0){
+                if (index % 2 === 0) {
                     dropdown.classList.toggle('expanded-dropdown-arch');
                     dropdown.classList.remove('dropdown-out');
-                }else {
+                } else {
                     dropdown.classList.toggle('dropdown-out');
                     dropdown.classList.remove('expanded-dropdown-arch');
-                    setTimeout(function(){
+                    setTimeout(function () {
                         dropdown.classList.remove('dropdown-out');
                         console.log('removed class')
-                    },2000);
+                    }, 2000);
                 }
                 index++;
 

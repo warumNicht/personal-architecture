@@ -2,15 +2,14 @@ package architecture.integration.web;
 
 import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
+import architecture.domain.CountryCodes;
 import architecture.domain.entities.Article;
+import architecture.domain.entities.Image;
 import architecture.domain.models.bindingModels.images.ImageEditBindingModel;
 import architecture.integration.web.articles.ArticleControllerBaseTests;
-import architecture.util.TestConstants;
-import architecture.domain.CountryCodes;
-import architecture.domain.entities.Image;
 import architecture.repositories.ImageRepository;
 import architecture.util.LocaleMessageUtil;
-
+import architecture.util.TestConstants;
 import architecture.util.TestUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.junit.Assert;
@@ -31,7 +30,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
-
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;

@@ -22,8 +22,8 @@ public class CustomLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticati
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         String requestURI = request.getRequestURI();
-        if(requestURI.charAt(3)=='/'){
-            requestURI=requestURI.substring(3);
+        if (requestURI.charAt(3) == '/') {
+            requestURI = requestURI.substring(3);
         }
         request.getSession().setAttribute(AppConstants.LOGIN_REFERRER_SESSION_ATTRIBUTE_NAME, requestURI);
         super.commence(request, response, authException);

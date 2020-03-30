@@ -1,13 +1,13 @@
 package architecture.unit.web;
 
 import architecture.constants.AppConstants;
-import architecture.services.interfaces.UserService;
-import architecture.util.TestConstants;
 import architecture.domain.CountryCodes;
 import architecture.domain.models.viewModels.LocalisedCategoryViewModel;
 import architecture.services.interfaces.CategoryService;
 import architecture.services.interfaces.ImageService;
 import architecture.services.interfaces.LocaleService;
+import architecture.services.interfaces.UserService;
+import architecture.util.TestConstants;
 import architecture.web.controllers.FetchController;
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -16,7 +16,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
