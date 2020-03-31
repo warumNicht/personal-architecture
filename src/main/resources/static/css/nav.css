@@ -18,6 +18,7 @@
 
 .dropdown-content-arch a {
     display: block;
+    height: 40px;
 }
 
 @keyframes slide-in {
