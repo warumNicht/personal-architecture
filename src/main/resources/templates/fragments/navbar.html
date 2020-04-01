@@ -69,6 +69,7 @@
 
                 <div class="dropdown-content-arch">
                     <a th:each="countryCode : ${T(architecture.domain.CountryCodes).values()}"
+                       th:classappend="${#strings.toLowerCase(countryCode).equals(locale)} ? 'selected-item' : ''"
                        th:href="@{${#request.getRequestURL()} + '?lang='
                             + ${#strings.toLowerCase(countryCode)}}" th:text="#{${'lang.' + countryCode }}">
                     </a>

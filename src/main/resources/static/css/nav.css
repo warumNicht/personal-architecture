@@ -1,6 +1,9 @@
 /* variables*/
 :root {
-  --hover-bg-color: #c6c8ca;
+  --hover-bg-color: #F7F1F0;
+  --selected-border-left-color: #ff7400;
+  --hover-border-left-color: #b3cde0;
+  --selected-hover-border-left-color: #ff0000;
 }
 
 .nav-pad-v-0 {
@@ -26,9 +29,17 @@
     height: 40px;
 }
 
+.selected-item{
+    border-left: 5px solid var(--selected-border-left-color);
+}
+
 .dropdown-content-arch a:hover {
      background-color: var(--hover-bg-color);
-     border-left: 5px solid red;
+     border-left: 5px solid var(--hover-border-left-color);
+}
+
+a.selected-item:hover {
+     border-left: 5px solid var(--selected-hover-border-left-color);
 }
 
 @keyframes slide-in {
