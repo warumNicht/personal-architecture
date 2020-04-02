@@ -25,7 +25,7 @@
 }
 
 .dropdown-content-arch a {
-    display: block;
+    display: flex;
     height: 40px;
 }
 
@@ -138,6 +138,10 @@ a.selected-item:hover {
 .selected-lang svg {
     width: 30px;
     height: 30px;
+}
+
+.flag-holder{
+    width: 30px;
 }
 
 @media (min-width: 550px) {
