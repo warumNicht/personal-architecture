@@ -73,7 +73,9 @@
                        th:href="@{${#request.getRequestURL()} + '?lang='
                             + ${#strings.toLowerCase(countryCode)}}" >
 
-                        <div class="flag-holder" th:utext="${countryCode.getSvg()}"></div>
+                        <div class="flag-holder">
+                            <svg viewBox="0 0 26 16" th:utext="${countryCode.getSvg()}"></svg>
+                        </div>
                         <div th:text="#{${'lang.' + countryCode }}"></div>
                     </a>
                 </div>
