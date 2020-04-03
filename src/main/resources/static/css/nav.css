@@ -26,6 +26,7 @@
 
 .dropdown-content-arch a {
     display: flex;
+    align-items:center;
     height: 40px;
 }
 
@@ -142,6 +143,7 @@ a.selected-item:hover {
 
 .flag-holder{
     width: 30px;
+    margin: 0 15px;
 }
 
 @media (min-width: 550px) {
