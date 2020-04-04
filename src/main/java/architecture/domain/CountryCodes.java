@@ -6,6 +6,7 @@ public enum CountryCodes {
                 "<path d=\"M0 0 h45 v10 l-45 0  Z\" style=\"fill:#fff\"/>\n" +
                 "<path d=\"M0 10 h45 v10 l-45 0  Z\" style=\"fill:#59b44b\"/>\n" +
                 "<path d=\"M0 20 h45 v10 l-45 0  Z\" style=\"fill:#c42127\"/>\n" +
+                "<polyline points=\"0,10 0,0 45,0 45,10\" style=\"fill:none;stroke:#707070;stroke-width:1\" />" +
             "</svg>"),
 
     FR("<svg viewBox=\"0 0 45 30\">\n" +
