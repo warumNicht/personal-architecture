@@ -25,7 +25,8 @@ function fetchCategoriesDropdown(selectElement) {
         res.forEach(function (category) {
             const isSelected = categoryId == category.id ? 'selected ' : '';
             const href = getLocale(window.location.href) + 'projects/category/' + category.id;
-            selectElement.append('<a href="' + href + '" ' + (isSelected ? 'class="selected-item"' : '') + '>' + category.name + '</a>');
+            const content = '<div class="option-holder">' + category.name + '</div>';
+            selectElement.append('<a href="' + href + '" ' + (isSelected ? 'class="selected-item"' : '') + '>' + content + '</a>');
         });
 
     }).catch(function (error) {

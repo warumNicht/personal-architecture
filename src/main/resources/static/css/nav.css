@@ -39,8 +39,8 @@
      border-left: 5px solid var(--hover-border-left-color);
 }
 
-.dropdown-content-arch a:hover .lang-holder, .selected-item .lang-holder{
-    margin-left:-5px;
+.dropdown-content-arch a:hover .option-holder, .selected-item .option-holder{
+    margin-left:0;
 }
 
 a.selected-item:hover {
@@ -150,8 +150,9 @@ a.selected-item:hover {
     margin: 0 15px;
 }
 
-.lang-holder{
+.option-holder{
     display: flex;
+    margin-left: 5px;
 }
 
 @media (min-width: 550px) {
