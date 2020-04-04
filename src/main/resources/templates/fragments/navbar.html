@@ -71,11 +71,9 @@
                     <a th:each="countryCode : ${T(architecture.domain.CountryCodes).values()}"
                        th:classappend="${#strings.toLowerCase(countryCode).equals(locale)} ? 'selected-item' : ''"
                        th:href="@{${#request.getRequestURL()} + '?lang='
-                            + ${#strings.toLowerCase(countryCode)}}" >
+                            + ${#strings.toLowerCase(countryCode)}}">
 
-                        <div class="flag-holder">
-                            <svg viewBox="0 0 26 16" th:utext="${countryCode.getSvg()}"></svg>
-                        </div>
+                        <div class="flag-holder" th:utext="${countryCode.getSvg()}"></div>
                         <div th:text="#{${'lang.' + countryCode }}"></div>
                     </a>
                 </div>
@@ -86,6 +84,8 @@
                     <option value="555" th:text="#{all}"></option>
                 </select>
             </li>
+
+
 
             <li class="nav-item dropdown-arch">
                 <div class="selected-lang">
