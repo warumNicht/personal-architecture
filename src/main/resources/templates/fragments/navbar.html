@@ -73,9 +73,10 @@
                        th:classappend="${#strings.toLowerCase(countryCode).equals(locale)} ? 'selected-item' : ''"
                        th:href="@{${#request.getRequestURL()} + '?lang='
                             + ${#strings.toLowerCase(countryCode)}}">
-
-                        <div class="flag-holder" th:utext="${countryCode.getSvg()}"></div>
-                        <div th:text="#{${'lang.' + countryCode }}"></div>
+                        <div class="lang-holder">
+                            <div class="flag-holder" th:utext="${countryCode.getSvg()}"></div>
+                            <div th:text="#{${'lang.' + countryCode }}"></div>
+                        </div>
                     </a>
                 </div>
             </li>
