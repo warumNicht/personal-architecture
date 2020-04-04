@@ -56,6 +56,7 @@
 
             <li class="nav-item dropdown-arch">
                 <div class="selected-lang">
+                    <div th:utext="${T(architecture.domain.CountryCodes).valueOf(#strings.toUpperCase(locale)).getSvg()}"></div>
                     <div th:text="#{${'lang.' + #strings.toUpperCase(locale) }}"></div>
                     <div class="dropdown-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
