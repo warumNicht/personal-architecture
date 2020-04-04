@@ -156,6 +156,10 @@ a.selected-item:hover {
     margin-left: var(--border-left-width);
 }
 
+.selected-flag{
+    margin-right: 15px;
+}
+
 @media (min-width: 550px) {
 
     /*dropdown*/
