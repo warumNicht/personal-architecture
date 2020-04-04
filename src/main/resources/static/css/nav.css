@@ -2,6 +2,7 @@
 :root {
   --hover-bg-color: #F7F1F0;
   --selected-border-left-color: #ff7400;
+  --border-left-width: 5px;
   --hover-border-left-color: #b3cde0;
   --selected-hover-border-left-color: #ff0000;
 }
@@ -31,12 +32,12 @@
 }
 
 .selected-item{
-    border-left: 5px solid var(--selected-border-left-color);
+    border-left: var(--border-left-width) solid var(--selected-border-left-color);
 }
 
 .dropdown-content-arch a:hover {
      background-color: var(--hover-bg-color);
-     border-left: 5px solid var(--hover-border-left-color);
+     border-left: var(--border-left-width) solid var(--hover-border-left-color);
 }
 
 .dropdown-content-arch a:hover .option-holder, .selected-item .option-holder{
@@ -44,7 +45,7 @@
 }
 
 a.selected-item:hover {
-     border-left: 5px solid var(--selected-hover-border-left-color);
+     border-left: var(--border-left-width) solid var(--selected-hover-border-left-color);
 }
 
 @keyframes slide-in {
@@ -152,7 +153,7 @@ a.selected-item:hover {
 
 .option-holder{
     display: flex;
-    margin-left: 5px;
+    margin-left: var(--border-left-width);
 }
 
 @media (min-width: 550px) {
