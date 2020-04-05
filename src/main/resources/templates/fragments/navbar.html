@@ -55,7 +55,7 @@
 
 
             <li class="nav-item dropdown-arch">
-                <div class="selected-lang">
+                <div class="current-item">
                     <div class="selected-flag" th:utext="${T(architecture.domain.CountryCodes).valueOf(#strings.toUpperCase(locale)).getSvg()}"></div>
                     <div th:text="#{${'lang.' + #strings.toUpperCase(locale) }}"></div>
                     <div class="dropdown-icon">
@@ -84,11 +84,9 @@
                     <option value="555" th:text="#{all}"></option>
                 </select>
             </li>
-
-
-
+            
             <li class="nav-item dropdown-arch">
-                <div class="selected-lang">
+                <div class="current-item">
                     <div>Project category</div>
                     <div class="dropdown-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -96,13 +94,9 @@
                             <polyline points="18 15 12 9 6 15"></polyline>
                         </svg>
                     </div>
-
                 </div>
 
-
-                <div class="dropdown-content-arch" id="select-categories2">
-
-                </div>
+                <div class="dropdown-content-arch" id="select-categories2"></div>
             </li>
         </ul>
 
