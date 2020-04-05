@@ -29,6 +29,7 @@
     display: flex;
     align-items:center;
     height: 40px;
+    border-bottom: solid 1px gainsboro;
 }
 
 .selected-item{
