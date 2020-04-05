@@ -32,6 +32,10 @@
     border-bottom: solid 1px gainsboro;
 }
 
+.dropdown-content-arch svg{
+    width: 30px;
+}
+
 .selected-item{
     border-left: var(--border-left-width) solid var(--selected-border-left-color);
 }
@@ -148,7 +152,9 @@ a.selected-item:hover {
 }
 
 .flag-holder{
-    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 0 15px;
 }
 
