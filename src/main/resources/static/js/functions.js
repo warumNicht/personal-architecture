@@ -21,24 +21,18 @@ function removeOldErrors(fieldsNames) {
 }
 
 function showAllCategories() {
-    const categoriesSelect = $('#cat');
-    const selectedOption = $('#cat option:selected');
-    const selectedOptionId = selectedOption.val();
-    categoriesSelect.empty();
-    const categoriesOptions = $('#select-categories option');
+    const categoriesSelect = $('#categories-dropdown a');
+    const dropdownToCopy = $('#cat');
+//    const selectedOptionId = selectedOption.val();
+//    categoriesSelect.empty();
+//    const categoriesOptions = $('#select-categories option');
+    console.log(categoriesSelect)
 
-    categoriesOptions.each(function (index) {
-
-        if (index !== 0) {
-            const value = $(this).val();
+    categoriesSelect.each(function (index) {
+            const value = $(this).attr('href');
             const innerText = $(this).text();
-            if (selectedOptionId === value) {
-                selectedOption.text(innerText);
-                categoriesSelect.append(selectedOption);
-            } else {
-                categoriesSelect.append(`<option value="${value}">${innerText}</option>`);
-            }
-        }
+            dropdownToCopy.append(`<option value="${value}">${innerText}</option>`);
+
     });
     categoriesSelect.change(function () {
         $('#categoryChange').removeAttr('disabled');

@@ -53,17 +53,17 @@ $(document).ready(function () {
         }
     });
 
-    const select = $('#select-categories');
-    const selectDropdown = $('#select-categories2');
-    fetchCategories(select);
+//    const select = $('#select-categories');
+    const selectDropdown = $('#categories-dropdown');
+//    fetchCategories(select);
     fetchCategoriesDropdown(selectDropdown);
-    select.change(function () {
-        let selectedOption = select.val();
-        if (selectedOption !== 'all') {
-            //IE does not support `${var}`
-            location.href = getLocale(location.href) + 'projects/category/' + selectedOption;
-        }
-    });
+//    select.change(function () {
+//        let selectedOption = select.val();
+//        if (selectedOption !== 'all') {
+//            //IE does not support `${var}`
+//            location.href = getLocale(location.href) + 'projects/category/' + selectedOption;
+//        }
+//    });
 });
 
 

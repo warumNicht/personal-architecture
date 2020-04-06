@@ -28,6 +28,9 @@ function fetchCategoriesDropdown(selectElement) {
             const content = '<div class="option-holder">' + category.name + '</div>';
             selectElement.append('<a href="' + href + '" ' + (isSelected ? 'class="selected-item"' : '') + '>' + content + '</a>');
         });
+        if (window.showAllCategories) {
+           showAllCategories();
+        }
 
     }).catch(function (error) {
         console.log(error);
