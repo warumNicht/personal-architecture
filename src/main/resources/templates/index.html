@@ -81,7 +81,7 @@
     <img th:src="@{/images/Desert.jpg}">
 
     <div class="article-container">
-        <div class="article-centered" th:each="article: ${localizedArticles}">
+        <article class="article-centered" th:each="article: ${localizedArticles}">
             <div>
                 <p th:text="|ArticleId: ${article.id} Created: ${article.date}|"></p>
             </div>
@@ -91,7 +91,7 @@
                     <p th:text="${article.localisedContent.content}"></p>
                 </div>
             </div>
-        </div>
+        </article>
     </div>
 </main>
 
