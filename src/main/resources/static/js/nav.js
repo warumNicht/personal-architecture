@@ -1,6 +1,6 @@
 import {fetchCategories, fetchCategoriesDropdown, getLocale} from "./fetch-functions.js";
 
-$('ul.navbar-nav li.dropdown').hover(function () {
+$('ul.navbar-nav li.dropdown-arch').hover(function () {
     $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeIn(500);
 }, function () {
     $(this).find(".dropdown-menu").stop(true, true).delay(200).fadeOut(500);
