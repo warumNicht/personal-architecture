@@ -29,10 +29,11 @@ function showAllCategories() {
     console.log(categoriesSelect)
 
     categoriesSelect.each(function (index) {
+        if(index!==0){
             const value = $(this).attr('href');
             const innerText = $(this).text();
             dropdownToCopy.append(`<option value="${value}">${innerText}</option>`);
-
+        }
     });
     categoriesSelect.change(function () {
         $('#categoryChange').removeAttr('disabled');
