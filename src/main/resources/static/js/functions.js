@@ -32,7 +32,7 @@ function showAllCategories() {
         if(index!==0){
             const value = $(this).attr('href');
             const innerText = $(this).text();
-            dropdownToCopy.append(`<option value="${value}">${innerText}</option>`);
+            dropdownToCopy.append(`<option ${index===1 ? 'selected' : ''} value="${value}">${innerText}</option>`);
         }
     });
     categoriesSelect.change(function () {
