@@ -23,7 +23,7 @@ function removeOldErrors(fieldsNames) {
 function showAllCategories() {
     const categoriesSelect = $('#categories-dropdown a');
     const dropdownToCopy = $('#cat');
-    
+
     categoriesSelect.each(function (index) {
         if(index!==0){
             const href = $(this).attr('href');

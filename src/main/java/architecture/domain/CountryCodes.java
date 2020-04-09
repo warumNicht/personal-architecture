@@ -13,6 +13,8 @@ public enum CountryCodes {
                 "<path d=\"M0 0 h15 v30 l-15 0  Z\" style=\"fill:#0055A4\"/>\n" +
                 "<path d=\"M15 0 h15 v30 l-15 0  Z\" style=\"fill:#fff\"/>\n" +
                 "<path d=\"M30 0 h15 v30 l-15 0  Z\" style=\"fill:#EF4135\"/>\n" +
+                "<polyline points=\"15,0 30,0\" style=\"fill:none;stroke:#707070;stroke-width:1\" />\n" +
+                "<polyline points=\"15,30 30,30\" style=\"fill:none;stroke:#707070;stroke-width:1\" />" +
             "</svg>"),
 
     DE("<svg viewBox=\"0 0 45 30\">\n" +
