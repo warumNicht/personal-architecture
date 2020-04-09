@@ -30,7 +30,8 @@ function showAllCategories() {
 
     categoriesSelect.each(function (index) {
         if(index!==0){
-            const value = $(this).attr('href');
+            const href = $(this).attr('href');
+            const value = getCategoryId(href);
             const innerText = $(this).text();
             dropdownToCopy.append(`<option ${index===1 ? 'selected' : ''} value="${value}">${innerText}</option>`);
         }
@@ -38,6 +39,12 @@ function showAllCategories() {
     categoriesSelect.change(function () {
         $('#categoryChange').removeAttr('disabled');
     });
+}
+
+function getCategoryId(url) {
+    const regex = /^.+category\/(.+)$/;
+    const found = url.match(regex);
+    return found[1];
 }
 
 export {showFieldErrors, removeOldErrors, showAllCategories}
