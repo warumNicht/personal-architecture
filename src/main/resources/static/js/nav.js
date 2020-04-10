@@ -48,14 +48,11 @@ $(document).ready(function () {
                     }, 2000);
                 }
                 index++;
-
             })
         }
     });
 
-//    const select = $('#select-categories');
     const selectDropdown = $('#categories-dropdown');
-//    fetchCategories(select);
     fetchCategoriesDropdown(selectDropdown);
 });
 
