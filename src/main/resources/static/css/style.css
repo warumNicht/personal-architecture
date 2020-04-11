@@ -66,15 +66,21 @@ footer {
 }
 
 .article-centered {
-    width: 50%;
-    text-align: center;
-    border-radius: 10px;
-    margin: 10px auto;
-    background-color: #fdfdfe;
+    width: 48%;
+    margin: 1% 1%;
     padding: 0 20px 0 20px;
+    text-align: center;
+    background-color: #fdfdfe;
+
+    border: #6c757d 1px solid;
+    border-radius: 10px;
+    box-shadow: 0 1px 22px 5px rgba(144,144,144,0.81);
 }
 
 .article-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
     text-align: center;
 }
 
@@ -111,6 +117,10 @@ img {
 }
 
 @media (max-width: 550px) {
+    .article-centered {
+    width: 94%;
+    margin: 3% 3%;
+    }
     footer div {
         margin: 0 5%;
     }
