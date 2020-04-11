@@ -1,6 +1,68 @@
+html, body {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100vh; /* fix IE11 */
+    min-height: 100%; /* fix IE11 */
+}
+
 body {
-    font-family: "Century Gothic";
+    font-family: 'Exo 2', sans-serif;
     background-color: palegoldenrod;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto; /* last 2 arguments fix IE11 */
+}
+
+footer {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #f8f9fa;
+    margin-top: 25px;
+}
+
+.center-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.category-list-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.categories-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.category-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.category-name {
+    font-size: 22px;
+    margin: 20px;
+}
+
+.center-main form {
+    width: 100%;
 }
 
 .article-centered {
@@ -18,4 +80,58 @@ body {
 
 .article-centered div div {
     border-bottom: 1px solid #171a1d;
+}
+
+img {
+    max-width: 100%;
+}
+
+.wrapper-80 {
+    margin: auto 10%;
+}
+
+.wrapper-25 {
+    margin: auto 37.5%;
+}
+
+.two-fields {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+
+.two-fields > div {
+    width: 45%;
+}
+
+@media (max-width: 550px) {
+    footer div {
+        margin: 0 5%;
+    }
+
+    .wrapper-80, .wrapper-25 {
+        margin: auto 5%;
+    }
+
+    .wrapper-80 button, .wrapper-25 button {
+        width: 100%;
+    }
+
+    .two-fields {
+        display: block;
+    }
+
+    .two-fields > div {
+        width: 100%;
+    }
+
+    .category-wrapper {
+        flex-direction: column;
+    }
 }

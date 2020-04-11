@@ -1,13 +1,15 @@
 package architecture.domain.entities;
 
+import architecture.constants.AppConstants;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class LocalisedArticleContent{
-    @Column(name = "article_title")
+public class LocalisedArticleContent {
+    @Column(name = "article_title", nullable = false, length = AppConstants.NAME_MAX_LENGTH)
     private String title;
-    @Column(name = "article_content", columnDefinition = "LONGTEXT")
+    @Column(name = "article_content", columnDefinition = "LONGTEXT", nullable = false)
     private String content;
 
     public LocalisedArticleContent() {

@@ -1,54 +1,100 @@
 package architecture.web.controllers;
 
-import architecture.domain.ArticleBindingModel;
+import architecture.constants.ViewNames;
 import architecture.domain.CountryCodes;
-import architecture.domain.entities.Article;
-import architecture.domain.entities.LocalisedArticleContent;
-import architecture.repositories.ArticleRepo;
+import architecture.domain.models.bindingModels.CategoryCreateBindingModel;
+import architecture.domain.models.bindingModels.CategoryEditBindingModel;
+import architecture.domain.models.serviceModels.CategoryServiceModel;
+import architecture.domain.models.serviceModels.article.ArticleServiceModel;
+import architecture.services.interfaces.ArticleService;
+import architecture.services.interfaces.CategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/admin" )
-public class AdminController {
-    private ArticleRepo articleRepo;
+@RequestMapping("/admin")
+@PreAuthorize("hasRole('ADMIN')")
+public class AdminController extends BaseController {
+    private final ArticleService articleService;
+    private final CategoryService categoryService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public AdminController(ArticleRepo articleRepo) {
-        this.articleRepo = articleRepo;
+    public AdminController(ArticleService articleService, CategoryService categoryService, ModelMapper modelMapper) {
+        this.articleService = articleService;
+        this.categoryService = categoryService;
+        this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/listAll")
-    public ModelAndView listAll(ModelAndView modelAndView){
-        List<Article> allArticles = this.articleRepo.findAll();
-        modelAndView.addObject("allArticles",allArticles);
-        modelAndView.setViewName("listAll");
-
-        return modelAndView;
+    @RequestMapping(method = {RequestMethod.GET}, value = "/listAll")
+    public String listAll(Model model) {
+        List<ArticleServiceModel> allArticles = this.articleService.findAll();
+        model.addAttribute("allArticles", allArticles);
+        return ViewNames.ARTICLES_LIST_ALL;
     }
 
-    @GetMapping("/articles/addLang/{id}")
-    public ModelAndView addLanguageToArticle(ModelAndView modelAndView, @PathVariable(name = "id") Long articleId,
-                                             @ModelAttribute(name = "articleBinding") ArticleBindingModel model){
-        modelAndView.setViewName("article-add-lang");
-        return modelAndView;
+    @GetMapping("/category/create")
+    public String createCategory(Model modelView, @ModelAttribute(name = ViewNames.CATEGORY_CREATE_binding_model_name) CategoryCreateBindingModel model) {
+        modelView.addAttribute("categoryCreateModel", model);
+        return ViewNames.CATEGORY_CREATE;
     }
 
-    @PostMapping("/articles/addLang")
-    public ModelAndView addLanguageToArticlePost(ModelAndView modelAndView,
-                                                 @ModelAttribute(name = "articleBinding") ArticleBindingModel model, @RequestParam(name = "articleId") String articleId ){
-        Long id = Long.parseLong(articleId);
-        Article articleToUpdate = this.articleRepo.findById(id).orElse(null);
-        LocalisedArticleContent localisedArticleContent = new LocalisedArticleContent(model.getTitle(), model.getContent());
-        articleToUpdate.getLocalContent().put(model.getCountry(),localisedArticleContent);
-        this.articleRepo.save(articleToUpdate);
+    @PostMapping("/category/create")
+    public String createCategoryPost(@Valid @ModelAttribute(name = ViewNames.CATEGORY_CREATE_binding_model_name) CategoryCreateBindingModel bindingModel,
+                                     BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ViewNames.CATEGORY_CREATE;
+        }
+        CategoryServiceModel category = new CategoryServiceModel();
+        category.getLocalCategoryNames().put(bindingModel.getCountry(), bindingModel.getName());
+        this.categoryService.addCategory(category);
+        return "redirect:/" + super.getLocale() + "/admin/category/list";
+    }
 
-        modelAndView.setViewName("redirect:/admin/listAll");
-        return modelAndView;
+    @GetMapping("/category/edit/{categoryId}")
+    public String editCategory(Model model, @PathVariable(name = "categoryId") Long categoryId) {
+        CategoryServiceModel category = this.categoryService.findById(categoryId);
+        CategoryEditBindingModel bindingModel = new CategoryEditBindingModel();
+        bindingModel.setId(categoryId);
+
+        for (Map.Entry<CountryCodes, String> local : category.getLocalCategoryNames().entrySet()) {
+            bindingModel.getLocalNames().put(local.getKey(), local.getValue());
+        }
+        model.addAttribute(ViewNames.CATEGORY_EDIT_binding_model_name, bindingModel);
+        return ViewNames.CATEGORY_EDIT;
+    }
+
+    @PutMapping("/category/edit/{categoryId}")
+    public String editCategoryPut(@Valid @ModelAttribute(name = ViewNames.CATEGORY_EDIT_binding_model_name) CategoryEditBindingModel model, BindingResult bindingResult,
+                                  @PathVariable(name = "categoryId") Long categoryId) {
+        this.categoryService.findById(categoryId);
+        if (bindingResult.hasErrors()) {
+            return ViewNames.CATEGORY_EDIT;
+        }
+        CategoryServiceModel categoryToUpdate = this.modelMapper.map(model, CategoryServiceModel.class);
+        Map<CountryCodes, String> filteredValues = categoryToUpdate.getLocalCategoryNames().entrySet()
+                .stream()
+                .filter(entry -> !"".equals(entry.getValue()))
+                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+        categoryToUpdate.setLocalCategoryNames(filteredValues);
+        categoryToUpdate.setId(categoryId);
+
+        this.categoryService.updateCategory(categoryToUpdate);
+        return "redirect:/" + super.getLocale() + "/admin/category/list";
+    }
+
+    @GetMapping(value = "/category/list")
+    public String listCategories() {
+        return ViewNames.CATEGORIES_LIST;
     }
 }
