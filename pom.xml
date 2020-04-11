@@ -94,8 +94,6 @@
 <!--        </dependency>-->
 <!--        String archSentence = Strings.escapeMarkup("açc&hSentänce").toString();-->
 
-
-
     </dependencies>
 
     <build>

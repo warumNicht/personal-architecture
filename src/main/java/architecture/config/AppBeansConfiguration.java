@@ -66,12 +66,10 @@ public class AppBeansConfiguration implements WebMvcConfigurer {
         return bean;
     }
 
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/")
                 .setCacheControl(CacheControl.maxAge(AppConstants.CASH_MAX_AGE, TimeUnit.HOURS).cachePublic());
     }
-
 }
