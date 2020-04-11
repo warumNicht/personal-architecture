@@ -20,7 +20,6 @@ function fetchCategories(selectElement) {
 function fetchCategoriesDropdown(selectElement) {
     let urlParts = window.location.toString().split('/');
     let categoryId = urlParts[urlParts.length - 1];
-    selectElement.append('<a href="">All</a>');
 
     sendXmlHttpRequest('GET', '/fetch/categories/all').then(function (res) {
         res.forEach(function (category) {

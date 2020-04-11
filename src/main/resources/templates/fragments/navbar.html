@@ -78,12 +78,6 @@
                     </a>
                 </div>
             </li>
-
-<!--            <li class="nav-item dropdown-arch">-->
-<!--                <select class="browser-default custom-select dropdown" id="select-categories">-->
-<!--                    <option value="555" th:text="#{all}"></option>-->
-<!--                </select>-->
-<!--            </li>-->
             
             <li class="nav-item dropdown-arch">
                 <div class="current-item">
@@ -96,7 +90,11 @@
                     </div>
                 </div>
 
-                <div class="dropdown-content-arch" id="categories-dropdown"></div>
+                <div class="dropdown-content-arch" id="categories-dropdown">
+                    <a th:href="@{|/${locale}/projects/category/555|}">
+                        <div class="option-holder" th:text="#{all}"></div>
+                    </a>
+                </div>
             </li>
         </ul>
 
