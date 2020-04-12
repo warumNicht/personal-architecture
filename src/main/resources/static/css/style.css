@@ -70,6 +70,8 @@ footer {
     width: 100%;
 }
 
+/* Articles */
+
 .article-centered {
     width: 48%;
     margin: 1% 1%;
@@ -117,6 +119,8 @@ footer {
     padding: 2%;
     transform: translateY(-50%);
 }
+
+/* Containers */
 
 .wrapper-80 {
     margin: auto 10%;
