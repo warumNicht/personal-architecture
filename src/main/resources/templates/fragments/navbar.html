@@ -19,24 +19,8 @@
             <li class="nav-item" sec:authorize="isAnonymous()">
                 <a class="nav-link" th:href="@{|/${locale}/users/register|}" th:text="#{register}"></a>
             </li>
+            
             <li class="nav-item dropdown-arch" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false" th:text="#{admin}">
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" th:href="@{|/${locale}/admin/articles/create|}"
-                       th:text="#{article.create}"></a>
-                    <a class="dropdown-item" th:href="@{|/${locale}/admin/listAll|}" th:text="#{list.articles}"></a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" th:href="@{|/${locale}/admin/category/create|}"
-                       th:text="#{category.create}"></a>
-                    <a class="dropdown-item" th:href="@{|/${locale}/admin/category/list|}"
-                       th:text="#{list.categories}"></a>
-                </div>
-            </li>
-
-
-            <li class="nav-item dropdown-arch">
                 <div class="current-item">
                     <div th:text="#{admin}"></div>
                     <div class="dropdown-icon">
