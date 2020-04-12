@@ -34,6 +34,32 @@
                        th:text="#{list.categories}"></a>
                 </div>
             </li>
+
+
+            <li class="nav-item dropdown-arch">
+                <div class="current-item">
+                    <div th:text="#{admin}"></div>
+                    <div class="dropdown-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="dropdown-content-arch">
+                    <a class="dropdown-item" th:href="@{|/${locale}/admin/articles/create|}"
+                       th:text="#{article.create}"></a>
+                    <a class="dropdown-item" th:href="@{|/${locale}/admin/listAll|}" th:text="#{list.articles}"></a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{|/${locale}/admin/category/create|}"
+                       th:text="#{category.create}"></a>
+                    <a class="dropdown-item" th:href="@{|/${locale}/admin/category/list|}"
+                       th:text="#{list.categories}"></a>
+                </div>
+            </li>
+
+
             <li class="nav-item" sec:authorize="isAnonymous()">
                 <a class="nav-link" th:href="@{|/${locale}/users/login|}" th:text="#{login}"></a>
             </li>
