@@ -84,12 +84,28 @@ footer {
     text-align: center;
 }
 
-.article-centered div div {
-    border-bottom: 1px solid #171a1d;
+img {
+    position:absolute;
+    width:100%;
+    top: 50%;
+    left: 0;
+    padding: 2%;
+    transform: translateY(-50%);
 }
 
-img {
-    max-width: 100%;
+.article-square {
+    border: #6c757d 1px solid;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    width: 90%;
+    /*padding: 3%; */
+}
+
+.article-square::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
 }
 
 .wrapper-80 {

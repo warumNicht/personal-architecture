@@ -16,7 +16,9 @@
                 <p th:text="|ArticleId: ${article.id} Created: ${article.date}|"></p>
             </div>
             <div>
-                <img th:src="@{${article.mainImage != null ? article.mainImage.url : '/images/default.jpg'}}" alt="">
+                <div class="article-square">
+                        <img th:src="@{${article.mainImage != null ? article.mainImage.url : '/images/default.jpg'}}" alt="">
+                </div>
                 <div th:if="${article.mainImage != null}" th:text="${article.mainImage.name}"></div>
             </div>
             <div>
