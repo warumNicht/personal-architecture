@@ -84,28 +84,28 @@ footer {
     text-align: center;
 }
 
-img {
-    position:absolute;
-    width:100%;
-    top: 50%;
-    left: 0;
-    padding: 2%;
-    transform: translateY(-50%);
-}
-
 .article-square {
-    border: #6c757d 1px solid;
-    display: inline-block;
-    text-align: center;
     position: relative;
     width: 90%;
-    /*padding: 3%; */
+    display: inline-block;
+    border: #6c757d 1px solid;
+    border-radius: 1%;
+    background-color: floralwhite;
 }
 
 .article-square::after {
     content: "";
     display: block;
     padding-bottom: 100%;
+}
+
+.article-square img {
+    position:absolute;
+    width:100%;
+    top: 50%;
+    left: 0;
+    padding: 2%;
+    transform: translateY(-50%);
 }
 
 .wrapper-80 {
