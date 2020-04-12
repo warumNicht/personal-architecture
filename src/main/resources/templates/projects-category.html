@@ -11,7 +11,7 @@
 
     <div class="article-container">
         <div th:if="${articles.isEmpty()}">No results</div>
-        <div class="article-centered" th:each="article: ${articles}">
+        <article class="article-centered" th:each="article: ${articles}">
             <div>
                 <p th:text="|ArticleId: ${article.id} Created: ${article.date}|"></p>
             </div>
@@ -28,7 +28,7 @@
 
             <a class="btn btn-success" th:href="@{|/${@localeService.getLocale()}/admin/articles/edit/${article.id}|}">
                 EDIT</a>
-        </div>
+        </article>
     </div>
 </main>
 
