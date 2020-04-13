@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en"
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns="http://www.w3.org/1999/xhtml"
       th:replace="fragments/base-layout::layout(~{this :: main}, ~{this :: script})">
 <head th:replace="~{fragments/general :: head}"></head>
@@ -28,8 +28,10 @@
                 </div>
             </div>
 
-            <a class="btn btn-success" th:href="@{|/${@localeService.getLocale()}/admin/articles/edit/${article.id}|}">
-                EDIT</a>
+            <a class="btn btn-success" th:href="@{|/${@localeService.getLocale()}/admin/articles/edit/${article.id}|}"
+               sec:authorize="hasAnyRole('ROLE_ADMIN')"
+               th:text="#{edit}">
+            </a>
         </article>
     </div>
 </main>
