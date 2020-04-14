@@ -21,17 +21,6 @@ main {
     flex: 1 0 auto; /* last 2 arguments fix IE11 */
 }
 
-footer {
-    width: 100%;
-    min-height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background-color: #f8f9fa;
-    margin-top: 25px;
-}
-
 .center-main {
     display: flex;
     justify-content: center;
@@ -70,20 +59,36 @@ footer {
     width: 100%;
 }
 
+    /* Footer */
+
+    footer {
+        width: 100%;
+        min-height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: #f8f9fa;
+        margin-top: 25px;
+    }
+        footer div {
+            margin: 0 5%;
+        }
+
 /* Articles */
+    .article-centered {
+       width: 94%;
+       min-width: 300px;
+       margin: 3% 3%;
+       padding: 0 20px 0 20px;
+       text-align: center;
+       background-color: #fdfdfe;
 
-.article-centered {
-    width: 31.333%;
-    min-width: 300px;
-    margin: 1% 1%;
-    padding: 0 20px 0 20px;
-    text-align: center;
-    background-color: #fdfdfe;
+       border: var(--article-border-color) 1px solid;
+       border-radius: 10px;
+       box-shadow: 0 1px 22px 5px rgba(144,144,144,0.81);
+    }
 
-    border: var(--article-border-color) 1px solid;
-    border-radius: 10px;
-    box-shadow: 0 1px 22px 5px rgba(144,144,144,0.81);
-}
 
 .article-centered:hover{
     box-shadow: -2px -1px 15px 5px #585858;
@@ -122,40 +127,6 @@ footer {
 }
 
 /* Containers */
-
-.wrapper-80 {
-    margin: auto 10%;
-}
-
-.wrapper-25 {
-    margin: auto 37.5%;
-}
-
-.two-fields {
-    display: flex;
-    justify-content: space-between;
-}
-
-.title {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    font-weight: bold;
-}
-
-.two-fields > div {
-    width: 45%;
-}
-
-@media (max-width: 550px) {
-    .article-centered {
-    width: 94%;
-    margin: 3% 3%;
-    }
-    footer div {
-        margin: 0 5%;
-    }
-
     .wrapper-80, .wrapper-25 {
         margin: auto 5%;
     }
@@ -174,5 +145,45 @@ footer {
 
     .category-wrapper {
         flex-direction: column;
+    }
+
+
+
+.title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+
+
+
+@media (min-width: 550px) {
+    footer div {
+        margin: 0;
+    }
+
+    .article-centered {
+         width: 31.333%;
+         margin: 1% 1%;
+    }
+
+    /* Containers */
+
+    .wrapper-80 {
+        margin: auto 10%;
+    }
+
+    .wrapper-25 {
+        margin: auto 37.5%;
+    }
+
+    .two-fields {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .two-fields > div {
+        width: 45%;
     }
 }
