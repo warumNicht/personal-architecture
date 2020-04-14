@@ -156,10 +156,12 @@ footer div {
 }
 
 @media (min-width: 550px) {
+  /* Footer */
   footer div {
     margin: 0;
   }
 
+  /* Articles */
   .article-centered {
     width: 31.333%;
     min-width: 300px;
@@ -167,7 +169,6 @@ footer div {
   }
 
   /* Containers */
-
   .wrapper-80 {
     margin: auto 10%;
   }
