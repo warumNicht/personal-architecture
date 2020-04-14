@@ -78,7 +78,6 @@ main {
 /* Articles */
     .article-centered {
        width: 94%;
-       min-width: 300px;
        margin: 3% 3%;
        padding: 0 20px 0 20px;
        text-align: center;
@@ -165,6 +164,7 @@ main {
 
     .article-centered {
          width: 31.333%;
+         min-width: 300px;
          margin: 1% 1%;
     }
 
