@@ -6,6 +6,7 @@ import architecture.domain.models.viewModels.articles.ArticleLocalViewModel;
 import architecture.services.interfaces.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +25,10 @@ public class ProjectController extends BaseController {
     }
 
     @GetMapping(value = "/category/{id}")
-    public ModelAndView projectsByCategory(ModelAndView modelAndView, @PathVariable Long id) {
+    public String projectsByCategory(ModelAndView modelAndView, @PathVariable Long id, Model model) {
         CountryCodes wantedCode = super.getCurrentCookieLocale();
         List<ArticleLocalViewModel> localisedArticles = this.articleService.findArticlesByCategory(id, wantedCode);
-        modelAndView.addObject(ViewNames.PROJECTS_model_attribute_name, localisedArticles);
-        modelAndView.setViewName(ViewNames.PROJECTS_BY_CATEGORY);
-        return modelAndView;
+        model.addAttribute(ViewNames.PROJECTS_model_attribute_name, localisedArticles);
+        return ViewNames.PROJECTS_BY_CATEGORY;
     }
 }
