@@ -1,5 +1,5 @@
-import {createJsonFromInputs, sendXmlHttpRequest} from "./http-requests.js";
-import {removeOldErrors, showFieldErrors} from "./functions.js";
+import { createJsonFromInputs, sendXmlHttpRequest } from "./http-requests.js";
+import { removeOldErrors, showFieldErrors } from "./functions.js";
 
 $(document).ready(function () {
     const button = document.getElementById("submit-button");
@@ -9,14 +9,13 @@ $(document).ready(function () {
         const json = JSON.stringify(data);
 
         sendXmlHttpRequest('PATCH', '/admin/articles/edit', json).then(function (res) {
-                console.log(res);
-                if (typeof (res) === 'string') {
-                    window.location = res;
-                } else {
-                    removeOldErrors(['title', 'mainImageName', 'content']);
-                    showFieldErrors(res)
-                }
+            if (typeof (res) === 'string') {
+                window.location = res;
+            } else {
+                removeOldErrors(['title', 'mainImageName', 'content']);
+                showFieldErrors(res)
             }
+        }
         );
     };
 });

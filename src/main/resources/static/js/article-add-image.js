@@ -1,5 +1,5 @@
-import {sendXmlHttpRequest} from "./http-requests.js";
-import {removeOldErrors, showFieldErrors} from "./functions.js";
+import { sendXmlHttpRequest } from "./http-requests.js";
+import { removeOldErrors, showFieldErrors } from "./functions.js";
 
 $(document).ready(function () {
     const button = document.getElementById("submit-button");
@@ -21,13 +21,13 @@ $(document).ready(function () {
         const json = JSON.stringify(data);
         sendXmlHttpRequest('PUT', location.href, json, credentials).then(function (res) {
 
-                if (typeof (res) === 'string') {
-                    window.location = res;
-                } else {
-                    removeOldErrors(['image.url', 'image.name']);
-                    showFieldErrors(res)
-                }
+            if (typeof (res) === 'string') {
+                window.location = res;
+            } else {
+                removeOldErrors(['image.url', 'image.name']);
+                showFieldErrors(res)
             }
+        }
         );
     };
 });
