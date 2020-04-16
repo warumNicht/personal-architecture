@@ -43,6 +43,9 @@ public class LocaleServiceImpl implements LocaleService {
     @Override
     public boolean checkOldAndroid() {
         String userAgent = this.request.getHeader("user-agent");
+        if(userAgent==null){
+            return false;
+        }
         System.out.println(userAgent);
 
         String androidPattern = "[A|a]ndroid\\s+(\\d+)";
@@ -79,7 +82,10 @@ public class LocaleServiceImpl implements LocaleService {
 
     private List<String> listNeededScripts() {
         String userAgent = this.request.getHeader("user-agent");
-        System.out.println(userAgent);
+        List<String> emptyScrips = new ArrayList<>();
+        if(userAgent==null){
+            return emptyScrips;
+        }
 
         if (userAgent.contains("Trident/") || userAgent.contains("MSIE ")) {
             return Arrays.asList(IE_SCRIPTS);
@@ -87,6 +93,6 @@ public class LocaleServiceImpl implements LocaleService {
         if (this.checkOldAndroid()) {
             return Arrays.asList(OLD_ANDROID);
         }
-        return new ArrayList<>();
+        return emptyScrips;
     }
 }
