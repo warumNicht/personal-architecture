@@ -12,5 +12,4 @@ public class PersonalSiteApplication {
         SpringApplication.run(PersonalSiteApplication.class, args);
     }
 
-
 }
