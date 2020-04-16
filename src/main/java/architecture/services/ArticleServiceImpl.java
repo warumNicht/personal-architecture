@@ -39,8 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleServiceModel findById(Long id) {
-        Article article = this.articleRepository
-                .findById(id)
+        Article article = this.articleRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(LocaleMessageUtil.getLocalizedMessage("notFound.article")));
         ArticleServiceModel articleServiceModel = this.modelMapper.map(article, ArticleServiceModel.class);
         return articleServiceModel;
@@ -49,8 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleServiceModel> findAll() {
         return this.articleRepository.findAll().stream()
-                .map(article -> this.modelMapper.map(article, ArticleServiceModel.class))
-                .collect(Collectors.toList());
+                .map(article -> this.modelMapper.map(article, ArticleServiceModel.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -71,11 +69,13 @@ public class ArticleServiceImpl implements ArticleService {
             ArticleLocalViewModel articleLocalViewModel = new ArticleLocalViewModel();
             articleLocalViewModel.setId((Long) articleObjects[0]);
             if (articleObjects[1] != null) {
-                articleLocalViewModel.setMainImage(new ImageLocaleViewModel((String) articleObjects[1], (String) articleObjects[2]));
+                articleLocalViewModel
+                        .setMainImage(new ImageLocaleViewModel((String) articleObjects[1], (String) articleObjects[2]));
             }
             articleLocalViewModel.setDate((Date) articleObjects[3]);
             LocalisedArticleContent localisedArticleContent = (LocalisedArticleContent) articleObjects[4];
-            articleLocalViewModel.setLocalisedContent(this.modelMapper.map(localisedArticleContent, LocalisedArticleContentViewModel.class));
+            articleLocalViewModel.setLocalisedContent(
+                    this.modelMapper.map(localisedArticleContent, LocalisedArticleContentViewModel.class));
             localisedArticles.add(articleLocalViewModel);
         }
         return localisedArticles;
