@@ -27,6 +27,12 @@ public class FetchController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
+//    @ModelAttribute
+//    public void setVaryResponseHeader(HttpServletResponse response) {
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//    }
+
+
     @RequestMapping(value = "/categories/all", produces = "application/json")
     public Object getCategories() {
         CountryCodes wanted = super.getCurrentCookieLocale();
