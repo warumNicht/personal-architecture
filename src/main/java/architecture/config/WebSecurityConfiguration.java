@@ -62,6 +62,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .addFilterBefore(corsFilter(), SessionManagementFilter.class)
+                .addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class)
                 .csrf()
                 .csrfTokenRepository(this.csrfTokenRepository())
                 .and()
