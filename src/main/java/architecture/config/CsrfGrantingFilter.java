@@ -5,7 +5,6 @@ import org.springframework.security.web.csrf.CsrfToken;
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class CsrfGrantingFilter implements Filter {
@@ -18,7 +17,7 @@ public class CsrfGrantingFilter implements Filter {
         if(httpServletRequest.getRequestURI().contains("/session")){
             Cookie cookie = new Cookie("ses", token);
             cookie.setPath("/");
-            ((HttpServletResponse) response).addCookie(cookie);
+//            ((HttpServletResponse) response).addCookie(cookie);
         }
         System.out.println(cookies);
         chain.doFilter(request, response);
