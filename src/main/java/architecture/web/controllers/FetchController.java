@@ -30,6 +30,11 @@ public class FetchController extends BaseController {
 //        response.setHeader("Access-Control-Allow-Origin", "*");
 //    }
 
+    @GetMapping (value = "/session", produces = "application/json")
+    public Object getSessionCookie() {
+        CountryCodes wanted = super.getCurrentCookieLocale();
+        return wanted;
+    }
 
     @GetMapping (value = "/categories/all", produces = "application/json")
     public Object getCategories() {
