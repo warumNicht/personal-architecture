@@ -20,14 +20,15 @@ public class CorsFilter implements Filter {
         System.out.println(request.getMethod());
         System.out.println(response.getHeaderNames());
 
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers", "*");
-        response.setHeader("Access-Control-Allow-Credentials", "false");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Max-Age", "180");
 
         if("OPTIONS".equals(request.getMethod())){
             response.setStatus(HttpServletResponse.SC_ACCEPTED);
+            response.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token");
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
