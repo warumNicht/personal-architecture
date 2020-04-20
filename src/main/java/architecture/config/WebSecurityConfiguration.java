@@ -64,9 +64,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(corsFilter(), SessionManagementFilter.class)
                 .addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class)
                 .csrf()
-                .requireCsrfProtectionMatcher(new CsrfRequestMatcher())
                 .csrfTokenRepository(this.csrfTokenRepository())
-//                .ignoringAntMatchers("/fetch/categories/post")
+                .ignoringAntMatchers("/fetch/categories/post")
 
                 .and()
 
