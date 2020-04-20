@@ -13,7 +13,7 @@ public class NoAntPathRequestMatcher implements RequestMatcher {
 
     // Disable CSFR protection on the following urls:
     private AntPathRequestMatcher[] requestMatchers = {
-//            new AntPathRequestMatcher("/users/authentication"),
+            new AntPathRequestMatcher("/users/rest-authentication"),
             new AntPathRequestMatcher("/fetch/categories/post")
     };
 

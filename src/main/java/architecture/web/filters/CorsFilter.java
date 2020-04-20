@@ -28,7 +28,9 @@ public class CorsFilter implements Filter {
 
         if("OPTIONS".equals(request.getMethod())){
             response.setStatus(HttpServletResponse.SC_ACCEPTED);
-            response.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token");
+            if(!request.getRequestURI().contains("/users/rest-authentication")){
+                response.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token");
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

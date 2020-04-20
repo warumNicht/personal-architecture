@@ -20,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
@@ -77,11 +76,12 @@ public class UserController extends BaseController {
         }
         return "redirect:/" + super.getLocale() + "/";
     }
-    @PostMapping(value = "/authentication2")
-    public String loginRest(@RequestBody String username , HttpServletResponse response){
-        response.setHeader("Access-Control-Allow-Origin", "*");
+
+    @PostMapping(value = "/rest-authentication")
+    @ResponseBody
+    public Object loginRest(@RequestBody UserLoginBindingModel loginUser){
         System.out.println("loc");
-        return username;
+        return loginUser;
     }
 
     @PostMapping(value = "/authentication")
