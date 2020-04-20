@@ -1,4 +1,4 @@
-package architecture.config;
+package architecture.web.filters;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

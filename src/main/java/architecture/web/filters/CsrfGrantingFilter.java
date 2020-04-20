@@ -1,4 +1,4 @@
-package architecture.config;
+package architecture.web.filters;
 
 import org.springframework.security.web.csrf.CsrfToken;
 
