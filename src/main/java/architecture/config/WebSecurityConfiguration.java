@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.session.SessionManagementFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.Arrays;
 
@@ -65,7 +66,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class)
                 .csrf()
                 .csrfTokenRepository(this.csrfTokenRepository())
+//                .ignoringAntMatchers("/fetch/categories/post")
+                .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/fetch/categories/post"))
                 .and()
+
                 .authorizeRequests()
                 .antMatchers("/**/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/**").permitAll()
