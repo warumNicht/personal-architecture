@@ -14,12 +14,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
@@ -79,9 +82,28 @@ public class UserController extends BaseController {
 
     @PostMapping(value = "/rest-authentication")
     @ResponseBody
-    public Object loginRest(@RequestBody UserLoginBindingModel loginUser){
+    public Object loginRest(@RequestBody UserLoginBindingModel userBinding, ServletRequest request){
         System.out.println("loc");
-        return loginUser;
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        try {
+            UserDetails loggingUser = userService.loadUserByUsername(userBinding.getUsername());
+            UsernamePasswordAuthenticationToken token =
+                    new UsernamePasswordAuthenticationToken(loggingUser,
+                            userBinding.getPassword(), loggingUser.getAuthorities());
+
+            Authentication authenticate = this.authenticationManager.authenticate(token);
+
+            if (token.isAuthenticated()) {
+                SecurityContextHolder.getContext().setAuthentication(token);
+                super.logger.info(String.format("Login of user: %s, successfully!", userBinding.getUsername()));
+                            CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+            String token2 = csrf.getToken();
+            return  token2;
+            }
+        } catch (AuthenticationException e) {
+            return ViewNames.USER_LOGIN;
+        }
+        return null;
     }
 
     @PostMapping(value = "/authentication")

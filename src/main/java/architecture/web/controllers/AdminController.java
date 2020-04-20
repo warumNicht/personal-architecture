@@ -61,6 +61,13 @@ public class AdminController extends BaseController {
         return "redirect:/" + super.getLocale() + "/admin/category/list";
     }
 
+    @ResponseBody
+    @PostMapping("/category/create/rest")
+    public String createREST(@RequestBody String name) {
+        System.out.println(name);
+        return name;
+    }
+
     @GetMapping("/category/edit/{categoryId}")
     public String editCategory(Model model, @PathVariable(name = "categoryId") Long categoryId) {
         CategoryServiceModel category = this.categoryService.findById(categoryId);
