@@ -4,8 +4,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class CsrfRequestMatcher implements RequestMatcher {
+    private final HashSet<String> allowedMethods = new HashSet<>(
+            Arrays.asList("GET", "HEAD", "TRACE", "OPTIONS"));
     // Disable CSFR protection on the following urls:
     private AntPathRequestMatcher[] requestMatchers = {
 //            new AntPathRequestMatcher("/users/authentication"),
@@ -25,6 +29,6 @@ public class CsrfRequestMatcher implements RequestMatcher {
         if (request.getRequestURI().contains("/fetch/categories/post")){
             return false;
         }
-        return true;
+        return !this.allowedMethods.contains(request.getMethod());
     }
 }
