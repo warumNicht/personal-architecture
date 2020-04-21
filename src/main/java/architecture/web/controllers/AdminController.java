@@ -68,6 +68,12 @@ public class AdminController extends BaseController {
         return name;
     }
 
+    @RequestMapping(value = "/category/create/rest", method = RequestMethod.OPTIONS)
+    public String createOptions() {
+        System.out.println();
+        return "options";
+    }
+
     @GetMapping("/category/edit/{categoryId}")
     public String editCategory(Model model, @PathVariable(name = "categoryId") Long categoryId) {
         CategoryServiceModel category = this.categoryService.findById(categoryId);

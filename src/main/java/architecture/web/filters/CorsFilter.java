@@ -4,6 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 public class CorsFilter implements Filter {
 
@@ -28,6 +29,12 @@ public class CorsFilter implements Filter {
 
         if("OPTIONS".equals(request.getMethod())){
             response.setStatus(HttpServletResponse.SC_ACCEPTED);
+            Enumeration<String> headerNames = request.getHeaderNames();
+            System.out.println();
+            headerNames.asIterator().forEachRemaining((d)->{
+                System.out.println(d + " -> " + request.getHeader(d));
+            });
+            System.out.println();
             if(!request.getRequestURI().contains("/users/rest-authentication")){
                 response.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token");
             }
