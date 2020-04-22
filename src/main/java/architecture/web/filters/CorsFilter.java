@@ -26,6 +26,7 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Max-Age", "180");
+        response.setHeader("Set-Cookie", "HttpOnly; SameSite=Strict");
 
         if("OPTIONS".equals(request.getMethod())){
             response.setStatus(HttpServletResponse.SC_ACCEPTED);
@@ -36,7 +37,7 @@ public class CorsFilter implements Filter {
             });
             System.out.println();
             if(!request.getRequestURI().contains("/users/rest-authentication")){
-                response.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token");
+                response.setHeader("Access-Control-Allow-Headers", "Content-Type, X-CSRF-Token");
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
