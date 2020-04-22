@@ -1,9 +1,10 @@
-package architecture.config;
+package architecture.web.filters;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 public class CorsFilter implements Filter {
 
@@ -22,13 +23,22 @@ public class CorsFilter implements Filter {
 
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         response.setHeader("Access-Control-Allow-Methods", "*");
-        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Max-Age", "180");
+//        response.setHeader("Set-Cookie", "HttpOnly; SameSite=Strict");
 
         if("OPTIONS".equals(request.getMethod())){
             response.setStatus(HttpServletResponse.SC_ACCEPTED);
-            response.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token");
+            Enumeration<String> headerNames = request.getHeaderNames();
+            System.out.println();
+            headerNames.asIterator().forEachRemaining((d)->{
+                System.out.println(d + " -> " + request.getHeader(d));
+            });
+            System.out.println();
+            if(!request.getRequestURI().contains("/users/rest-authentication")){
+                response.setHeader("Access-Control-Allow-Headers", "Content-Type, X-CSRF-Token");
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

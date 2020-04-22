@@ -4,9 +4,12 @@ import architecture.constants.AppConstants;
 import architecture.error.CustomAccessDeniedHandler;
 import architecture.services.interfaces.LocaleService;
 import architecture.services.interfaces.UserService;
+import architecture.web.filters.CorsFilter;
+import architecture.web.filters.CsrfGrantingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -64,12 +67,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(corsFilter(), SessionManagementFilter.class)
                 .addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class)
                 .csrf()
+                .requireCsrfProtectionMatcher(new NoAntPathRequestMatcher())
                 .csrfTokenRepository(this.csrfTokenRepository())
-                .ignoringAntMatchers("/fetch/categories/post")
-
                 .and()
-
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()//allow CORS option calls
                 .antMatchers("/**/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()

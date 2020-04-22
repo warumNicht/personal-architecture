@@ -48,6 +48,13 @@ public class FetchController extends BaseController {
         return wanted;
     }
 
+    @ResponseBody
+    @PostMapping(value = "/categories/example", produces = "application/json")
+    public Object getSamplePost(@RequestBody String text) {
+        System.out.println(text);
+        return text;
+    }
+
     @RequestMapping(value = "/images/{articleId}", produces = "application/json")
     public Object getArticleImages(@PathVariable(name = "articleId") Long articleId) {
         return this.imageService.getImagesByArticle(articleId)
