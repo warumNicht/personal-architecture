@@ -1,12 +1,17 @@
 package architecture.config;
 
+import architecture.config.jwt.JWTCsrfTokenRepository;
+import architecture.config.jwt.SecretService;
 import architecture.constants.AppConstants;
 import architecture.error.CustomAccessDeniedHandler;
 import architecture.services.interfaces.LocaleService;
 import architecture.services.interfaces.UserService;
+import architecture.web.filters.CorsFilter;
+import architecture.web.filters.CsrfGrantingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,8 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.session.SessionManagementFilter;
 
 import java.util.Arrays;
 
@@ -32,6 +36,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private LocaleService localeService;
+
+    @Autowired
+    SecretService secretService;
+
+    @Autowired
+    JWTCsrfTokenRepository jwtCsrfTokenRepository;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -50,13 +60,24 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return loginUrlAuthenticationEntryPoint;
     }
 
+    @Bean
+    CorsFilter corsFilter() {
+        CorsFilter filter = new CorsFilter();
+        return filter;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+//                .addFilterAfter(new JwtCsrfValidatorFilter(), CsrfFilter.class)
+                .addFilterBefore(corsFilter(), SessionManagementFilter.class)
+                .addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class)
                 .csrf()
-                .csrfTokenRepository(this.csrfTokenRepository())
+                .requireCsrfProtectionMatcher(new NoAntPathRequestMatcher())
+                .csrfTokenRepository(this.jwtCsrfTokenRepository)
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()//allow CORS option calls
                 .antMatchers("/**/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
@@ -92,9 +113,4 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
-    private CsrfTokenRepository csrfTokenRepository() {
-        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-        repository.setSessionAttributeName("_csrf");
-        return repository;
-    }
 }
