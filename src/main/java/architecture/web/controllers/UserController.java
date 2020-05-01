@@ -1,8 +1,10 @@
 package architecture.web.controllers;
 
+import architecture.config.jwt.JWTCsrfTokenRepository;
 import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.models.bindingModels.users.UserCreateBindingModel;
+import architecture.domain.models.bindingModels.users.UserJwtToken;
 import architecture.domain.models.bindingModels.users.UserLoginBindingModel;
 import architecture.domain.models.serviceModels.UserServiceModel;
 import architecture.services.interfaces.UserService;
@@ -22,7 +24,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
@@ -33,12 +37,14 @@ public class UserController extends BaseController {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
+    private final JWTCsrfTokenRepository jwtCsrfTokenRepository;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper, AuthenticationManager authenticationManager) {
+    public UserController(UserService userService, ModelMapper modelMapper, AuthenticationManager authenticationManager, JWTCsrfTokenRepository jwtCsrfTokenRepository) {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.authenticationManager = authenticationManager;
+        this.jwtCsrfTokenRepository = jwtCsrfTokenRepository;
     }
 
 
@@ -82,9 +88,11 @@ public class UserController extends BaseController {
 
     @PostMapping(value = "/rest-authentication")
     @ResponseBody
-    public Object loginRest(@RequestBody UserLoginBindingModel userBinding, ServletRequest request){
+    public Object loginRest(@RequestBody UserLoginBindingModel userBinding, ServletRequest request, ServletResponse response){
         System.out.println("loc");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+
         try {
             UserDetails loggingUser = userService.loadUserByUsername(userBinding.getUsername());
             UsernamePasswordAuthenticationToken token =
@@ -97,7 +105,11 @@ public class UserController extends BaseController {
                 SecurityContextHolder.getContext().setAuthentication(token);
                 super.logger.info(String.format("Login of user: %s, successfully!", userBinding.getUsername()));
                             CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-            String token2 = csrf.getToken();
+                UserJwtToken userJwtToken = new UserJwtToken(token.getName(), token.getAuthorities());
+                CsrfToken csrfToken = this.jwtCsrfTokenRepository.generateLoginToken(userJwtToken);
+                this.jwtCsrfTokenRepository.saveToken(csrfToken,httpServletRequest, httpServletResponse);
+
+                String token2 = csrfToken.getToken();
             return  token2;
             }
         } catch (AuthenticationException e) {

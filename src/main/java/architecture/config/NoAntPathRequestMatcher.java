@@ -13,12 +13,12 @@ public class NoAntPathRequestMatcher implements RequestMatcher {
 
     // Disable CSFR protection on the following urls:
     private AntPathRequestMatcher[] requestMatchers = {
-            new AntPathRequestMatcher("/users/rest-authentication"),
-            new AntPathRequestMatcher("/fetch/categories/post")
+            new AntPathRequestMatcher("/users/rest-authentication")
     };
 
     @Override
     public boolean matches(HttpServletRequest request) {
+        System.out.println(request.getRequestURI());
         // If the request match one url the CSFR protection will be disabled
         for (AntPathRequestMatcher rm : requestMatchers) {
             if (rm.matches(request)) {

@@ -87,12 +87,13 @@
             <version>1.7</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.apache.wicket</groupId>-->
-<!--            <artifactId>wicket-util</artifactId>-->
-<!--            <version>1.5-RC7</version>-->
-<!--        </dependency>-->
-<!--        String archSentence = Strings.escapeMarkup("açc&hSentänce").toString();-->
+        <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+
 
     </dependencies>
 
