@@ -113,6 +113,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     private CsrfTokenRepository csrfTokenRepository() {
-        return new JWTCsrfTokenRepository(this.secretService.getHS256SecretBytes());
+        return new JWTCsrfTokenRepository(this.secretService);
     }
 }

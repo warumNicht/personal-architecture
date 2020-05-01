@@ -4,9 +4,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.DefaultCsrfToken;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,12 +17,34 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.UUID;
 
+@Component
 public class JWTCsrfTokenRepository implements CsrfTokenRepository {
     private static final Logger log = LoggerFactory.getLogger(JWTCsrfTokenRepository.class);
     private byte[] secret;
 
-    public JWTCsrfTokenRepository(byte[] secret) {
-        this.secret = secret;
+    @Autowired
+    public JWTCsrfTokenRepository(SecretService secretService) {
+        this.secret = secretService.getHS256SecretBytes();
+    }
+
+    public CsrfToken generateLoginToken(UsernamePasswordAuthenticationToken principal) {
+        String id = UUID.randomUUID()
+                .toString()
+                .replace("-", "");
+
+        Date now = new Date();
+        Date exp = new Date(System.currentTimeMillis() + (1000 * 60 * 60)); // 1 hour
+
+        String token = Jwts.builder()
+                .setId(id)
+                .setIssuedAt(now)
+                .setNotBefore(now)
+                .setExpiration(exp)
+                .claim("user" , principal)
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
+
+        return new DefaultCsrfToken("X-CSRF-TOKEN", "_csrf", token);
     }
 
     @Override
