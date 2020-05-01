@@ -1,5 +1,7 @@
 package architecture.config;
 
+import architecture.config.jwt.JWTCsrfTokenRepository;
+import architecture.config.jwt.SecretService;
 import architecture.constants.AppConstants;
 import architecture.error.CustomAccessDeniedHandler;
 import architecture.services.interfaces.LocaleService;
@@ -22,7 +24,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.session.SessionManagementFilter;
 
 import java.util.Arrays;
@@ -36,6 +37,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private LocaleService localeService;
+
+    @Autowired
+    SecretService secretService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -64,6 +68,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+//                .addFilterAfter(new JwtCsrfValidatorFilter(), CsrfFilter.class)
                 .addFilterBefore(corsFilter(), SessionManagementFilter.class)
                 .addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class)
                 .csrf()
@@ -108,9 +113,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     private CsrfTokenRepository csrfTokenRepository() {
-        HttpSessionCsrfTokenRepository repository =
-                new HttpSessionCsrfTokenRepository();
-        repository.setSessionAttributeName("_csrf");
-        return repository;
+        return new JWTCsrfTokenRepository(this.secretService.getHS256SecretBytes());
     }
 }
