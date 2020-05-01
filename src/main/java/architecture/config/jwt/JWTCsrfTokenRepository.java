@@ -1,5 +1,6 @@
 package architecture.config.jwt;
 
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
@@ -27,18 +28,7 @@ public class JWTCsrfTokenRepository implements CsrfTokenRepository {
     }
 
     public CsrfToken generateLoginToken(Object userJwtToken) {
-        String id = UUID.randomUUID()
-                .toString()
-                .replace("-", "");
-
-        Date now = new Date();
-        Date exp = new Date(System.currentTimeMillis() + (1000 * 60 * 60)); // 1 hour
-
-        String token = Jwts.builder()
-                .setId(id)
-                .setIssuedAt(now)
-                .setNotBefore(now)
-                .setExpiration(exp)
+        String token = this.setBaseJwtInfo()
                 .claim("user" , userJwtToken)
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
@@ -48,18 +38,7 @@ public class JWTCsrfTokenRepository implements CsrfTokenRepository {
 
     @Override
     public CsrfToken generateToken(HttpServletRequest request) {
-        String id = UUID.randomUUID()
-                .toString()
-                .replace("-", "");
-
-        Date now = new Date();
-        Date exp = new Date(System.currentTimeMillis() + (1000 * 60 * 60)); // 1 hour
-
-        String token = Jwts.builder()
-                .setId(id)
-                .setIssuedAt(now)
-                .setNotBefore(now)
-                .setExpiration(exp)
+        String token = this.setBaseJwtInfo()
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
 
@@ -86,5 +65,20 @@ public class JWTCsrfTokenRepository implements CsrfTokenRepository {
             return null;
         }
         return (CsrfToken) session.getAttribute("_csrf");
+    }
+
+    private JwtBuilder setBaseJwtInfo(){
+        String id = UUID.randomUUID()
+                .toString()
+                .replace("-", "");
+
+        Date now = new Date();
+        Date exp = new Date(System.currentTimeMillis() + (1000 * 60 * 60)); // 1 hour
+
+        return Jwts.builder()
+                .setId(id)
+                .setIssuedAt(now)
+                .setNotBefore(now)
+                .setExpiration(exp);
     }
 }
