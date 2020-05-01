@@ -60,7 +60,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
