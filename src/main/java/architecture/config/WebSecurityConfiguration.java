@@ -23,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.session.SessionManagementFilter;
 
 import java.util.Arrays;
@@ -40,6 +39,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     SecretService secretService;
+
+    @Autowired
+    JWTCsrfTokenRepository jwtCsrfTokenRepository;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -73,7 +75,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class)
                 .csrf()
                 .requireCsrfProtectionMatcher(new NoAntPathRequestMatcher())
-                .csrfTokenRepository(this.csrfTokenRepository())
+                .csrfTokenRepository(this.jwtCsrfTokenRepository)
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()//allow CORS option calls
@@ -112,7 +114,4 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
-    private CsrfTokenRepository csrfTokenRepository() {
-        return new JWTCsrfTokenRepository(this.secretService);
-    }
 }
