@@ -4,6 +4,7 @@ import architecture.config.jwt.JWTCsrfTokenRepository;
 import architecture.constants.AppConstants;
 import architecture.constants.ViewNames;
 import architecture.domain.models.bindingModels.users.UserCreateBindingModel;
+import architecture.domain.models.bindingModels.users.UserJwtToken;
 import architecture.domain.models.bindingModels.users.UserLoginBindingModel;
 import architecture.domain.models.serviceModels.UserServiceModel;
 import architecture.services.interfaces.UserService;
@@ -104,8 +105,8 @@ public class UserController extends BaseController {
                 SecurityContextHolder.getContext().setAuthentication(token);
                 super.logger.info(String.format("Login of user: %s, successfully!", userBinding.getUsername()));
                             CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-
-                CsrfToken csrfToken = this.jwtCsrfTokenRepository.generateLoginToken(token);
+                UserJwtToken userJwtToken = new UserJwtToken(token.getName(), token.getAuthorities());
+                CsrfToken csrfToken = this.jwtCsrfTokenRepository.generateLoginToken(userJwtToken);
                 this.jwtCsrfTokenRepository.saveToken(csrfToken,httpServletRequest, httpServletResponse);
 
                 String token2 = csrfToken.getToken();
