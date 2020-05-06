@@ -8,8 +8,12 @@ import architecture.domain.models.bindingModels.users.UserJwtToken;
 import architecture.domain.models.bindingModels.users.UserLoginBindingModel;
 import architecture.domain.models.serviceModels.UserServiceModel;
 import architecture.services.interfaces.UserService;
+import netscape.javascript.JSObject;
+import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -88,8 +92,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping(value = "/rest-authentication")
-    @ResponseBody
-    public Object loginRest(@RequestBody UserLoginBindingModel userBinding, ServletRequest request, ServletResponse response){
+    public ResponseEntity loginRest(@RequestBody UserLoginBindingModel userBinding, ServletRequest request, ServletResponse response){
         System.out.println("loc");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
@@ -111,10 +114,12 @@ public class UserController extends BaseController {
                 this.jwtCsrfTokenRepository.saveToken(csrfToken,httpServletRequest, httpServletResponse);
 
                 String token2 = csrfToken.getToken();
-            return  token2;
+            return  ResponseEntity.ok().body(token2);
             }
         } catch (AuthenticationException e) {
-            return ViewNames.USER_LOGIN;
+            JSONObject errorObj = new JSONObject();
+            errorObj.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errorObj.toMap());
         }
         return null;
     }
@@ -160,6 +165,20 @@ public class UserController extends BaseController {
             new SecurityContextLogoutHandler().logout(request, response, authentication); // <= This is the call you are looking for.
         }
         return "redirect:/en/";
+    }
+
+    @GetMapping (value="/custom-logout2")
+    public ResponseEntity customLogout2(HttpServletRequest request, HttpServletResponse response) {
+        // Get the Spring Authentication object of the current request.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // In case you are not filtering the users of this request url.
+        if (authentication != null){
+            new SecurityContextLogoutHandler().logout(request, response, authentication); // <= This is the call you are looking for.
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Your age is ");
+        }
+        return ResponseEntity.ok(HttpStatus.FORBIDDEN);
     }
 
     @PostConstruct
