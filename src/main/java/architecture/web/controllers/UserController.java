@@ -150,7 +150,7 @@ public class UserController extends BaseController {
         return "redirect:/" + super.getLocale() + "/";
     }
 
-    @RequestMapping(value="/custom-logout", method = RequestMethod.GET)
+    @PostMapping (value="/custom-logout")
     public String customLogout(HttpServletRequest request, HttpServletResponse response) {
         // Get the Spring Authentication object of the current request.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -159,7 +159,7 @@ public class UserController extends BaseController {
         if (authentication != null){
             new SecurityContextLogoutHandler().logout(request, response, authentication); // <= This is the call you are looking for.
         }
-        return "redirect:/login-page";
+        return "redirect:/en/";
     }
 
     @PostConstruct

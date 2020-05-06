@@ -62,7 +62,9 @@
                     </form>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{|/${locale}/users/custom-logout|}" >Custom logout</a>
+                    <form th:action="@{|/${locale}/users/custom-logout|}" th:method="post">
+                        <button class="btn btn-link nav-link nav-link-white active">Custom logout</button>
+                    </form>
                 </li>
             </th:block>
 
