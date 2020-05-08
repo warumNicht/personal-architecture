@@ -61,6 +61,11 @@
                         <button class="btn btn-link nav-link nav-link-white active" th:text="#{logout}"></button>
                     </form>
                 </li>
+                <li class="nav-item">
+                    <form th:action="@{|/${locale}/users/custom-logout|}" th:method="post">
+                        <button class="btn btn-link nav-link nav-link-white active">Custom logout</button>
+                    </form>
+                </li>
             </th:block>
 
             <li class="nav-item dropdown-arch">
