@@ -8,7 +8,6 @@ import architecture.domain.models.bindingModels.users.UserJwtToken;
 import architecture.domain.models.bindingModels.users.UserLoginBindingModel;
 import architecture.domain.models.serviceModels.UserServiceModel;
 import architecture.services.interfaces.UserService;
-import netscape.javascript.JSObject;
 import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
