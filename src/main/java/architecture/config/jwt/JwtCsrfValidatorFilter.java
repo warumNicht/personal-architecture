@@ -18,7 +18,8 @@ import java.util.Arrays;
 
 public class JwtCsrfValidatorFilter extends OncePerRequestFilter {
     // must be ascending
-    private String[] ignoreCsrfAntMatchers = { "/logout", "/users/authentication"  };
+    private String[] ignoreCsrfAntMatchers = {  "/logout", "/users/authentication" ,
+            "/users/custom-logout", "/users/rest-authentication" };
 
     private SecretService secretService;
 
