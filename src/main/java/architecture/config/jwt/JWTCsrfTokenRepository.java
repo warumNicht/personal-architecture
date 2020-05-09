@@ -73,7 +73,7 @@ public class JWTCsrfTokenRepository implements CsrfTokenRepository {
                 .replace("-", "");
 
         Date now = new Date();
-        Date exp = new Date(System.currentTimeMillis() + (1000 * 60 * 60)); // 1 hour
+        Date exp = new Date(System.currentTimeMillis() + (1000 * 15 * 1)); // 15 sec
 
         return Jwts.builder()
                 .setId(id)

@@ -1,6 +1,7 @@
 package architecture.config;
 
 import architecture.config.jwt.JWTCsrfTokenRepository;
+import architecture.config.jwt.JwtCsrfValidatorFilter;
 import architecture.config.jwt.SecretService;
 import architecture.constants.AppConstants;
 import architecture.error.CustomAccessDeniedHandler;
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.session.SessionManagementFilter;
 
 import java.util.Arrays;
@@ -69,7 +71,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .addFilterAfter(new JwtCsrfValidatorFilter(), CsrfFilter.class)
+                .addFilterAfter(new JwtCsrfValidatorFilter(this.secretService), CsrfFilter.class)
                 .addFilterBefore(corsFilter(), SessionManagementFilter.class)
                 .addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class)
                 .csrf()
